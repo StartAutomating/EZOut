@@ -27,8 +27,11 @@ describe 'EZOut' {
         Get-FormatFile -OnlyBuiltIn |
             Select-Object -ExpandProperty Name
 
+        if (-not $PSVersionTable.Platform) {
         Get-FormatFile -FromSnapins |
-            Select-Object -ExpandProperty Name)
+            Select-Object -ExpandProperty Name
+        }
+        )
         if ($formatFiles) {
             $formatFiles | should belike *.ps1xml
         }
@@ -810,16 +813,20 @@ describe "EZOut can create selection sets" {
     }
 
     it 'Can Get Property Sets' {
-        $propertySetMemberNames = Get-PropertySet |
-            Get-Member -MemberType Properties |
-            Select-Object -ExpandProperty Name
+        $propertySets= Get-PropertySet 
+        
+        if ($propertySets) {
+            $propertySetMemberNames = $propertySets|
+                Get-Member -MemberType Properties |
+                Select-Object -ExpandProperty Name
 
-        if ($propertySetMemberNames) {
-            if ($propertySetMemberNames -notcontains 'TypeName') {
-                throw "TypeName not found"
-            }
-            if ($propertySetMemberNames -notcontains 'PropertySet') {
-                throw "PropertySet not found"
+            if ($propertySetMemberNames) {
+                if ($propertySetMemberNames -notcontains 'TypeName') {
+                    throw "TypeName not found"
+                }
+                if ($propertySetMemberNames -notcontains 'PropertySet') {
+                    throw "PropertySet not found"
+                }
             }
         }
     }
