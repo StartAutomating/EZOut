@@ -18,21 +18,20 @@ describe 'EZOut' {
             should belike '#requires -Module EZOut*Out-FormatData*Out-TypeData*'
     }
     it 'Can Get-FormatFile to see loaded formatting' {
-        Get-FormatFile |
-            Select-Object -ExpandProperty Name |
-            should belike *.ps1xml
+        $formatFiles = @(Get-FormatFile |
+            Select-Object -ExpandProperty Name
 
         Get-FormatFile -OnlyFromModule |
-            Select-Object -ExpandProperty Name |
-            should belike *.ps1xml
+            Select-Object -ExpandProperty Name
 
         Get-FormatFile -OnlyBuiltIn |
-            Select-Object -ExpandProperty Name |
-            should belike *.ps1xml
+            Select-Object -ExpandProperty Name
 
         Get-FormatFile -FromSnapins |
-            Select-Object -ExpandProperty Name |
-            should belike *.ps1xml
+            Select-Object -ExpandProperty Name)
+        if ($formatFiles) {
+            $formatFiles | should belike *.ps1xml
+        }
     }
 
     it 'Can Find-FormatView' {
@@ -815,11 +814,13 @@ describe "EZOut can create selection sets" {
             Get-Member -MemberType Properties |
             Select-Object -ExpandProperty Name
 
-        if ($propertySetMemberNames -notcontains 'TypeName') {
-            throw "TypeName not found"
-        }
-        if ($propertySetMemberNames -notcontains 'PropertySet') {
-            throw "PropertySet not found"
+        if ($propertySetMemberNames) {
+            if ($propertySetMemberNames -notcontains 'TypeName') {
+                throw "TypeName not found"
+            }
+            if ($propertySetMemberNames -notcontains 'PropertySet') {
+                throw "PropertySet not found"
+            }
         }
     }
 
