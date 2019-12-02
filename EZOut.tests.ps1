@@ -799,9 +799,10 @@ describe "EZOut can create selection sets" {
                 ConvertTo-PropertySet -Name filetimes
 
 
-        $propertySet |
+        @($propertySet |
             Select-Xml -XPath "//PropertySet/Name" |
-            ForEach-Object{$_.node.'#text'} |
+            ForEach-Object{$_.node.'#text'}) | 
+            Select-Object -Unique |
             should be filetimes
     }
 
