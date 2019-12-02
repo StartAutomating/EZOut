@@ -94,6 +94,6 @@
         if (-not $xml) { return }
         $xOut=[IO.StringWriter]::new()
         $xml.Save($xOut)
-        "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + 2)
+        "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
     }
 }
