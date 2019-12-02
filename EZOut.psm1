@@ -44,7 +44,7 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 . $psScriptRoot\Write-TypeView.ps1
 #endregion TypeData
 
-. $PSScriptRoot\Write-EzFormatFile.ps1
+. $PSScriptRoot\Write-EZFormatFile.ps1
 
 . $psScriptRoot\@.ps1 # Import Splatter
 
