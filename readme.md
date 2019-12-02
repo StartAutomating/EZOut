@@ -1,13 +1,6 @@
-
-
-[Official Website](http://Ezout.Start-Automating.com)
-
-
-    
-    
 ### EZOut helps you to control the look of output from content in PowerShell.
 
-#### EZOut simplifies the process of making PowerShell Formatting and Types files (ps1xml) by letting you write PowerShell formatting with simple commands. 
+#### EZOut simplifies the process of making PowerShell Formatting(.format.ps1xml) and Type(.types.ps1xml) files by letting you write PowerShell formatting with simple commands. 
 
 #### EZOut can be used to change formatting on the fly, and it is indispensible in creating quality PowerShell modules.
 
@@ -27,8 +20,3 @@ To get started, download EZOut, and then try some cool tricks:
         Add-FormatData
     
     Get-WmiObject Win32_VideoController
-
-
-    
-
-
