@@ -35,6 +35,17 @@
     [ScriptBlock]
     $If,
 
+    # If provided, will output the provided text.  All other parameters are ignored.
+    [Parameter(Mandatory=$true,ParameterSetName='Text',ValueFromPipelineByPropertyName=$true)]
+    [string]
+    $Text,
+
+    # If provided, will output a <NewLine /> element.  All other parameters are ignored.
+    [Parameter(Mandatory=$true,ParameterSetName='NewLine',ValueFromPipelineByPropertyName=$true)]
+    [switch]
+    $Newline,
+
+
     # If provided, will output the format using this format string.
     [string]
     $FormatString,
@@ -64,6 +75,13 @@
         if ($ScriptBlock -and $ScriptBlock -like "*$($MyInvocation.MyCommand.Name)*") {
             & $ScriptBlock # run the script and return.
             return
+        }
+
+        if ($Text) {
+            return "<Text>$([Security.SecurityElement]::Escape($Text))</Text>"
+        }
+        if ($Newline) {
+            return "<NewLine/>"
         }
          
         if ($ForegroundColor -or $BackgroundColor) {            
