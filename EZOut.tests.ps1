@@ -536,6 +536,17 @@ describe "Write-FormatViewExpression" {
             should belike '*$host.ui.SupportsVirtualTerminal*'
     }
 
+    it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
+        $fvxml = [xml](Write-FormatViewExpression -Newline)
+        $fvxml.FirstChild.LocalName | should be 'Newline'
+    }
+
+    it 'Will create <Text> element when the -Text parameter is provided' {
+        $fvxml = [xml](Write-FormatViewExpression -Text 'hello world')
+        $fvxml.FirstChild.LocalName | should be 'Text'
+        $fvxml.FirstChild.InnerText | should be 'Hello world'
+    }
+
     it "Will call itself if the -ScriptBlock contains itself" {
         $fvXml = [xml](Write-FormatViewExpression -ScriptBlock { Write-FormatViewExpression -Property 'hi'  })
         $fvXml.ExpressionBinding.PropertyName | should be hi
