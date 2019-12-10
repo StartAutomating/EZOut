@@ -1047,3 +1047,33 @@ describe 'Out-TypeData' {
     }
 }
 
+describe 'Import-FormatView' {
+    it 'Can import .format.ps1 and .view.ps1 files' {
+        Get-Module EZOut | 
+            Split-Path | 
+            Join-Path -ChildPath Formatting | 
+            Get-Item | 
+            Import-FormatView
+    }
+    it 'Can import files with a relative path' {
+        Get-Module EZOut | 
+            Split-Path | 
+            Join-Path -ChildPath Formatting |
+            Push-Location
+
+        Import-FormatView .\FileSystemTypes.format.xml
+        Pop-Location
+    }
+
+    context 'Fault Tolerance' {
+        it 'Will error if the file does not exist' {
+            Get-Module EZOut | 
+                Split-Path | 
+                Join-Path -ChildPath Formatting |
+                Push-Location
+
+            { Import-FormatView .\ThisFileDoesNotExist.format.xml} | should throw
+            Pop-Location
+        }
+    }
+}
