@@ -10,6 +10,9 @@ $script:TypeModules = @{}
 . $psScriptRoot\Remove-FormatData.ps1
 
 . $psScriptRoot\Out-FormatData.ps1
+
+. $psScriptRoot\Import-FormatView.ps1
+
 . $psScriptRoot\Write-FormatView.ps1
 
 . $psScriptRoot\Write-FormatCustomView.ps1
@@ -56,27 +59,62 @@ $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModul
 
 # This little scriptblock is used a number of places.
 $ConvertCiToEscapeSequence = {
-    if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
-    if ($ci -like '#*') {
-        $n =0
-        $ci =@(foreach ($hc in $ci) {
-            if (-not $hc.StartsWith('#')) { continue }
-            $r,$g,$b = if ($hc.Length -eq 7) {
-                [int]::Parse($hc[1..2]-join'', 'HexNumber')
-                [int]::Parse($hc[3..4]-join '', 'HexNumber')
-                [int]::Parse($hc[5..6] -join'', 'HexNumber')
-            }elseif ($hc.Length -eq 4) {
-                [int]::Parse($hc[1], 'HexNumber') * 16
-                [int]::Parse($hc[2], 'HexNumber') * 16
-                [int]::Parse($hc[3], 'HexNumber') * 16
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook= 
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2                    
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color, 
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                }
+            }            
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
             }
-            if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
-            elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
-            $n++
-        }) -join ';'
-    } elseif ($ct -like ([string][char]0x1b +'*')) {
-        $ci
-    }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+                       
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
 }
 
 $outputAndClearCI = {

@@ -1,0 +1,7 @@
+﻿<SelectionSet>
+    <Name>FileSystemTypes</Name>
+    <Types>
+        <TypeName>System.IO.DirectoryInfo</TypeName>
+        <TypeName>System.IO.FileInfo</TypeName>
+    </Types>
+</SelectionSet>
