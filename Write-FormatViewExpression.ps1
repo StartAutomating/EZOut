@@ -58,14 +58,13 @@
         
     # If provided, will display the content using the given foreground color.
     # This will only be displayed on hosts that support rich color.
-    [ValidateScript({$_.StartsWith('#') -and 4,7 -contains $_.Length})]
+
     [Alias('FG')]
     [string]
     $ForegroundColor,
 
     # If provided, will display the content using the given background color.
     # This will only be displayed on hosts that support rich color.
-    [ValidateScript({$_.StartsWith('#') -and 4,7 -contains $_.Length})]
     [Alias('BG')]
     [string]
     $BackgroundColor)
@@ -84,35 +83,12 @@
             return "<NewLine/>"
         }
          
-        if ($ForegroundColor -or $BackgroundColor) {            
-            $n =0    
-            $ci =@(foreach ($hc in $ForegroundColor,$BackgroundColor) {
-                if (-not $hc) { continue }
-                if (-not $hc.StartsWith('#')) { continue }
-                $r,$g,$b = if ($hc.Length -eq 7) {
-                    [int]::Parse($hc[1..2]-join'', 'HexNumber')
-                    [int]::Parse($hc[3..4]-join '', 'HexNumber')
-                    [int]::Parse($hc[5..6] -join'', 'HexNumber')
-                }elseif ($hc.Length -eq 4) {
-                    [int]::Parse($hc[1], 'HexNumber') * 16
-                    [int]::Parse($hc[2], 'HexNumber') * 16
-                    [int]::Parse($hc[3], 'HexNumber') * 16
-                }                                            
-                if ($n) { "[48;2;$r;$g;${b}m" }
-                else { "[38;2;$r;$g;${b}m" }                
-                $n++
-                if ($n -eq 2) { break }
-            })
-
-            $colorInstructions = 
-                @(foreach ($i in $ci) {
-                    "'' + [char]0x1b+'$i'"
-                }) -join '+'
-
+        if ($ForegroundColor -or $BackgroundColor) {
             @(
                 if ($ForegroundColor) {"<!-- color:$ForegroundColor -->"}
                 if ($BackgroundColor) {"<!-- background-color:$BackgroundColor -->"}
-                Write-FormatViewExpression -If ([ScriptBlock]::Create('$host.ui.SupportsVirtualTerminal')) -ScriptBlock ([ScriptBlock]::Create($colorInstructions))
+                $colorize = [ScriptBlock]::Create("`$ci = '$ForegroundColor', '$BackgroundColor';" + $ConvertCiToEscapeSequence + ';$ci -join ""')
+                Write-FormatViewExpression -If ([ScriptBlock]::Create('$host.ui.SupportsVirtualTerminal')) -ScriptBlock $colorize
             ) -join ''
 }
 $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
