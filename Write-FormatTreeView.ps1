@@ -173,7 +173,13 @@ if (`$script:treeDepth) {
                 } elseif ($p -is [Collections.IDictionary]) {
                     Write-FormatViewExpression @p
                 }
-            }) -join "<Text>$([Security.SecurityElement]::Escape($Separator))</Text>"
+            }) -join $(
+                if ($Separator) {
+                    "<Text>$([Security.SecurityElement]::Escape($Separator))</Text>"
+                } else {
+                    ''
+                }
+            )
         }
 
         if ($Children) {
@@ -250,7 +256,7 @@ $($allOut -join '')
             "<View>
                 <Name>$($SelectionSet)</Name>
                 <ViewSelectedBy>
-                $(foreach ($t in $SelectionSet) { "<SelectionSet>$([Security.SecurityElement]::Escape($t))</SelectionSet>"})
+                $(foreach ($t in $SelectionSet) { "<SelectionSetName>$([Security.SecurityElement]::Escape($t))</SelectionSetName>"})
                 </ViewSelectedBy>
             "
         }
