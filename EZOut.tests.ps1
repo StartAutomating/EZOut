@@ -1007,7 +1007,8 @@ describe 'Out-FormatData' {
         $fx = Write-FormatView -TypeName foo -Property bar |
             Out-FormatData
         $fxml = [xml]$fx
-        $fxml.FirstChild.NextSibling.LocalName | should be Configuration
+        $fxml.FirstChild.NextSibling.LocalName | should be '#comment'
+        $fxml.FirstChild.NextSibling.NextSibling.LocalName | should be Configuration
     }
 
     it 'Can combine SelectionSets, Controls, and Views' {
@@ -1038,7 +1039,8 @@ describe 'Out-TypeData' {
         $tx = Write-TypeView -TypeName foo -DefaultDisplay bar |
             Out-TypeData
         $txml = [xml]$tx
-        $txml.FirstChild.NextSibling.LocalName | should be Types
+        $txml.FirstChild.NextSibling.LocalName | should be '#Comment'
+        $txml.FirstChild.NextSibling.NextSibling.LocalName | should be Types
     }
     context 'Fault Tolerance' {
         it 'Will complain when passed bad XML' {
