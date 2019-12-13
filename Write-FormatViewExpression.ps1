@@ -59,13 +59,13 @@
     # If provided, will display the content using the given foreground color.
     # This will only be displayed on hosts that support rich color.
 
-    [Alias('FG')]
+    [Alias('FG', 'ForegroundColour')]
     [string]
     $ForegroundColor,
 
     # If provided, will display the content using the given background color.
     # This will only be displayed on hosts that support rich color.
-    [Alias('BG')]
+    [Alias('BG', 'BackgroundColour')]
     [string]
     $BackgroundColor)
     

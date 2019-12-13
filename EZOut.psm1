@@ -93,6 +93,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
             }            
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {

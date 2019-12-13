@@ -132,12 +132,14 @@
         }
         return $true
     })]
+    [Alias('ColourProperty')]
     [Collections.IDictionary]$ColorProperty,
 
     # If provided, will colorize all rows in a table, according to the script block.
     # If the script block returns a value, it will be treated either as an ANSI escape sequence or up to two hexadecimal colors
     [Parameter(ValueFromPipelineByPropertyName=$true,ParameterSetName='TableView')]
     [Parameter(ValueFromPipelineByPropertyName=$true,ParameterSetName='ListView')]
+    [Alias('ColourRow')]
     [ScriptBlock]$ColorRow,
 
 

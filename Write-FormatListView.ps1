@@ -66,6 +66,7 @@
         }
         return $true
     })]
+    [Alias('ColourProperty')]
     [Collections.IDictionary]$ColorProperty,
 
     # If provided, will only display a property if the condition is met.
