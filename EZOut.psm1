@@ -1,4 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "", Justification="Using Within the Module")]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidGlobalVars", "", Justification="Allowing Extensibility")]
 param()
 $Script:FormatModules = @{}
 $script:TypeModules = @{}
@@ -68,14 +69,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -86,7 +87,6 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
@@ -95,7 +95,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
                     $hc = $place
                     continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -109,7 +109,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
