@@ -74,10 +74,4 @@ $module = $_
         $commandSection -join [Environment]::NewLine
         '-' * $commandLineLength
     }
-
-    if ($module.ExportedAliases.Count) {
-        $byResolvedCommand = $module.ExportedAliases.Values |
-            Group-Object ResolvedCommand
-    }
-
 ) -join [Environment]::NewLine
