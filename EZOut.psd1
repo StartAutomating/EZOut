@@ -5,7 +5,7 @@
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
     Copyright = '2011'
-    Description = 'Taking the Fight out of PowerShell Formatting'
+    Description = 'Easily Author Rich Format Files to Customize PowerShell Output'
     FunctionsToExport =
         'Add-FormatData', 'Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
         'Add-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData','Import-FormatView',
@@ -24,6 +24,10 @@
                 Tag = '#00ffff'
                 Element = '#00af00'
                 InnerText = '#8bda8b'
+            }
+            Type = @{
+                TypeName = '#00d1b1'
+                MemberName = '#ffa82d'
             }
         }
         PSData = @{
