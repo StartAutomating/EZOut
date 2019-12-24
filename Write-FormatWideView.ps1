@@ -21,7 +21,7 @@
     [ScriptBlock]
     $ViewCondition,
 
-    # The View Selection Set.  This allows for a view to be displayed selectively, based of a selection set name. 
+    # The View Selection Set.  This allows for a view to be displayed selectively, based of a selection set name.
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [string]
     $ViewSelectionSet,

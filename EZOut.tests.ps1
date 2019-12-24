@@ -814,7 +814,7 @@ describe "EZOut can create selection sets" {
 
         @($propertySet |
             Select-Xml -XPath "//PropertySet/Name" |
-            ForEach-Object{$_.node.'#text'}) | 
+            ForEach-Object{$_.node.'#text'}) |
             Select-Object -Unique |
             should be filetimes
     }
@@ -824,8 +824,8 @@ describe "EZOut can create selection sets" {
     }
 
     it 'Can Get Property Sets' {
-        $propertySets= Get-PropertySet 
-        
+        $propertySets= Get-PropertySet
+
         if ($propertySets) {
             $propertySetMemberNames = $propertySets|
                 Get-Member -MemberType Properties |
@@ -1051,15 +1051,15 @@ describe 'Out-TypeData' {
 
 describe 'Import-FormatView' {
     it 'Can import .format.ps1 and .view.ps1 files' {
-        Get-Module EZOut | 
-            Split-Path | 
-            Join-Path -ChildPath Formatting | 
-            Get-Item | 
+        Get-Module EZOut |
+            Split-Path |
+            Join-Path -ChildPath Formatting |
+            Get-Item |
             Import-FormatView
     }
     it 'Can import files with a relative path' {
-        Get-Module EZOut | 
-            Split-Path | 
+        Get-Module EZOut |
+            Split-Path |
             Join-Path -ChildPath Formatting |
             Push-Location
 
@@ -1069,8 +1069,8 @@ describe 'Import-FormatView' {
 
     context 'Fault Tolerance' {
         it 'Will error if the file does not exist' {
-            Get-Module EZOut | 
-                Split-Path | 
+            Get-Module EZOut |
+                Split-Path |
                 Join-Path -ChildPath Formatting |
                 Push-Location
 

@@ -21,7 +21,7 @@ $formatting = @(
             }
         }
 #>
-    Join-Path $myRoot Formatting | Import-FormatView -FilePath { $_ } 
+    Join-Path $myRoot Formatting | Import-FormatView -FilePath { $_ }
 )
 $myFormatFile = Join-Path $myRoot "$myModuleName.format.ps1xml"
 $formatting | Out-FormatData | Set-Content -Path $myFormatFile -Encoding UTF8
