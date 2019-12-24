@@ -15,5 +15,5 @@
         $null = $_.OuterXml -match '=\s{0,}(?<q>["''])'
         $matches.Q
     }
-    
+
 } -Name XmlAttributeControl

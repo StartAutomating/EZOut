@@ -99,14 +99,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -117,15 +117,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -139,7 +139,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -176,14 +176,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -194,15 +194,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -216,7 +216,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -230,7 +230,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
                   <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
                 </ItemSelectionCondition>
                 <ScriptBlock>
-        $_.LocalName + $(if ($_.HasAttributes) { ' ' })      
+        $_.LocalName + $(if ($_.HasAttributes) { ' ' })
     </ScriptBlock>
               </ExpressionBinding>
               <!-- color:unset -->
@@ -242,7 +242,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
-                  <ScriptBlock> 
+                  <ScriptBlock>
         $_.HasAttributes -and '#text', '#whitespace' -notcontains $_.LocalName
     </ScriptBlock>
                 </ItemSelectionCondition>
@@ -265,14 +265,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -283,15 +283,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -305,7 +305,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -318,7 +318,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
                 <ItemSelectionCondition>
                   <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
                 </ItemSelectionCondition>
-                <ScriptBlock>        
+                <ScriptBlock>
         if ($_.HasChildren -or $_.HasChildNodes) {
             '&gt;'
         } else {
@@ -348,14 +348,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -366,15 +366,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -388,7 +388,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -438,14 +438,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -456,15 +456,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -478,7 +478,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -518,14 +518,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -536,15 +536,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -558,7 +558,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -594,14 +594,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -612,15 +612,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -634,7 +634,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -667,6 +667,843 @@ if ($ci -like ([string][char]0x1b +'*')) {
       </CustomControl>
     </Control>
     <Control>
+      <Name>TypeBase</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '  *' </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock>$_ </ScriptBlock>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>TypeEventControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '  * ' </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.MemberName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.MemberName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <PropertyName>Name</PropertyName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <Text>(</Text>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.EventHandlerType.GetMethod('Invoke') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $MethodParameters = @($_.EventHandlerType.GetMethod('Invoke').GetParameters())
+        foreach ($n in 0..($MethodParameters.Count - 1)) {
+            $o =[PSObject]::new($MethodParameters[$n])
+            $o.psobject.properties.add([PSNoteProperty]::new('N', $N))
+            $o
+        }
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>MethodParameterControl</CustomControlName>
+              </ExpressionBinding>
+              <Text>)</Text>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>TypeMethodControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '  *' </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> $_.DeclaringType </ScriptBlock>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor -and $_.ReturnType </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> $_.ReturnType </ScriptBlock>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.MemberName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.MemberName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> ' ' +  $_.Name </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' (' </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock>
+        $MethodParameters = @($_.GetParameters())
+        foreach ($n in 0..($MethodParameters.Count - 1)) {
+            $o =[PSObject]::new($MethodParameters[$n])
+            $o.psobject.properties.add([PSNoteProperty]::new('N', $N))
+            $o
+        }
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeMethodParameterControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ')' </ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>TypeMethodParameterControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.N -gt 0</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> ', ' </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <PropertyName>ParameterType</PropertyName>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.MemberName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.MemberName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> '$' + $_.Name </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' ' </ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>TypeNameControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <Text> [</Text>
+              <ExpressionBinding>
+                <ScriptBlock>
+        if ($_.FullName) {
+            $_.Fullname -replace '`.+', '' -replace '^System\.', ''
+        } else {
+            $_.Name -replace '`.+', '' -replace '^System\.', ''
+        }
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>
+        $_.IsGenericType
+    </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GenericTypeArguments
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <Text>]</Text>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>TypePropertyControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '  * '</ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.MemberName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.MemberName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <PropertyName>Name</PropertyName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <PropertyName>PropertyType</PropertyName>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock>
+        ' {' +
+        $(if ($_.CanRead) {'get;'}) +
+        $(if ($_.CanWrite) {'set;'})+
+        '}'
+    </ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
       <Name>XmlAttributeControl</Name>
       <CustomControl>
         <CustomEntries>
@@ -687,14 +1524,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -705,15 +1542,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -727,7 +1564,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -763,14 +1600,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -781,15 +1618,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -803,7 +1640,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -842,14 +1679,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -860,15 +1697,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -882,7 +1719,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -918,14 +1755,14 @@ if ($ci -like ([string][char]0x1b +'*')) {
     $ci =@(foreach ($hc in $ci) {
         if (-not $hc) { continue }
         if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook= 
+            $placesToLook=
                 @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2                    
+                    $module, $setting = $hc -split '\.', 2
                     $theModule = Get-Module $module
-                    $theModule.PrivateData.Color, 
+                    $theModule.PrivateData.Color,
                         $theModule.PrivateData.Colors,
                         $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours, 
+                        $theModule.PrivateData.Colours,
                         $theModule.PrivateData.EZOut,
                         $global:PSColors,
                         $global:PSColours
@@ -936,15 +1773,15 @@ if ($ci -like ([string][char]0x1b +'*')) {
 
             foreach ($place in $placesToLook) {
                 if (-not $place) { continue }
-                
                 foreach ($propName in $setting -split '\.') {
                     $place = $place.$propName
                     if (-not $place) { break }
                 }
                 if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
                     $hc = $place
+                    continue
                 }
-            }            
+            }
             if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
                 continue
             }
@@ -958,7 +1795,7 @@ if ($ci -like ([string][char]0x1b +'*')) {
             [int]::Parse($hc[2], 'HexNumber') * 16
             [int]::Parse($hc[3], 'HexNumber') * 16
         }
-                       
+
         if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
         elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
         $n++
@@ -1100,13 +1937,400 @@ $module = $_
         $commandSection -join [Environment]::NewLine
         '-' * $commandLineLength
     }
-
-    if ($module.ExportedAliases.Count) {
-        $byResolvedCommand = $module.ExportedAliases.Values |
-            Group-Object ResolvedCommand
-    }
-
 ) -join [Environment]::NewLine</ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </View>
+    <View>
+      <Name>System.Type</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Type</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <AutoSize />
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>FullName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>BaseType</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsPublic</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsSerializable</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>System.Type.Summary</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Type</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock> '| Format-Custom -View System.Type.Full for more'</ScriptBlock>
+        <Label>Type Summary</Label>
+      </GroupBy>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '-' * ($Host.UI.RawUI.BufferSize.Width - 1) </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' ' * 1 </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> $_ </ScriptBlock>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' ' * 1 </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.BaseType -and -not $_.IsValueType </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> 
+        ':'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.BaseType -and -not $_.IsValueType -and $_.BaseType -ne [Object] </ScriptBlock>
+                </ItemSelectionCondition>
+                <PropertyName>BaseType</PropertyName>
+                <CustomControlName>TypeBase</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetInterfaces() </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> $_.GetInterfaces() | Sort-Object Name</ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeBase</CustomControlName>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </View>
+    <View>
+      <Name>System.Type.Full</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Type</TypeName>
+      </ViewSelectedBy>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock> '-' * ($Host.UI.RawUI.BufferSize.Width - 1) </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' ' * 1 </ScriptBlock>
+              </ExpressionBinding>
+              <!-- color:EZOut.Type.TypeName -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>$ci = 'EZOut.Type.TypeName', '';
+
+if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
+if ($ci -like ([string][char]0x1b +'*')) {
+    $ci
+} else {
+    $n =0
+    $ci =@(foreach ($hc in $ci) {
+        if (-not $hc) { continue }
+        if ($hc -and -not $hc.StartsWith('#')) {
+            $placesToLook=
+                @(if ($hc.Contains('.')) {
+                    $module, $setting = $hc -split '\.', 2
+                    $theModule = Get-Module $module
+                    $theModule.PrivateData.Color,
+                        $theModule.PrivateData.Colors,
+                        $theModule.PrivateData.Colour,
+                        $theModule.PrivateData.Colours,
+                        $theModule.PrivateData.EZOut,
+                        $global:PSColors,
+                        $global:PSColours
+                } else {
+                    $setting = $hc
+                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                })
+
+            foreach ($place in $placesToLook) {
+                if (-not $place) { continue }
+                foreach ($propName in $setting -split '\.') {
+                    $place = $place.$propName
+                    if (-not $place) { break }
+                }
+                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                    $hc = $place
+                    continue
+                }
+            }
+            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                continue
+            }
+        }
+        $r,$g,$b = if ($hc.Length -eq 7) {
+            [int]::Parse($hc[1..2]-join'', 'HexNumber')
+            [int]::Parse($hc[3..4]-join '', 'HexNumber')
+            [int]::Parse($hc[5..6] -join'', 'HexNumber')
+        }elseif ($hc.Length -eq 4) {
+            [int]::Parse($hc[1], 'HexNumber') * 16
+            [int]::Parse($hc[2], 'HexNumber') * 16
+            [int]::Parse($hc[3], 'HexNumber') * 16
+        }
+
+        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+        $n++
+    }) -join ';'
+}
+
+;$ci -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> $_ </ScriptBlock>
+                <CustomControlName>TypeNameControl</CustomControlName>
+              </ExpressionBinding>
+              <!-- color:unset -->
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$host.ui.SupportsVirtualTerminal</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""</ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ScriptBlock> ' ' * 1 </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.BaseType -and -not $_.IsValueType -and $_.BaseType -ne [Object] </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> 
+        ':'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.BaseType -and -not $_.IsValueType -and $_.BaseType -ne [Object] </ScriptBlock>
+                </ItemSelectionCondition>
+                <PropertyName>BaseType</PropertyName>
+                <CustomControlName>TypeBase</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetInterfaces() </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> $_.GetInterfaces() | Sort-Object Name</ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeBase</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetConstructors('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock> 
+        [Environment]::NewLine + ('#' * 3) + ' Constructors:'           
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetConstructors('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetConstructors('Instance,Public')
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeMethodControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetEvents('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        [Environment]::NewLine + ('#' * 3) + ' Events:'    
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetEvents('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetEvents('Instance,Public') | Sort-Object Name
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeEventControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetProperties('Static,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        [Environment]::NewLine + ('#' * 3) + ' Static Properties:'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetProperties('Static,Public')</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetProperties('Static,Public') | Sort-Object Name
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypePropertyControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetProperties('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        [Environment]::NewLine + ('#' * 3) + ' Properties:'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetProperties('Instance,Public')</ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetProperties('Instance,Public') | Sort-Object Name
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypePropertyControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetMethods('Static,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        [Environment]::NewLine + ('#' * 3) + ' Static Methods:'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetMethods('Static,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetMethods('Static,Public') | Sort-Object Name | Where-Object { -not $_.IsSpecialName }
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeMethodControl</CustomControlName>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetMethods('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        [Environment]::NewLine + ('#' * 3) + ' Methods:'
+    </ScriptBlock>
+              </ExpressionBinding>
+              <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.GetMethods('Instance,Public') </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+        $_.GetMethods('Instance,Public') | Sort-Object Name | Where-Object { -not $_.IsSpecialName } 
+    </ScriptBlock>
+                <EnumerateCollection />
+                <CustomControlName>TypeMethodControl</CustomControlName>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1154,7 +2378,7 @@ $module = $_
                 <ItemSelectionCondition>
                   <ScriptBlock>$script:TreeDepth = 0;$true</ScriptBlock>
                 </ItemSelectionCondition>
-                <ScriptBlock> 
+                <ScriptBlock>
     @(foreach ($cn in $_.ChildNodes) {
         if ($cn -is [xml.xmldeclaration]) { continue }
         $cn
