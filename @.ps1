@@ -1,4 +1,7 @@
 ﻿#region Splatter [ 0.4 ] : Simple Scripts to Supercharge Splatting (Install-Module Splatter, then Initialize-Splatter -Verb Get,Use )
+
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "", Justification="This Declares Variables for Other Scripts")]
+param()
 ${?@}=${GetSplat}=${gSplat}={
     <#
     .Synopsis
