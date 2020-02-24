@@ -10,6 +10,6 @@
             $o.psobject.properties.add([PSNoteProperty]::new('N', $N))
             $o
         }
-    } -ControlName MethodParameterControl -Enumerate
+    } -ControlName TypeMethodParameterControl -Enumerate
     Write-FormatViewExpression -Text ')'
 } -TypeName TypeEventControl -Name TypeEventControl -AsControl

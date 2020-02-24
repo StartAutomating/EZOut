@@ -15,19 +15,6 @@ $module = $_
         '-' * $moduleNameVer.Length
     }
 
-    :findAboutText foreach ($culture in "$(Get-Culture)", 'en-us'| Select-Object -Unique) {
-        $aboutTextFile = $module |
-            Split-Path |
-            Join-Path -ChildPath $culture |
-            Join-Path -ChildPath "About_$module.help.txt"
-        if (Test-Path $aboutTextFile) {
-            [IO.File]::ReadAllText("$aboutTextFile")
-            break
-        } else {
-            Write-Verbose "No help.txt file found at $aboutTextFile"
-        }
-    }
-
     $commandSection = if ($module.ExportedCommands.Count) {
 
         $byVerb = $module.ExportedCommands.Values |
@@ -53,14 +40,12 @@ $module = $_
 
             '|' +
                 ' ' * ($maxVerbLength - $v.Length) + $v + '|' +
-                $(if ($_.Group.Count -eq 1) {
+                $(
                     $t = '-' + $_.Group[0].Noun
                     $t + ' ' * ([Math]::Max($maxNounLength - $t.Length + 1, 0)) + '|'
-                } else {
-                    (' ' * ($maxNounLength + 1)) + '|'
-                })
-            if ($_.Group.Count -gt 1) {
-                foreach ($i in $_.Group) {
+                )
+            if ($_.Group.Count -gt 1) {               
+                foreach ($i in $_.Group[1..$($_.Group.Count -1)]) {
                     '|' + " " * ($maxVerbLength) + '|-' + $i.Noun + ' ' * ([Math]::Max($maxNounLength - $i.Noun.Length, 0)) + '|'
                 }
             }
@@ -69,9 +54,22 @@ $module = $_
 
     if ($commandSection) {
         $commandLineLength = $commandSection | Measure-Object -Property Length -Maximum | Select-Object -ExpandProperty Maximum
-        "Commands"
+        "### Commands"
         '-' * $commandLineLength
         $commandSection -join [Environment]::NewLine
         '-' * $commandLineLength
+    }
+
+    :findAboutText foreach ($culture in "$(Get-Culture)", 'en-us'| Select-Object -Unique) {
+        $aboutTextFile = $module |
+            Split-Path |
+            Join-Path -ChildPath $culture |
+            Join-Path -ChildPath "About_$module.help.txt"
+        if (Test-Path $aboutTextFile) {
+            [IO.File]::ReadAllText("$aboutTextFile")
+            break
+        } else {
+            Write-Verbose "No help.txt file found at $aboutTextFile"
+        }
     }
 ) -join [Environment]::NewLine

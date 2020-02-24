@@ -1,6 +1,6 @@
 ﻿Write-FormatCustomView -AsControl -Action {
     Write-FormatViewExpression -ForegroundColor 'EZOut.Xml.AttributeName' -ScriptBlock {
-        $_.Name
+        ' ' + $_.Name
     }
     Write-FormatViewExpression -ForegroundColor 'EZOut.Xml.Punctuation' -ScriptBlock {
         $null = $_.OuterXml -match '=\s{0,}(?<q>["''])'
