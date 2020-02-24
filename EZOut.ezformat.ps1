@@ -24,9 +24,9 @@ $formatting = @(
     Join-Path $myRoot Formatting | Import-FormatView -FilePath { $_ }
 )
 $myFormatFile = Join-Path $myRoot "$myModuleName.format.ps1xml"
-$formatting | Out-FormatData | Set-Content -Path $myFormatFile -Encoding UTF8
+$formatting | Out-FormatData -ModuleName EZOut | Set-Content -Path $myFormatFile -Encoding UTF8
 $types = @(
     # Write-TypeView
 )
 $myTypesFile = Join-Path $myRoot "$myModuleName.types.ps1xml"
-$types | Out-FormatData | Set-Content $myTypesFile -Encoding UTF8
+$types | Out-TypeData | Set-Content $myTypesFile -Encoding UTF8
