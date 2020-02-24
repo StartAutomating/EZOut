@@ -128,10 +128,15 @@
                     $colorizedScript = "
                 `$__ = `$_
                 `$ci = . {$($ColorProperty.$p)}
-                `$_ = `$__" +
-                $ConvertCiToEscapeSequence.ToString() + "
+                `$_ = `$__
+                if (`$ci -is [string]) {
+                    `$ci = . `$setOutputStyle `$ci   
+                } else {
+                    `$ci = . `$setOutputStyle @ci
+                }
                 `$output = . {" + $existingScript + '}
-                ' + $outputAndClearCI
+                @($ci; $output; . $ClearOutputStyle) -join ""
+                '
                     $VirtualProperty.$p = $colorizedScript
                 }
 
