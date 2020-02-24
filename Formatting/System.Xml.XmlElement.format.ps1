@@ -2,7 +2,7 @@
 Write-FormatTreeView -Property @({
     Write-FormatViewExpression -ForegroundColor 'EZOut.Xml.Tag' -if $showElementIf -ScriptBlock { '<'.Trim() }
     Write-FormatViewExpression -ForegroundColor 'EZOut.Xml.Element' -if $showElementIf -ScriptBlock {
-        $_.LocalName + $(if ($_.HasAttributes) { ' ' })
+        $_.LocalName
     }
     Write-FormatViewExpression -ControlName XmlAttributeControl -ScriptBlock {$_.Attributes} -Enumerate -If {
         $_.HasAttributes -and '#text', '#whitespace' -notcontains $_.LocalName
