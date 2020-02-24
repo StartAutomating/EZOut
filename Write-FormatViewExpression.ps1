@@ -75,26 +75,23 @@
             & $ScriptBlock # run the script and return.
             return
         }
-
-        if ($Text) {
-            return "<Text>$([Security.SecurityElement]::Escape($Text))</Text>"
-        }
+        
         if ($Newline) {
             return "<NewLine/>"
         }
 
-        if ($ForegroundColor -or $BackgroundColor) {
-            @(
-                if ($ForegroundColor) {"<!-- color:$ForegroundColor -->"}
-                if ($BackgroundColor) {"<!-- background-color:$BackgroundColor -->"}
-                $colorize = [ScriptBlock]::Create("`$ci = '$ForegroundColor', '$BackgroundColor';" + $ConvertCiToEscapeSequence + ';$ci -join ""')
-                Write-FormatViewExpression -If ([ScriptBlock]::Create('$host.ui.SupportsVirtualTerminal')) -ScriptBlock $colorize
-            ) -join ''
-}
+        if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {            
+            $colorize = [ScriptBlock]::Create(". `$SetOutputStyle -ForegroundColor '$ForeGroundColor' -BackgroundColor '$BackgroundColor' $(if ($Bold) { '-Bold' }) $(if ($Underline) { '-Underline'})")
+            Write-FormatViewExpression -ScriptBlock $colorize
+            
+        }
 $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
 $EnumerationChunk = if ($Enumerate) { '<EnumerateCollection/>' } else { '' }
 $formatChunk = if ($FormatString) { "<FormatString>$([Security.SecurityElement]::Escape($FormatString))</FormatString>"}
 
+if ($Text) {
+"<Text>$([Security.SecurityElement]::Escape($Text))</Text>"
+} else {
 @"
 <ExpressionBinding>
     $(if ($If) {
@@ -107,11 +104,9 @@ $formatChunk = if ($FormatString) { "<FormatString>$([Security.SecurityElement]:
     $ControlChunk
 </ExpressionBinding>
 "@
-
-if ($ForegroundColor -or $BackgroundColor) {
-    $(if ($ForegroundColor) {"<!-- color:unset -->"}) +
-    $(if ($BackgroundColor) {"<!-- background-color:unset -->"}) +
-    $(Write-FormatViewExpression -If ([ScriptBlock]::Create('$host.ui.SupportsVirtualTerminal')) -ScriptBlock ([ScriptBlock]::Create('@([char]0x1b + "[39m" + [char]0x1b + "[49m") -join ""')))
+}
+if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
+    $(Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create('. $ClearOutputStyle')))
 }
     }
 }
