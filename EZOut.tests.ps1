@@ -529,11 +529,8 @@ describe "Write-FormatViewExpression" {
 
         $fvXml = [xml]$fv
 
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.'#comment'[0] | should belike '*color:#000*'
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.'#comment'[1] | should belike '*background-color:#ffffff*'
-        $secondComment = $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.'#comment'[1]
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ItemSelectionCondition.ScriptBlock |
-            should belike '*$host.ui.SupportsVirtualTerminal*'
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
+            should belike '*$setOutputStyle*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
     }
 
     it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
