@@ -56,74 +56,30 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 
+#region Import Parts
 
-
-# This little scriptblock is used a number of places.
-$ConvertCiToEscapeSequence = {
-
-if ($ci -and -not $Host.ui.SupportsVirtualTerminal) { $ci = $null }
-if ($ci -like ([string][char]0x1b +'*')) {
-    $ci
-} else {
-    $n =0
-    $ci =@(foreach ($hc in $ci) {
-        if (-not $hc) { continue }
-        if ($hc -and -not $hc.StartsWith('#')) {
-            $placesToLook=
-                @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2
-                    $theModule = Get-Module $module
-                    $theModule.PrivateData.Color,
-                        $theModule.PrivateData.Colors,
-                        $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours,
-                        $theModule.PrivateData.EZOut,
-                        $global:PSColors,
-                        $global:PSColours
-                } else {
-                    $setting = $hc
-                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
-                })
-
-            foreach ($place in $placesToLook) {
-                if (-not $place) { continue }
-                foreach ($propName in $setting -split '\.') {
-                    $place = $place.$propName
-                    if (-not $place) { break }
-                }
-                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
-                    $hc = $place
-                    continue
-                }
-            }
-            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
-                continue
-            }
+# Parts are simple .ps1 files beneath a /Parts directory that can be used throughout the module.
+$partsDirectory = $( # Because we want to be case-insensitive, and because it's fast
+    foreach ($dir in [IO.Directory]::GetDirectories($psScriptRoot)) { # [IO.Directory]::GetDirectories()
+        if ($dir -imatch "\$([IO.Path]::DirectorySeparatorChar)Parts$") { # and some Regex
+            [IO.DirectoryInfo]$dir;break # to find our parts directory.
         }
-        $r,$g,$b = if ($hc.Length -eq 7) {
-            [int]::Parse($hc[1..2]-join'', 'HexNumber')
-            [int]::Parse($hc[3..4]-join '', 'HexNumber')
-            [int]::Parse($hc[5..6] -join'', 'HexNumber')
-        }elseif ($hc.Length -eq 4) {
-            [int]::Parse($hc[1], 'HexNumber') * 16
-            [int]::Parse($hc[2], 'HexNumber') * 16
-            [int]::Parse($hc[3], 'HexNumber') * 16
-        }
+    })
 
-        if ($n -eq 1) { [char]0x1b+"[48;2;$r;$g;${b}m" }
-        elseif (-not $n) { [char]0x1b+"[38;2;$r;$g;${b}m" }
-        $n++
-    }) -join ';'
+if ($partsDirectory) { # If we have parts directory
+    foreach ($partFile in $partsDirectory.EnumerateFileSystemInfos()) { # enumerate all of the files.
+        if ($partFile.Extension -ne '.ps1') { continue } # Skip anything that's not a PowerShell script.
+        $partName = # Get the name of the script.
+            $partFile.Name.Substring(0, $partFile.Name.Length - $partFile.Extension.Length)
+        $ExecutionContext.SessionState.PSVariable.Set( # Set a variable
+            $partName, # named the script that points to the script (e.g. $foo = gcm .\Parts\foo.ps1)
+            $ExecutionContext.SessionState.InvokeCommand.GetCommand($partFile.Fullname, 'ExternalScript').ScriptBlock
+        )
+    }
 }
+#endregion Import Parts
 
-}
 
-$outputAndClearCI = {
-    $outParts = @() + $ci + $output + $(
-        if ($ci) {[char]0x1b + "[39m" + [char]0x1b + "[49m"}
-    )
-    $outParts -join ''
-}
 Export-ModuleMember -Function * -Alias *
 $myInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
     Clear-FormatData
