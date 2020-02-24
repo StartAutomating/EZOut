@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.5'
+    ModuleVersion = '1.6'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -31,7 +31,22 @@
             }
         }
         PSData = @{
+            ProjectURI = 'https://github.com/StartAutomating/EZOut'
+            LicenseURI = 'https://github.com/StartAutomating/EZOut/blob/master/LICENSE'
+
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
+            ReleaseNotes = @'
+Now in Living Color!
+'@
+        }
+        PoshMacros = @{
+            'EZOut' = @{
+                ScriptBlock = @'
+([IO.DirectoryInfo]"$pwd").EnumerateFiles() |
+    ? { $_.Name -like '*.ez*.ps1' } |
+    % { . $_.FullName }
+'@
+            }
         }
     }
 }
