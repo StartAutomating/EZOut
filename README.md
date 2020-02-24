@@ -1,5 +1,5 @@
 
-EzOut [1.5]
+EzOut [1.6]
 ===========
 Easily Author Rich Format Files to Customize PowerShell Output
 -----------
@@ -213,3 +213,6 @@ EZOut ships with a rich PSModuleInfo formatter, which will display the module na
 ~~~
 Get-Module EZOut | Format-Custom
 ~~~
+
+
+
