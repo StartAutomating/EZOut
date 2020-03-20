@@ -8,11 +8,9 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    $moduleNameVer
-    '=' * $moduleNameVer.Length
+    . $Heading $moduleNameVer -Level 1
     if ($module.Description) {
-        $module.Description
-        '-' * $moduleNameVer.Length
+        . $heading $module.Description -UnderlineLength $moduleNameVer.Length
     }
 
     $commandSection = if ($module.ExportedCommands.Count) {
