@@ -11,9 +11,8 @@
     IsFormatPart: true
 #>
 param(
-# The text inside of the heading
-[string]
-$Text,
+# The content inside of the heading
+$Content,
 
 # The level of heading
 [ValidateRange(1,6)]
@@ -32,13 +31,13 @@ $NoSeText
 )
 
 if ($Request -or $Host.UI.SupportsHTML) {
-    "<h$level>$text</h$level>"
+    "<h$level>$Content</h$level>"
 } else {
     if ($Level -eq 1 -and -not $NoSeText) {
-        $text + [Environment]::NewLine + ('=' * $(if ($UnderlineLength) { $UnderlineLength } else {$Text.Length})) + [Environment]::NewLine
+        '' + $Content + [Environment]::NewLine + ('=' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
     } elseif ($Level -eq 2 -and -not $NoSeText) {
-        $text + [Environment]::NewLine + ('-' * $(if ($UnderlineLength) { $UnderlineLength } else {$Text.Length})) + [Environment]::NewLine
+        '' + $Content + [Environment]::NewLine + ('-' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
     } else {
-        [Environment]::NewLine + ('#' * $Level) + ' ' + $Text
+        [Environment]::NewLine + ('#' * $Level) + ' ' + $Content
     }
 }
