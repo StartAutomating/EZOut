@@ -74,7 +74,7 @@
 
     # If set, will invert the -Text, -Property, -or -ScriptBlock
     # This is only valid in consoles that support ANSI terminals, or in HTML.
-    [swtich]
+    [switch]
     $Invert,
 
     # If provided, will output the format using this format string.
