@@ -9,8 +9,10 @@
     FunctionsToExport =
         'Add-FormatData', 'Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
         'Add-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData','Import-FormatView',
-        'Write-FormatView','Write-FormatCustomView', 'Write-FormatTableView',
-        'Write-FormatTreeView','Write-FormatWideView', 'Write-FormatListView', 'Write-FormatViewExpression',
+        'Write-FormatControl','Write-FormatView',
+        'Write-FormatCustomView', 'Write-FormatTableView',
+        'Write-FormatTreeView','Write-FormatWideView', 'Write-FormatListView', 
+        'Write-FormatViewExpression',
         'Write-TypeView','ConvertTo-PropertySet','Write-PropertySet',
         'Get-FormatFile', 'Find-FormatView', 'Get-PropertySet', 'Write-EZFormatFile'
     AliasesToExport = 'Write-CustomAction'

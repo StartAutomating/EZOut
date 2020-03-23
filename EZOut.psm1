@@ -4,7 +4,6 @@ param()
 $Script:FormatModules = @{}
 $script:TypeModules = @{}
 
-
 #region Formatters
 . $psScriptRoot\Add-FormatData.ps1
 . $psScriptRoot\Clear-FormatData.ps1
@@ -14,6 +13,7 @@ $script:TypeModules = @{}
 
 . $psScriptRoot\Import-FormatView.ps1
 
+. $psScriptRoot\Write-FormatControl.ps1
 . $psScriptRoot\Write-FormatView.ps1
 
 . $psScriptRoot\Write-FormatCustomView.ps1
