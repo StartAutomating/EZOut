@@ -130,7 +130,7 @@
                 `$ci = . {$($ColorProperty.$p)}
                 `$_ = `$__
                 if (`$ci -is [string]) {
-                    `$ci = . `$setOutputStyle `$ci   
+                    `$ci = . `$setOutputStyle `$ci
                 } else {
                     `$ci = . `$setOutputStyle @ci
                 }

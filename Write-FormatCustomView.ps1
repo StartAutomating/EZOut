@@ -143,7 +143,7 @@ $([Security.SecurityElement]::Escape($VisibilityCondition[$c]))
     }
 
     end {
-        $viewXml = 
+        $viewXml =
             if (-not $AsControl) {
                 "<CustomControl><CustomEntries>" + ($entries -join [Environment]::NewLine) + "</CustomEntries></CustomControl>"
             } else {
@@ -163,6 +163,6 @@ $([Security.SecurityElement]::Escape($VisibilityCondition[$c]))
         $xml.Save($xOut)
         "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
         $xOut.Dispose()
-        
+
     }
 }

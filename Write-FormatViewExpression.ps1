@@ -7,7 +7,7 @@
         Writes an expression for a Format .PS1XML.
         Expressions are used by custom format views and controls to conditionally display content.
     .Example
-        Write-FormatViewExpression -ScriptBlock { 
+        Write-FormatViewExpression -ScriptBlock {
             "hello world"
         }
     .Example
@@ -16,12 +16,12 @@
         Write-FormatViewExpression -Text 'Hello World'
     .Example
         # This will render the property 'Name' property of the underlying object
-        Write-FormatViewExpression -Property Name 
+        Write-FormatViewExpression -Property Name
     .Example
-        # This will render the property 'Status' of the current object, 
+        # This will render the property 'Status' of the current object,
         # if the current object's 'Complete' property is $false.
         Write-FormatViewExpression -Property Status -If { -not $_.Complete }
-    
+
     #>
     [CmdletBinding(DefaultParameterSetName='ScriptBlock')]
     [OutputType([string])]
@@ -62,7 +62,7 @@
     $Newline,
 
     # If set, will bold the -Text, -Property, or -ScriptBlock.
-    # This is only valid in consoles that support ANSI terminals ($host.UI.SupportsVirtualTerminal), 
+    # This is only valid in consoles that support ANSI terminals ($host.UI.SupportsVirtualTerminal),
     # or while rendering HTML
     [switch]
     $Bold,
@@ -99,9 +99,9 @@
     [Alias('BG', 'BackgroundColour')]
     [string]
     $BackgroundColor,
-    
+
     # The number of times the item will be displayed.
-    # With script blocks, the variables $N and $Number will be set to indicate the current iteration. 
+    # With script blocks, the variables $N and $Number will be set to indicate the current iteration.
     [ValidateRange(1,10kb)]
     [uint32]
     $Count = 1)
@@ -112,16 +112,16 @@
             & $ScriptBlock # run the script and return.
             return
         }
-        
+
         if ($Newline) {
             foreach ($n in 1..$Count) {
                 "<NewLine/>"
             }
             return
         }
-        
+
         foreach ($n in 1..$count) {
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {            
+            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
                 $colorize = [ScriptBlock]::Create(". `$SetOutputStyle $(@(
                     if ($ForegroundColor) {
                         "-ForegroundColor '$ForeGroundColor'"
@@ -133,7 +133,7 @@
                     if ($Underline) { '-Underline'}
                     if ($Invert) { '-Invert' }
                 ) -join ' ')")
-                Write-FormatViewExpression -ScriptBlock $colorize            
+                Write-FormatViewExpression -ScriptBlock $colorize
             }
             $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
             $EnumerationChunk = if ($Enumerate) { '<EnumerateCollection/>' } else { '' }
