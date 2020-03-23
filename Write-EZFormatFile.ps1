@@ -15,18 +15,20 @@
     [ScriptBlock[]]
     $Type,
 
+    # The name of the module.  By default, this will be inferred from the name of the file.
     [string]
     $ModuleName = @'
 $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
 '@,
 
     
-
+    # The source path.  By default, the script's root.
     [string]
     $SourcePath = @'
 $myFile | Split-Path
 '@,
 
+    # The destination path.  By default, the script's root.
     [Alias('DestPath')]
     [string]
     $DestinationPath = @'
