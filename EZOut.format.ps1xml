@@ -70,6 +70,50 @@ $script:TreeDepth++;</ScriptBlock>
       </CustomControl>
     </Control>
     <Control>
+      <Name>ProcessGroupControl</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <ExpressionBinding>
+                <ScriptBlock>$moduleName = 'EZOut'
+do {
+    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+    if ($lm.FormatPartsLoaded) { break }    
+    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+            $ParentNode = $partNodeName.Node.ParentNode
+            "$($ParentNode.Name)={
+$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+        }
+    }) -join [Environment]::NewLine
+    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+        Import-Module -Global
+    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    if (-not $lm.OnRemove) {
+        $lm.OnRemove = $onRemove
+    } else {
+        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+    }
+    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+} while ($false)
+
+
+        . $EZOut_Indent $_.ProcessName
+    </ScriptBlock>
+              </ExpressionBinding>
+              <NewLine />
+              <ExpressionBinding>
+                <ScriptBlock>
+        . $EZOut_Indent $_.Path
+    </ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
       <Name>XmlNodeControl</Name>
       <CustomControl>
         <CustomEntries>
@@ -677,6 +721,46 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
       </CustomControl>
     </Control>
     <Control>
+      <Name>$EZOut_Indent</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <ExpressionBinding>
+                <ScriptBlock>&lt;#
+.Synopsis
+    Indents content
+.Description
+    Indents content.
+
+    In most scenarios, content is indented by a number of spaces
+
+    If $request or $host.UI.SupportsHTML, this will render a div tag with margin-left set to $Length ex 
+    (this is the equivilent of N characters of indentation in HTML)
+.Notes
+    IsFormatPart: true
+#&gt;
+param(
+$Content,
+
+[ValidateRange(0,100)]
+[Alias('Spaces')]
+[uint32]
+$Length = 4
+)
+
+if ($Request -or $Host.UI.SupportsHTML) {
+    return "&lt;div style='margin-left:${Length}ex'&gt;$content&lt;/div&gt;"
+}
+
+(' ' * $Length) + "$content"</ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
       <Name>$EZOut_SetOutputStyle</Name>
       <CustomControl>
         <CustomEntries>
@@ -900,9 +984,8 @@ $BackgroundColor
     IsFormatPart: true
 #&gt;
 param(
-# The text inside of the heading
-[string]
-$Text,
+# The content inside of the heading
+$Content,
 
 # The level of heading
 [ValidateRange(1,6)]
@@ -921,16 +1004,78 @@ $NoSeText
 )
 
 if ($Request -or $Host.UI.SupportsHTML) {
-    "&lt;h$level&gt;$text&lt;/h$level&gt;"
+    "&lt;h$level&gt;$Content&lt;/h$level&gt;"
 } else {
     if ($Level -eq 1 -and -not $NoSeText) {
-        $text + [Environment]::NewLine + ('=' * $(if ($UnderlineLength) { $UnderlineLength } else {$Text.Length})) + [Environment]::NewLine
+        '' + $Content + [Environment]::NewLine + ('=' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
     } elseif ($Level -eq 2 -and -not $NoSeText) {
-        $text + [Environment]::NewLine + ('-' * $(if ($UnderlineLength) { $UnderlineLength } else {$Text.Length})) + [Environment]::NewLine
+        '' + $Content + [Environment]::NewLine + ('-' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
     } else {
-        [Environment]::NewLine + ('#' * $Level) + ' ' + $Text
+        [Environment]::NewLine + ('#' * $Level) + ' ' + $Content
     }
 }</ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
+      <Name>$EZOut_Heatmap</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <ExpressionBinding>
+                <ScriptBlock>param(
+$Value,
+
+$Max,
+
+$Middle,
+
+$Min,
+
+[int]
+$Cool =0x05dd00,
+
+[int]
+$Hot = 0xef1100
+)
+
+$coolRedPart = [byte](($Cool -band 0xff0000) -shr 16)
+$coolGreenPart = [byte](($Cool -band 0x00ff00) -shr 8)
+$coolBluePart = [byte]($Cool -band 0x0000ff)
+
+$hotRedPart = [byte](($hot -band 0xff0000) -shr 16)
+$hotGreenPart = [byte](($hot -band 0x00ff00) -shr 8)
+$hotBluePart = [byte]($hot -band 0x0000ff)
+
+"#{0:x2}{1:x2}{2:x2}" -f @(
+
+if ($Value -le $Min) 
+{
+    $coolRedPart, $coolGreenPart, $coolBluePart
+}
+elseif ($Value -ge $Max) 
+{
+    $hotRedPart, $hotGreenPart, $hotBluePart
+} else {
+    if ($Value -le $Middle) 
+    {
+        $d = 1 - ([double]$value / ($Middle - $min))
+        [Byte][Math]::Min(255, $hotRedPart * $d + $coolRedPart)
+        [Byte][Math]::Min(255, $hotGreenPart * $d + $coolGreenPart)            
+        [Byte][Math]::Min(255, $hotBluePart * $d + $coolBluePart)
+    } else
+    {
+        $d = 1 - ([double]$value / ($Max - $Middle))
+        [Byte][Math]::Min(255, $coolRedPart * $d + $hotRedPart)
+        [Byte][Math]::Min(255, $coolGreenPart * $d + $hotGreenPart)            
+        [Byte][Math]::Min(255, $coolBluePart * $d + $hotBluePart)
+    }
+}
+)</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1076,6 +1221,190 @@ $module = $_
           </CustomEntry>
         </CustomEntries>
       </CustomControl>
+    </View>
+    <View>
+      <Name>Process.Heatmap</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Diagnostics.Process</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>ProcessName</PropertyName>
+        <CustomControlName>ProcessGroupControl</CustomControlName>
+      </GroupBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>NPM(K)</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>PM(K)</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>WS(K)</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>CPU(S)</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Handles</PropertyName>
+              </TableColumnItem>
+              <!-- {ConditionalColor:"
+        . $Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+&lt;#        if ($_.NPM -le 1MB) { &apos;#00FF00&apos;}
+        elseif ($_.NPM -le 256mb) { &apos;#ffff00&apos; }
+        else {
+            &apos;#FF0000&apos;
+        }#&gt;
+    "}-->
+              <TableColumnItem>
+                <ScriptBlock>$moduleName = 'EZOut'
+do {
+    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+    if ($lm.FormatPartsLoaded) { break }    
+    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+            $ParentNode = $partNodeName.Node.ParentNode
+            "$($ParentNode.Name)={
+$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+        }
+    }) -join [Environment]::NewLine
+    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+        Import-Module -Global
+    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    if (-not $lm.OnRemove) {
+        $lm.OnRemove = $onRemove
+    } else {
+        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+    }
+    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+} while ($false)
+
+
+                $__ = $_
+                $ci = . {
+        . $EZOut_Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+&lt;#        if ($_.NPM -le 1MB) { '#00FF00'}
+        elseif ($_.NPM -le 256mb) { '#ffff00' }
+        else {
+            '#FF0000'
+        }#&gt;
+    }
+                $_ = $__
+                if ($ci -is [string]) {
+                    $ci = . $EZOut_SetOutputStyle $ci   
+                } else {
+                    $ci = . $EZOut_SetOutputStyle @ci
+                }                
+                $output = . { [long]($_.NPM / 1024) }
+                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                </ScriptBlock>
+              </TableColumnItem>
+              <!-- {ConditionalColor:" 
+        . $Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        &lt;#if ($_.PM -le 1MB) { &apos;#00FF00&apos;}
+        elseif ($_.PM -le 256mb) { &apos;#ffff00&apos; }
+        else {
+            &apos;#FF0000&apos;
+        }#&gt;
+    "}-->
+              <TableColumnItem>
+                <ScriptBlock>
+                $__ = $_
+                $ci = . { 
+        . $EZOut_Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        &lt;#if ($_.PM -le 1MB) { '#00FF00'}
+        elseif ($_.PM -le 256mb) { '#ffff00' }
+        else {
+            '#FF0000'
+        }#&gt;
+    }
+                $_ = $__
+                if ($ci -is [string]) {
+                    $ci = . $EZOut_SetOutputStyle $ci   
+                } else {
+                    $ci = . $EZOut_SetOutputStyle @ci
+                }                
+                $output = . { [long]($_.PM / 1024) }
+                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                </ScriptBlock>
+              </TableColumnItem>
+              <!-- {ConditionalColor:"
+        . $Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        &lt;#if ($_.PM -le 1MB) { &apos;#00FF00&apos;}
+        elseif ($_.PM -le 256mb) { &apos;#ffff00&apos; }
+        else {
+            &apos;#FF0000&apos;
+        }#&gt;
+    "}-->
+              <TableColumnItem>
+                <ScriptBlock>
+                $__ = $_
+                $ci = . {
+        . $EZOut_Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        &lt;#if ($_.PM -le 1MB) { '#00FF00'}
+        elseif ($_.PM -le 256mb) { '#ffff00' }
+        else {
+            '#FF0000'
+        }#&gt;
+    }
+                $_ = $__
+                if ($ci -is [string]) {
+                    $ci = . $EZOut_SetOutputStyle $ci   
+                } else {
+                    $ci = . $EZOut_SetOutputStyle @ci
+                }                
+                $output = . { [long]($_.WS / 1024) }
+                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock> 
+        if ($_.CPU -ne $()) { 
+            $_.CPU.ToString("N") 
+        }
+    </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SI</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>process</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Diagnostics.Process</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>ProcessName</PropertyName>
+        <CustomControlName>ProcessGroupControl</CustomControlName>
+      </GroupBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>ID</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
     <View>
       <Name>System.Type</Name>
