@@ -1,8 +1,10 @@
 
-EzOut [1.6]
+EZOut [1.7]
 ===========
+
 Easily Author Rich Format Files to Customize PowerShell Output
 -----------
+
 ### Commands
 ---------------------------------
 |     Verb|Noun                 |
@@ -21,6 +23,7 @@ Easily Author Rich Format Files to Customize PowerShell Output
 |   Remove|-FormatData          |
 |         |-TypeData            |
 |    Write|-EZFormatFile        |
+|         |-FormatControl       |
 |         |-FormatCustomView    |
 |         |-FormatListView      |
 |         |-FormatTableView     |
