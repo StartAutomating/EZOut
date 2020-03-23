@@ -9,6 +9,10 @@
         Write-FormatViewExpression
     .Link
         Write-FormatView
+    .Link
+        Write-FormatControl
+    .Example
+        Write-FormatCustomView -Action {  "This is a message from Process $pid" }
     #>
     param(
     # The script block used to fill in the contents of a custom control.
@@ -139,17 +143,26 @@ $([Security.SecurityElement]::Escape($VisibilityCondition[$c]))
     }
 
     end {
-        if (-not $AsControl) {
-            "<CustomControl><CustomEntries>" + ($entries -join [Environment]::NewLine) + "</CustomEntries></CustomControl>"
-        } else {
-            if (-not $Name) {
-                Write-Error "Custom Controls must be named"
-                return
+        $viewXml = 
+            if (-not $AsControl) {
+                "<CustomControl><CustomEntries>" + ($entries -join [Environment]::NewLine) + "</CustomEntries></CustomControl>"
+            } else {
+                if (-not $Name) {
+                    Write-Error "Custom Controls must be named"
+                    return
+                }
+
+                "<Control><Name>$Name</Name><CustomControl><CustomEntries>" +
+                    $($entries -join [Environment]::NewLine) +
+                "</CustomEntries></CustomControl></Control>"
             }
 
-            "<Control><Name>$Name</Name><CustomControl><CustomEntries>" +
-                $($entries -join [Environment]::NewLine) +
-            "</CustomEntries></CustomControl></Control>"
-        }
+        $xml = [xml]$viewXml
+        if (-not $xml) { return }
+        $xOut=[IO.StringWriter]::new()
+        $xml.Save($xOut)
+        "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
+        $xOut.Dispose()
+        
     }
 }
