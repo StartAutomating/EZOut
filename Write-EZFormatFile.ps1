@@ -21,7 +21,7 @@
 $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
 '@,
 
-    
+
     # The source path.  By default, the script's root.
     [string]
     $SourcePath = @'
