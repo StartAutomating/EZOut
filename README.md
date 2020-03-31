@@ -1,5 +1,5 @@
 
-EZOut [1.7]
+EZOut [1.8]
 ===========
 
 Easily Author Rich Format Files to Customize PowerShell Output
