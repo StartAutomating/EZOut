@@ -8,7 +8,8 @@
     Description = 'Easily Author Rich Format Files to Customize PowerShell Output'
     FunctionsToExport =
         'Add-FormatData', 'Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
-        'Add-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData','Import-FormatView',
+        'Add-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData',
+        'Import-FormatView','Import-TypeView',
         'Write-FormatControl','Write-FormatView',
         'Write-FormatCustomView', 'Write-FormatTableView',
         'Write-FormatTreeView','Write-FormatWideView', 'Write-FormatListView',

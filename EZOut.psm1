@@ -11,7 +11,9 @@ $script:TypeModules = @{}
 
 . $psScriptRoot\Out-FormatData.ps1
 
+
 . $psScriptRoot\Import-FormatView.ps1
+. $psScriptRoot\Import-TypeView.ps1
 
 . $psScriptRoot\Write-FormatControl.ps1
 . $psScriptRoot\Write-FormatView.ps1
