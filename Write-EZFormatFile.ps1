@@ -63,6 +63,11 @@ if ($formatting) {
 
 $types = @(
     # Add your own Write-TypeView statements here
+    foreach ($potentialDirectory in 'Types') {
+        Join-Path $myRoot $potentialDirectory |
+            Get-ChildItem -ea ignore |
+            Import-TypeView -FilePath {$_.Fullname}
+    }
 )
 
 if ($types) {
