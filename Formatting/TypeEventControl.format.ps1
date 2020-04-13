@@ -1,5 +1,5 @@
 ﻿Write-FormatView -Action {
-    Write-FormatViewExpression -Newline
+    Write-FormatViewExpression -If { -not $script:DisplayingMember  } -ScriptBlock { [Environment]::NewLine }
     Write-FormatViewExpression -ScriptBlock { '  * ' }
     Write-FormatViewExpression -Property Name -ForegroundColor 'EZOut.Type.MemberName'
     Write-FormatViewExpression -Text '('
