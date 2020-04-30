@@ -4,7 +4,7 @@
     .Synopsis
         Imports a Format View
     .Description
-        Imports a Format View from a script block or external file
+        Imports a Format View defined in .format or .view .ps1 files
     .Link
         Write-FormatView
     #>
