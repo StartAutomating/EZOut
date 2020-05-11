@@ -27,9 +27,13 @@ $canUseANSI = $host.UI.SupportsVirtualTerminal
 $canUseHTML = $Request -or $host.UI.SupportsHTML
 if (-not ($canUseANSI -or $canUseHTML)) { return }
 
+$knownStreams = @{Output='BrightWhite';Error='BrightRed';Warning='BrightYellow';Verbose='BrightCyan';Debug='Yellow';Progress='Cyan'}
+$standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
+$brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 $n =0
+$cssClasses = @()
 $styleAttributes =
-    @(foreach ($hc in $ForegroundColor,$BackgroundColor) {
+    @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
         $n++
         if (-not $hc) { continue }
         if ($hc[0] -eq [char]0x1b) {
@@ -37,7 +41,50 @@ $styleAttributes =
                 $hc; continue
             }
         }
-        if ($hc -and -not $hc.StartsWith('#')) {
+
+        $ansiStartPoint = if ($n -eq 1) { 30 } else { 40 } 
+        if ($knownStreams[$hc]) {
+            $i = $brightColors.IndexOf($knownStreams[$hc])
+            if ($canUseHTML) {
+                $cssClasses += $hc
+            } else {
+                if ($i -ge 0 -and $canUseANSI) {
+                    '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                } else {
+                    $i = $standardColors.IndexOf($knownStreams[$hc])
+                    if ($i -ge 0 -and $canUseANSI) {
+                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                    }
+                }
+            }
+            continue nextColor
+        }
+        elseif ($standardColors -contains $hc) {
+            for ($i = 0; $i -lt $standardColors.Count;$i++) {
+                if ($standardColors[$i] -eq $hc) {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        '' + [char]0x1b + "[$($ansiStartPoint + $i)m"
+                    } else {
+                        $cssClasses += $standardColors[$i]
+                    }
+                    continue nextColor
+                }
+            }
+        } elseif ($brightColors -contains $hc) {
+            for ($i = 0; $i -lt $brightColors.Count;$i++) {
+                if ($brightColors[$i] -eq $hc) {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                    } else {
+                        $cssClasses += $standardColors[$i]
+                    }
+                    continue nextColor
+                }
+            }
+        }
+
+
+        if ($hc -and -not $hc.StartsWith('#')) { 
             $placesToLook=
                 @(if ($hc.Contains('.')) {
                     $module, $setting = $hc -split '\.', 2
@@ -121,7 +168,12 @@ if ($Invert) {
 }
 
 if ($canUseHTML) {
-    "<span style='$($styleAttributes -join ';')'>"
+   
+    "<span$(
+        if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
+    )$(
+        if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
+    )>"
 } elseif ($canUseANSI) {
     $styleAttributes -join ''
 }
