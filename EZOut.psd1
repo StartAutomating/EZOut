@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.8.1'
+    ModuleVersion = '1.8.2'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -27,10 +27,6 @@
                 Tag = '#00ffff'
                 Element = '#00af00'
                 InnerText = '#8bda8b'
-            }
-            Type = @{
-                TypeName = '#00d1b1'
-                MemberName = '#ffa82d'
             }
         }
         PSData = @{
