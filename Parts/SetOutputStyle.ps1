@@ -27,7 +27,10 @@ $canUseANSI = $host.UI.SupportsVirtualTerminal
 $canUseHTML = $Request -or $host.UI.SupportsHTML
 if (-not ($canUseANSI -or $canUseHTML)) { return }
 
-$knownStreams = @{Output='BrightWhite';Error='BrightRed';Warning='BrightYellow';Verbose='BrightCyan';Debug='Yellow';Progress='Cyan'}
+$knownStreams = @{
+    Output='';Error='BrightRed';Warning='BrightYellow';
+    Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
+    Success='BrightGreen';Failure='Red';Default=''}
 $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
 $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 $n =0
@@ -43,7 +46,7 @@ $styleAttributes =
         }
 
         $ansiStartPoint = if ($n -eq 1) { 30 } else { 40 } 
-        if ($knownStreams[$hc]) {
+        if ($knownStreams.ContainsKey($hc)) {
             $i = $brightColors.IndexOf($knownStreams[$hc])
             if ($canUseHTML) {
                 $cssClasses += $hc
@@ -54,6 +57,8 @@ $styleAttributes =
                     $i = $standardColors.IndexOf($knownStreams[$hc])
                     if ($i -ge 0 -and $canUseANSI) {
                         '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                    } elseif ($i -le 0 -and $canUseANSI) {                        
+                        '' + [char]0x1b + "[$($ansistartpoint + 8):5m"
                     }
                 }
             }
