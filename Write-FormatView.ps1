@@ -36,6 +36,25 @@
     .Link
         Add-FormatData
     .Example
+        Write-FormatView -TypeName MyType -Property Property1, Property2
+    .Example        
+        Write-FormatView -TypeName ColorizedRow -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} } -VirtualProperty @{
+            IsEven = { -not ($_.N % 2)}
+            IsOdd = { ($_.N % 2) -as [bool] }
+        } -AliasProperty @{
+            Number = 'N'
+        } | 
+            Out-FormatData | 
+            Add-FormatData
+
+        # Colorized formatting will not work in the ISE
+        foreach ($n in 1..5) {
+            [PSCustomObject]@{
+                PSTypeName='ColorizedRow'
+                N = $n
+            }
+        }
+    .Example
         Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
             "Xml" = {
                 $strWrite = New-Object IO.StringWriter
