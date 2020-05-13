@@ -89,13 +89,22 @@
 
     # If provided, will display the content using the given foreground color.
     # This will only be displayed on hosts that support rich color.
-
+    # Colors can be:
+    # * An RGB color
+    # * The name of a color stored in a .Colors section of a .PrivateData in a manifest
+    # * The name of a Standard Concole Color
+    # * The name of a PowerShell stream, e.g. Output, Warning, Debug, etc 
     [Alias('FG', 'ForegroundColour')]
     [string]
     $ForegroundColor,
 
     # If provided, will display the content using the given background color.
     # This will only be displayed on hosts that support rich color.
+    # Colors can be:
+    # * An RGB color
+    # * The name of a color stored in a .Colors section of a .PrivateData in a manifest
+    # * The name of a Standard Concole Color
+    # * The name of a PowerShell stream, e.g. Output, Warning, Debug, etc
     [Alias('BG', 'BackgroundColour')]
     [string]
     $BackgroundColor,

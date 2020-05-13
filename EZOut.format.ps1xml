@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.8: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.9: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -79,7 +79,8 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -90,12 +91,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
 
@@ -132,7 +135,8 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -143,12 +147,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
 . $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
@@ -291,7 +297,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -302,15 +309,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$_ </ScriptBlock>
@@ -343,7 +352,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -354,15 +364,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.MemberName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
@@ -411,7 +423,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -422,15 +435,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>FieldType</PropertyName>
@@ -440,7 +455,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.MemberName'</ScriptBlock>
+                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
@@ -522,7 +537,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -533,15 +549,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -554,7 +572,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -567,7 +585,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.MemberName'</ScriptBlock>
+                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -617,7 +635,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -628,15 +647,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>ParameterType</PropertyName>
@@ -646,7 +667,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.MemberName'</ScriptBlock>
+                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> '$' + $_.Name </ScriptBlock>
@@ -715,7 +736,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -726,15 +748,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>PropertyType</PropertyName>
@@ -744,7 +768,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.MemberName'</ScriptBlock>
+                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
@@ -775,7 +799,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -786,12 +811,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
 . $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.AttributeName'</ScriptBlock>
@@ -922,9 +949,16 @@ $canUseANSI = $host.UI.SupportsVirtualTerminal
 $canUseHTML = $Request -or $host.UI.SupportsHTML
 if (-not ($canUseANSI -or $canUseHTML)) { return }
 
+$knownStreams = @{
+    Output='';Error='BrightRed';Warning='BrightYellow';
+    Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
+    Success='BrightGreen';Failure='Red';}
+$standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
+$brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 $n =0
+$cssClasses = @()
 $styleAttributes =
-    @(foreach ($hc in $ForegroundColor,$BackgroundColor) {
+    @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
         $n++
         if (-not $hc) { continue }
         if ($hc[0] -eq [char]0x1b) {
@@ -932,6 +966,51 @@ $styleAttributes =
                 $hc; continue
             }
         }
+
+        $ansiStartPoint = if ($n -eq 1) { 30 } else { 40 } 
+        if ($knownStreams.ContainsKey($hc)) {
+            $i = $brightColors.IndexOf($knownStreams[$hc])
+            if ($canUseHTML) {
+                $cssClasses += $hc
+            } else {
+                if ($i -ge 0 -and $canUseANSI) {
+                    '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                } else {
+                    $i = $standardColors.IndexOf($knownStreams[$hc])
+                    if ($i -ge 0 -and $canUseANSI) {
+                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                    } elseif ($i -le 0 -and $canUseANSI) {                        
+                        '' + [char]0x1b + "[$($ansistartpoint + 8):5m"
+                    }
+                }
+            }
+            continue nextColor
+        }
+        elseif ($standardColors -contains $hc) {
+            for ($i = 0; $i -lt $standardColors.Count;$i++) {
+                if ($standardColors[$i] -eq $hc) {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        '' + [char]0x1b + "[$($ansiStartPoint + $i)m"
+                    } else {
+                        $cssClasses += $standardColors[$i]
+                    }
+                    continue nextColor
+                }
+            }
+        } elseif ($brightColors -contains $hc) {
+            for ($i = 0; $i -lt $brightColors.Count;$i++) {
+                if ($brightColors[$i] -eq $hc) {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                    } else {
+                        $cssClasses += $standardColors[$i]
+                    }
+                    continue nextColor
+                }
+            }
+        }
+
+
         if ($hc -and -not $hc.StartsWith('#')) { 
             $placesToLook=
                 @(if ($hc.Contains('.')) {
@@ -1016,7 +1095,12 @@ if ($Invert) {
 }
 
 if ($canUseHTML) {
-    "&lt;span style='$($styleAttributes -join ';')'&gt;"
+   
+    "&lt;span$(
+        if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
+    )$(
+        if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
+    )&gt;"
 } elseif ($canUseANSI) {
     $styleAttributes -join ''
 }</ScriptBlock>
@@ -1272,7 +1356,8 @@ elseif ($Value -ge $Max)
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -1283,12 +1368,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
 
@@ -1416,7 +1503,8 @@ $module = $_
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -1427,12 +1515,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
 
@@ -1643,7 +1733,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -1654,15 +1745,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
@@ -1722,7 +1815,8 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$moduleName = 'EZOut'
 do {
     $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if ($lm.FormatPartsLoaded) { break }    
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
     $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
         foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
             $ParentNode = $partNodeName.Node.ParentNode
@@ -1733,15 +1827,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
         Import-Module -Global
     $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
     if (-not $lm.OnRemove) {
         $lm.OnRemove = $onRemove
     } else {
         $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
     }
     $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Type.TypeName'</ScriptBlock>
+. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
