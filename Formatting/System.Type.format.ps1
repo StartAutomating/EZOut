@@ -4,7 +4,7 @@ Write-FormatView -TypeName System.Type -Action {
     Write-FormatViewExpression -Newline
     Write-FormatViewExpression -ScriptBlock { '-' * ($Host.UI.RawUI.BufferSize.Width - 1) }
     Write-FormatViewExpression -ScriptBlock { ' ' * 1 } 
-    Write-FormatViewExpression -ForegroundColor 'EZOut.Type.TypeName' -ScriptBlock { $_ } -ControlName TypeNameControl
+    Write-FormatViewExpression -ForegroundColor 'Verbose' -ScriptBlock { $_ } -ControlName TypeNameControl
     Write-FormatViewExpression -ScriptBlock { ' ' * 1 }
     Write-FormatViewExpression -If { $_.BaseType -and -not $_.IsValueType } -ScriptBlock { 
         ':'
@@ -17,7 +17,7 @@ Write-FormatView -TypeName System.Type -Action {
     Write-FormatViewExpression -Newline
     Write-FormatViewExpression -ScriptBlock { '-' * ($Host.UI.RawUI.BufferSize.Width - 1) }
     Write-FormatViewExpression -ScriptBlock { ' ' * 1 } 
-    Write-FormatViewExpression -ForegroundColor 'EZOut.Type.TypeName' -ScriptBlock { $_ } -ControlName TypeNameControl
+    Write-FormatViewExpression -ForegroundColor 'Verbose' -ScriptBlock { $_ } -ControlName TypeNameControl
     Write-FormatViewExpression -ScriptBlock { ' ' * 1 }
     Write-FormatViewExpression -If { $_.BaseType -and -not $_.IsValueType -and $_.BaseType -ne [Object] } -ScriptBlock { 
         ':'
