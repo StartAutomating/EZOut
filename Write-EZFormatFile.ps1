@@ -45,8 +45,8 @@ $myModuleName = $_ModuleName
 $myRoot = $_MyRoot
 Push-Location $myRoot
 $formatting = @(
-    # Add your own Write-FormatView here, or put them in a Formatting or Views directory
-
+    # Add your own Write-FormatView here,
+    # or put them in a Formatting or Views directory
     foreach ($potentialDirectory in 'Formatting','Views') {
         Join-Path $myRoot $potentialDirectory |
             Get-ChildItem -ea ignore |
@@ -63,11 +63,11 @@ if ($formatting) {
 
 $types = @(
     # Add your own Write-TypeView statements here
-    foreach ($potentialDirectory in 'Types') {
-        Join-Path $myRoot $potentialDirectory |
-            Get-ChildItem -ea ignore |
-            Import-TypeView -FilePath {$_.Fullname}
-    }
+    # or declare them in the 'Types' directory
+    Join-Path $myRoot Types |
+        Get-ChildItem -ea ignore |
+        Import-TypeView
+
 )
 
 if ($types) {
