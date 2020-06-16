@@ -65,7 +65,7 @@ $types = @(
     # Add your own Write-TypeView statements here
     # or declare them in the 'Types' directory
     Join-Path $myRoot Types |
-        Get-ChildItem -ea ignore |
+        Get-Item -ea ignore |
         Import-TypeView
 
 )
