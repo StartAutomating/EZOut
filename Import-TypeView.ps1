@@ -154,8 +154,8 @@ data { $([ScriptBlock]::Create($fileText)) }
 "@)
                                 $aliasProperty = (& $dataScriptBlock) -as [Collections.IDictionary]
                             } else {
-                            
-                            
+
+
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 data { $fileText }
 "@)
