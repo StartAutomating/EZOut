@@ -79,9 +79,11 @@
             $WriteTypeViewSplat = @{TypeName = $mt.Key}   # and create a hashtable to splat.
             # Then, sort the values by name and by if it comes from this directory.
             $sortedValues = $mt.Value | Sort-Object Name, { $_.Directory.Name -ne $mt.Key }
+            $aliasFileNames = 'Alias','Aliases','AliasProperty'
             $scriptMethods = [Ordered]@{}
             $scriptPropertyGet = [Ordered]@{}
             $scriptPropertySet = [Ordered]@{}
+            $aliasProperty = [Ordered]@{}
             $noteProperty = [Ordered]@{}
             $hideProperty = [Collections.Generic.List[string]]::new()
             foreach ($item in $sortedValues) {
@@ -146,10 +148,18 @@
                             }
                         }
                         .psd1 {
+                            if ($aliasFileNames -contains $itemName) {
+                                $dataScriptBlock = [ScriptBlock]::Create(@"
+data { $([ScriptBlock]::Create($fileText)) }
+"@)
+                                $aliasProperty = (& $dataScriptBlock) -as [Collections.IDictionary]
+                            } else {
+                            
+                            
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 data { $fileText }
 "@)
-
+                            }
                         }
                         .xml {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
@@ -226,6 +236,9 @@ $stream.Dispose()
 
             if ($scriptMethods.Count) {
                 $WriteTypeViewSplat.ScriptMethod = $scriptMethods
+            }
+            if ($aliasProperty.Count) {
+                $WriteTypeViewSplat.AliasProperty = $aliasProperty
             }
             if ($scriptPropertyGet.Count -or $scriptPropertySet.Count) {
                 $scriptProperties = [Ordered]@{}
