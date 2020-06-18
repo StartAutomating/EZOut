@@ -181,7 +181,7 @@
 
 
                     $partName =
-                        if ($part.Name -notmatch '\w+') {
+                        if ($part.Name -match '\w+' -or $moduleName -match '\w+') {
                             "`${${ModuleName}_$($part.Name)}"
                         } else {
                             "`$${ModuleName}_$($part.Name)"
