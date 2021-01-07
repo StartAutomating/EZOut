@@ -249,7 +249,7 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
 
             #region PropertySetXml
             $propertySetXml  = if ($psBoundParameters.PropertySet) {
-                foreach ($NameAndValue in $PropertySet.GetEnumerator()) {
+                foreach ($NameAndValue in $PropertySet.GetEnumerator() | Sort-Object Key) {
                     $referencedProperties = "<Name>" + ($NameAndValue.Value -join "</Name>
                         <Name>") + "</Name>"
                 "<PropertySet>
@@ -268,7 +268,7 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
 
             #region Aliases
             $aliasPropertyXml = if ($psBoundParameters.AliasProperty) {
-                foreach ($NameAndValue in $AliasProperty.GetEnumerator()) {
+                foreach ($NameAndValue in $AliasProperty.GetEnumerator() | Sort-Object Key) {
                     $isHiddenChunk = if ($HideProperty -contains $NameAndValue.Key) {
                         'IsHidden="true"'
                     }
@@ -283,7 +283,7 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
             }
             #endregion Aliases
             $NotePropertyXml = if ($psBoundParameters.NoteProperty) {
-                foreach ($NameAndValue in $NoteProperty.GetEnumerator()) {
+                foreach ($NameAndValue in $NoteProperty.GetEnumerator() | Sort-Object Key) {
                     $isHiddenChunk = if ($HideProperty -contains $NameAndValue.Key) {
                         'IsHidden="true"'
                     }
@@ -297,7 +297,7 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
                 ""
             }
             $scriptMethodXml = if ($ScriptMethod -and $ScriptMethod.Count) {
-                foreach ($methodNameAndCode in $ScriptMethod.GetEnumerator()) {                                "
+                foreach ($methodNameAndCode in $ScriptMethod.GetEnumerator() | Sort-Object Key) {                                "
                 <ScriptMethod>
                     <Name>$($methodNameAndCode.Key)</Name>
                     <Script>
@@ -311,7 +311,7 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
 
             #region Script Property
             $scriptPropertyXml = if ($psBoundParameters.ScriptProperty) {
-                foreach ($propertyNameAndCode in $ScriptProperty.GetEnumerator()) {
+                foreach ($propertyNameAndCode in $ScriptProperty.GetEnumerator() | Sort-Object Key) {
                     $isHiddenChunk = if ($HideProperty -contains $propertyNameAndCode.Key) {
                         'IsHidden="true"'
                     }
