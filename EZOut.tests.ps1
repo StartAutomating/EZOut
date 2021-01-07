@@ -877,13 +877,14 @@ describe 'Write-TypeView' {
             Select-Object -ExpandProperty Node
 
         $names = @($scriptMethodXml | ForEach-Object { $_.Name })
-        $names[0] | Should -Be SendHappens
-        $names[1] | Should -Be ReceiveHappens
-        $definitions = @($scriptMethodXml | ForEach-Object { $_.Script })
+        
+        $names[0] | Should -Be ReceiveHappens
+        $names[1] | Should -Be SendHappens
+        $definitions = @($scriptMethodXml | ForEach-Object { $_.Script })        
         $definitions[0] |
-            Should -BeLike '*New-Event*-SourceIdentifier*Stuff.Happens*'
-        $definitions[1] |
             Should -BeLike '*Register-EngineEvent*-SourceIdentifier*Stuff.Happens*'
+        $definitions[1] |
+            Should -BeLike '*New-Event*-SourceIdentifier*Stuff.Happens*'
     }
 
 
