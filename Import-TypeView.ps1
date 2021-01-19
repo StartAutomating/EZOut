@@ -83,7 +83,6 @@
             # Then, sort the values by name and by if it comes from this directory.
             $sortedValues = $mt.Value | Sort-Object Name, { $_.Directory.Name -ne $mt.Key }
 
-
             <#
 
             At a high level, what we're about to do so is turn a bunch of files into
@@ -159,8 +158,10 @@
                         $scriptPropertySet[$propertyName] = $scriptBlock
                     }
                 }
-                elseif ($isScript -and       # If this is a script
-                    $itemName -match '^\+\=' # and it's an event (prefaced with +=)
+                elseif ($isScript -and         # If this is a script and it's an event 
+                    ($itemName -match '^@' -or # (prefaced with @ -or ending with .event.ps1)
+                     $itemName -match '\.event\.ps1$'
+                    )
                 ) {
                     $eventName = $itemName.Substring(2)
 
@@ -199,8 +200,11 @@
                                 $WriteTypeViewSplat.DefaultDisplay =
                                     $fileText -split '(?>\r\n|\n)' -ne ''
                             }
-                            elseif ($itemName -match '^+=') {
-                                $eventNames += $itemName.Substring(2)
+                            elseif ($itemName -match '^@') {
+                                $eventNames += $itemName.Substring(1)
+                            }
+                            elseif ($itemName -match '\.event\.txt') {
+                                $eventNames += $itemName -replace '\.event$'
                             }
                             elseif (-not $noteProperty.Contains($itemName)) # Otherwise, it's a simple string noteproperty
                             {
