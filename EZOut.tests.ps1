@@ -876,13 +876,13 @@ describe 'Write-TypeView' {
             Select-Xml -Xpath //ScriptMethod |
             Select-Object -ExpandProperty Node
 
-        $names = @($scriptMethodXml | ForEach-Object { $_.Name })
-        
-        $names[0] | Should -Be ReceiveHappens
-        $names[1] | Should -Be SendHappens
-        $definitions = @($scriptMethodXml | ForEach-Object { $_.Script })        
+        $names = @($scriptMethodXml | ForEach-Object { $_.Name } | Sort-Object)
+
+        $names[0] | Should -Be Register_Happens
+        $names[1] | Should -Be Send_Happens
+        $definitions = @($scriptMethodXml | ForEach-Object { $_.Script })
         $definitions[0] |
-            Should -BeLike '*Register-EngineEvent*-SourceIdentifier*Stuff.Happens*'
+            Should -BeLike '*Register-EngineEvent*-SourceIdentifier $SourceIdentifier*'
         $definitions[1] |
             Should -BeLike '*New-Event*-SourceIdentifier*Stuff.Happens*'
     }
