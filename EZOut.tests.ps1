@@ -4,18 +4,18 @@ param()
 describe 'EZOut' {
     it 'Can write formatting with Write-FormatView' {
         Write-FormatView -TypeName foo -Property bar |
-            should belike *<View>*<TypeName>foo</TypeName>*<PropertyName>bar</PropertyName>*</View>*
+            should -Belike *<View>*<TypeName>foo</TypeName>*<PropertyName>bar</PropertyName>*</View>*
     }
     it 'Can write types with Write-TypeView' {
         Write-TypeView -TypeName foo -DefaultDisplay bar |
-            should belike *<Type>*<Name>foo</Name>*<ReferencedProperties>*bar*</ReferencedProperties>*
+            should -Belike *<Type>*<Name>foo</Name>*<ReferencedProperties>*bar*</ReferencedProperties>*
     }
     it 'Gives you a way to build formatting and types (with Write-EZFormatFile)' {
         Write-EZFormatFile |
-            should belike '#requires -Module EZOut*Out-FormatData*Out-TypeData*'
+            should -Belike '#requires -Module EZOut*Out-FormatData*Out-TypeData*'
 
         Write-EZFormatFile -Format { Write-FormatView -TypeName t -Property n} -Type { Write-TypeView -TypeName t -ScriptProperty @{n={[Random]::new().Next() }}} |
-            should belike '#requires -Module EZOut*Out-FormatData*Out-TypeData*'
+            should -Belike '#requires -Module EZOut*Out-FormatData*Out-TypeData*'
     }
     it 'Can Get-FormatFile to see loaded formatting' {
         $formatFiles = @(Get-FormatFile |
@@ -33,7 +33,7 @@ describe 'EZOut' {
         }
         )
         if ($formatFiles) {
-            $formatFiles | should belike *.ps1xml
+            $formatFiles | should -Belike *.ps1xml
         }
     }
 
@@ -53,7 +53,7 @@ describe 'Write-FormatView' {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should belike *foo*bar*
+        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *foo*bar*
         Clear-FormatData
     }
     it 'Can add an -AliasProperty' {
@@ -62,7 +62,7 @@ describe 'Write-FormatView' {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should belike *n2*1*
+        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *n2*1*
     }
     it 'Can format a property' {
         $tn = "type$(Get-random)"
@@ -70,7 +70,7 @@ describe 'Write-FormatView' {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should belike *n*1%*
+        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *n*1%*
     }
     it 'Can run an -Action' {
         $tn = "type$(Get-Random)"
@@ -79,41 +79,41 @@ describe 'Write-FormatView' {
             Out-FormatData |
             Add-FormatData
 
-        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should belike *foobar*
+        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should -Belike *foobar*
 
         Clear-FormatData
 
-        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should belike *n*1*
+        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should -Belike *n*1*
     }
 
     it 'Can make a list view if you pass -AsList' {
-        Write-FormatView -TypeName foobar -Property foo, bar -AsList | should belike '*<ListControl>*'
+        Write-FormatView -TypeName foobar -Property foo, bar -AsList | should -Belike '*<ListControl>*'
     }
 
     it 'Can -GroupByProperty' {
         $fvXml = [xml](Write-FormatView -TypeName foobar -Property foo -GroupByProperty Name)
-        $fvXml.View.GroupBy.PropertyName | should be Name
+        $fvXml.View.GroupBy.PropertyName | should -Be Name
     }
 
     it 'Can -GroupByScript' {
         $fvXml = [xml](Write-FormatView -TypeName foobar -Property foo -GroupByScript {($_.N % 2) -as [bool]} -GroupLabel 'IsOdd')
-        $fvXml.View.GroupBy.Label | should be IsOdd
-        $fvXml.View.GroupBy.ScriptBlock | should belike '*$_.n*%*2*'
+        $fvXml.View.GroupBy.Label | should -Be IsOdd
+        $fvXml.View.GroupBy.ScriptBlock | should -Belike '*$_.n*%*2*'
     }
 
     it 'Can use a custom control to render the group' {
         $fvXml = [xml](Write-FormatView -TypeName foobar -Property foo -GroupByProperty prop -GroupAction CustomControl)
-        $fvXml.View.GroupBy.CustomControlName | should be CustomControl
+        $fvXml.View.GroupBy.CustomControlName | should -Be CustomControl
     }
 
     it 'Can create custom controls' {
         $fvXml = [xml](Write-FormatView -Action { 'hi' } -AsControl -Name CustomControl -TypeName t)
-        $fvXml.Control.Name | should be CustomControl
+        $fvXml.Control.Name | should -Be CustomControl
     }
 
     it 'Can use a -TypeName as a SelectionSetName if -IsSelectionSet is passed' {
         $fvXml =[xml](Write-FormatView -TypeName FileSystemTypes -IsSelectionSet -Property a)
-        $fvXml.View.ViewSelectedBy.SelectionSet | should be FileSystemTypes
+        $fvXml.View.ViewSelectedBy.SelectionSet | should -Be FileSystemTypes
     }
 
     it 'Will pass parameters down to Write-FormatTableView or Write-FormatListView' {
@@ -124,7 +124,7 @@ describe 'Write-FormatView' {
             Price = '{0:c}'
         } -Width 40, 40 -TypeName MenuItem
         $ftXml = [xml]$ft
-        $ftXml.View.TableControl.TableHeaders.TableColumnHeader[0].Alignment | should be center
+        $ftXml.View.TableControl.TableHeaders.TableColumnHeader[0].Alignment | should -Be center
     }
 
     it 'Can -ColorProperty' {
@@ -148,30 +148,30 @@ describe 'Write-FormatView' {
     </SelectionSets>
 '@ -TypeName FileSystemTypes
         $fvXml = [xml]$fv
-        $fvXml.selectionSets.SelectionSet.Name | should be FileSystemTypes
+        $fvXml.selectionSets.SelectionSet.Name | should -Be FileSystemTypes
     }
 
     context 'Fault Tolerance' {
         it 'Will not let you send strings as -VirtualProperty values' {
-            { Write-FormatView -Property foo -VirtualProperty @{foo='baz'} } | should throw
+            { Write-FormatView -Property foo -VirtualProperty @{foo='baz'} } | should -Throw
         }
         it 'Will not let you -RenameProperty to anything but strings' {
-            { Write-FormatView -Property foo -RenameProperty @{foo=2} } | should throw
+            { Write-FormatView -Property foo -RenameProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you -FormatProperty with a non-string value' {
-            { Write-FormatView -Property foo -FormatProperty @{foo=2} } | should throw
+            { Write-FormatView -Property foo -FormatProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you pass non-string keys to -ColorProperty' {
-            { Write-FormatView -Property foo -ColorProperty @{2=2} } | should throw
+            { Write-FormatView -Property foo -ColorProperty @{2=2} } | should -Throw
         }
         it 'Will not let you create a view -AsControl without a -Name' {
-            { Write-FormatView -TypeName t -Action { 'hi' } -AsControl -ErrorAction Stop } | should throw
+            { Write-FormatView -TypeName t -Action { 'hi' } -AsControl -ErrorAction Stop } | should -Throw
         }
         it 'Will not let you pass bad alignments into -AlignProperty' {
-            { Write-FormatView -AlignProperty @{k='blah'} -TypeName t} | should throw
+            { Write-FormatView -AlignProperty @{k='blah'} -TypeName t} | should -Throw
         }
         it 'Will not let you pass literals into -ConditionalProperty' {
-            { Write-FormatView -AsList -TypeName t -ConditionalProperty @{foo='bar' }} | should throw
+            { Write-FormatView -AsList -TypeName t -ConditionalProperty @{foo='bar' }} | should -Throw
         }
     }
 }
@@ -180,9 +180,9 @@ describe "Write-FormatTableView" {
     it "Can set the -Width of each -Property.  Setting a negative width will make the column right-aligned" {
         $ft = Write-FormatTableView -Property verb, noun, description -Width 20, -40
         $ftXml = [xml]$ft
-        $ftXml.TableControl.TableHeaders.TableColumnHeader[0].Width | should be 20
-        $ftXml.TableControl.TableHeaders.TableColumnHeader[1].Width | should be 40
-        $ftXml.TableControl.TableHeaders.TableColumnHeader[1].Alignment | should be right
+        $ftXml.TableControl.TableHeaders.TableColumnHeader[0].Width | should -Be 20
+        $ftXml.TableControl.TableHeaders.TableColumnHeader[1].Width | should -Be 40
+        $ftXml.TableControl.TableHeaders.TableColumnHeader[1].Alignment | should -Be right
     }
 
     it 'Can control the column alignment' {
@@ -193,13 +193,13 @@ describe "Write-FormatTableView" {
             Price = '{0:c}'
         } -Width 40, 40
         $ftXml = [xml]$ft
-        $ftXml.TableControl.TableHeaders.TableColumnHeader[0].Alignment | should be center
+        $ftXml.TableControl.TableHeaders.TableColumnHeader[0].Alignment | should -Be center
 
         Write-FormatView -TypeName MenuItem -FormatXML $ft |
             Out-FormatData|
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName='MenuItem';Drink='Coffee';Price=2.99} | Out-String | should belike "*$('{0:C}' -f 2.99)*"
+        [PSCustomObject]@{PSTypeName='MenuItem';Drink='Coffee';Price=2.99} | Out-String | should -Belike "*$('{0:C}' -f 2.99)*"
     }
 
     it 'Can conditionally -ColorRow.  The ScriptBlock must return a hex color or escape sequence.' {
@@ -207,27 +207,27 @@ describe "Write-FormatTableView" {
         $ft = Write-FormatTableView -Property N -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} }
         $ftXml = [xml]$ft
         $ftXml.TableControl.TableRowEntries.TableRowEntry.TableColumnItems.TableColumnItem.ScriptBlock |
-            should belike '*$_.N*'
+            should -Belike '*$_.N*'
     }
 
     it 'Can conditionally -ColorProperty.  The ScriptBlock must return a hex color or escape sequence.' {
         $ft = Write-FormatTableView -Property N -AutoSize -ColorProperty @{N={if ($_.N % 2) { "#ff0000"} else {"#0f0"} }}
         $ftXml = [xml]$ft
         $ftXml.TableControl.TableRowEntries.TableRowEntry.TableColumnItems.TableColumnItem.ScriptBlock |
-            should belike '*$_.N*'
+            should -Belike '*$_.N*'
     }
 
     it 'Can -ColorProperty, even when the property is virtual or an alias' {
         $colorScript = {if ($_.N % 2) { "#ff0000"} else {"#0f0"} }
         $ft = Write-FormatTableView -Property N2, IsOdd -AliasProperty @{N2='N'} -ColorProperty @{N2=$colorScript;IsOdd=$colorScript} -VirtualProperty @{IsOdd={($_.N % 2) -as [bool]}}
         $ftXml = [xml]$ft
-        $ftXml.TableControl.TableRowEntries.TableRowEntry.TableColumnItems.'#comment' | should belike '*conditionalColor:*'
+        $ftXml.TableControl.TableRowEntries.TableRowEntry.TableColumnItems.'#comment' | should -Belike '*conditionalColor:*'
     }
 
     it 'Can hide table headers' {
         $ft = Write-FormatTableView -HideHeader -Property N
         $ftXml = [xml]$ft
-        $ftXml.TableControl.ChildNodes[0].Name | should be HideTableHeaders
+        $ftXml.TableControl.ChildNodes[0].Name | should -Be HideTableHeaders
     }
 
     it 'Can selectively display content, based off of a -ViewCondition' {
@@ -246,7 +246,7 @@ describe "Write-FormatTableView" {
 
         @(foreach ($n in 1..5) {
             [PSCustomObject]@{PSTypeName='HostAwareTable';N=$n}
-        }) |Out-String | should belike *normal*
+        }) |Out-String | should -Belike *normal*
     }
 
     it 'Can selectively display content, based off of a -ViewCondition with a -ViewSelectionSet' {
@@ -265,31 +265,31 @@ describe "Write-FormatTableView" {
 
         @(foreach ($n in 1..5) {
             [PSCustomObject]@{PSTypeName='HostAwareTable';N=$n}
-        }) |Out-String | should belike *normal*
+        }) |Out-String | should -Belike *normal*
     }
 
     context 'Fault Tolerance' {
         it 'Will not let you send strings as -VirtualProperty values' {
-            { Write-FormatTableView -Property foo -VirtualProperty @{foo='baz'} } | should throw
+            { Write-FormatTableView -Property foo -VirtualProperty @{foo='baz'} } | should -Throw
         }
         it 'Will not let you -RenameProperty to anything but strings' {
-            { Write-FormatTableView -Property foo -RenameProperty @{foo=2} } | should throw
+            { Write-FormatTableView -Property foo -RenameProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you -FormatProperty with a non-string value' {
-            { Write-FormatTableView -Property foo -FormatProperty @{foo=2} } | should throw
+            { Write-FormatTableView -Property foo -FormatProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you pass non-string keys to -ColorProperty' {
-            { Write-FormatTableView -Property foo -ColorProperty @{2=2} } | should throw
+            { Write-FormatTableView -Property foo -ColorProperty @{2=2} } | should -Throw
         }
         it 'Will not let you pass bad alignment into -AlignProperty' {
-            { Write-FormatTableView -AlignProperty @{k='blah'} } | should throw
+            { Write-FormatTableView -AlignProperty @{k='blah'} } | should -Throw
         }
     }
 }
 
 describe "Write-FormatListView" {
     it "Can be written directly with Write-FormatListView" {
-        Write-FormatListView -Property foo,bar | should belike "*<ListControl>*<PropertyName>foo</PropertyName>*<PropertyName>bar</PropertyName>*"
+        Write-FormatListView -Property foo,bar | should -Belike "*<ListControl>*<PropertyName>foo</PropertyName>*<PropertyName>bar</PropertyName>*"
     }
 
     it 'Can -FormatProperty' {
@@ -301,7 +301,7 @@ describe "Write-FormatListView" {
             Out-FormatData|
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName='MenuItem';Drink='Coffee';Price=2.99} | Out-String | should belike "*$('{0:C}' -f 2.99)*"
+        [PSCustomObject]@{PSTypeName='MenuItem';Drink='Coffee';Price=2.99} | Out-String | should -Belike "*$('{0:C}' -f 2.99)*"
     }
 
     it 'Can display a -ConditionalProperty' {
@@ -316,32 +316,32 @@ describe "Write-FormatListView" {
         foreach ($n in 1..10) {
             [PSCustomObject]@{PSTypeName='OddN';N =$n}
         }
-        ) | Out-String | should belike *N?:?1*N?:?3*N?:?5*N?:?7*N?:?9*
+        ) | Out-String | should -Belike *N?:?1*N?:?3*N?:?5*N?:?7*N?:?9*
     }
 
     it 'Can conditionally -ColorProperty.  The ScriptBlock must return a hex color or escape sequence.' {
         $fl = Write-FormatListView -Property N -ColorProperty @{N={if ($_.N % 2) { "#ff0000"} else {"#0f0"} }}
         $flXml = [xml]$fl
-        $flXml.ListControl.ListEntries.ListEntry.ListItems.'#comment' | should belike '*conditionalColor:*'
+        $flXml.ListControl.ListEntries.ListEntry.ListItems.'#comment' | should -Belike '*conditionalColor:*'
     }
 
     it 'Can -ColorProperty, even when the property is virtual or an alias' {
         $colorScript = {if ($_.N % 2) { "#ff0000"} else {"#0f0"} }
         $fl = Write-FormatListView -Property N2, IsOdd -AliasProperty @{N2='N'} -ColorProperty @{N2=$colorScript;IsOdd=$colorScript} -VirtualProperty @{IsOdd={($_.N % 2) -as [bool]}}
         $flXml = [xml]$fl
-        $flXml.ListControl.ListEntries.ListEntry.ListItems.'#comment' | should belike '*conditionalColor:*'
+        $flXml.ListControl.ListEntries.ListEntry.ListItems.'#comment' | should -Belike '*conditionalColor:*'
     }
 
     it 'Can make an -AliasProperty' {
         $flXml = [xml](Write-FormatListView -Property a -AliasProperty @{a='b'})
-        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.Label | should be a
-        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.PropertyName | should be b
+        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.Label | should -Be a
+        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.PropertyName | should -Be b
     }
 
     it 'Can make an -VirtualProperty' {
         $flXml = [xml](Write-FormatListView -Property a -VirtualProperty @{a={'b'}})
-        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.Label | should be a
-        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.ScriptBlock | should be "'b'"
+        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.Label | should -Be a
+        $flXml.listControl.ListEntries.ListEntry.ListItems.ListItem.ScriptBlock | should -Be "'b'"
     }
 
     it 'Can selectively display different properties, based off of a condition' {
@@ -362,8 +362,8 @@ describe "Write-FormatListView" {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName='EvenOddN';N=1}| Out-String | should belike "*n*:*1*IsOdd*:*true*"
-        [PSCustomObject]@{PSTypeName='EvenOddN';N=2}| Out-String | should belike "*n*:*2*IsEven*:*true*"
+        [PSCustomObject]@{PSTypeName='EvenOddN';N=1}| Out-String | should -Belike "*n*:*1*IsOdd*:*true*"
+        [PSCustomObject]@{PSTypeName='EvenOddN';N=2}| Out-String | should -Belike "*n*:*2*IsEven*:*true*"
     }
 
     it 'Can selectively display different properties, based off of a -ViewCondition with a -ViewSelectionSet' {
@@ -393,25 +393,25 @@ describe "Write-FormatListView" {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName='EvenOddN';N=1}| Out-String | should belike "*n*:*1*IsOdd*:*true*"
-        [PSCustomObject]@{PSTypeName='EvenOddN';N=2}| Out-String | should belike "*n*:*2*IsEven*:*true*"
+        [PSCustomObject]@{PSTypeName='EvenOddN';N=1}| Out-String | should -Belike "*n*:*1*IsOdd*:*true*"
+        [PSCustomObject]@{PSTypeName='EvenOddN';N=2}| Out-String | should -Belike "*n*:*2*IsEven*:*true*"
     }
 
     context 'Fault Tolerance' {
         it 'Will not let you send strings as -VirtualProperty values' {
-            { Write-FormatListView -Property foo -VirtualProperty @{foo='baz'} } | should throw
+            { Write-FormatListView -Property foo -VirtualProperty @{foo='baz'} } | should -Throw
         }
         it 'Will not let you -RenameProperty to anything but strings' {
-            { Write-FormatListView -Property foo -RenameProperty @{foo=2} } | should throw
+            { Write-FormatListView -Property foo -RenameProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you -FormatProperty with a non-string value' {
-            { Write-FormatListView -Property foo -FormatProperty @{foo=2} } | should throw
+            { Write-FormatListView -Property foo -FormatProperty @{foo=2} } | should -Throw
         }
         it 'Will not let you pass non-string keys to -ColorProperty' {
-            { Write-FormatListView -Property foo -ColorProperty @{2=2} } | should throw
+            { Write-FormatListView -Property foo -ColorProperty @{2=2} } | should -Throw
         }
         it 'Will not let you pass non-string values to -ConditionalProperty' {
-            { Write-FormatListView -Property foo -ConditionalProperty @{2=2} } | should throw
+            { Write-FormatListView -Property foo -ConditionalProperty @{2=2} } | should -Throw
         }
 
     }
@@ -425,7 +425,7 @@ describe "Write-FormatCustomView" {
             Out-FormatData |
             Add-FormatData
 
-        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should belike *hello*
+        New-Object PSObject -Property @{PSTypeName=$tn;n=1} | Out-String | should -Belike *hello*
     }
 
     it 'Can provide a parallel set of -VisibilityCondition' {
@@ -435,13 +435,13 @@ describe "Write-FormatCustomView" {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should belike '*This is true*'
+        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike '*This is true*'
     }
 
     it "Will render an -Action that has only one token, which is a literal string, as <Text>" {
         $fv = Write-formatCustomview -Action { "foobar" }
         $fvXml = [xml]$fv
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.Text | should be foobar
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.Text | should -Be foobar
     }
 
     it "Will render an -Action that uses the mythical command Write-NewLine will become a <Newline/>" {
@@ -454,7 +454,7 @@ describe "Write-FormatCustomView" {
 
     it 'Can -Indent (though hosts seem not to honor this)' {
         $fvXml = [xml](Write-FormatCustomView -indent 4 -Action {"h" })
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.Frame.LeftIndent | should be 4
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.Frame.LeftIndent | should -Be 4
     }
 
     it 'Can use -a -ViewCondition to branch (but input will have to be piped in)' {
@@ -470,7 +470,7 @@ describe "Write-FormatCustomView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should belike "*normal host*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal host*"
     }
 
     it 'Can use a -ViewCondition with a -ViewSelectionSet to match multiple typenames (piping is still required)' {
@@ -486,12 +486,12 @@ describe "Write-FormatCustomView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should belike "*normal host*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal host*"
     }
 
     it 'Can just run a command with no parameters in -Action' {
         $fvXml = [xml](Write-FormatCustomView -Action {Get-Command} )
-        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock | should be 'Get-Command'
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock | should -Be 'Get-Command'
     }
 
 
@@ -503,7 +503,7 @@ describe "Write-FormatCustomView" {
 
         $fvXml = [xml]$fv
         $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock |
-            should belike '*"hello world"*'
+            should -Belike '*"hello world"*'
     }
 }
 
@@ -511,15 +511,15 @@ describe "Write-FormatViewExpression" {
     it 'Can render a -Property in a -ControlName, and -Enumerate the items' {
         $fv = Write-FormatViewExpression -ControlName MyCustomControl -Enumerate -Property Items
         $fvXml = [xml]$fv
-        $fvXml.ExpressionBinding.PropertyName | should be Items
-        $fvXml.ExpressionBinding.ChildNodes[1].Name |should be EnumerateCollection
-        $fvXml.ExpressionBinding.CustomControlName | should be MyCustomControl
+        $fvXml.ExpressionBinding.PropertyName | should -Be Items
+        $fvXml.ExpressionBinding.ChildNodes[1].Name |should -Be EnumerateCollection
+        $fvXml.ExpressionBinding.CustomControlName | should -Be MyCustomControl
     }
 
     it 'Can render a -Property with a -FormatString' {
         $fvXml = [xml](Write-FormatViewExpression -FormatString '{0:C}' -Property Price)
-        $fvXml.ExpressionBinding.PropertyName | should be Price
-        $fvXml.ExpressionBinding.FormatString | should be '{0:C}'
+        $fvXml.ExpressionBinding.PropertyName | should -Be Price
+        $fvXml.ExpressionBinding.FormatString | should -Be '{0:C}'
     }
     it 'Can have a -ForegroundColor or -BackgroundColor (if ($Host.UI.SupportsVirtualTerminal))' {
         $fv =
@@ -530,23 +530,23 @@ describe "Write-FormatViewExpression" {
         $fvXml = [xml]$fv
 
         $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
-            should belike '*$setOutputStyle*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
+            should -Belike '*$setOutputStyle*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
     }
 
     it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
         $fvxml = [xml](Write-FormatViewExpression -Newline)
-        $fvxml.FirstChild.LocalName | should be 'Newline'
+        $fvxml.FirstChild.LocalName | should -Be 'Newline'
     }
 
     it 'Will create <Text> element when the -Text parameter is provided' {
         $fvxml = [xml](Write-FormatViewExpression -Text 'hello world')
-        $fvxml.FirstChild.LocalName | should be 'Text'
-        $fvxml.FirstChild.InnerText | should be 'Hello world'
+        $fvxml.FirstChild.LocalName | should -Be 'Text'
+        $fvxml.FirstChild.InnerText | should -Be 'Hello world'
     }
 
     it "Will call itself if the -ScriptBlock contains itself" {
         $fvXml = [xml](Write-FormatViewExpression -ScriptBlock { Write-FormatViewExpression -Property 'hi'  })
-        $fvXml.ExpressionBinding.PropertyName | should be hi
+        $fvXml.ExpressionBinding.PropertyName | should -Be hi
     }
 }
 
@@ -575,7 +575,7 @@ describe "Write-FormatTreeView" {
             Select-Xml /Control |
             Select-Object -ExpandProperty Node |
             Select-Object -ExpandProperty Name |
-            should be 'System.IO.FileInfo/System.IO.DirectoryInfo.TreeNode'
+            should -Be 'System.IO.FileInfo/System.IO.DirectoryInfo.TreeNode'
     }
 
     it 'Can provide a -SelectionSet instead of a -TypeName' {
@@ -600,7 +600,7 @@ describe "Write-FormatTreeView" {
             Select-Xml /Control |
             Select-Object -ExpandProperty Node |
             Select-Object -ExpandProperty Name |
-            should be 'FileSystemTypes.TreeNode'
+            should -Be 'FileSystemTypes.TreeNode'
     }
 
     it 'Can provide a custom -ControlName for the node control' {
@@ -626,7 +626,7 @@ describe "Write-FormatTreeView" {
             Select-Xml /Control |
             Select-Object -ExpandProperty Node |
             Select-Object -ExpandProperty Name |
-            should be 'FileTreeNode'
+            should -Be 'FileTreeNode'
     }
 
     it 'Can provide a -Separator between each -Property' {
@@ -649,9 +649,9 @@ describe "Write-FormatTreeView" {
             }
 
         $ftXml = [xml]$formatTree[0]
-        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[1].PropertyName | should be Name
-        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[2].ScriptBlock | should be '$_.LastWriteTime.ToString()'
-        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[3].ScriptBlock | should be "'hi'"
+        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[1].PropertyName | should -Be Name
+        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[2].ScriptBlock | should -Be '$_.LastWriteTime.ToString()'
+        $ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[3].ScriptBlock | should -Be "'hi'"
     }
 
     it 'Can provide -EndBranch text' {
@@ -673,7 +673,7 @@ describe "Write-FormatTreeView" {
                 }
             } -EndBranch 'bye'
         $ftXml = [xml]$formatTree[0]
-        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.Text)[-1] | should be "bye"
+        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.Text)[-1] | should -Be "bye"
     }
 
     it 'Can provide an -EndBranchScript' {
@@ -695,7 +695,7 @@ describe "Write-FormatTreeView" {
                 }
             } -EndBranchScript {'bye'}
         $ftXml = [xml]$formatTree[0]
-        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[-2].ScriptBlock | should be "'bye'"
+        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[-2].ScriptBlock | should -Be "'bye'"
     }
 
     it 'Can provide a custom -ChildNodeControl' {
@@ -717,8 +717,8 @@ describe "Write-FormatTreeView" {
                 }
             } -ChildNodeControl FileNodeControl
         $ftXml = [xml]$formatTree[0]
-        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[2].CustomControlName | should be FileNodeControl
-        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[3].CustomControlName | should be FileNodeControl
+        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[2].CustomControlName | should -Be FileNodeControl
+        @($ftXml.Control.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding)[3].CustomControlName | should -Be FileNodeControl
     }
 
     it 'Can branch the view based off of -ViewTypeName, -ViewSelectionSet, and -ViewCondition' {
@@ -736,21 +736,21 @@ describe "Write-FormatTreeView" {
 
     context 'Fault Tolerance' {
         it 'Will complain when passed an unrecognizable -Property' {
-            { Write-FormatTreeView -TypeName t -Property 1 } | should throw
+            { Write-FormatTreeView -TypeName t -Property 1 } | should -Throw
         }
         it 'Will complain when not passed a -TypeName, -SelectionSet, or -ControlName' {
-            { Write-FormatTreeView -ErrorAction Stop } | should throw
+            { Write-FormatTreeView -ErrorAction Stop } | should -Throw
         }
     }
 }
 
 describe "Write-FormatWideView" {
     it "You can make a wide view (if you want to, they truncate)" {
-        Write-FormatWideView -Property foo -AutoSize | should belike '*<WideControl>*AutoSize*<PropertyName>foo*'
+        Write-FormatWideView -Property foo -AutoSize | should -Belike '*<WideControl>*AutoSize*<PropertyName>foo*'
     }
 
     it 'Can override a property name with a -SCriptBlock (which will be truncated)' {
-        Write-FormatWideView -ScriptBlock {'hi'} -ColumnCount 2 | should belike "*<WideControl>*<ColumnNumber>2</ColumnNumber>*<ScriptBlock>'hi'</ScriptBlock>*"
+        Write-FormatWideView -ScriptBlock {'hi'} -ColumnCount 2 | should -Belike "*<WideControl>*<ColumnNumber>2</ColumnNumber>*<ScriptBlock>'hi'</ScriptBlock>*"
     }
 
     it 'Can use -a -ViewCondition to branch (but input will have to be piped in)' {
@@ -766,7 +766,7 @@ describe "Write-FormatWideView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should belike "*normalhost*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normalhost*"
 
         Remove-FormatData -ModuleName HostAwareFormatter
     }
@@ -784,7 +784,7 @@ describe "Write-FormatWideView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should belike "*normalhost*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normalhost*"
 
         Remove-FormatData -ModuleName HostAwareFormatter
     }
@@ -799,7 +799,7 @@ describe "EZOut can create selection sets" {
 
         $propertySet = [xml]$propertySet
 
-        $propertySet.SelectNodes("//PropertySet/Name").'#text' | should be filetimes
+        $propertySet.SelectNodes("//PropertySet/Name").'#text' | should -Be filetimes
     }
 
     it "ConvertTo-PropertySet converts Select-Object output into a property set" {
@@ -813,11 +813,11 @@ describe "EZOut can create selection sets" {
             Select-Xml -XPath "//PropertySet/Name" |
             ForEach-Object{$_.node.'#text'}) |
             Select-Object -Unique |
-            should be filetimes
+            should -Be filetimes
     }
 
     it 'ConvertTo-PropertySet will complain when passed input that does not come from Select-Object' {
-        {Get-ChildItem | Select-Object -First 1 | ConvertTo-PropertySet -Name Test -ErrorAction Stop} |should throw
+        {Get-ChildItem | Select-Object -First 1 | ConvertTo-PropertySet -Name Test -ErrorAction Stop} |should -Throw
     }
 
     it 'Can Get Property Sets' {
@@ -849,7 +849,7 @@ describe 'Write-TypeView' {
             Out-TypeData|
             Add-TypeData
         $o = [PSCustomObject]@{PSTypeName=$tn}
-        $o.foo | should be bar
+        $o.foo | should -Be bar
 
         Remove-TypeData -ModuleName $tn
     }
@@ -859,7 +859,7 @@ describe 'Write-TypeView' {
         Write-TypeView -TypeName $tn -AliasProperty @{
             mytypenames = 'pstypenames'
         } -HideProperty mytypenames | Out-TypeData | Add-TypeData
-        ([PSCustomObject]@{PSTypeName=$tn}).mytypenames[0] | should be $tn
+        ([PSCustomObject]@{PSTypeName=$tn}).mytypenames[0] | should -Be $tn
         Remove-TypeData -ModuleName $tn
     }
 
@@ -868,7 +868,23 @@ describe 'Write-TypeView' {
         Write-TypeView -TypeName $tn -ScriptMethod @{
             GetTypeNames = {return $this.pstypenames}
         } | Out-TypeData | Add-TypeData
-        ([PSCustomObject]@{PSTypeName=$tn}).GetTypeNames()[0] | should be $tn
+        ([PSCustomObject]@{PSTypeName=$tn}).GetTypeNames()[0] | should -Be $tn
+    }
+
+    it 'Can add an -EventName' {
+        $scriptMethodXml = Write-TypeView -TypeName Stuff -EventName Happens |
+            Select-Xml -Xpath //ScriptMethod |
+            Select-Object -ExpandProperty Node
+
+        $names = @($scriptMethodXml | ForEach-Object { $_.Name } | Sort-Object)
+
+        $names[0] | Should -Be Register_Happens
+        $names[1] | Should -Be Send_Happens
+        $definitions = @($scriptMethodXml | ForEach-Object { $_.Script })
+        $definitions[0] |
+            Should -BeLike '*Register-EngineEvent*-SourceIdentifier $SourceIdentifier*'
+        $definitions[1] |
+            Should -BeLike '*New-Event*-SourceIdentifier*Stuff.Happens*'
     }
 
 
@@ -887,10 +903,10 @@ describe 'Write-TypeView' {
 
         $o = New-Object PSObject -Property @{PSTypeName=$tn}
 
-        $o.foo | should be bar
+        $o.foo | should -Be bar
 
         $o.foo = 'baz'
-        $Global:set | should be baz
+        $Global:set | should -Be baz
     }
 
     it 'Can make a read-only property' {
@@ -904,8 +920,8 @@ describe 'Write-TypeView' {
             Add-TypeData
         $o = [PSCustomObject]@{PSTypeName=$tn}
 
-        $o.foo | should be bar
-        { $o.foo = 'baz' } | should throw
+        $o.foo | should -Be bar
+        { $o.foo = 'baz' } | should -Throw
 
         Clear-TypeData
     }
@@ -913,43 +929,53 @@ describe 'Write-TypeView' {
     it 'Can change the -SerializationDepth (this is used in remoting)' {
         $tv = Write-TypeView -TypeName t -SerializationDepth 5
         $tvXml = [xml]$tv
-        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should be 5
+        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should -Be 5
     }
 
     it 'Can specify a -Reserializer' {
         $tvXml = [xml](Write-TypeView -Reserializer ([Hashtable]) -TypeName t)
-        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Name | should be TargetTypeForDeserialization
-        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should be hashtable
+        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Name | should -Be TargetTypeForDeserialization
+        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should -Be hashtable
+    }
+
+    it 'Can specify -Deserialized (and get two type definitions for the price of one)' {
+        $typenames =
+        Write-TypeView -TypeName a -ScriptProperty @{b={"C"}} -Deserialized |
+            Select-Xml -XPath /Type/Name |
+            Select-Object -ExpandProperty Node |
+            Select-Object -ExpandProperty '#Text'
+        $typenames[0] | should -Be 'a'
+        $typenames[1] | should -Be 'Deserialized.a'
     }
 
     context 'Fault Tolerance' {
         it 'Will only allow a [string] in -ScriptMethod keys' {
-            { Write-TypeView -TypeName t -ScriptMethod @{2=1} } | should throw
+            { Write-TypeView -TypeName t -ScriptMethod @{2=1} } | should -Throw
         }
         it 'Will only allow a [ScriptBlock]s in-ScriptMethod values' {
-            { Write-TypeView -TypeName t -ScriptMethod @{foo=1} } | should throw
+            { Write-TypeView -TypeName t -ScriptMethod @{foo=1} } | should -Throw
         }
         it 'Will only allow a [string] in -ScriptProperty keys' {
-            { Write-TypeView -TypeName t -ScriptProperty @{2=1} } | should throw
+            { Write-TypeView -TypeName t -ScriptProperty @{2=1} } | should -Throw
         }
         it 'Will only allow a [ScriptBlock]s in -ScriptProperty values' {
-            { Write-TypeView -TypeName t -ScriptProperty @{foo=1} } | should throw
+            { Write-TypeView -TypeName t -ScriptProperty @{foo=1} } | should -Throw
         }
         it 'Will only allow a [string] key in -AliasProperty' {
-            { Write-TypeView -TypeName t -AliasProperty @{2=2}} | should throw
+            { Write-TypeView -TypeName t -AliasProperty @{2=2}} | should -Throw
         }
         it 'Will allow no more than two [ScriptBlock] in a -ScriptProperty' {
-            { Write-TypeView -TypeName t -ScriptProperty @{foo={'bar'},{'baz'},{'bing'} } }| should throw
+            { Write-TypeView -TypeName t -ScriptProperty @{foo={'bar'},{'baz'},{'bing'} } }| should -Throw
         }
         it 'Will only allow a [string] key in -NoteProperty' {
-            { Write-TypeView -TypeName t -NoteProperty @{2=2} } | should throw
+            { Write-TypeView -TypeName t -NoteProperty @{2=2} } | should -Throw
         }
 
         it 'Will only allow a [string] key in -PropertySet' {
-            { Write-TypeView -TypeName t -PropertySet @{1=2}} | should throw
+            { Write-TypeView -TypeName t -PropertySet @{1=2}} | should -Throw
         }
         it 'Will only allow a [string] or list value in -PropertySet' {
-            { Write-TypeView -TypeName t -PropertySet @{"1"=2} } | should throw
+            { Write-TypeView -TypeName t -PropertySet @{"1"=2} } | should -Throw
         }
     }
 }
@@ -962,12 +988,12 @@ describe 'Add-FormatData' {
             Out-FormatData |
             Add-FormatData
 
-        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should belike *hello*
+        [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *hello*
     }
 
     context 'Fault Tolerance' {
         it 'Will complain when passed bad XML' {
-            { Add-FormatData -FormatXml "<blah/>" } | should throw
+            { Add-FormatData -FormatXml "<blah/>" } | should -Throw
         }
         it 'Will create an automatic name when no TypeName is found' {
             Write-FormatView -AsControl -Action { "hi" } -Name control -TypeName t |
@@ -986,14 +1012,14 @@ describe 'Add-TypeData' {
             Out-TypeData|
             Add-TypeData -PassThru
         $o = [PSCustomObject]@{PSTypeName=$tn}
-        $o.foo | should be bar
+        $o.foo | should -Be bar
     }
     context 'Fault Tolerance' {
         it 'Will complain when passed bad XML' {
-            { Add-TypeData -TypeXml '<blah />' } | should throw
+            { Add-TypeData -TypeXml '<blah />' } | should -Throw
         }
         it 'Will generate a module name when passed an empty <Type> (but will not load)' {
-            { Add-TypeData -TypeXml '<Types><Type></Type></Types>' -ErrorAction Stop } | should throw
+            { Add-TypeData -TypeXml '<Types><Type></Type></Types>' -ErrorAction Stop } | should -Throw
         }
     }
 }
@@ -1004,8 +1030,8 @@ describe 'Out-FormatData' {
         $fx = Write-FormatView -TypeName foo -Property bar |
             Out-FormatData
         $fxml = [xml]$fx
-        $fxml.FirstChild.NextSibling.LocalName | should be '#comment'
-        $fxml.FirstChild.NextSibling.NextSibling.LocalName | should be Configuration
+        $fxml.FirstChild.NextSibling.LocalName | should -Be '#comment'
+        $fxml.FirstChild.NextSibling.NextSibling.LocalName | should -Be Configuration
     }
 
     it 'Can combine SelectionSets, Controls, and Views' {
@@ -1022,11 +1048,11 @@ describe 'Out-FormatData' {
                 </Types>
             </SelectionSet>' -TypeName TN
         ) | Out-FormatData
-        ([xml]$fd).Configuration.ChildNodes.Count | should be 3
+        ([xml]$fd).Configuration.ChildNodes.Count | should -Be 3
     }
     context 'Fault Tolerance' {
         it 'Will complain when passed bad XML' {
-            { Out-FormatData -FormatXml '<blah/>'} | should throw
+            { Out-FormatData -FormatXml '<blah/>'} | should -Throw
         }
     }
 }
@@ -1036,12 +1062,12 @@ describe 'Out-TypeData' {
         $tx = Write-TypeView -TypeName foo -DefaultDisplay bar |
             Out-TypeData
         $txml = [xml]$tx
-        $txml.FirstChild.NextSibling.LocalName | should be '#Comment'
-        $txml.FirstChild.NextSibling.NextSibling.LocalName | should be Types
+        $txml.FirstChild.NextSibling.LocalName | should -Be '#Comment'
+        $txml.FirstChild.NextSibling.NextSibling.LocalName | should -Be Types
     }
     context 'Fault Tolerance' {
         it 'Will complain when passed bad XML' {
-            { Out-TypeData -TypeXml '<blah/>'} | should throw
+            { Out-TypeData -TypeXml '<blah/>'} | should -Throw
         }
     }
 }
@@ -1071,7 +1097,7 @@ describe 'Import-FormatView' {
                 Join-Path -ChildPath Formatting |
                 Push-Location
 
-            { Import-FormatView .\ThisFileDoesNotExist.format.xml} | should throw
+            { Import-FormatView .\ThisFileDoesNotExist.format.xml} | should -Throw
             Pop-Location
         }
     }
