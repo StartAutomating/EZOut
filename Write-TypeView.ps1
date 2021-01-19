@@ -77,8 +77,10 @@
     [Collections.IDictionary]$AliasProperty,
 
     # A collection of scripts that may create events.
-    # These will become ScriptMethods, prefixed by Send
-    # Another Script Method, Receive_NameOfEvent({}) will be created to receive events of this name
+    # These will become ScriptMethods.
+    # * Send_NameOfEvent will call the generator and optionally send an event.  Arguments will may be passed along to the event.
+    # * Register_NameOfEvent({}) will call Register-EngineEvent to register an event handler
+    # * Unregister_NameOfEvent([[PSEventSubscriber]) will call Unregister-EngineEvent to remove the handler.
     [ValidateScript({
         if ($_.Keys | Where-Object {$_-isnot [string]}) {
             throw "Must provide the names of events methods"
@@ -91,9 +93,10 @@
     [Collections.IDictionary]$EventGenerator,
 
     # A list of event names.
-    # Each event will become two script methods: Send$NameOfEvent and Receive$NameOfEvent
-    # Send$NameOfEvent will call New-Event with a SourceIdentifier derivied from the TypeName
-    # Receive$NameOfEvent will accept a ScriptBlock, and call Register-EngineEvent
+    # These will become ScriptMethods.
+    # * Send_NameOfEvent will call the generator and optionally send an event.  Arguments will be sent as event and message data.
+    # * Register_NameOfEvent({}) will call Register-EngineEvent to register an event handler
+    # * Unregister_NameOfEvent([[PSEventSubscriber]) will call Unregister-EngineEvent to remove the handler.
     [string[]]$EventName,
 
     # The default display.
@@ -137,18 +140,34 @@
     )
 
     begin {
-        $createReceiver = {
+        $RegisterMethod = {
             param(
             [Parameter(Mandatory)]
             [string]
             $SourceIdentifier
             )
-            [ScriptBlock]::Create({
-param([ScriptBlock]$EventHandler)
-}.ToString() + @"
-Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandler
+            [ScriptBlock]::Create(@"
+param([ScriptBlock]`$EventHandler, `$SourceIdentifier = '$SourceIdentifier')
+Register-EngineEvent -SourceIdentifier `$SourceIdentifier -Action `$EventHandler
 "@)
         }
+
+        $UnregisterMethod =
+            [ScriptBlock]::Create(@"
+param(`$EventHandler)
+if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
+    `$Eventhandler | Unregister-Event
+} elseif (`$eventHandler -is [string]) {
+    Get-EventSubscriber -SourceIdentifier `$EventHandler -ErrorAction SilentlyContinue  | Unregister-Event
+}  elseif (`$eventHandler -is [int]) {
+    Get-EventSubscriber -SubscriptionID `$EventHandler -ErrorAction SilentlyContinue | Unregister-Event
+} elseif (`$eventHandler -is [ScriptBlock]) {
+    Get-EventSubscriber |
+        Where-Object { (`$_.Action.Command -replace '\s') -eq (`$eventHandler -replace '\s')} | Unregister-Event
+} else {
+    throw "Handler must be a [PSEventSubscriber], [ScriptBlock], a [string] SourceIdentifier, or an [int]SubscriptionID"
+}
+"@)
     }
 
     process {
@@ -164,36 +183,42 @@ Register-EngineEvent -SourceIdentifier '$SourceIdentifier' -Action `$EventHandle
         if ($EventGenerator) { # Event Generators come first
             foreach ($evtGen in $EventGenerator.GetEnumerator()) {
                 $evt = $evtGen.Key.Substring(0,1).ToUpper() + $evtGen.Key.Substring(1)
-                $sendMethodName = "Send$evt"
-                $receiveMethodName = "Receive$evt"
-                if ($ScriptMethod[$sendMethodName] -or # If we already have send or receive,
-                    $ScriptMethod[$receiveMethodName]
+                $sendMethodName = "Send_$evt"
+                $registerMethodName = "Register_$evt"
+                $UnregisterMethodName = "Unregister_$evt"
+                if ($ScriptMethod[$sendMethodName] -or     # If we already have Send_,
+                    $ScriptMethod[$registerMethodName] -or # Register_,
+                    $ScriptMethod[$unregisterMethodName]   # Unregister_
                 ) {
                     # the user wants it that way.
                     continue
                 }
-                $ScriptMethod[$sendMethodName]    = $evtGen.Value
-                $ScriptMethod[$receiveMethodName] =
-                    & $CreateReceiver "$($TypeName -replace '^Deserialized\.').$($evtGen.Key)"
+                $ScriptMethod[$sendMethodName]     = $evtGen.Value
+                $ScriptMethod[$registerMethodName] =
+                    & $RegisterMethod "$($TypeName -replace '^Deserialized\.').$($evtGen.Key)"
+                $ScriptMethod[$UnregisterMethodName] =
+                    & $UnregisterMethod "$($TypeName -replace '^Deserialized\.').$($evtGen.Key)"
             }
         }
         elseif ($EventName) {
             foreach ($evtName in $EventName) {
                 $evt = $evtName.Substring(0,1).ToUpper() + $evtName.Substring(1)
-                $sendMethodName = "Send$evt"
-                $receiveMethodName = "Receive$evt"
-
-                if ($ScriptMethod[$sendMethodName] -or # If we already have send or receive,
-                    $ScriptMethod[$receiveMethodName]
+                $sendMethodName = "Send_$evt"
+                $registerMethodName = "Register_$evt"
+                $UnregisterMethodName = "Unregister_$evt"
+                if ($ScriptMethod[$sendMethodName] -or     # If we already have Send_,
+                    $ScriptMethod[$registerMethodName] -or # Register_,
+                    $ScriptMethod[$unregisterMethodName]   # Unregister_
                 ) {
                     # the user wants it that way.
                     continue
                 }
                 $evtSourceId = "$($TypeName -replace '^Deserialized\.').$evt"
-                $ScriptMethod[$sendMethodName]    = [ScriptBlock]::Create("
-                    New-Event -SourceIdentifier '$evtSourceId' -Sender `$this -EventArguments `$args
+                $ScriptMethod[$sendMethodName]     = [ScriptBlock]::Create("
+                    New-Event -SourceIdentifier '$evtSourceId' -Sender `$this -EventArguments `$args -MessageData `$args
                 ")
-                $ScriptMethod[$receiveMethodName] = & $CreateReceiver $evtSourceId
+                $ScriptMethod[$registerMethodName] = & $RegisterMethod $evtSourceId
+                $ScriptMethod[$unregisterMethodName] = & $unRegisterMethod $evtSourceId
             }
         }
 
