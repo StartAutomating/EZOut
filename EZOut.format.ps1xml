@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.8.4: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -102,13 +102,13 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 } while ($false)
 
 
-        . $EZOut_Indent $_.ProcessName
+        . ${EZOut_Indent} $_.ProcessName
     </ScriptBlock>
               </ExpressionBinding>
               <NewLine />
               <ExpressionBinding>
                 <ScriptBlock>
-        . $EZOut_Indent $_.Path
+        . ${EZOut_Indent} $_.Path
     </ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
@@ -157,7 +157,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -166,10 +166,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock> '&lt;'.Trim() </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -180,7 +180,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -193,7 +193,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>XmlAttributeControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -208,10 +208,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.InnerText'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.InnerText'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -220,7 +220,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$_.InnerText </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -236,7 +236,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>XmlNodeControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -248,10 +248,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -259,10 +259,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -270,7 +270,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -319,14 +319,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -374,13 +374,13 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <Text>(</Text>
               <ExpressionBinding>
@@ -445,23 +445,23 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>FieldType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -559,7 +559,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -569,10 +569,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -582,10 +582,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -594,7 +594,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock> ' ' +  $_.Name </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' (' </ScriptBlock>
@@ -657,23 +657,23 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>ParameterType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> '$' + $_.Name </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' </ScriptBlock>
@@ -758,23 +758,23 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>PropertyType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -821,7 +821,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.AttributeName'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.AttributeName'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -829,10 +829,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -843,10 +843,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.AttributeValue'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.AttributeValue'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -854,10 +854,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
+                <ScriptBlock>. ${EZOut_SetOutputStyle} -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -866,7 +866,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -874,7 +874,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_Indent</Name>
+      <Name>${EZOut_Indent}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -914,7 +914,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_SetOutputStyle</Name>
+      <Name>${EZOut_SetOutputStyle}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -952,7 +952,7 @@ if (-not ($canUseANSI -or $canUseHTML)) { return }
 $knownStreams = @{
     Output='';Error='BrightRed';Warning='BrightYellow';
     Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
-    Success='BrightGreen';Failure='Red';}
+    Success='BrightGreen';Failure='Red';Default=''}
 $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
 $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 $n =0
@@ -1111,7 +1111,7 @@ if ($canUseHTML) {
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_ClearOutputStyle</Name>
+      <Name>${EZOut_ClearOutputStyle}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -1175,7 +1175,7 @@ $BackgroundColor
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_Heading</Name>
+      <Name>${EZOut_Heading}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -1231,7 +1231,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_Heatmap</Name>
+      <Name>${EZOut_Heatmap}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -1343,6 +1343,199 @@ elseif ($Value -ge $Max)
       </CustomControl>
     </View>
     <View>
+      <Name>Get-Member-In-Color</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.PowerShell.Commands.MemberDefinition</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>TypeName</PropertyName>
+      </GroupBy>
+      <TableControl>
+        <AutoSize />
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MemberType</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Definition</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <!-- {ConditionalColor:"
+        if ($_.MemberType -like &apos;*property&apos;) {
+            if ($_.MemberType -eq &apos;property&apos;) {
+                &quot;Green&quot;
+            } else {
+                &quot;BrightGreen&quot;
+            }               
+        }
+        elseif ($_.MemberType -like &apos;*method&apos;) {
+            if ($_.MemberType -eq &apos;Method&apos;) {
+                &quot;Yellow&quot;
+            } else {
+                &quot;BrightYellow&quot;
+            }
+            
+        }
+        elseif ($_.MemberType -eq &apos;Event&apos;) {
+            &quot;Blue&quot;
+        }
+    "}-->
+              <TableColumnItem>
+                <ScriptBlock>$moduleName = 'EZOut'
+do {
+    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+    if (-not $lm) { continue } 
+    if ($lm.FormatPartsLoaded) { break }
+    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+            $ParentNode = $partNodeName.Node.ParentNode
+            "$($ParentNode.Name)={
+$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+        }
+    }) -join [Environment]::NewLine
+    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+        Import-Module -Global
+    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+    
+    if (-not $lm.OnRemove) {
+        $lm.OnRemove = $onRemove
+    } else {
+        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+    }
+    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+
+} while ($false)
+
+
+                $__ = $_
+                $ci = . {
+        if ($_.MemberType -like '*property') {
+            if ($_.MemberType -eq 'property') {
+                "Green"
+            } else {
+                "BrightGreen"
+            }               
+        }
+        elseif ($_.MemberType -like '*method') {
+            if ($_.MemberType -eq 'Method') {
+                "Yellow"
+            } else {
+                "BrightYellow"
+            }
+            
+        }
+        elseif ($_.MemberType -eq 'Event') {
+            "Blue"
+        }
+    }
+                $_ = $__
+                if ($ci -is [string]) {
+                    $ci = . ${EZOut_SetOutputStyle} $ci
+                } else {
+                    $ci = . ${EZOut_SetOutputStyle} @ci
+                }
+                $output = . {$_.'Name'}
+                @($ci; $output; . ${EZOut_ClearOutputStyle}) -join ""
+                </ScriptBlock>
+              </TableColumnItem>
+              <!-- {ConditionalColor:"
+        if ($_.MemberType -like &apos;*property&apos;) {
+            if ($_.MemberType -eq &apos;property&apos;) {
+                &quot;Green&quot;
+            } else {
+                &quot;BrightGreen&quot;
+            }               
+        }
+        elseif ($_.MemberType -like &apos;*method&apos;) {
+            if ($_.MemberType -eq &apos;Method&apos;) {
+                &quot;Yellow&quot;
+            } else {
+                &quot;BrightYellow&quot;
+            }
+            
+        }
+        elseif ($_.MemberType -eq &apos;Event&apos;) {
+            &quot;Blue&quot;
+        }
+    "}-->
+              <TableColumnItem>
+                <ScriptBlock>
+                $__ = $_
+                $ci = . {
+        if ($_.MemberType -like '*property') {
+            if ($_.MemberType -eq 'property') {
+                "Green"
+            } else {
+                "BrightGreen"
+            }               
+        }
+        elseif ($_.MemberType -like '*method') {
+            if ($_.MemberType -eq 'Method') {
+                "Yellow"
+            } else {
+                "BrightYellow"
+            }
+            
+        }
+        elseif ($_.MemberType -eq 'Event') {
+            "Blue"
+        }
+    }
+                $_ = $__
+                if ($ci -is [string]) {
+                    $ci = . ${EZOut_SetOutputStyle} $ci
+                } else {
+                    $ci = . ${EZOut_SetOutputStyle} @ci
+                }
+                $output = . {$_.'MemberType'}
+                @($ci; $output; . ${EZOut_ClearOutputStyle}) -join ""
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+        $findOverloads = [Regex]::new('(?&lt;=^|\))[\s\p{P}]{0,}(?&lt;Type&gt;\S{1,})\s{1,}(?&lt;Name&gt;\w{1,})', 'IgnoreCase', '00:00:01')
+        $definition = $_.definition
+        
+        $foundOverloads = @(foreach ($m in $findOverloads.Matches($Definition)) {$m.Groups["Type","Name"]})
+        
+        
+        $chars         = $definition.ToCharArray()
+        $overload      = $null
+        $overloadIndex = 0 
+        @(for($i = 0; $i -lt $chars.length; $i++) {
+            if (-not $overload) {
+                if ($foundOverloads[$overloadIndex].Index -eq $i) {                    
+                    $overload = $foundOverloads[$overloadIndex]
+                    if ($overload.Name -eq 'Type') {
+                        . ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'
+                    } else {
+                        . ${EZOut_SetOutputStyle} -ForegroundColor 'Warning'
+                    }
+                }
+
+            }
+            $chars[$i]
+            if ($overload -and ($i -eq ($overload.Index + $overload.Length))) {
+                $overload = $null
+                $overloadIndex++
+                . ${EZOut_ClearOutputStyle}
+            }
+            
+        }) -join ''
+    </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>System.Management.Automation.PSModuleInfoEZOut.RichModuleInfo</Name>
       <ViewSelectedBy>
         <TypeName>System.Management.Automation.PSModuleInfo</TypeName>
@@ -1386,10 +1579,37 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    . $EZOut_Heading $moduleNameVer -Level 1
+    . ${EZOut_Heading} $moduleNameVer -Level 1
     if ($module.Description) {
-        . $EZOut_Heading $module.Description -UnderlineLength $moduleNameVer.Length
+        . ${EZOut_Heading} $module.Description -UnderlineLength $moduleNameVer.Length
     }
+
+    $spots = $module.RootURL, $module.Link, $module.PrivateData.RootURL, $module.PrivateData.Link
+    $moduleRootUrl = 
+        foreach ($spot in $spots) { if ($spot) { $spot; break }}
+
+    $spots = $module.AzureDevOps, $module.ADO, $module.PrivateData.AzureDevOps, $module.PrivateData.ADO
+    $moduleAzureDevOps =
+        foreach ($spot in $spots) { if ($spot) { $spot; break }}
+
+    if ($moduleAzureDevOps -and 
+        $moduleAzureDevOps.Organization -and 
+        $moduleAzureDevOps.Project) {
+            $org, $project
+                $moduleAzureDevOps.Organization, $moduleAzureDevOps.Project
+
+            $build = $moduleAzureDevOps.Build
+            if (-not $build) {
+                $build = "$org.$project"
+            }
+            $branch = $moduleAzureDevOps.Branch
+            if (-not $branch) {
+                $branch = 'master'
+            }
+            
+        "[![Build Status](https://dev.azure.com/$org/$project/_apis/build/status/$build?branchName=$branch)](https://dev.azure.com/$org/$project/_build/)"  
+    }
+        
 
     $commandSection = if ($module.ExportedCommands.Count) {
 
@@ -1411,18 +1631,22 @@ $module = $_
         "|$(' ' * [Math]::Max($maxVerbLength - 4, 0))Verb|Noun$(' ' * [Math]::Max($maxNounLength - 4 + 1, 0))|"
         "|$('-' * [Math]::Max($maxVerbLength - 1, 0)):|:$('-' * [Math]::Max($maxNounLength, 0))|"
 
-        foreach ($_ in $byVerb) {
-            $v = "$($_.Name)"
+        foreach ($cmdByVerb in $byVerb) {
+            $v = "$($cmdByVerb.Name)"
 
             '|' +
                 ' ' * ($maxVerbLength - $v.Length) + $v + '|' +
                 $(
-                    $t = '-' + $_.Group[0].Noun
+                    $t = '-' + $cmdByVerb.Group[0].Noun
                     $t + ' ' * ([Math]::Max($maxNounLength - $t.Length + 1, 0)) + '|'
                 )
-            if ($_.Group.Count -gt 1) {               
-                foreach ($i in $_.Group[1..$($_.Group.Count -1)]) {
-                    '|' + " " * ($maxVerbLength) + '|-' + $i.Noun + ' ' * ([Math]::Max($maxNounLength - $i.Noun.Length, 0)) + '|'
+            if ($cmdByVerb.Group.Count -gt 1) {               
+                foreach ($i in $cmdByVerb.Group[1..$($cmdByVerb.Group.Count -1)]) {
+                    '|' + 
+                        " " * ($maxVerbLength) + 
+                    '|-' + $i.Noun + 
+                        ' ' * ([Math]::Max($maxNounLength - $i.Noun.Length, 0)) + 
+                    '|'
                 }
             }
         }
@@ -1528,7 +1752,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
                 $__ = $_
                 $ci = . {
-        . $EZOut_Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+        . ${EZOut_Heatmap} $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
 &lt;#        if ($_.NPM -le 1MB) { '#00FF00'}
         elseif ($_.NPM -le 256mb) { '#ffff00' }
         else {
@@ -1537,12 +1761,12 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = . ${EZOut_SetOutputStyle} $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    $ci = . ${EZOut_SetOutputStyle} @ci
                 }
                 $output = . { [long]($_.NPM / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; . ${EZOut_ClearOutputStyle}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:" 
@@ -1557,7 +1781,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>
                 $__ = $_
                 $ci = . { 
-        . $EZOut_Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        . ${EZOut_Heatmap} $_.PM -Min 16mb -Mid .5GB -Max 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
@@ -1566,12 +1790,12 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = . ${EZOut_SetOutputStyle} $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    $ci = . ${EZOut_SetOutputStyle} @ci
                 }
                 $output = . { [long]($_.PM / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; . ${EZOut_ClearOutputStyle}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:"
@@ -1586,7 +1810,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>
                 $__ = $_
                 $ci = . {
-        . $EZOut_Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        . ${EZOut_Heatmap} $_.WS -Min 16mb -Mid 512mb -Max 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
@@ -1595,12 +1819,12 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = . ${EZOut_SetOutputStyle} $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    $ci = . ${EZOut_SetOutputStyle} @ci
                 }
                 $output = . { [long]($_.WS / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; . ${EZOut_ClearOutputStyle}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
@@ -1755,14 +1979,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' * 1 </ScriptBlock>
@@ -1837,14 +2061,14 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
 
 } while ($false)
 
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+. ${EZOut_SetOutputStyle} -ForegroundColor 'Verbose'</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>. ${EZOut_ClearOutputStyle}</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' * 1 </ScriptBlock>
