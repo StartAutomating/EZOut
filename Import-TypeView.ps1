@@ -108,6 +108,7 @@
             $eventNames = @()
             $scriptPropertyGet = [Ordered]@{}
             $scriptPropertySet = [Ordered]@{}
+            $propertySets = [Ordered]@{}
             $aliasProperty = [Ordered]@{}
             $noteProperty = [Ordered]@{}
             $hideProperty = [Collections.Generic.List[string]]::new()
@@ -158,7 +159,7 @@
                         $scriptPropertySet[$propertyName] = $scriptBlock
                     }
                 }
-                elseif ($isScript -and         # If this is a script and it's an event 
+                elseif ($isScript -and         # If this is a script and it's an event
                     ($itemName -match '^@' -or # (prefaced with @ -or ending with .event.ps1)
                      $itemName -match '\.event\.ps1$'
                     )
@@ -199,6 +200,11 @@
                                 # Use each line of the file text as the name of a property to display
                                 $WriteTypeViewSplat.DefaultDisplay =
                                     $fileText -split '(?>\r\n|\n)' -ne ''
+                            }
+
+                            elseif ($itemName -like '*.propertySet') { # If it's a property set file (.propertyset.txt)
+                                $propertySets[$itemName -replace '\.propertySet$'] = # Create a property set with the file name.
+                                    $fileText -split '(?>\r\n|\n)' -ne '' # Each line will be treated as a name of a property.
                             }
                             elseif ($itemName -match '^@') {
                                 $eventNames += $itemName.Substring(1)
@@ -329,6 +335,9 @@ $stream.Dispose()
             }
             if ($aliasProperty.Count) {
                 $WriteTypeViewSplat.AliasProperty = $aliasProperty
+            }
+            if ($propertySets.Count) {
+                $WriteTypeViewSplat.PropertySet = $propertySets
             }
             if ($scriptPropertyGet.Count -or $scriptPropertySet.Count) {
                 $scriptProperties = [Ordered]@{}

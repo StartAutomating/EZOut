@@ -1102,3 +1102,47 @@ describe 'Import-FormatView' {
         }
     }
 }
+
+describe 'Import-TypeView' {
+    it 'Can create type files out of directories' {
+        $tmp =
+            if ($env:PIPELINE_WORKSPACE) { $env:PIPELINE_WORKSPACE } 
+            elseif ($env:TEMP) { "$env:TEMP" } 
+            else { "/$tmp" }
+        $tmpDir = New-Item -ItemType Directory -Path (Join-Path $tmp "$(Get-Random)") 
+        $testTypeDir = New-Item -ItemType Directory -Path (Join-Path $tmpDir.FullName "TestType$($tmpDir.Name)")
+        Push-Location $testTypeDir.FullName
+        Set-Content get_Foo.txt Foo
+        Set-Content Alias.psd1 '@{Foo2="Foo"}'
+        Set-Content DefaultDisplay.txt RandomNumber
+        Set-Content get_RandomNumber.ps1 {Get-Random}
+        Set-Content set_RandomNumber.ps1 {$args}
+        Set-Content .HiddenProperty.txt Value
+        Set-Content XmlProperty.xml '<Message language="en-us">hello</Message>'
+        Set-Content DefaultDisplay.txt RandomNumber
+        'Foo', 'RandomNumber' -join [Environment]::NewLine | 
+            Set-Content Example.PropertySet.txt
+        
+        $typesXml = 
+            [xml](Import-TypeView -FilePath $tmpDir.FullName | Out-TypeData)
+        
+        $typesXml | Add-TypeData
+        $o = [PSCustomObject]@{PSTypeName=$testTypeDir.Name;N=1}
+        $o.RandomNumber | Should -BeGreaterThan 1
+        $o.HiddenProperty | Should -Be Value
+        Pop-Location
+        Remove-Item -Recurse -Force $tmpDir
+        Clear-TypeData
+    }
+    context 'Fault Tolerance' {
+        it 'Will error if the file does not exist' {
+            Get-Module EZOut |
+                Split-Path |
+                Join-Path -ChildPath Formatting |
+                Push-Location
+
+            { Import-TypeView .\ThisFileDoesNotExist.types.xml -ErrorAction Stop } | should -Throw
+            Pop-Location
+        }
+    }
+}
