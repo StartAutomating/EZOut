@@ -1105,8 +1105,11 @@ describe 'Import-FormatView' {
 
 describe 'Import-TypeView' {
     it 'Can create type files out of directories' {
-        $tmp = if ($env:TEMP) { "$env:TEMP" } else { "/$tmp" }
-        $tmpDir = New-Item -ItemType Directory -Path (Join-Path $tmp "$(Get-Random)")
+        $tmp =
+            if ($env:PIPELINE_WORKSPACE) { $env:PIPELINE_WORKSPACE } 
+            elseif ($env:TEMP) { "$env:TEMP" } 
+            else { "/$tmp" }
+        $tmpDir = New-Item -ItemType Directory -Path (Join-Path $tmp "$(Get-Random)") 
         $testTypeDir = New-Item -ItemType Directory -Path (Join-Path $tmpDir.FullName "TestType$($tmpDir.Name)")
         Push-Location $testTypeDir.FullName
         Set-Content get_Foo.txt Foo
@@ -1117,12 +1120,12 @@ describe 'Import-TypeView' {
         Set-Content .HiddenProperty.txt Value
         Set-Content XmlProperty.xml '<Message language="en-us">hello</Message>'
         Set-Content DefaultDisplay.txt RandomNumber
-        'Foo', 'RandomNumber' -join [Environment]::NewLine |
+        'Foo', 'RandomNumber' -join [Environment]::NewLine | 
             Set-Content Example.PropertySet.txt
-
-        $typesXml =
+        
+        $typesXml = 
             [xml](Import-TypeView -FilePath $tmpDir.FullName | Out-TypeData)
-
+        
         $typesXml | Add-TypeData
         $o = [PSCustomObject]@{PSTypeName=$testTypeDir.Name;N=1}
         $o.RandomNumber | Should -BeGreaterThan 1
