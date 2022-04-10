@@ -1,26 +1,14 @@
 ﻿$colorNameAndMemberType = 
     {
-        if ($_.MemberType -like '*property') {
-            if ($_.MemberType -eq 'property') {
-                "Green"
-            } else {
-                "BrightGreen"
-            }               
+        if ($_.MemberType -like '*property*') {        
+            "Success"
         }
-        elseif ($_.MemberType -like '*method') {
-            if ($_.MemberType -eq 'Method') {
-                "Yellow"
-            } else {
-                "BrightYellow"
-            }
-            
-        }
-        elseif ($_.MemberType -eq 'Event') {
-            "Blue"
-        }
-    }    
+        elseif ($_.MemberType -like '*method' -or $_.MemberType -eq 'Event') {
+            "Warning"
+        }        
+    }
 
-Write-FormatView -TypeName Microsoft.PowerShell.Commands.MemberDefinition -Name Get-Member-In-Color -Property Name, MemberType, Definition -ColorProperty @{
+Write-FormatView -TypeName Microsoft.PowerShell.Commands.MemberDefinition -Property Name, MemberType, Definition -ColorProperty @{
     Name = $colorNameAndMemberType
     MemberType = $colorNameAndMemberType    
 } -GroupByProperty TypeName -VirtualProperty @{
