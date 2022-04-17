@@ -530,7 +530,7 @@ describe "Write-FormatViewExpression" {
         $fvXml = [xml]$fv
 
         $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
-            should -Belike '*$setOutputStyle*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
+            should -Belike '*Format-RichText*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
     }
 
     it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
