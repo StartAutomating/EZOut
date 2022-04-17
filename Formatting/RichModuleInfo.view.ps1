@@ -1,6 +1,4 @@
-﻿[OutputType([Management.Automation.PSModuleInfo])]
-[PSTypeName('EZOut.RichModuleInfo')]
-param($_ = (Get-Module EZOut))
+﻿Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo", "EZOut.RichModuleInfo" -Action {
 $module = $_
 @(
     $moduleNameVer = $module.Name + $(
@@ -8,9 +6,9 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    . $Heading $moduleNameVer -Level 1
+    Format-Markdown -Heading $moduleNameVer -HeadingSize 2
     if ($module.Description) {
-        . $heading $module.Description -UnderlineLength $moduleNameVer.Length
+        Format-Markdown -Heading $module.Description -HeadingSize 3
     }
 
     $commandSection = if ($module.ExportedCommands.Count) {
@@ -26,6 +24,7 @@ $module = $_
             Select-Object -ExpandProperty Maximum
 
         $maxNounLength = $module.ExportedCommands.Values |
+            Where-Object { $_.Noun } |
             Select-Object -ExpandProperty Noun |
             Measure-Object -Property Length -Maximum |
             Select-Object -ExpandProperty Maximum
@@ -71,3 +70,4 @@ $module = $_
         }
     }
 ) -join [Environment]::NewLine
+}
