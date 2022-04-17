@@ -145,8 +145,8 @@
         }
 
         foreach ($n in 1..$count) {
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
-                $colorize = [ScriptBlock]::Create(". `$SetOutputStyle $(@(
+            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {                
+                $colorize = [ScriptBlock]::Create("@(Format-RichText $(@(
                     if ($ForegroundColor) {
                         "-ForegroundColor '$ForeGroundColor'"
                     }
@@ -156,7 +156,8 @@
                     if ($Bold) { '-Bold' }
                     if ($Underline) { '-Underline'}
                     if ($Invert) { '-Invert' }
-                ) -join ' ')")
+                    '-NoClear'
+                ) -join ' ')) -join ''")
                 Write-FormatViewExpression -ScriptBlock $colorize
             }
             $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
@@ -200,8 +201,9 @@ $if")
                 "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
                 $xOut.Dispose()
             }
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
-                $(Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create('. $ClearOutputStyle')))
+            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline -or $Invert) {
+
+                Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear')))
             }
         }
     }
