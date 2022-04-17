@@ -8,7 +8,7 @@
     }
 }
 
-Write-FormatView -TypeName System.Diagnostics.Process -Property Handles, 'NPM(K)', 'PM(K)','WS(K)','CPU(S)', 'ID', 'SI' -GroupByProperty ProcessName -GroupAction ProcessGroupControl -VirtualProperty @{
+Write-FormatView -TypeName System.Diagnostics.Process -Property Handles, 'NPM(K)', 'PM(K)','WS(K)','CPU(S)', 'ID', 'SI' -VirtualProperty @{
     'NPM(K)' = { [long]($_.NPM / 1024) } 
     'PM(K)' = { [long]($_.PM / 1024) }
     'WS(K)' = { [long]($_.WS / 1024) }
@@ -19,7 +19,7 @@ Write-FormatView -TypeName System.Diagnostics.Process -Property Handles, 'NPM(K)
     }
 } -ColorProperty @{
     'NPM(K)' = {
-        . $Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+        Format-Heatmap -InputObject $_.NPM -HeatMapMin 16mb -HeatMapMiddle .5gb -HeatMapMax 1gb 
 <#        if ($_.NPM -le 1MB) { '#00FF00'}
         elseif ($_.NPM -le 256mb) { '#ffff00' }
         else {
@@ -27,7 +27,7 @@ Write-FormatView -TypeName System.Diagnostics.Process -Property Handles, 'NPM(K)
         }#>
     }
     'PM(K)' = { 
-        . $Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        Format-Heatmap -InputObject $_.PM -HeatMapMin 16mb -HeatMapMiddle .5GB -HeatMapMax 1gb 
         <#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
@@ -35,7 +35,7 @@ Write-FormatView -TypeName System.Diagnostics.Process -Property Handles, 'NPM(K)
         }#>
     }
     'WS(K)' = {
-        . $Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        Format-Heatmap -InputObject $_.WS -HeatMapMin 16mb -HeatMapMiddle 512mb -HeatMapMax 1gb 
         <#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
