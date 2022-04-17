@@ -23,16 +23,25 @@ function Format-RichText
         return $true
     })]
     param(
+    # The input object
     [Parameter(ValueFromPipeline)]
     [PSObject]
     $InputObject,
+    # The foreground color
     [string]$ForegroundColor,
+    # The background color
     [string]$BackgroundColor,
+    # If set, will render as bold
     [switch]$Bold,
+    # If set, will render as blinking (not supported in all terminals or HTML)
     [switch]$Blink,
+    # If set, will render as strikethru
     [switch]$Strikethru,
+    # If set, will underline text
     [switch]$Underline,
+    # If set, will invert text
     [switch]$Invert,
+    # If set, will not clear formatting
     [switch]$NoClear
     )    
 
@@ -127,7 +136,7 @@ function Format-RichText
 
         
         
-                if ($hc -and -not $hc.StartsWith('#') -and -not $hc.StartsWith('' + [char]0x1b)) {
+                if ($hc -and $hc -notmatch '^[\#\e]') {
                     $placesToLook=
                         @(if ($hc.Contains('.')) {
                             $module, $setting = $hc -split '\.', 2
