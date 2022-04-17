@@ -143,7 +143,18 @@ function Format-Markdown
         if ($HeadingSize -or $Heading) 
         {  
             if (-not $HeadingSize) { $HeadingSize = 2} # If the -HeadingSize was not set, set it to 2.
-            ("#"*$HeadingSize) + " $(if ($Heading) { $Heading} else { $inputObject | LinkInput})" # Output the -Heading or the -InputObject.
+            $headingContent = "$(if ($Heading) { $Heading} else { $inputObject | LinkInput})"
+            if ($HeadingSize -eq 1) {                
+                $headingContent
+                '=' * [Math]::Max($headingContent.Length, 3)
+            }
+            elseif ($HeadingSize -eq 2) {
+                $headingContent
+                '-' * [Math]::Max($headingContent.Length, 3)
+            }
+            else  {
+                ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
+            }
         }
         # If -Code or -CodeLanguage was provided, render a Markdown code block.
         elseif ($Code -or $CodeLanguage)
