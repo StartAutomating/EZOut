@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<?xml version="1.0" encoding="utf-16"?>
+<!-- Generated with EZOut 1.8.5: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -11,6 +11,29 @@
     </SelectionSet>
   </SelectionSets>
   <Controls>
+    <Control>
+      <Name>FileSystemTypes-GroupingFormat</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <Frame>
+                <LeftIndent>4</LeftIndent>
+                <CustomItem>
+                  <Text AssemblyName="System.Management.Automation" BaseName="FileSystemProviderStrings" ResourceId="DirectoryDisplayGrouping" />
+                  <ExpressionBinding>
+                    <ScriptBlock>
+                                            $_.PSParentPath.Replace("Microsoft.PowerShell.Core\FileSystem::", "")                                                  
+                                        </ScriptBlock>
+                  </ExpressionBinding>
+                  <NewLine />
+                </CustomItem>
+              </Frame>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
     <Control>
       <Name>FileSystemTypes.TreeNode</Name>
       <CustomControl>
@@ -77,38 +100,40 @@ $script:TreeDepth++;</ScriptBlock>
             <CustomItem>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
 
-
-        . $EZOut_Indent $_.ProcessName
+        . ${EZOut_Indent} $_.ProcessName
     </ScriptBlock>
               </ExpressionBinding>
               <NewLine />
               <ExpressionBinding>
                 <ScriptBlock>
-        . $EZOut_Indent $_.Path
+        . ${EZOut_Indent} $_.Path
     </ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
@@ -133,31 +158,33 @@ $script:TreeDepth++;</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -166,10 +193,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock> '&lt;'.Trim() </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -180,7 +207,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -193,7 +220,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>XmlAttributeControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -208,10 +235,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.InnerText'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.InnerText' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -220,7 +247,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>$_.InnerText </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.InnerText' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -236,7 +263,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>XmlNodeControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -248,10 +275,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Element'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -259,10 +286,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Tag'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -270,7 +297,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -295,38 +322,40 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -350,37 +379,39 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <Text>(</Text>
               <ExpressionBinding>
@@ -421,47 +452,49 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>FieldType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -535,31 +568,33 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -569,10 +604,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -582,10 +617,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ItemSelectionCondition>
@@ -594,7 +629,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock> ' ' +  $_.Name </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' (' </ScriptBlock>
@@ -633,47 +668,49 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>ParameterType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> '$' + $_.Name </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' </ScriptBlock>
@@ -734,47 +771,49 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>PropertyType</PropertyName>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'Warning'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <PropertyName>Name</PropertyName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -797,31 +836,33 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
             <CustomItem>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.AttributeName'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.AttributeName' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -829,10 +870,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.AttributeName' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Punctuation' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -843,10 +884,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Punctuation' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.AttributeValue'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.AttributeValue' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -854,10 +895,10 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.AttributeValue' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_SetOutputStyle -ForegroundColor 'EZOut.Xml.Punctuation'</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Punctuation' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>
@@ -866,7 +907,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Punctuation' ) -join ''</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -874,7 +915,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_Indent</Name>
+      <Name>${EZOut_Indent}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
@@ -914,196 +955,313 @@ if ($Request -or $Host.UI.SupportsHTML) {
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_SetOutputStyle</Name>
+      <Name>${EZOut_Format-RichText}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
             <CustomItem>
               <ExpressionBinding>
-                <ScriptBlock>&lt;#
-.Synopsis
-    Adds style to a format output
-.Description
-    Adds style information to a format output, including:
+                <ScriptBlock>
+    &lt;#
+    .Synopsis
+        Formats the text color of output
+    .Description
+        Formats the text color of output
 
-    * ForegroundColor
-    * BackgroundColor
-    * Bold
-    * Underline
-.Notes
-    Stylized Output works in two contexts at present:
-    * Rich consoles (Windows Terminal, PowerShell.exe, Pwsh.exe) (when $host.UI.SupportsVirtualTerminal)
-    * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))
+        * ForegroundColor
+        * BackgroundColor
+        * Bold
+        * Underline
+    .Notes
+        Stylized Output works in two contexts at present:
+        * Rich consoles (Windows Terminal, PowerShell.exe, Pwsh.exe) (when $host.UI.SupportsVirtualTerminal)
+        * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))        
+    #&gt;
+    [Management.Automation.Cmdlet("Format","Object")]
+    [ValidateScript({
+        $canUseANSI     = $host.UI.SupportsVirtualTerminal
+        $canUseHTML     = $Request -or $host.UI.SupportsHTML -or $OutputMode -eq 'HTML'
+        if (-not ($canUseANSI -or $canUseHTML)) { return $false}
+        return $true
+    })]
+    param(
+    # The input object
+    [Parameter(ValueFromPipeline)]
+    [PSObject]
+    $InputObject,
+    # The foreground color
+    [string]$ForegroundColor,
+    # The background color
+    [string]$BackgroundColor,
+    # If set, will render as bold
+    [switch]$Bold,
+    # If set, will render as blinking (not supported in all terminals or HTML)
+    [switch]$Blink,
+    # If set, will render as strikethru
+    [switch]$Strikethru,
+    # If set, will underline text
+    [switch]$Underline,
+    # If set, will invert text
+    [switch]$Invert,
+    # If set, will not clear formatting
+    [switch]$NoClear
+    )    
 
-    IsFormatPart: true
-#&gt;
-param(
-[string]$ForegroundColor,
-[string]$BackgroundColor,
-[switch]$Bold,
-[switch]$Underline,
-[switch]$Invert
-)
+    begin {
+        $canUseANSI     = $host.UI.SupportsVirtualTerminal
+        $canUseHTML     = $Request -or $host.UI.SupportsHTML -or $OutputMode -eq 'HTML'
+        $knownStreams = @{
+            Output='';Error='BrightRed';Warning='BrightYellow';
+            Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
+            Success='BrightGreen';Failure='Red';Default=''}
+        $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
+        $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 
-$canUseANSI = $host.UI.SupportsVirtualTerminal
-$canUseHTML = $Request -or $host.UI.SupportsHTML
-if (-not ($canUseANSI -or $canUseHTML)) { return }
-
-$knownStreams = @{
-    Output='';Error='BrightRed';Warning='BrightYellow';
-    Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
-    Success='BrightGreen';Failure='Red';}
-$standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
-$brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
-$n =0
-$cssClasses = @()
-$styleAttributes =
-    @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
-        $n++
-        if (-not $hc) { continue }
-        if ($hc[0] -eq [char]0x1b) {
-            if ($canUseANSI) { 
-                $hc; continue
-            }
-        }
-
-        $ansiStartPoint = if ($n -eq 1) { 30 } else { 40 } 
-        if ($knownStreams.ContainsKey($hc)) {
-            $i = $brightColors.IndexOf($knownStreams[$hc])
-            if ($canUseHTML) {
-                $cssClasses += $hc
-            } else {
-                if ($i -ge 0 -and $canUseANSI) {
-                    '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
-                } else {
-                    $i = $standardColors.IndexOf($knownStreams[$hc])
-                    if ($i -ge 0 -and $canUseANSI) {
-                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
-                    } elseif ($i -le 0 -and $canUseANSI) {                        
-                        '' + [char]0x1b + "[$($ansistartpoint + 8):5m"
+        $n =0
+        $cssClasses = @()
+        $styleAttributes =
+            @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
+                $n++
+                if (-not $hc) { continue }
+                if ($hc[0] -eq [char]0x1b) {
+                    if ($canUseANSI) { 
+                        $hc; continue
                     }
                 }
-            }
-            continue nextColor
-        }
-        elseif ($standardColors -contains $hc) {
-            for ($i = 0; $i -lt $standardColors.Count;$i++) {
-                if ($standardColors[$i] -eq $hc) {
-                    if ($canUseANSI -and -not $canUseHTML) {
-                        '' + [char]0x1b + "[$($ansiStartPoint + $i)m"
+        
+                $ansiStartPoint = if ($n -eq 1) { 30 } else { 40 } 
+                if ($knownStreams.ContainsKey($hc)) {
+                    $i = $brightColors.IndexOf($knownStreams[$hc])
+                    if ($canUseHTML) {
+                        $cssClasses += $hc
                     } else {
-                        $cssClasses += $standardColors[$i]
+                        if ($i -ge 0 -and $canUseANSI) {
+                            '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                        } else {
+                            $i = $standardColors.IndexOf($knownStreams[$hc])
+                            if ($i -ge 0 -and $canUseANSI) {
+                                '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                            } elseif ($i -le 0 -and $canUseANSI) {                        
+                                '' + [char]0x1b + "[$($ansistartpoint + 8):5m"
+                            }
+                        }
                     }
                     continue nextColor
                 }
-            }
-        } elseif ($brightColors -contains $hc) {
-            for ($i = 0; $i -lt $brightColors.Count;$i++) {
-                if ($brightColors[$i] -eq $hc) {
-                    if ($canUseANSI -and -not $canUseHTML) {
-                        '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
-                    } else {
-                        $cssClasses += $standardColors[$i]
+                elseif ($standardColors -contains $hc) {
+                    for ($i = 0; $i -lt $standardColors.Count;$i++) {
+                        if ($standardColors[$i] -eq $hc) {
+                            if ($canUseANSI -and -not $canUseHTML) {
+                                '' + [char]0x1b + "[$($ansiStartPoint + $i)m"
+                            } else {
+                                $cssClasses += $standardColors[$i]
+                            }
+                            continue nextColor
+                        }
                     }
-                    continue nextColor
+                } elseif ($brightColors -contains $hc) {
+                    for ($i = 0; $i -lt $brightColors.Count;$i++) {
+                        if ($brightColors[$i] -eq $hc) {
+                            if ($canUseANSI -and -not $canUseHTML) {
+                                '' + [char]0x1b + "[1;$($ansiStartPoint + $i)m"
+                            } else {
+                                $cssClasses += $standardColors[$i]
+                            }
+                            continue nextColor
+                        }
+                    }
+                }                
+                elseif ($psStyle -and $psStyle.Formatting.$hc -and 
+                    $psStyle.Formatting.$hc -match '^\e') {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        $psStyle.Formatting.$hc
+                    } else {
+                        $cssClasses += "formatting-$hc"
+                    }
                 }
-            }
-        }
-
-
-        if ($hc -and -not $hc.StartsWith('#')) { 
-            $placesToLook=
-                @(if ($hc.Contains('.')) {
-                    $module, $setting = $hc -split '\.', 2
-                    $theModule = Get-Module $module
-                    $theModule.PrivateData.Color,
-                        $theModule.PrivateData.Colors,
-                        $theModule.PrivateData.Colour,
-                        $theModule.PrivateData.Colours,
-                        $theModule.PrivateData.EZOut,
-                        $global:PSColors,
-                        $global:PSColours
-                } else {
-                    $setting = $hc
-                    $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
-                })
-
-            foreach ($place in $placesToLook) {
-                if (-not $place) { continue }
-                foreach ($propName in $setting -split '\.') {
-                    $place = $place.$propName
-                    if (-not $place) { break }
+                elseif (-not $n -and $psStyle -and $psStyle.Foreground.$hc -and 
+                    $psStyle.Foreground.$hc -match '^\e' ) {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        $psStyle.Foreground.$hc
+                    } else {
+                        $cssClasses += "foreground-$hc"
+                    }                   
                 }
-                if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
-                    $hc = $place
-                    continue
+                elseif ($n -and $psStyle -and $psStyle.Background.$hc -and
+                    $psStyle.Background.$hc -match '^\e') {
+                    if ($canUseANSI -and -not $canUseHTML) {
+                        $psStyle.Background.$hc
+                    } else {
+                        $cssClasses += "background-$hc"
+                    }                    
                 }
-            }
-            if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
-                continue
-            }
-        }
-        $r,$g,$b = if ($hc.Length -eq 7) {
-            [int]::Parse($hc[1..2]-join'', 'HexNumber')
-            [int]::Parse($hc[3..4]-join '', 'HexNumber')
-            [int]::Parse($hc[5..6] -join'', 'HexNumber')
-        }elseif ($hc.Length -eq 4) {
-            [int]::Parse($hc[1], 'HexNumber') * 16
-            [int]::Parse($hc[2], 'HexNumber') * 16
-            [int]::Parse($hc[3], 'HexNumber') * 16
-        }
 
-        if ($canUseHTML) {
-            if ($n -eq 1) { "color:$hc" }
-            elseif ($n -eq 2) { "background-color:$hc"} 
-        }
-        elseif ($canUseANSI) {
-            if ($n -eq 1) { [char]0x1b+"[38;2;$r;$g;${b}m" }
-            elseif ($n -eq 2) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+        
+        
+                if ($hc -and $hc -notmatch '^[\#\e]') {
+                    $placesToLook=
+                        @(if ($hc.Contains('.')) {
+                            $module, $setting = $hc -split '\.', 2
+                            $theModule = Get-Module $module
+                            $theModule.PrivateData.Color,
+                                $theModule.PrivateData.Colors,
+                                $theModule.PrivateData.Colour,
+                                $theModule.PrivateData.Colours,
+                                $theModule.PrivateData.EZOut,
+                                $global:PSColors,
+                                $global:PSColours
+                        } else {
+                            $setting = $hc
+                            $moduleColorSetting = $theModule.PrivateData.PSColors.$setting
+                        })
+        
+                    foreach ($place in $placesToLook) {
+                        if (-not $place) { continue }
+                        foreach ($propName in $setting -split '\.') {
+                            $place = $place.$propName
+                            if (-not $place) { break }
+                        }
+                        if ($place -and "$place".StartsWith('#') -and 4,7 -contains "$place".Length) {
+                            $hc = $place
+                            continue
+                        }
+                    }
+                    if (-not $hc.StartsWith -or -not $hc.StartsWith('#')) {
+                        continue
+                    }
+                }
+                $r,$g,$b = if ($hc.Length -eq 7) {
+                    [int]::Parse($hc[1..2]-join'', 'HexNumber')
+                    [int]::Parse($hc[3..4]-join '', 'HexNumber')
+                    [int]::Parse($hc[5..6] -join'', 'HexNumber')
+                }elseif ($hc.Length -eq 4) {
+                    [int]::Parse($hc[1], 'HexNumber') * 16
+                    [int]::Parse($hc[2], 'HexNumber') * 16
+                    [int]::Parse($hc[3], 'HexNumber') * 16
+                }
+        
+                if ($canUseHTML) {
+                    if ($n -eq 1) { "color:$hc" }
+                    elseif ($n -eq 2) { "background-color:$hc"} 
+                }
+                elseif ($canUseANSI) {
+                    if ($n -eq 1) { [char]0x1b+"[38;2;$r;$g;${b}m" }
+                    elseif ($n -eq 2) { [char]0x1b+"[48;2;$r;$g;${b}m" }
+                }
+                
+            })
+        
+        
+        if ($Bold) {
+            $styleAttributes += 
+                if ($canUseHTML) {
+                    "font-weight:bold"
+                }
+                elseif ($canUseANSI) 
+                {
+                    '' + [char]0x1b + "[1m"
+                }
         }
         
-    })
-
-
-if ($Bold) {
-    $styleAttributes += 
-        if ($canUseHTML) {
-            "font-weight:bold"
+        if ($Underline) {
+            $styleAttributes += 
+                if ($canUseHTML) {
+                    "text-decoration:underline"
+                } elseif ($canUseANSI) {
+                    '' +[char]0x1b + "[4m"
+                }
         }
-        elseif ($canUseANSI) 
-        {
-            [char]0x1b + "[1m"
-        }
-}
 
-if ($Underline) {
-    $styleAttributes += 
-        if ($canUseHTML) {
-            "text-decoration:underline"
-        } elseif ($canUseANSI) {
-            [char]0x1b + "[4m"
+        if ($Strikethru) {
+            $styleAttributes += 
+                if ($canUseHTML) {
+                    "text-decoration: line-through"
+                } elseif ($canUseANSI) {
+                    '' +[char]0x1b + "[4m"
+                }
         }
-}
 
-if ($Invert) {
-    $styleAttributes += 
-        if ($canUseHTML) {
-            "filter:invert(100%)"
-        } elseif ($canUseANSI) {
-            [char]0x1b + "[7m"            
+        if ($Blink) {
+            $styleAttributes += 
+                if ($canUseHTML) {
+                    
+                } elseif ($canUseANSI) {
+                    '' +[char]0x1b + "[5m"
+                }
         }
-}
+        
+        if ($Strikethru) {
+            $styleAttributes += 
+                    if ($canUseHTML) {
+                        "text-decoration: line-through"
+                    } elseif ($canUseANSI) {
+                        [char]0x1b + "[9m"
+                    }
+        }
+        
+        if ($Invert) {
+            $styleAttributes += 
+                if ($canUseHTML) {
+                    "filter:invert(100%)"
+                } elseif ($canUseANSI) {
+                    [char]0x1b + "[7m"            
+                }
+        }
+        
+        $header =
+            if ($canUseHTML) {        
+                "&lt;span$(
+                    if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
+                )$(
+                    if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
+                )&gt;"
+            } elseif ($canUseANSI) {
+                $styleAttributes -join ''
+            }
+    }
 
-if ($canUseHTML) {
-   
-    "&lt;span$(
-        if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
-    )$(
-        if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
-    )&gt;"
-} elseif ($canUseANSI) {
-    $styleAttributes -join ''
-}</ScriptBlock>
+    process {
+        if ($header) {
+            "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+        }
+        elseif ($inputObject) {
+            ($inputObject | Out-String).Trim()
+        }
+    }
+
+    end {
+        
+        if (-not $NoClear) {
+            if ($canUseHTML) {
+                "&lt;/span&gt;"
+            }
+            elseif ($canUseANSI) {
+                if ($Underline) {
+                    '' + [char]0x1b + "[24m"
+                }
+                if ($Strikethru) {
+                    '' + [char]0x1b + "[29m"
+                }
+                if ($Bold) {        
+                    '' + [char]0x1b + "[21m" + '' + [char]0x1b + "[22m"
+                }
+                if ($Invert) {
+                    '' + [char]0x1b + '[27m'
+                }
+                if ($ForegroundColor) {
+                    '' + [char]0x1b + '[39m'
+                }
+                if ($BackgroundColor) {
+                    '' + [char]0x1b + '[49m'
+                }
+            
+                if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
+                    '' + [char]0x1b + '[0m'
+                }
+            }
+        }
+    }
+</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1111,63 +1269,299 @@ if ($canUseHTML) {
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_ClearOutputStyle</Name>
+      <Name>${EZOut_Format-Markdown}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
             <CustomItem>
               <ExpressionBinding>
-                <ScriptBlock>&lt;#
-.Synopsis
-    Clears the output style
-.Description
-    Clears ANSI output style or closes the most recent span element.
-
-    ANSI stylization can be toggled off individually (for instance, to stop applying an -Underline but leave the color unchanged)
-.Notes
-    IsFormatPart: true
-#&gt;
-param(
-# If set, will explicitly clear ANSI Bold
-[switch]
-$Bold,
-# If set, will explicitly clear ANSI Underline
-[switch]
-$Underline,
-# If set, will explicitly clear ANSI Invert
-[switch]
-$Invert,
-# If set, will explicitly clear ANSI Foreground Color
-[switch]
-$ForegroundColor,
-# If set, will explicitly clear ANSI Background Color
-[switch]
-$BackgroundColor
-)
-@(if ($request -or $host.UI.SupportsHTML) {
-    "&lt;/span&gt;"
-} elseif ($Host.UI.SupportsVirtualTerminal) {
-    if ($Underline) {
-        [char]0x1b + "[24m"
-    }
-    if ($Bold) {        
-        [char]0x1b + "[21m"
-    }
-    if ($Invert) {
-        [char]0x1b + '[27m'
-    }
-    if ($ForegroundColor) {
-        [char]0x1b + '[39m'
-    }
-    if ($BackgroundColor) {
-        [char]0x1b + '[49m'
-    }
-
-    if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
-        [char]0x1b + '[0m'
-    }
+                <ScriptBlock>
+    &lt;#
+    .SYNOPSIS
+        Formats an object as Markdown
+    .DESCRIPTION
+        Formats an object as Markdown, with many options to work with
+    .EXAMPLE
+        Format-Markdown -ScriptBlock {
+            Get-Process
+        }
+    .EXAMPLE
+         1..6 | Format-Markdown  -HeadingSize { $_ }
+    #&gt;
+    [Management.Automation.Cmdlet("Format","Object")]
+    [ValidateScript({return $true})]
+    param(
+    [Parameter(ValueFromPipeline,ValueFromPipelineByPropertyName)]
+    [PSObject]
+    $InputObject,
     
-}) -join ''</ScriptBlock>
+    # If set, will treat the -InputObject as a paragraph.
+    # This is the default for strings, booleans, numbers, and other primitive types.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $MarkdownParagraph,
+
+    # If set, will generate a markdown table.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $MarkdownTable,
+
+    # An array of properties.  Providing this implies -MarkdownTable
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [PSObject[]]
+    $Property,
+
+    # A heading.
+    # If provided without -HeadingSize, -HeadingSize will default to 2.
+    # If provided with -InputObject, -Heading will take priority.
+    [Parameter(ValueFromPipelineByPropertyName)]    
+    [string]
+    $Heading,
+
+    # The heading size (1-6)
+    # If provided without -Heading, the -InputObject will be considered to be a heading.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(1,6)]
+    [int]
+    $HeadingSize,
+
+    # If set, will create a link.  The -InputObject will be used as the link content    
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $Link,
+
+    # If set, will generate a bullet point list.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('BulletpointList')]
+    [switch]
+    $BulletPoint,
+    
+    # If set, bullet or numbered list items will have a checkbox.
+    # Each piped -InputObject will be an additional list item.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Checkbox,
+
+    # If set, bullet or numbered list items will be checked.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Checked,
+
+    # If set, will generate a numbered list.
+    # Each piped -InputObject will be an additional list item.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $NumberedList,
+
+    # If set, will generate a block quote.
+    # Each line of the -InputObject will be block quoted.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $BlockQuote,
+
+    # If set, will generate a block quote of a particular depth.
+    # Each line of the -InputObject will be block quoted.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(1,3)]
+    [int]
+    $BlockQuoteDepth,
+        
+    # If provided, will create a markdown numbered list with this particular item as the number.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [int]
+    $Number,
+
+    # If set, will generate a horizontal rule.  
+    # If other parameters are provided, the horiztonal rule will be placed after.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $HorizontalRule,
+
+    # If set, will output the -InputObject as a Markdown code block
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Code,
+
+    # If set, will output the -InputObject as a Markdown code block, with a given language
+    # If the -InputObject is a ScriptBlock, -CodeLanguage will be set to PowerShell.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $CodeLanguage,
+
+    # If provided, will output a script block as a Markdown code block.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ScriptBlock]
+    $ScriptBlock
+    )
+
+    begin {
+        $numberedListCounter = 0
+        $IsFirst = $true
+        filter LinkInput {
+            $in = $_
+            if ($Image -and $link) {
+                "![$in]($link)"
+            } elseif ($link) {
+                "[$in]($link)"
+            } else {
+                "$in"
+            }
+        }
+    }
+
+    process {
+        
+        if ($ScriptBlock) {  # If a -ScriptBlock was provided
+            $CodeLanguage = 'PowerShell' # use PowerShell as a Code Language.
+        }
+
+        # If a -HeadingSize or a -Heading were provided, render a heading.
+        if ($HeadingSize -or $Heading) 
+        {  
+            if (-not $HeadingSize) { $HeadingSize = 2} # If the -HeadingSize was not set, set it to 2.
+            $headingContent = "$(if ($Heading) { $Heading} else { $inputObject | LinkInput})"
+            if ($HeadingSize -eq 1) {                
+                $headingContent
+                '=' * [Math]::Max($headingContent.Length, 3)
+            }
+            elseif ($HeadingSize -eq 2) {
+                $headingContent
+                '-' * [Math]::Max($headingContent.Length, 3)
+            }
+            else  {
+                ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
+            }
+        }
+        # If -Code or -CodeLanguage was provided, render a Markdown code block.
+        elseif ($Code -or $CodeLanguage)
+        { 
+            # If the -InputObject was a [ScriptBlock] or there is a -ScriptBlock 
+            if ($InputObject -is [scriptblock] -or $ScriptBlock) {
+                $CodeLanguage  = 'PowerShell' # set the code language to PowerShell.
+            }
+            '```' + # Start the code fence,
+                $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
+                [Environment]::newline + # then a newline,
+                $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
+                [Environment]::newline + # then a newline
+            '```' # then close the code fence.
+        }
+        # If -BulletPoint was passed, render a Bullet Point list.
+        elseif ($BulletPoint) 
+        { 
+            "* $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+        }
+        # If -NumberedList was passed, render a numbered list.
+        elseif ($NumberedList -or $Number) 
+        {
+            $numberedListCounter++ # Increment the counter
+            "$(if ($number) { $number } else {$numberedListCounter}). $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+        }
+        elseif ($BlockQuote -or $BlockQuoteDepth) {
+            if (-not $BlockQuoteDepth) { $BlockQuoteDepth = 1 }
+            ("&gt;" * $BlockQuoteDepth) + ' ' + (
+                "$inputObject" -split '(?&gt;\r\n|\n)' -join (
+                    [Environment]::NewLine + ("&gt;" * $BlockQuoteDepth) + ' '
+                )
+            )
+        }
+        # Otherwise, we have to determine if -InputObject should be a -MarkdownTable or a -MarkdownParagraph.
+        else
+        {
+            if (($inputObject.GetType -and $inputObject.GetType().IsPrimitive) -or 
+                $inputObject -is [string]) {
+                $MarkdownParagraph = $true
+            }
+            elseif ($inputObject -is [Collections.IDictionary]) {
+                $MarkdownTable = $true
+            }
+            elseif ($inputObject -is [Object[]] -or $InputObject -is [PSObject[]]) {
+                $allPrimitives = 1
+                foreach ($in in $InputObject) {
+                    $allPrimitives = $allPrimitives -band (
+                        ($in.GetType -and $in.GetType().IsPrimitive) -or $in -is [string]
+                    )
+                }
+                if ($allPrimitives) {
+                    $MarkdownParagraph = $true
+                }
+            }                     
+            else {
+                $MarkdownTable = $true
+            }
+        }
+
+        if ($MarkdownParagraph) {
+            $inputObject | LinkInput
+        } elseif ($MarkdownTable) {            
+            foreach ($in in $InputObject) {
+                $propertyList = @(
+                    if ($Property) {
+                        foreach ($prop in $Property) {
+                            if ($prop -is [string]) {
+                                $prop
+                            } elseif ($prop.Name -and $prop.Expression -and $prop.Expression -is [scriptblock]) {
+                                $_ = $psItem = $in
+                                @{name=$prop.Name;Value = . $prop.Expression}
+                            }
+                        }
+                    } elseif ($in -is [Collections.IDictionary]) {
+                        @($in.Keys) -notin $MyInvocation.MyCommand.Parameters.Keys
+                    }
+                    else {
+                        foreach ($psProp in $In.psobject.properties) {
+                            if ($psProp.Name -notin $MyInvocation.MyCommand.Parameters.Keys) {
+                                $psProp
+                            }
+                        }
+                    }
+                )
+
+                if ($IsFirst) {
+                    '|' + (@(foreach ($prop in $propertyList) {
+                        if ($prop -is [string]) {
+                            $prop
+                        } else {
+                            $prop.Name
+                        }
+                    }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
+                    '|' + (@(foreach ($prop in $propertyList) {
+                        if ($prop -is [string]) {
+                            "-" * $prop.Length
+                        } else {
+                            "-" * $prop.Name.Length
+                        }
+                    }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'    
+                    $IsFirst = $false
+                }
+                
+                '|' + (@(foreach ($prop in $propertyList) {
+                    if ($prop -is [string]) {
+                        $in.$prop | LinkInput
+                    } else {
+                        $prop.Value | LinkInput
+                    }
+                }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
+            }                                    
+        }
+
+            
+        if (  # There are a few combinations of parameters that make us want to write the -InputObject as a paragraph:
+            ($ScriptBlock -and $inputObject) -or # * If -ScriptBlock and -InputObject were both provided.
+            ($Heading -and $inputObject)         # * if -Heading and -InputObject were both provided
+        ) {
+            $InputObject | LinkInput
+        }
+
+        if ($HorizontalRule) {
+            if ($host.UI.RawUI.BufferSize.Width) {
+                (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
+            } else {
+                "---"
+            }                        
+        }
+    }
+</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1175,137 +1569,84 @@ $BackgroundColor
       </CustomControl>
     </Control>
     <Control>
-      <Name>$EZOut_Heading</Name>
+      <Name>${EZOut_Format-Heatmap}</Name>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
             <CustomItem>
               <ExpressionBinding>
-                <ScriptBlock>&lt;#
-.Synopsis
-    Renders a heading
-.Description
-    Renders a heading.
+                <ScriptBlock>
+    &lt;#
+    .SYNOPSIS
+        Formats a value as a heatmap
+    .DESCRIPTION
+        Returns the color used to generate a heatmap for a given value.
+    #&gt;
+    [Management.Automation.Cmdlet("Format", "Object")]
+    [ValidateScript({return $true})]
+    param(
+    # The value that will be heatmapped.
+    [Parameter(ValueFromPipeline)]    
+    $InputObject,
+    
+    # The Heatmap maximum, by default 1gb
+    [Parameter(Mandatory)]    
+    $HeatMapMax = 1gb,
+    
+    # The Heatmap middle value, by default 512mb
+    $HeatMapMiddle = 512mb,
+    
+    # The Heatmap minimum value, by default 0
+    $HeatMapMin = 0,
+    
+    # The color for cool.
+    # To pass a Hex color as an int, simply replace # with 0x
+    # (e.g. 0x00ff00 for green instead of '#00ff00') 
+    [int]
+    $HeatMapCool =0x05dd00,
+    
+    # The color for hot.
+    # To pass a Hex color as an int, simply replace # with 0x
+    # (e.g. 0xff0000 for red instead of '#ff0000') 
+    [int]
+    $HeatMapHot = 0xef1100
+    )
 
-    If $request or $host.UI.SupportsHTML, this will render heading tags.
+    process {
+        # Separate out the segments of the color,
+        $coolRedPart = [byte](($HeatMapCool -band 0xff0000) -shr 16) # by bitmasking and then shifting right until it's bytes
+        $coolGreenPart = [byte](($HeatMapCool -band 0x00ff00) -shr 8)
+        $coolBluePart = [byte]($HeatMapCool -band 0x0000ff)
 
-    Otherwise, this will render Markdown style headings
-.Notes
-    IsFormatPart: true
-#&gt;
-param(
-# The content inside of the heading
-$Content,
+        $hotRedPart = [byte](($HeatMapHot  -band 0xff0000) -shr 16)
+        $hotGreenPart = [byte](($HeatMapHot -band 0x00ff00) -shr 8)
+        $hotBluePart = [byte]($HeatMapHot -band 0x0000ff)
 
-# The level of heading
-[ValidateRange(1,6)]
-[int]
-$Level = 2,
-
-# If using SeText style headings (a line followed by a line of equals or a line of dashes)
-# -UnderlineLength will adjust the length of the second line.
-[int]
-$UnderlineLength,
-
-# If set, will render all markdown headings as ATX style, rather than SeText style
-# (ATX style always starts with a comment, SeText styles are underlined)
-[switch]
-$NoSeText
-)
-
-if ($Request -or $Host.UI.SupportsHTML) {
-    "&lt;h$level&gt;$Content&lt;/h$level&gt;"
-} else {
-    if ($Level -eq 1 -and -not $NoSeText) {
-        '' + $Content + [Environment]::NewLine + ('=' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
-    } elseif ($Level -eq 2 -and -not $NoSeText) {
-        '' + $Content + [Environment]::NewLine + ('-' * $(if ($UnderlineLength) { $UnderlineLength } else {$Content.Length})) + [Environment]::NewLine
-    } else {
-        [Environment]::NewLine + ('#' * $Level) + ' ' + $Content
+        "#{0:x2}{1:x2}{2:x2}" -f @(
+        if ($InputObject -le $HeatMapMin) 
+        {
+            $coolRedPart, $coolGreenPart, $coolBluePart
+        }
+        elseif ($InputObject -ge $HeatMapMax) 
+        {
+            $hotRedPart, $hotGreenPart, $hotBluePart
+        } else {
+            if ($InputObject -le $HeatMapMiddle) 
+            {
+                $d = 1 - ([double]$InputObject / ($HeatMapMiddle - $HeatMapMin))
+                [Byte][Math]::Min(255, $hotRedPart * $d + $coolRedPart)
+                [Byte][Math]::Min(255, $hotGreenPart * $d + $coolGreenPart)            
+                [Byte][Math]::Min(255, $hotBluePart * $d + $coolBluePart)
+            } else
+            {
+                $d = 1 - ([double]$InputObject / ($HeatMapMax - $HeatMapMiddle))
+                [Byte][Math]::Min(255, $coolRedPart * $d + $hotRedPart)
+                [Byte][Math]::Min(255, $coolGreenPart * $d + $hotGreenPart)            
+                [Byte][Math]::Min(255, $coolBluePart * $d + $hotBluePart)
+            }
+        })
     }
-}</ScriptBlock>
-              </ExpressionBinding>
-            </CustomItem>
-          </CustomEntry>
-        </CustomEntries>
-      </CustomControl>
-    </Control>
-    <Control>
-      <Name>$EZOut_Heatmap</Name>
-      <CustomControl>
-        <CustomEntries>
-          <CustomEntry>
-            <CustomItem>
-              <ExpressionBinding>
-                <ScriptBlock>&lt;#
-.Synopsis
-    Heatmaps a value
-.Description
-    Determines the appropriate temperature color of a value, given a -Cool and -Hot color (passed as ints)
-.Notes
-    IsFormatPart: true
-#&gt;
-param(
-# The value that will be heatmapped.
-$Value,
-
-# The maximum, by default 1gb
-[Parameter(Mandatory)]
-$Max = 1gb,
-
-# The middle value, by default 512mb
-$Middle = 512mb,
-
-# The minimum value, by default 0
-$Min = 0,
-
-# The color for cool.
-# To pass a Hex color as an int, simply replace # with 0x
-# (e.g. 0x00ff00 for green instead of '#00ff00') 
-[int]
-$Cool =0x05dd00,
-
-# The color for hot.
-# To pass a Hex color as an int, simply replace # with 0x
-# (e.g. 0xff0000 for red instead of '#ff0000') 
-[int]
-$Hot = 0xef1100
-)
-
-# Separate out the segments of the color,
-$coolRedPart = [byte](($Cool -band 0xff0000) -shr 16) # by bitmasking and then shifting right until it's bytes
-$coolGreenPart = [byte](($Cool -band 0x00ff00) -shr 8)
-$coolBluePart = [byte]($Cool -band 0x0000ff)
-
-$hotRedPart = [byte](($hot -band 0xff0000) -shr 16)
-$hotGreenPart = [byte](($hot -band 0x00ff00) -shr 8)
-$hotBluePart = [byte]($hot -band 0x0000ff)
-
-"#{0:x2}{1:x2}{2:x2}" -f @(
-
-if ($Value -le $Min) 
-{
-    $coolRedPart, $coolGreenPart, $coolBluePart
-}
-elseif ($Value -ge $Max) 
-{
-    $hotRedPart, $hotGreenPart, $hotBluePart
-} else {
-    if ($Value -le $Middle) 
-    {
-        $d = 1 - ([double]$value / ($Middle - $min))
-        [Byte][Math]::Min(255, $hotRedPart * $d + $coolRedPart)
-        [Byte][Math]::Min(255, $hotGreenPart * $d + $coolGreenPart)            
-        [Byte][Math]::Min(255, $hotBluePart * $d + $coolBluePart)
-    } else
-    {
-        $d = 1 - ([double]$value / ($Max - $Middle))
-        [Byte][Math]::Min(255, $coolRedPart * $d + $hotRedPart)
-        [Byte][Math]::Min(255, $coolGreenPart * $d + $hotGreenPart)            
-        [Byte][Math]::Min(255, $coolBluePart * $d + $hotBluePart)
-    }
-}
-)</ScriptBlock>
+</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1354,30 +1695,32 @@ elseif ($Value -ge $Max)
             <CustomItem>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
 
 $module = $_
 @(
@@ -1386,9 +1729,9 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    . $EZOut_Heading $moduleNameVer -Level 1
+    &amp; ${EZOut_Format-Markdown} -Heading $moduleNameVer -HeadingSize 2
     if ($module.Description) {
-        . $EZOut_Heading $module.Description -UnderlineLength $moduleNameVer.Length
+        &amp; ${EZOut_Format-Markdown} -Heading $module.Description -HeadingSize 3
     }
 
     $commandSection = if ($module.ExportedCommands.Count) {
@@ -1404,6 +1747,7 @@ $module = $_
             Select-Object -ExpandProperty Maximum
 
         $maxNounLength = $module.ExportedCommands.Values |
+            Where-Object { $_.Noun } |
             Select-Object -ExpandProperty Noun |
             Measure-Object -Property Length -Maximum |
             Select-Object -ExpandProperty Maximum
@@ -1448,7 +1792,8 @@ $module = $_
             Write-Verbose "No help.txt file found at $aboutTextFile"
         }
     }
-) -join [Environment]::NewLine</ScriptBlock>
+) -join [Environment]::NewLine
+</ScriptBlock>
               </ExpressionBinding>
             </CustomItem>
           </CustomEntry>
@@ -1460,10 +1805,6 @@ $module = $_
       <ViewSelectedBy>
         <TypeName>System.Diagnostics.Process</TypeName>
       </ViewSelectedBy>
-      <GroupBy>
-        <PropertyName>ProcessName</PropertyName>
-        <CustomControlName>ProcessGroupControl</CustomControlName>
-      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -1492,7 +1833,7 @@ $module = $_
                 <PropertyName>Handles</PropertyName>
               </TableColumnItem>
               <!-- {ConditionalColor:"
-        . $Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+        Format-Heatmap -InputObject $_.NPM -HeatMapMin 16mb -HeatMapMiddle .5gb -HeatMapMax 1gb 
 &lt;#        if ($_.NPM -le 1MB) { &apos;#00FF00&apos;}
         elseif ($_.NPM -le 256mb) { &apos;#ffff00&apos; }
         else {
@@ -1501,34 +1842,36 @@ $module = $_
     "}-->
               <TableColumnItem>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
 
                 $__ = $_
                 $ci = . {
-        . $EZOut_Heatmap $_.NPM -Min 16mb -Mid .5gb -Max 1gb 
+        &amp; ${EZOut_Format-Heatmap} -InputObject $_.NPM -HeatMapMin 16mb -HeatMapMiddle .5gb -HeatMapMax 1gb 
 &lt;#        if ($_.NPM -le 1MB) { '#00FF00'}
         elseif ($_.NPM -le 256mb) { '#ffff00' }
         else {
@@ -1537,16 +1880,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.NPM / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:" 
-        . $Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        Format-Heatmap -InputObject $_.PM -HeatMapMin 16mb -HeatMapMiddle .5GB -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { &apos;#00FF00&apos;}
         elseif ($_.PM -le 256mb) { &apos;#ffff00&apos; }
         else {
@@ -1557,7 +1901,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>
                 $__ = $_
                 $ci = . { 
-        . $EZOut_Heatmap $_.PM -Min 16mb -Mid .5GB -Max 1gb 
+        &amp; ${EZOut_Format-Heatmap} -InputObject $_.PM -HeatMapMin 16mb -HeatMapMiddle .5GB -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
@@ -1566,16 +1910,17 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.PM / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:"
-        . $Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        Format-Heatmap -InputObject $_.WS -HeatMapMin 16mb -HeatMapMiddle 512mb -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { &apos;#00FF00&apos;}
         elseif ($_.PM -le 256mb) { &apos;#ffff00&apos; }
         else {
@@ -1586,7 +1931,7 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
                 <ScriptBlock>
                 $__ = $_
                 $ci = . {
-        . $EZOut_Heatmap $_.WS -Min 16mb -Mid 512mb -Max 1gb 
+        &amp; ${EZOut_Format-Heatmap} -InputObject $_.WS -HeatMapMin 16mb -HeatMapMiddle 512mb -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
@@ -1595,12 +1940,13 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
     }
                 $_ = $__
                 if ($ci -is [string]) {
-                    $ci = . $EZOut_SetOutputStyle $ci
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
                 } else {
-                    $ci = . $EZOut_SetOutputStyle @ci
+                    
+                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.WS / 1024) }
-                @($ci; $output; . $EZOut_ClearOutputStyle) -join ""
+                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
                 </ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
@@ -1731,38 +2077,40 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' * 1 </ScriptBlock>
@@ -1813,38 +2161,40 @@ $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBindi
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock>$moduleName = 'EZOut'
-do {
-    $lm = Get-Module -Name $moduleName -ErrorAction Ignore
-    if (-not $lm) { continue } 
-    if ($lm.FormatPartsLoaded) { break }
-    $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
-        foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
-            $ParentNode = $partNodeName.Node.ParentNode
-            "$($ParentNode.Name)={
-$($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
-        }
-    }) -join [Environment]::NewLine
-    New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
-        Import-Module -Global
-    $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
-    
-    if (-not $lm.OnRemove) {
-        $lm.OnRemove = $onRemove
-    } else {
-        $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
-    }
-    $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
 
-} while ($false)
-
-. $EZOut_SetOutputStyle -ForegroundColor 'Verbose'</ScriptBlock>
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
+        
+@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> $_ </ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
-                <ScriptBlock>. $EZOut_ClearOutputStyle</ScriptBlock>
+                <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
                 <ScriptBlock> ' ' * 1 </ScriptBlock>
