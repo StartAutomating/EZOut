@@ -1108,7 +1108,7 @@ describe 'Import-TypeView' {
         $tmp =
             if ($env:PIPELINE_WORKSPACE) { $env:PIPELINE_WORKSPACE } 
             elseif ($env:TEMP) { "$env:TEMP" } 
-            else { "/$tmp" }
+            else { "/tmp" }
         $tmpDir = New-Item -ItemType Directory -Path (Join-Path $tmp "$(Get-Random)") 
         $testTypeDir = New-Item -ItemType Directory -Path (Join-Path $tmpDir.FullName "TestType$($tmpDir.Name)")
         Push-Location $testTypeDir.FullName
