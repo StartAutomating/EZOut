@@ -15,7 +15,8 @@
         'Write-FormatTreeView','Write-FormatWideView', 'Write-FormatListView',
         'Write-FormatViewExpression',
         'Write-TypeView','ConvertTo-PropertySet','Write-PropertySet',
-        'Get-FormatFile', 'Find-FormatView', 'Get-PropertySet', 'Write-EZFormatFile'
+        'Get-FormatFile', 'Find-FormatView', 'Get-PropertySet', 'Write-EZFormatFile', 'Get-EZOutExtension', 
+        'Format-Object','Format-RichText', 'Format-Markdown', 'Format-YAML','Format-Heatmap'
     AliasesToExport = 'Write-CustomAction'
     FormatsToProcess = 'EZOut.format.ps1xml'
     PrivateData = @{
@@ -28,6 +29,12 @@
                 Element = '#00af00'
                 InnerText = '#8bda8b'
             }
+        }
+        EZOut = @{
+            RichText = "Format-RichText"
+            Heatmap = "Format-Heatmap"
+            Markdown = "Format-Markdown"
+            YAML = "Format-YAML"
         }
         PSData = @{
             ProjectURI = 'https://github.com/StartAutomating/EZOut'
