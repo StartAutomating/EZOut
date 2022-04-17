@@ -45,30 +45,201 @@
         $views = ""
         $controls = ""
         $selectionSets = ""
+        
+        function findUsedParts {
+            param(
+                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+                [Alias('InnerText','ScriptBlock','ScriptContents')]
+                [string]$InScript,
+                
+                [PSModuleInfo[]]
+                $FromModule = @(Get-Module),
+                
+                # If set, will look for a part globally if it does not find in any of the modules.
+                [switch]
+                $AllowGlobal
+                )
+                
+                begin {
+                    if (-not $script:LookedUpCommands) {
+                        $script:LookedUpCommands = @{}
+                    }
+                    if (-not $script:CommandModuleLookup) {
+                        $script:CommandModuleLookup = @{}
+                    }
+                    $GetVariableValue = {
+                        param($name)
+                        $ExecutionContext.SessionState.PSVariable.Get($name).Value
+                    }            
+                }
+                
+                    process {
+                        $in = $_
+                
+                        $inScriptBlock = try { [scriptblock]::Create($InScript) } catch { $null }
+                
+                        if ($inScriptBlock.Ast) {
+                            $cmdRefs = @($inScriptBlock.Ast.FindAll({
+                                param($ast)
+                
+                                if ($ast -is [Management.Automation.Language.CommandAst]) {
+                                    $ast
+                                }
+                            }, $true))
+                
+                            foreach ($cmd in $cmdRefs) {
+                                $variableName = 
+                                    if ($cmd.CommandElements[0].VariablePath) {
+                                        "$($cmd.CommandElements[0].VariablePath)"
+                                    } else { '' }
+                                $commandName =
+                                    if ($cmd.CommandElements[0].Value) {
+                                        $cmd.CommandElements[0].Value
+                                    }
+                
+                                if (-not ($variableName -or $commandName)) { continue }
+                                $foundCommand = 
+                                    foreach ($module in $FromModule) {
+                                        $foundIt = 
+                                            if ($variableName) {
+                                                & $module $GetVariableValue $variableName
+                                            } elseif ($commandName) {
+                                                $script:CommandModuleLookup["$commandName"] = $module
+                                                $module.ExportedCommands[$commandName]
+                                            }
+                                        if ($foundIt -and $variableName) {
+                                            $script:CommandModuleLookup[$variableName] = $module
+                                            if ($foundIt -is [ScriptBlock]) {
+                                                $PSBoundParameters.InScript = "$foundIt"
+                                                & $MyInvocation.MyCommand.ScriptBlock @PSBoundParameters
+                                            }
+                                            $foundIt; break
+                                        } elseif ($foundIt -and $commandName) {
+                                            $script:CommandModuleLookup[$commandName] = $module
+                                            $foundIt
+                                        }
+                                    }
+                
+                                if (-not $foundCommand -and $AllowGlobal) {
+                                    $foundCommand = & $getVariableValue $variableName
+                                }
+                                if ($variableName) {
+                                    $script:LookedUpCommands["$variableName"] = $foundCommand
+                                    $PartName = "$variableName"
+                                } elseif ($commandName) {
+                                    $script:LookedUpCommands["& $commandName"]  = 
+                                        if ($foundCommand.ScriptBlock) {
+                                            $foundCommand.ScriptBlock
+                                        } 
+                                        elseif ($foundCommand.ResolvedCommand.ScriptBlock) {
+                                            $foundCommand.ResolvedCommand.ScriptBlock
+                                        }
+                                        else {
+                                            $isOk = $false
+                                        }
+                                        $PartName = "& $commandName"
+                
+                                    $isOk =
+                                        foreach ($attr in $foundCommand.ScriptBlock.Attributes) {
+                                            if ($attr -is [Management.Automation.CmdletAttribute]){
+                                                $extensionCommandName = (
+                                                    ($attr.VerbName -replace '\s') + '-' + ($attr.NounName -replace '\s')
+                                                ) -replace '^\-' -replace '\-$'
+                                                if ('Format-Object' -match $extensionCommandName) {
+                                                    $true
+                                                    break
+                                                }
+                                            }
+                                        }
+                
+                                    if (-not $isOk) { continue }
+                                }
+                
+                                
+                
+                                [PSCustomObject][Ordered]@{
+                                    Name = $PartName
+                                    CommandName = $commandName
+                                    VariableName = $variableName
+                                    ScriptBlock = $script:LookedUpCommands[$PartName]
+                                    Module = $script:CommandModuleLookup[$PartName]                    
+                                    FindInput = $in
+                                }                
+                            }
+                        }                                        
+                }
+        }
 
-        #region <-- ?<PowerShell_Invoke_Variable>
-        $PowerShell_Invoke_Variable = [Regex]::new(@'
-(?<![\w\)`])                                            # If the text before the invoke is a word, closing paranthesis, or backtick, do not match
-(?<CallOperator>[\.\&])                                 # Match the <CallOperator> (either a . or a &)
-\s{0,}                                                  # Followed by Optional Whitespace
-\$                                                      # Followed by a Dollar Sign
-((?<Variable>\w+)                                       # Followed by a <Variable> (any number of repeated word characters)
-|                                                       # Or a <Variable> enclosed in curly brackets
-(?:(?<!`){(?<Variable>(?:.|\s)*?(?=\z|(?<!`)}))(?<!`)}) # using backtick as an escape
-)
-'@, 'IgnoreCase,IgnorePatternWhitespace', '00:00:05')
-        #endregion <-- ?<PowerShell_Invoke_Variable>
+        filter ReplaceParts {
+            $inScriptBlock = try { [scriptblock]::Create($_) } catch { $null }
+            $inScriptString = "$inScriptBlock"
+            $cmdRefs = @($inScriptBlock.Ast.FindAll({
+                param($ast)
 
-        $PowerShell_Rename_Invoke = {
-            param($match)
-            $callOperator = $match.Groups["CallOperator"].Value
+                if ($ast -is [Management.Automation.Language.CommandAst]) {
+                    $ast
+                }
+            }, $true))
 
-            return ($callOperator + ' ' + $(if ($newPartNames.($match.Groups["Variable"].Value)) {
-                $newPartNames[$match.Groups["Variable"].Value]
-            } else {
-                '$' + $match.Groups["Variable"].Value
-            })
-        )
+            $replacements = @()
+            foreach ($cmd in $cmdRefs) {
+                $partName = 
+                    if ($cmd.CommandElements[0].VariablePath) {
+                        "$($cmd.CommandElements[0].VariablePath)"
+                    } elseif ($cmd.CommandElements[0].Value) {
+                        "& $($cmd.CommandElements[0].Value)"
+                    } else  { ''}
+                
+                foreach ($part in $foundParts) {
+                    if ("$($part.Name)" -eq $partName) {
+                        $replacements += @{
+                            Ast = $cmd.CommandElements[0]
+                            ReplacementText = if ($newPartNames.$partName) { $newPartNames.$partName} else {$partName}
+                        }
+                        break
+                    }
+                }
+            }
+
+            $stringBuilder = [Text.StringBuilder]::new()
+            $stringIndex   =0            
+            $null = for ($rc = 0; $rc -lt $replacements.Length; $rc++) {
+                if ($replacements[$rc].Ast.Extent.StartOffset -gt $stringIndex) {
+                    $stringBuilder.Append($inScriptString.Substring($stringIndex, $replacements[$rc].Ast.Extent.StartOffset - $stringIndex))
+                }
+                $stringBuilder.Append($replacements[$rc].ReplacementText)
+                $stringIndex = $replacements[$rc].Ast.extent.Endoffset
+            }
+
+            $null = $stringBuilder.Append($inScriptString.Substring($stringIndex))
+            "$stringBuilder"
+        }
+
+        $importFormatParts = {
+            do {
+                $lm = Get-Module -Name $moduleName -ErrorAction Ignore
+                if (-not $lm) { continue } 
+                if ($lm.FormatPartsLoaded) { break }
+                $wholeScript = @(foreach ($formatFilePath in $lm.exportedFormatFiles) {         
+                    foreach ($partNodeName in Select-Xml -LiteralPath $formatFilePath -XPath "/Configuration/Controls/Control/Name[starts-with(., '$')]") {
+                        $ParentNode = $partNodeName.Node.ParentNode
+                        "$($ParentNode.Name)={
+            $($ParentNode.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding.ScriptBlock)}"
+                    }
+                }) -join [Environment]::NewLine
+                New-Module -Name "${ModuleName}.format.ps1xml" -ScriptBlock ([ScriptBlock]::Create(($wholeScript + ';Export-ModuleMember -Variable *'))) |
+                    Import-Module -Global
+                $onRemove = [ScriptBlock]::Create("Remove-Module '${ModuleName}.format.ps1xml'")
+                
+                if (-not $lm.OnRemove) {
+                    $lm.OnRemove = $onRemove
+                } else {
+                    $lm.OnRemove = [ScriptBlock]::Create($onRemove.ToString() + ''  + [Environment]::NewLine + $lm.OnRemove)
+                }
+                $lm | Add-Member NoteProperty FormatPartsLoaded $true -Force
+            
+            } while ($false)
+            
         }
 
     }
@@ -84,7 +255,7 @@
 
     end {
 
-
+        $newPartNames = @{}
         $configuration = "
         <!-- Generated with EZOut $($MyInvocation.MyCommand.Module.Version): Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
         <Configuration>
@@ -162,7 +333,7 @@
 
         $foundParts = # See if the XML refers to any parts
             @($configurationXml.SelectNodes("//ScriptBlock")) |
-                    & $FindUsedParts -FromModule $modulesThatMayHaveParts
+                    findUsedParts -FromModule $modulesThatMayHaveParts
 
         if ($foundParts) { # If any parts are found, we'll need to embed them and bootstrap the loader
 
@@ -174,7 +345,7 @@
 
             $alreadyEmbedded = @()
 
-            $newPartNames = @{}
+
             $embedControls =
                 @(foreach ($part in $foundParts) { # and embed each part in a comment
                     if ($alreadyEmbedded -contains $part.Name) { continue }
@@ -182,14 +353,14 @@
 
                     $partName =
                         if ($part.Name -match '\w+' -or $moduleName -match '\w+') {
-                            "`${${ModuleName}_$($part.Name)}"
+                            "`${${ModuleName}_$($part.Name -replace '^[&\.] ')}"
                         } else {
-                            "`$${ModuleName}_$($part.Name)"
+                            "`$${ModuleName}_$($part.Name -replace '^[&\.] ')"
                         }
 
 
-                    if ($partName -and $part.ScriptBlock) {
-                        $newPartNames[$part.Name]= $partName
+                    if ($partName -and $part.ScriptBlock -and $alreadyEmbedded -notcontains $partName) {
+                        $newPartNames["$($part.Name)"]= if ($part.CommandName) { "& $partName" } else { "$partName"}
                         Write-FormatView -AsControl -Name "$partName" -Action $part.ScriptBlock -TypeName 'n/a'
                     }
                     $alreadyEmbedded += $part.Name
@@ -213,7 +384,7 @@
             } else {
                 $foundParts = # Otherwise, we need to find our parts again, because the XML has changed
                     @($configurationXml.SelectNodes("//ScriptBlock")) | # and we want to rewrite the part references.
-                        & $FindUsedParts -FromModule $modulesThatMayHaveParts
+                        findUsedParts -FromModule $modulesThatMayHaveParts
             }
 
 
@@ -232,7 +403,8 @@
                         "$ImportFormatParts"
                     }
                     if ($replacedItIn -notcontains $fp.FindInput) {
-                        $PowerShell_Invoke_Variable.Replace($fp.FindInput.InnerText, $PowerShell_Rename_Invoke)
+                        $fp.FindInput.InnerText | ReplaceParts
+
                         $replacedItIn += $fp.FindInput
                     } else {
                         $fp.FindInput.InnerText
