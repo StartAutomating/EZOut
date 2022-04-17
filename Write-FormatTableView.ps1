@@ -187,8 +187,7 @@ function Write-FormatTableView
                 `$_ = `$__
                 if (`$ci -is [string]) {
                     `$ci = Format-RichText -NoClear -ForegroundColor `$ci
-                } else {
-                    
+                } else {                    
                     `$ci = Format-RichText -NoClear @ci
                 }
                 `$output = . {" + $existingScript + '}
