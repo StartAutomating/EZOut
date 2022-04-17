@@ -316,7 +316,7 @@ describe "Write-FormatListView" {
         foreach ($n in 1..10) {
             [PSCustomObject]@{PSTypeName='OddN';N =$n}
         }
-        ) | Out-String | should -Belike *N?:?1*N?:?3*N?:?5*N?:?7*N?:?9*
+        ) | Out-String | should -Belike '*N*1*N*3*N*5*N*7*N*9*'
     }
 
     it 'Can conditionally -ColorProperty.  The ScriptBlock must return a hex color or escape sequence.' {
