@@ -111,7 +111,9 @@
                                             $script:CommandModuleLookup[$variableName] = $module
                                             if ($foundIt -is [ScriptBlock]) {
                                                 $PSBoundParameters.InScript = "$foundIt"
-                                                & $MyInvocation.MyCommand.ScriptBlock @PSBoundParameters
+                                                if ("$foundIt") {
+                                                    & $MyInvocation.MyCommand.ScriptBlock @PSBoundParameters
+                                                }
                                             }
                                             $foundIt; break
                                         } elseif ($foundIt -and $commandName) {
@@ -332,7 +334,7 @@
 
 
         $foundParts = # See if the XML refers to any parts
-            @($configurationXml.SelectNodes("//ScriptBlock")) |
+            @($configurationXml.SelectNodes("//ScriptBlock") | Where-Object InnerText) |
                     findUsedParts -FromModule $modulesThatMayHaveParts
 
         if ($foundParts) { # If any parts are found, we'll need to embed them and bootstrap the loader
