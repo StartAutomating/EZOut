@@ -1146,3 +1146,12 @@ describe 'Import-TypeView' {
         }
     }
 }
+
+describe 'Format-Object' {
+    it 'Is an extensible format command' {
+        "$(1,2,3 | Format-Object -NumberedList)" | Should -BeLike '*1.?1*2.?2*3.?3*'
+        if ($host.UI.SupportsVirtualTerminal) {
+            "$('red' | Format-Object -ForegroundColor "Red")" | Should -Match '\e.+Red'
+        }
+    }
+}
