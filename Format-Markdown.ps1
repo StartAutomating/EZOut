@@ -173,13 +173,13 @@ function Format-Markdown
         # If -BulletPoint was passed, render a Bullet Point list.
         elseif ($BulletPoint) 
         { 
-            "* $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            "*$(if ($Checkbox) { "[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         # If -NumberedList was passed, render a numbered list.
         elseif ($NumberedList -or $Number) 
         {
             $numberedListCounter++ # Increment the counter
-            "$(if ($number) { $number } else {$numberedListCounter}). $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            "$(if ($number) { $number } else {$numberedListCounter}).$(if ($Checkbox) {" [$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         elseif ($BlockQuote -or $BlockQuoteDepth) {
             if (-not $BlockQuoteDepth) { $BlockQuoteDepth = 1 }
