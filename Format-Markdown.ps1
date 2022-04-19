@@ -60,6 +60,11 @@ function Format-Markdown
     [string]
     $Link,
 
+    # If set, will create an image link.  The -Inputobject will be used as the link content.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $ImageLink,
+
     # If set, will generate a bullet point list.
     [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('BulletpointList')]
@@ -129,8 +134,8 @@ function Format-Markdown
         $IsFirst = $true
         filter LinkInput {
             $in = $_
-            if ($Image -and $link) {
-                "![$in]($link)"
+            if ($ImageLink) {
+                "![$in]($imageLink)"
             } elseif ($link) {
                 "[$in]($link)"
             } else {
