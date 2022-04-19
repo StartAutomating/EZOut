@@ -1153,5 +1153,6 @@ describe 'Format-Object' {
         if ($host.UI.SupportsVirtualTerminal) {
             "$('red' | Format-Object -ForegroundColor "Red")" | Should -Match '\e.+Red'
         }
+        "1","2","3" | Format-Object -YamlHeader | Should -BeLike '*- 1*- 2*- 3*'
     }
 }
