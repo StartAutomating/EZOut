@@ -157,7 +157,7 @@ function Format-YAML
                     "$([Environment]::NewLine * 2)", [Environment]::NewLine
             ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})
         } else {
-            '' + $(if ($YamlHeader) { '---'} + [Environment]::NewLine)  + (
+            '' + $(if ($YamlHeader) { '---' + [Environment]::NewLine})  + (
                 (& $toYaml -object $allInputObjects) -join '' -replace 
                     "$([Environment]::NewLine * 2)", [Environment]::NewLine
             ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})
