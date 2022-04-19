@@ -1155,5 +1155,6 @@ describe 'Format-Object' {
         }
         "1","2","3" | Format-Object -YamlHeader | Should -BeLike '*- 1*- 2*- 3*'
         [PSCustomObject]@{a='b';c='d'} | Format-Object -MarkdownTable | Should -BeLike '*|a*|c*|*|b*|d*|'
+        100 | Format-Object -HeatMapMax 100 -HeatMapHot 0xff0000 | Should -be '#ff0000'
     }
 }
