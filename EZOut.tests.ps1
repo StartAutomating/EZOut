@@ -1154,5 +1154,6 @@ describe 'Format-Object' {
             "$('red' | Format-Object -ForegroundColor "Red")" | Should -Match '\e.+Red'
         }
         "1","2","3" | Format-Object -YamlHeader | Should -BeLike '*- 1*- 2*- 3*'
+        [PSCustomObject]@{a='b';c='d'} | Format-Object -MarkdownTable | Should -match '\|a\|c\|[-\|]+\|b\|d\|'
     }
 }
