@@ -30,6 +30,12 @@ function Format-Markdown
     [switch]
     $MarkdownTable,
 
+    # If provided, will align columnns in a markdown table.    
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateSet("Left","Right","Center", "")]
+    [string[]]
+    $MarkdownTableAlignment,
+
     # An array of properties.  Providing this implies -MarkdownTable
     [Parameter(ValueFromPipelineByPropertyName)]
     [PSObject[]]
@@ -137,7 +143,7 @@ function Format-Markdown
 
     process {
         
-        if ($ScriptBlock) {  # If a -ScriptBlock was provided
+        if ($ScriptBlock -or $inputObject -is [scriptblock]) {  # If a -ScriptBlock was provided
             $CodeLanguage = 'PowerShell' # use PowerShell as a Code Language.
         }
 
@@ -197,51 +203,69 @@ function Format-Markdown
         # Otherwise, we have to determine if -InputObject should be a -MarkdownTable or a -MarkdownParagraph.
         else
         {
+            # If the input is a primitive type or a string, it should be a markdown paragraph
             if (($inputObject.GetType -and $inputObject.GetType().IsPrimitive) -or 
                 $inputObject -is [string]) {
                 $MarkdownParagraph = $true
             }
-            elseif ($inputObject -is [Collections.IDictionary]) {
+            # If it is a dictionary, it should be a markdown table.
+            elseif ($inputObject -is [Collections.IDictionary]) 
+            {
                 $MarkdownTable = $true
             }
+            # If the input is an array, apply the same logic:
             elseif ($inputObject -is [Object[]] -or $InputObject -is [PSObject[]]) {
                 $allPrimitives = 1
+                # if the array was all primitives or strings                
                 foreach ($in in $InputObject) {
                     $allPrimitives = $allPrimitives -band (
                         ($in.GetType -and $in.GetType().IsPrimitive) -or $in -is [string]
                     )
                 }
-                if ($allPrimitives) {
+                if ($allPrimitives) { # output as a paragraph.
                     $MarkdownParagraph = $true
+                } else {
+                    $MarkdownTable = $true
                 }
-            }                     
+            }
+            # If we're still not sure, output as a table.                     
             else {
                 $MarkdownTable = $true
             }
         }
 
         if ($MarkdownParagraph) {
-            $inputObject | LinkInput
-        } elseif ($MarkdownTable) {            
+            # If we're outputting as a paragraph, add the input and link it if needed.
+            $markdownLines += $inputObject | LinkInput
+        } elseif ($MarkdownTable) {
+            # If we're rendering a table, we need to go row-by-row.
             foreach ($in in $InputObject) {
                 $propertyList = @(
+                    # we first need to get a list of properties.
+                    # If there was a -Property parameter provided, use it.
                     if ($Property) {
                         foreach ($prop in $Property) {
-                            if ($prop -is [string]) {
+                            if ($prop -is [string]) { # Strings in -Property should be taken as property names
                                 $prop
                             } elseif ($prop.Name -and $prop.Expression -and $prop.Expression -is [scriptblock]) {
+                                # and anything with a name and expression script block will run the expression script block.
                                 $_ = $psItem = $in
                                 @{name=$prop.Name;Value = . $prop.Expression}
                             }
                         }
-                    } elseif ($in -is [Collections.IDictionary]) {
-                        foreach ($k in $in.Keys) {
-                            if ($MyInvocation.MyCommand.Parameters[$k]) { continue }
+                    } 
+                    # Otherwise, if the input was a dictionary
+                    elseif ($in -is [Collections.IDictionary]) 
+                    {
+                        foreach ($k in $in.Keys) { # take all keys from the dictionary
+                            if ($MyInvocation.MyCommand.Parameters[$k]) { continue } # that are not parameters of this function.
                             $k
                         }                        
                     }
+                    # Otherwise, walk over all properties on the object
                     else {
                         foreach ($psProp in $In.psobject.properties) {
+                            # and skip any properties that are parameters of this function.
                             if ($psProp.Name -notin $MyInvocation.MyCommand.Parameters.Keys) {
                                 $psProp
                             }
@@ -249,7 +273,9 @@ function Format-Markdown
                     }
                 )
 
+                # If we're rendering the first row of a table
                 if ($IsFirst) {
+                    # Create the header
                     $markdownLines +=
                         '|' + (@(foreach ($prop in $propertyList) {
                             if ($prop -is [string]) {
@@ -258,17 +284,41 @@ function Format-Markdown
                                 $prop.Name
                             }
                         }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+                    # Then create the alignment row.
                     $markdownLines +=
-                        '|' + (@(foreach ($prop in $propertyList) {
-                            if ($prop -is [string]) {
-                                "-" * $prop.Length
-                            } else {
-                                "-" * $prop.Name.Length
-                            }
-                        }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+                        '|' + $(
+                            $columnNumber =0 
+                            @(
+                                foreach ($prop in $propertyList) {
+                                    $colLength = 
+                                        if ($prop -is [string]) {
+                                            $prop.Length
+                                        } else {
+                                            $prop.Name.Length
+                                        }
+                                    if ($MarkdownTableAlignment) {
+                                        if ($MarkdownTableAlignment[$columnNumber] -eq 'Left') {
+                                            ':' + ("-" * ([Math]::Max($colLength,2) - 1))
+                                        }
+                                        elseif ($MarkdownTableAlignment[$columnNumber] -eq 'Right') {
+                                            ("-" * ([Math]::Max($colLength,2) - 1)) + ':'
+                                        }
+                                        elseif ($MarkdownTableAlignment[$columnNumber] -eq 'Center') {
+                                            ':' + ("-" * ([Math]::max($colLength, 3) - 2)) + ':'
+                                        } else {
+                                            "-" * $colLength
+                                        }
+                                    } else {
+                                        "-" * $colLength
+                                    }
+                                    
+                                    $columnNumber++
+                                }
+                            ) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'                    
                     $IsFirst = $false
                 }
                 
+                # Now we create the row for this object.
                 $markdownLines += '|' + (@(foreach ($prop in $propertyList) {
                     if ($prop -is [string]) {
                         $in.$prop | LinkInput
@@ -288,8 +338,10 @@ function Format-Markdown
         }
 
 
+        # If we're going to render a horizontal rule (and -MarkdownTable has not been set)
         if ($HorizontalRule -and -not $MarkdownTable) {
-            if ($host.UI.RawUI.BufferSize.Width) {
+            # add the horizontal rule at the end.
+            if ($host.UI.RawUI.BufferSize.Width) {                
                 $markdownLines += (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
             } else {
                 $markdownLines += "---"
@@ -298,33 +350,47 @@ function Format-Markdown
     }
 
     end {
-        if ($markdownLines -match '^\|') {
-            $maxColumnSize  = @{}
+        # Now we need to make one last pass to normalize tables
+        if ($markdownLines -match '^\|') { # (that is, if we have tables to normalize).
+            $maxColumnSize  = @{} # To normalize the table, we need to track the maximum size per column
             foreach ($ml in $markdownLines) {
                 if ($ml -match '\^|') {
-                    $partCount = 0
+                    $columnCount = 0
                     foreach ($tablePart in $ml -split '\|' -ne '') {
-                        if ((-not $maxColumnSize[$partCount]) -or $maxColumnSize[$partCount] -lt $tablePart.Length) {
-                            $maxColumnSize[$partCount] = $tablePart.Length
+                        if ((-not $maxColumnSize[$columnCount]) -or $maxColumnSize[$columnCount] -lt $tablePart.Length) {
+                            $maxColumnSize[$columnCount] = [Math]::Max($tablePart.Length, 2)
                         }
-                        $partCount++
+                        $columnCount++
                     }
                 }
             }
+            # One we know the maximum size per column, walk over each line
             $markdownLines = @(foreach ($ml in $markdownLines) {
                 if ($ml -match '\^|') {
-                    $partCount = 0
+                    $columnCount = 0
+                    # Recreate the line with the right amount of padding.
                     '|' + (@(foreach ($tablePart in $ml -split '\|' -ne '') {
                         if ($tablePart -match '^[:\-]+$') {
-                            if ($tablePart -match '\:$') {
-                                $tablePart.PadLeft($maxColumnSize[$partcount], '-')
-                            } else {
-                                $tablePart.PadRight($maxColumnSize[$partcount], '-')
+                            if ($tablePart -match '^\:-{0,}\:$') { # If it's an alignment column, make sure to keep the alignment.
+                                if ($maxColumnSize[$columnCount] -gt 2) {
+                                    ':' + ('-' * ($maxColumnSize[$columnCount] - 2)) + ':'
+                                } else {
+                                    '::'
+                                }
+                            }
+                            elseif ($tablePart -match '\:$') {
+                                $tablePart.PadLeft($maxColumnSize[$columnCount], '-')
+                            } 
+                            elseif ($tablePart -match '^\:') {
+                                $tablePart.PadRight($maxColumnSize[$columnCount], '-')
+                            }
+                            else {
+                                $tablePart.PadRight($maxColumnSize[$columnCount], '-')
                             }
                         } else {
-                            $tablePart.PadRight($maxColumnSize[$partcount], ' ')
+                            $tablePart.PadRight($maxColumnSize[$columnCount], ' ')
                         }
-                        $partCount++                                            
+                        $columnCount++                                            
                     }) -join '|') + '|'
                 } else {
                     $ml
