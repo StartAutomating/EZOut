@@ -1306,6 +1306,12 @@ if ($Request -or $Host.UI.SupportsHTML) {
     [switch]
     $MarkdownTable,
 
+    # If provided, will align columnns in a markdown table.    
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateSet("Left","Right","Center", "")]
+    [string[]]
+    $MarkdownTableAlignment,
+
     # An array of properties.  Providing this implies -MarkdownTable
     [Parameter(ValueFromPipelineByPropertyName)]
     [PSObject[]]
@@ -1329,6 +1335,11 @@ if ($Request -or $Host.UI.SupportsHTML) {
     [Parameter(ValueFromPipelineByPropertyName)]
     [string]
     $Link,
+
+    # If set, will create an image link.  The -Inputobject will be used as the link content.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $ImageLink,
 
     # If set, will generate a bullet point list.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -1399,19 +1410,21 @@ if ($Request -or $Host.UI.SupportsHTML) {
         $IsFirst = $true
         filter LinkInput {
             $in = $_
-            if ($Image -and $link) {
-                "![$in]($link)"
+            if ($ImageLink) {
+                "![$in]($imageLink)"
             } elseif ($link) {
                 "[$in]($link)"
             } else {
                 "$in"
             }
         }
+
+        $markdownLines = @()
     }
 
     process {
         
-        if ($ScriptBlock) {  # If a -ScriptBlock was provided
+        if ($ScriptBlock -or $inputObject -is [scriptblock]) {  # If a -ScriptBlock was provided
             $CodeLanguage = 'PowerShell' # use PowerShell as a Code Language.
         }
 
@@ -1420,17 +1433,18 @@ if ($Request -or $Host.UI.SupportsHTML) {
         {  
             if (-not $HeadingSize) { $HeadingSize = 2} # If the -HeadingSize was not set, set it to 2.
             $headingContent = "$(if ($Heading) { $Heading} else { $inputObject | LinkInput})"
-            if ($HeadingSize -eq 1) {                
-                $headingContent
-                '=' * [Math]::Max($headingContent.Length, 3)
-            }
-            elseif ($HeadingSize -eq 2) {
-                $headingContent
-                '-' * [Math]::Max($headingContent.Length, 3)
-            }
-            else  {
-                ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
-            }
+            $markdownLines += 
+                if ($HeadingSize -eq 1) {                
+                    $headingContent
+                    '=' * [Math]::Max($headingContent.Length, 3)
+                }
+                elseif ($HeadingSize -eq 2) {
+                    $headingContent
+                    '-' * [Math]::Max($headingContent.Length, 3)
+                }
+                else  {
+                    ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
+                }
         }
         # If -Code or -CodeLanguage was provided, render a Markdown code block.
         elseif ($Code -or $CodeLanguage)
@@ -1439,27 +1453,29 @@ if ($Request -or $Host.UI.SupportsHTML) {
             if ($InputObject -is [scriptblock] -or $ScriptBlock) {
                 $CodeLanguage  = 'PowerShell' # set the code language to PowerShell.
             }
-            '```' + # Start the code fence,
-                $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
-                [Environment]::newline + # then a newline,
-                $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
-                [Environment]::newline + # then a newline
-            '```' # then close the code fence.
+            $markdownLines += (
+                '```' + # Start the code fence,
+                    $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
+                    [Environment]::newline + # then a newline,
+                    $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
+                    [Environment]::newline + # then a newline
+                '```' # then close the code fence.
+            )
         }
         # If -BulletPoint was passed, render a Bullet Point list.
         elseif ($BulletPoint) 
         { 
-            "* $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            $markdownLines += "*$(if ($Checkbox) { "[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         # If -NumberedList was passed, render a numbered list.
         elseif ($NumberedList -or $Number) 
         {
             $numberedListCounter++ # Increment the counter
-            "$(if ($number) { $number } else {$numberedListCounter}). $(if ($Checkbox) {"[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            $markdownLines += "$(if ($number) { $number } else {$numberedListCounter}).$(if ($Checkbox) {" [$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         elseif ($BlockQuote -or $BlockQuoteDepth) {
             if (-not $BlockQuoteDepth) { $BlockQuoteDepth = 1 }
-            ("&gt;" * $BlockQuoteDepth) + ' ' + (
+            $markdownLines += ("&gt;" * $BlockQuoteDepth) + ' ' + (
                 "$inputObject" -split '(?&gt;\r\n|\n)' -join (
                     [Environment]::NewLine + ("&gt;" * $BlockQuoteDepth) + ' '
                 )
@@ -1468,48 +1484,69 @@ if ($Request -or $Host.UI.SupportsHTML) {
         # Otherwise, we have to determine if -InputObject should be a -MarkdownTable or a -MarkdownParagraph.
         else
         {
+            # If the input is a primitive type or a string, it should be a markdown paragraph
             if (($inputObject.GetType -and $inputObject.GetType().IsPrimitive) -or 
                 $inputObject -is [string]) {
                 $MarkdownParagraph = $true
             }
-            elseif ($inputObject -is [Collections.IDictionary]) {
+            # If it is a dictionary, it should be a markdown table.
+            elseif ($inputObject -is [Collections.IDictionary]) 
+            {
                 $MarkdownTable = $true
             }
+            # If the input is an array, apply the same logic:
             elseif ($inputObject -is [Object[]] -or $InputObject -is [PSObject[]]) {
                 $allPrimitives = 1
+                # if the array was all primitives or strings                
                 foreach ($in in $InputObject) {
                     $allPrimitives = $allPrimitives -band (
                         ($in.GetType -and $in.GetType().IsPrimitive) -or $in -is [string]
                     )
                 }
-                if ($allPrimitives) {
+                if ($allPrimitives) { # output as a paragraph.
                     $MarkdownParagraph = $true
+                } else {
+                    $MarkdownTable = $true
                 }
-            }                     
+            }
+            # If we're still not sure, output as a table.                     
             else {
                 $MarkdownTable = $true
             }
         }
 
         if ($MarkdownParagraph) {
-            $inputObject | LinkInput
-        } elseif ($MarkdownTable) {            
+            # If we're outputting as a paragraph, add the input and link it if needed.
+            $markdownLines += $inputObject | LinkInput
+        } elseif ($MarkdownTable) {
+            # If we're rendering a table, we need to go row-by-row.
             foreach ($in in $InputObject) {
                 $propertyList = @(
+                    # we first need to get a list of properties.
+                    # If there was a -Property parameter provided, use it.
                     if ($Property) {
                         foreach ($prop in $Property) {
-                            if ($prop -is [string]) {
+                            if ($prop -is [string]) { # Strings in -Property should be taken as property names
                                 $prop
                             } elseif ($prop.Name -and $prop.Expression -and $prop.Expression -is [scriptblock]) {
+                                # and anything with a name and expression script block will run the expression script block.
                                 $_ = $psItem = $in
                                 @{name=$prop.Name;Value = . $prop.Expression}
                             }
                         }
-                    } elseif ($in -is [Collections.IDictionary]) {
-                        @($in.Keys) -notin $MyInvocation.MyCommand.Parameters.Keys
+                    } 
+                    # Otherwise, if the input was a dictionary
+                    elseif ($in -is [Collections.IDictionary]) 
+                    {
+                        foreach ($k in $in.Keys) { # take all keys from the dictionary
+                            if ($MyInvocation.MyCommand.Parameters[$k]) { continue } # that are not parameters of this function.
+                            $k
+                        }                        
                     }
+                    # Otherwise, walk over all properties on the object
                     else {
                         foreach ($psProp in $In.psobject.properties) {
+                            # and skip any properties that are parameters of this function.
                             if ($psProp.Name -notin $MyInvocation.MyCommand.Parameters.Keys) {
                                 $psProp
                             }
@@ -1517,25 +1554,53 @@ if ($Request -or $Host.UI.SupportsHTML) {
                     }
                 )
 
+                # If we're rendering the first row of a table
                 if ($IsFirst) {
-                    '|' + (@(foreach ($prop in $propertyList) {
-                        if ($prop -is [string]) {
-                            $prop
-                        } else {
-                            $prop.Name
-                        }
-                    }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
-                    '|' + (@(foreach ($prop in $propertyList) {
-                        if ($prop -is [string]) {
-                            "-" * $prop.Length
-                        } else {
-                            "-" * $prop.Name.Length
-                        }
-                    }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'    
+                    # Create the header
+                    $markdownLines +=
+                        '|' + (@(foreach ($prop in $propertyList) {
+                            if ($prop -is [string]) {
+                                $prop
+                            } else {
+                                $prop.Name
+                            }
+                        }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
+                    # Then create the alignment row.
+                    $markdownLines +=
+                        '|' + $(
+                            $columnNumber =0 
+                            @(
+                                foreach ($prop in $propertyList) {
+                                    $colLength = 
+                                        if ($prop -is [string]) {
+                                            $prop.Length
+                                        } else {
+                                            $prop.Name.Length
+                                        }
+                                    if ($MarkdownTableAlignment) {
+                                        if ($MarkdownTableAlignment[$columnNumber] -eq 'Left') {
+                                            ':' + ("-" * ([Math]::Max($colLength,2) - 1))
+                                        }
+                                        elseif ($MarkdownTableAlignment[$columnNumber] -eq 'Right') {
+                                            ("-" * ([Math]::Max($colLength,2) - 1)) + ':'
+                                        }
+                                        elseif ($MarkdownTableAlignment[$columnNumber] -eq 'Center') {
+                                            ':' + ("-" * ([Math]::max($colLength, 3) - 2)) + ':'
+                                        } else {
+                                            "-" * $colLength
+                                        }
+                                    } else {
+                                        "-" * $colLength
+                                    }
+                                    
+                                    $columnNumber++
+                                }
+                            ) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'                    
                     $IsFirst = $false
                 }
                 
-                '|' + (@(foreach ($prop in $propertyList) {
+                # Now we create the row for this object.
+                $markdownLines += '|' + (@(foreach ($prop in $propertyList) {
                     if ($prop -is [string]) {
                         $in.$prop | LinkInput
                     } else {
@@ -1550,16 +1615,70 @@ if ($Request -or $Host.UI.SupportsHTML) {
             ($ScriptBlock -and $inputObject) -or # * If -ScriptBlock and -InputObject were both provided.
             ($Heading -and $inputObject)         # * if -Heading and -InputObject were both provided
         ) {
-            $InputObject | LinkInput
+            $markdownLines += $InputObject | LinkInput
         }
 
-        if ($HorizontalRule) {
-            if ($host.UI.RawUI.BufferSize.Width) {
-                (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
+
+        # If we're going to render a horizontal rule (and -MarkdownTable has not been set)
+        if ($HorizontalRule -and -not $MarkdownTable) {
+            # add the horizontal rule at the end.
+            if ($host.UI.RawUI.BufferSize.Width) {                
+                $markdownLines += (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
             } else {
-                "---"
+                $markdownLines += "---"
             }                        
         }
+    }
+
+    end {
+        # Now we need to make one last pass to normalize tables
+        if ($markdownLines -match '^\|') { # (that is, if we have tables to normalize).
+            $maxColumnSize  = @{} # To normalize the table, we need to track the maximum size per column
+            foreach ($ml in $markdownLines) {
+                if ($ml -match '\^|') {
+                    $columnCount = 0
+                    foreach ($tablePart in $ml -split '\|' -ne '') {
+                        if ((-not $maxColumnSize[$columnCount]) -or $maxColumnSize[$columnCount] -lt $tablePart.Length) {
+                            $maxColumnSize[$columnCount] = [Math]::Max($tablePart.Length, 2)
+                        }
+                        $columnCount++
+                    }
+                }
+            }
+            # One we know the maximum size per column, walk over each line
+            $markdownLines = @(foreach ($ml in $markdownLines) {
+                if ($ml -match '\^|') {
+                    $columnCount = 0
+                    # Recreate the line with the right amount of padding.
+                    '|' + (@(foreach ($tablePart in $ml -split '\|' -ne '') {
+                        if ($tablePart -match '^[:\-]+$') {
+                            if ($tablePart -match '^\:-{0,}\:$') { # If it's an alignment column, make sure to keep the alignment.
+                                if ($maxColumnSize[$columnCount] -gt 2) {
+                                    ':' + ('-' * ($maxColumnSize[$columnCount] - 2)) + ':'
+                                } else {
+                                    '::'
+                                }
+                            }
+                            elseif ($tablePart -match '\:$') {
+                                $tablePart.PadLeft($maxColumnSize[$columnCount], '-')
+                            } 
+                            elseif ($tablePart -match '^\:') {
+                                $tablePart.PadRight($maxColumnSize[$columnCount], '-')
+                            }
+                            else {
+                                $tablePart.PadRight($maxColumnSize[$columnCount], '-')
+                            }
+                        } else {
+                            $tablePart.PadRight($maxColumnSize[$columnCount], ' ')
+                        }
+                        $columnCount++                                            
+                    }) -join '|') + '|'
+                } else {
+                    $ml
+                }
+            })
+        }
+        $markdownLines -join [Environment]::NewLine        
     }
 </ScriptBlock>
               </ExpressionBinding>
@@ -1729,55 +1848,25 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    &amp; ${EZOut_Format-Markdown} -Heading $moduleNameVer -HeadingSize 2
+    &amp; ${EZOut_Format-Markdown} -Heading $moduleNameVer -HeadingSize 1
     if ($module.Description) {
-        &amp; ${EZOut_Format-Markdown} -Heading $module.Description -HeadingSize 3
+        &amp; ${EZOut_Format-Markdown} -Heading $module.Description -HeadingSize 2
     }
 
-    $commandSection = if ($module.ExportedCommands.Count) {
-
-        $byVerb = $module.ExportedCommands.Values |
-            Where-Object { $_.Verb } |
-            Group-Object Verb |
-            Sort-Object Name
-
-        $maxVerbLength = $byVerb |
-            Select-Object -ExpandProperty Name |
-            Measure-Object -Property Length -Maximum |
-            Select-Object -ExpandProperty Maximum
-
-        $maxNounLength = $module.ExportedCommands.Values |
-            Where-Object { $_.Noun } |
-            Select-Object -ExpandProperty Noun |
-            Measure-Object -Property Length -Maximum |
-            Select-Object -ExpandProperty Maximum
-
-        "|$(' ' * [Math]::Max($maxVerbLength - 4, 0))Verb|Noun$(' ' * [Math]::Max($maxNounLength - 4 + 1, 0))|"
-        "|$('-' * [Math]::Max($maxVerbLength - 1, 0)):|:$('-' * [Math]::Max($maxNounLength, 0))|"
-
-        foreach ($_ in $byVerb) {
-            $v = "$($_.Name)"
-
-            '|' +
-                ' ' * ($maxVerbLength - $v.Length) + $v + '|' +
-                $(
-                    $t = '-' + $_.Group[0].Noun
-                    $t + ' ' * ([Math]::Max($maxNounLength - $t.Length + 1, 0)) + '|'
-                )
-            if ($_.Group.Count -gt 1) {               
-                foreach ($i in $_.Group[1..$($_.Group.Count -1)]) {
-                    '|' + " " * ($maxVerbLength) + '|-' + $i.Noun + ' ' * ([Math]::Max($maxNounLength - $i.Noun.Length, 0)) + '|'
-                }
-            }
+    $commandSection = 
+        if ($module.ExportedCommands.Count) {
+            $sortedByVerb = $module.ExportedCommands.Values |
+                Where-Object { $_.Verb -and $_.Noun } |
+                Sort-Object Verb, Noun |
+                Select-Object Verb, Noun
+            
+            $sortedByVerb | &amp; ${EZOut_Format-Markdown} -MarkdownTable
         }
-    }
 
     if ($commandSection) {
         $commandLineLength = $commandSection | Measure-Object -Property Length -Maximum | Select-Object -ExpandProperty Maximum
-        "### Commands"
-        '-' * $commandLineLength
-        $commandSection -join [Environment]::NewLine
-        '-' * $commandLineLength
+        "### Commands"        
+        $commandSection -join [Environment]::NewLine        
     }
 
     :findAboutText foreach ($culture in "$(Get-Culture)", 'en-us'| Select-Object -Unique) {
@@ -1881,8 +1970,7 @@ $module = $_
                 $_ = $__
                 if ($ci -is [string]) {
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {
-                    
+                } else {                    
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.NPM / 1024) }
@@ -1911,8 +1999,7 @@ $module = $_
                 $_ = $__
                 if ($ci -is [string]) {
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {
-                    
+                } else {                    
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.PM / 1024) }
@@ -1941,8 +2028,7 @@ $module = $_
                 $_ = $__
                 if ($ci -is [string]) {
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {
-                    
+                } else {                    
                     $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
                 }
                 $output = . { [long]($_.WS / 1024) }
