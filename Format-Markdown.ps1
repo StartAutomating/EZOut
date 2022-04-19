@@ -131,6 +131,8 @@ function Format-Markdown
                 "$in"
             }
         }
+
+        $markdownLines = @()
     }
 
     process {
@@ -144,17 +146,18 @@ function Format-Markdown
         {  
             if (-not $HeadingSize) { $HeadingSize = 2} # If the -HeadingSize was not set, set it to 2.
             $headingContent = "$(if ($Heading) { $Heading} else { $inputObject | LinkInput})"
-            if ($HeadingSize -eq 1) {                
-                $headingContent
-                '=' * [Math]::Max($headingContent.Length, 3)
-            }
-            elseif ($HeadingSize -eq 2) {
-                $headingContent
-                '-' * [Math]::Max($headingContent.Length, 3)
-            }
-            else  {
-                ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
-            }
+            $markdownLines += 
+                if ($HeadingSize -eq 1) {                
+                    $headingContent
+                    '=' * [Math]::Max($headingContent.Length, 3)
+                }
+                elseif ($HeadingSize -eq 2) {
+                    $headingContent
+                    '-' * [Math]::Max($headingContent.Length, 3)
+                }
+                else  {
+                    ("#"*$HeadingSize) + " $headingContent" # Output the -Heading or the -InputObject.
+                }
         }
         # If -Code or -CodeLanguage was provided, render a Markdown code block.
         elseif ($Code -or $CodeLanguage)
@@ -163,27 +166,29 @@ function Format-Markdown
             if ($InputObject -is [scriptblock] -or $ScriptBlock) {
                 $CodeLanguage  = 'PowerShell' # set the code language to PowerShell.
             }
-            '```' + # Start the code fence,
-                $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
-                [Environment]::newline + # then a newline,
-                $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
-                [Environment]::newline + # then a newline
-            '```' # then close the code fence.
+            $markdownLines += (
+                '```' + # Start the code fence,
+                    $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
+                    [Environment]::newline + # then a newline,
+                    $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
+                    [Environment]::newline + # then a newline
+                '```' # then close the code fence.
+            )
         }
         # If -BulletPoint was passed, render a Bullet Point list.
         elseif ($BulletPoint) 
         { 
-            "*$(if ($Checkbox) { "[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            $markdownLines += "*$(if ($Checkbox) { "[$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         # If -NumberedList was passed, render a numbered list.
         elseif ($NumberedList -or $Number) 
         {
             $numberedListCounter++ # Increment the counter
-            "$(if ($number) { $number } else {$numberedListCounter}).$(if ($Checkbox) {" [$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
+            $markdownLines += "$(if ($number) { $number } else {$numberedListCounter}).$(if ($Checkbox) {" [$(if ($Checked) {"x"} else {" "})]"}) $($inputObject | LinkInput)"
         }
         elseif ($BlockQuote -or $BlockQuoteDepth) {
             if (-not $BlockQuoteDepth) { $BlockQuoteDepth = 1 }
-            (">" * $BlockQuoteDepth) + ' ' + (
+            $markdownLines += (">" * $BlockQuoteDepth) + ' ' + (
                 "$inputObject" -split '(?>\r\n|\n)' -join (
                     [Environment]::NewLine + (">" * $BlockQuoteDepth) + ' '
                 )
@@ -230,7 +235,10 @@ function Format-Markdown
                             }
                         }
                     } elseif ($in -is [Collections.IDictionary]) {
-                        @($in.Keys) -notin $MyInvocation.MyCommand.Parameters.Keys
+                        foreach ($k in $in.Keys) {
+                            if ($MyInvocation.MyCommand.Parameters[$k]) { continue }
+                            $k
+                        }                        
                     }
                     else {
                         foreach ($psProp in $In.psobject.properties) {
@@ -242,24 +250,26 @@ function Format-Markdown
                 )
 
                 if ($IsFirst) {
-                    '|' + (@(foreach ($prop in $propertyList) {
-                        if ($prop -is [string]) {
-                            $prop
-                        } else {
-                            $prop.Name
-                        }
-                    }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
-                    '|' + (@(foreach ($prop in $propertyList) {
-                        if ($prop -is [string]) {
-                            "-" * $prop.Length
-                        } else {
-                            "-" * $prop.Name.Length
-                        }
-                    }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'    
+                    $markdownLines +=
+                        '|' + (@(foreach ($prop in $propertyList) {
+                            if ($prop -is [string]) {
+                                $prop
+                            } else {
+                                $prop.Name
+                            }
+                        }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+                    $markdownLines +=
+                        '|' + (@(foreach ($prop in $propertyList) {
+                            if ($prop -is [string]) {
+                                "-" * $prop.Length
+                            } else {
+                                "-" * $prop.Name.Length
+                            }
+                        }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
                     $IsFirst = $false
                 }
                 
-                '|' + (@(foreach ($prop in $propertyList) {
+                $markdownLines += '|' + (@(foreach ($prop in $propertyList) {
                     if ($prop -is [string]) {
                         $in.$prop | LinkInput
                     } else {
@@ -274,15 +284,53 @@ function Format-Markdown
             ($ScriptBlock -and $inputObject) -or # * If -ScriptBlock and -InputObject were both provided.
             ($Heading -and $inputObject)         # * if -Heading and -InputObject were both provided
         ) {
-            $InputObject | LinkInput
+            $markdownLines += $InputObject | LinkInput
         }
 
-        if ($HorizontalRule) {
+
+        if ($HorizontalRule -and -not $MarkdownTable) {
             if ($host.UI.RawUI.BufferSize.Width) {
-                (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
+                $markdownLines += (([string]$HorizontalRuleCharacter) * ($Host.UI.RawUI.BufferSize.Width - 1))
             } else {
-                "---"
+                $markdownLines += "---"
             }                        
         }
+    }
+
+    end {
+        if ($markdownLines -match '^\|') {
+            $maxColumnSize  = @{}
+            foreach ($ml in $markdownLines) {
+                if ($ml -match '\^|') {
+                    $partCount = 0
+                    foreach ($tablePart in $ml -split '\|' -ne '') {
+                        if ((-not $maxColumnSize[$partCount]) -or $maxColumnSize[$partCount] -lt $tablePart.Length) {
+                            $maxColumnSize[$partCount] = $tablePart.Length
+                        }
+                        $partCount++
+                    }
+                }
+            }
+            $markdownLines = @(foreach ($ml in $markdownLines) {
+                if ($ml -match '\^|') {
+                    $partCount = 0
+                    '|' + (@(foreach ($tablePart in $ml -split '\|' -ne '') {
+                        if ($tablePart -match '^[:\-]+$') {
+                            if ($tablePart -match '\:$') {
+                                $tablePart.PadLeft($maxColumnSize[$partcount], '-')
+                            } else {
+                                $tablePart.PadRight($maxColumnSize[$partcount], '-')
+                            }
+                        } else {
+                            $tablePart.PadRight($maxColumnSize[$partcount], ' ')
+                        }
+                        $partCount++                                            
+                    }) -join '|') + '|'
+                } else {
+                    $ml
+                }
+            })
+        }
+        $markdownLines -join [Environment]::NewLine        
     }
 }
