@@ -1,4 +1,9 @@
-﻿Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo", "EZOut.RichModuleInfo" -Action {
+﻿Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo","EZOut.RichModuleInfo" -Property Name, Version, PreRelease, ExportedCommands -VirtualProperty @{
+    "ExportedCommands" = { $_.ExportedCommands.Values }
+}
+
+
+Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo", "EZOut.RichModuleInfo" -Action {
 $module = $_
 @(
     $moduleNameVer = $module.Name + $(
@@ -41,3 +46,4 @@ $module = $_
     }
 ) -join [Environment]::NewLine
 }
+

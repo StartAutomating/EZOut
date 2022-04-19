@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.8.5: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.8.6: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -1801,6 +1801,44 @@ if ($Request -or $Host.UI.SupportsHTML) {
           </CustomEntry>
         </CustomEntries>
       </CustomControl>
+    </View>
+    <View>
+      <Name>System.Management.Automation.PSModuleInfoEZOut.RichModuleInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>System.Management.Automation.PSModuleInfo</TypeName>
+        <TypeName>EZOut.RichModuleInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ExportedCommands</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Version</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>PreRelease</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock> $_.ExportedCommands.Values </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
     </View>
     <View>
       <Name>System.Management.Automation.PSModuleInfoEZOut.RichModuleInfo</Name>
