@@ -46,6 +46,10 @@ $UserName
 [PSCustomObject]$PSBoundParameters | Format-List | Out-Host
 "::endgroup::" | Out-Host
 
+$gitHubEvent = if ($env:GITHUB_EVENT_PATH) {
+    [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
+} else { $null }
+
 if ($env:GITHUB_ACTION_PATH) {
     $EZOutModulePath = Join-Path $env:GITHUB_ACTION_PATH 'EZOut.psd1'
     if (Test-path $EZOutModulePath) {
@@ -75,6 +79,8 @@ $processScriptOutput = { process {
             git commit -m "$($out.Message)"
         } elseif ($out.CommitMessage) {
             git commit -m "$($out.CommitMessage)"
+        } elseif ($gitHubEvent.head_commit.message) {
+            git commit -m "$($gitHubEvent.head_commit.message)"
         }
         $anyFilesChanged = $true
     }
@@ -143,7 +149,8 @@ if ($CommitMessage -or $anyFilesChanged) {
 
     $checkDetached = git symbolic-ref -q HEAD
     if (-not $LASTEXITCODE) {
-        "::notice::Pushing Changes" | Out-Host        
+        "::notice::Pushing Changes" | Out-Host
+        git push        
         "Git Push Output: $($gitPushed  | Out-String)"
     } else {
         "::notice::Not pushing changes (on detached head)" | Out-Host
