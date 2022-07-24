@@ -122,14 +122,23 @@ runs:
             [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
         } else { $null }
         
-        if ($env:GITHUB_ACTION_PATH) {
+        $PSD1Found = Get-ChildItem -Recurse -Filter "*.psd1" |
+            Where-Object Name -eq 'EZOut.psd1' | 
+            Select-Object -First 1
+        
+        if ($PSD1Found) {
+            $EZOutModulePath = $PSD1Found
+            Import-Module $PSD1Found -Force -PassThru | Out-Host
+        } 
+        elseif ($env:GITHUB_ACTION_PATH) {
             $EZOutModulePath = Join-Path $env:GITHUB_ACTION_PATH 'EZOut.psd1'
             if (Test-path $EZOutModulePath) {
                 Import-Module $EZOutModulePath -Force -PassThru | Out-String
             } else {
                 throw "EZOut not found"
             }
-        } elseif (-not (Get-Module EZOut)) {    
+        } 
+        elseif (-not (Get-Module EZOut)) {
             throw "Action Path not found"
         }
         
