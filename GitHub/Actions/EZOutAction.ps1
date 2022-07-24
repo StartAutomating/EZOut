@@ -31,7 +31,7 @@ $ModuleName,
 
 # If provided, will commit any remaining changes made to the workspace with this commit message.
 [string]
-$CommitMessage = "Updating Formatting and Types",
+$CommitMessage,
 
 # The user email associated with a git commit.
 [string]
