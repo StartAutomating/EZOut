@@ -1,7 +1,7 @@
 $EZOutLoaded = Get-Module EZOut
 if (-not $EZOutLoaded) {
     $EZOutLoaded = Get-ChildItem -Recurse -Filter "*.psd1" | 
-        Where-Object Name -eq 'EZOut.ps1' | 
+        Where-Object Name -eq 'EZOut.psd1' | 
         Import-Module -Name { $_.FullName } -Force -PassThru
 }
 if ($EZOutLoaded) {
