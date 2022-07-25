@@ -18,7 +18,6 @@ inputs:
       If not provided, this will be assumed to be the name of the root directory.
   CommitMessage: 
     required: false
-    default: "Updating Formatting and Types"
     description: If provided, will commit any remaining changes made to the workspace with this commit message.
   UserEmail: 
     required: false
@@ -50,12 +49,12 @@ runs:
       id: EZOutAction
       shell: pwsh
       env: 
-        CommitMessage: ${{inputs.CommitMessage}}
-        EZOutScript: ${{inputs.EZOutScript}}
-        UserEmail: ${{inputs.UserEmail}}
         ModuleName: ${{inputs.ModuleName}}
-        SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
+        CommitMessage: ${{inputs.CommitMessage}}
         UserName: ${{inputs.UserName}}
+        UserEmail: ${{inputs.UserEmail}}
+        SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
+        EZOutScript: ${{inputs.EZOutScript}}
       run: |
         $Parameters = @{}
         $Parameters.EZOutScript = ${env:EZOutScript}
@@ -104,7 +103,7 @@ runs:
         
         # If provided, will commit any remaining changes made to the workspace with this commit message.
         [string]
-        $CommitMessage = "Updating Formatting and Types",
+        $CommitMessage,
         
         # The user email associated with a git commit.
         [string]
@@ -119,14 +118,27 @@ runs:
         [PSCustomObject]$PSBoundParameters | Format-List | Out-Host
         "::endgroup::" | Out-Host
         
-        if ($env:GITHUB_ACTION_PATH) {
+        $gitHubEvent = if ($env:GITHUB_EVENT_PATH) {
+            [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
+        } else { $null }
+        
+        $PSD1Found = Get-ChildItem -Recurse -Filter "*.psd1" |
+            Where-Object Name -eq 'EZOut.psd1' | 
+            Select-Object -First 1
+        
+        if ($PSD1Found) {
+            $EZOutModulePath = $PSD1Found
+            Import-Module $PSD1Found -Force -PassThru | Out-Host
+        } 
+        elseif ($env:GITHUB_ACTION_PATH) {
             $EZOutModulePath = Join-Path $env:GITHUB_ACTION_PATH 'EZOut.psd1'
             if (Test-path $EZOutModulePath) {
                 Import-Module $EZOutModulePath -Force -PassThru | Out-String
             } else {
                 throw "EZOut not found"
             }
-        } elseif (-not (Get-Module EZOut)) {    
+        } 
+        elseif (-not (Get-Module EZOut)) {
             throw "Action Path not found"
         }
         
@@ -148,6 +160,8 @@ runs:
                     git commit -m "$($out.Message)"
                 } elseif ($out.CommitMessage) {
                     git commit -m "$($out.CommitMessage)"
+                } elseif ($gitHubEvent.head_commit.message) {
+                    git commit -m "$($gitHubEvent.head_commit.message)"
                 }
                 $anyFilesChanged = $true
             }
@@ -216,7 +230,8 @@ runs:
         
             $checkDetached = git symbolic-ref -q HEAD
             if (-not $LASTEXITCODE) {
-                "::notice::Pushing Changes" | Out-Host        
+                "::notice::Pushing Changes" | Out-Host
+                git push        
                 "Git Push Output: $($gitPushed  | Out-String)"
             } else {
                 "::notice::Not pushing changes (on detached head)" | Out-Host

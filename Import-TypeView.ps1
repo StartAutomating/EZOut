@@ -102,6 +102,8 @@
             #>
 
             $aliasFileNames = 'Alias','Aliases','AliasProperty', '.Alias','.Aliases','.AliasProperty'
+            $typeNameFileNames = 'TypeName','TypeNames','PSTypeName', 'PSTypeNames', 
+                '.TypeName', '.TypeNames','.PSTypeName', '.PSTypeNames'
             $defaultDisplayFileName = 'DefaultDisplay','.DefaultDisplay'
             $scriptMethods = [Ordered]@{}
             $eventGenerators = [Ordered]@{}
@@ -201,7 +203,10 @@
                                 $WriteTypeViewSplat.DefaultDisplay =
                                     $fileText -split '(?>\r\n|\n)' -ne ''
                             }
-
+                            if ($typeNameFileNames -contains $itemName) {
+                                $WriteTypeViewSplat.TypeName =
+                                    $fileText -split '(?>\r\n|\n)' -ne ''
+                            }
                             elseif ($itemName -like '*.propertySet') { # If it's a property set file (.propertyset.txt)
                                 $propertySets[$itemName -replace '\.propertySet$'] = # Create a property set with the file name.
                                     $fileText -split '(?>\r\n|\n)' -ne '' # Each line will be treated as a name of a property.

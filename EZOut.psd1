@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.8.6'
+    ModuleVersion = '1.8.7'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -42,7 +42,14 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-1.8.6
+## 1.8.7:
+* Out-FormatData: Now supports -Debug (#46)
+* Format-YAML: Fixing Indentation (#49)
+* Import-TypeView: Allowing Typename.txt file to redefine typename (#48)
+* Self-hosting action (#52)
+* GitHub Action now carries on commit message (#54)
+---
+## 1.8.6
 * Format-Markdown:  Adding -ImageLink
 * Format-Markdown:  Adding -MarkdownTableAlignment, additional documentation.
 * Format-Markdown:  Normalizing tables and fixing issues with Dictionaries

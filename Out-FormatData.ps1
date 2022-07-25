@@ -173,6 +173,11 @@
         }
 
         filter ReplaceParts {
+            if ($DebugPreference -ne 'silentlyContinue') {
+                $in = $_
+                if ($in.InnerText) { return $in.InnerText}
+                else { return $in }
+            }
             $inScriptBlock = try { [scriptblock]::Create($_) } catch { $null }
             $inScriptString = "$inScriptBlock"
             $cmdRefs = @($inScriptBlock.Ast.FindAll({
@@ -337,8 +342,8 @@
             @($configurationXml.SelectNodes("//ScriptBlock") | Where-Object InnerText) |
                     findUsedParts -FromModule $modulesThatMayHaveParts
 
-        if ($foundParts) { # If any parts are found, we'll need to embed them and bootstrap the loader
-
+        # If any parts are found, we'll need to embed them and bootstrap the loader
+        if ($foundParts -and $DebugPreference -eq 'silentlyContinue') { 
             if (-not $moduleName) # To do this, we need a -ModuleName, so we if we still don't have one.
             {
                 Write-Error "A -ModuleName must be provided to use advanced features" # error

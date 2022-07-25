@@ -31,7 +31,7 @@ $ModuleName,
 
 # If provided, will commit any remaining changes made to the workspace with this commit message.
 [string]
-$CommitMessage = "Updating Formatting and Types",
+$CommitMessage,
 
 # The user email associated with a git commit.
 [string]
@@ -46,14 +46,27 @@ $UserName
 [PSCustomObject]$PSBoundParameters | Format-List | Out-Host
 "::endgroup::" | Out-Host
 
-if ($env:GITHUB_ACTION_PATH) {
+$gitHubEvent = if ($env:GITHUB_EVENT_PATH) {
+    [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
+} else { $null }
+
+$PSD1Found = Get-ChildItem -Recurse -Filter "*.psd1" |
+    Where-Object Name -eq 'EZOut.psd1' | 
+    Select-Object -First 1
+
+if ($PSD1Found) {
+    $EZOutModulePath = $PSD1Found
+    Import-Module $PSD1Found -Force -PassThru | Out-Host
+} 
+elseif ($env:GITHUB_ACTION_PATH) {
     $EZOutModulePath = Join-Path $env:GITHUB_ACTION_PATH 'EZOut.psd1'
     if (Test-path $EZOutModulePath) {
         Import-Module $EZOutModulePath -Force -PassThru | Out-String
     } else {
         throw "EZOut not found"
     }
-} elseif (-not (Get-Module EZOut)) {    
+} 
+elseif (-not (Get-Module EZOut)) {
     throw "Action Path not found"
 }
 
@@ -75,6 +88,8 @@ $processScriptOutput = { process {
             git commit -m "$($out.Message)"
         } elseif ($out.CommitMessage) {
             git commit -m "$($out.CommitMessage)"
+        } elseif ($gitHubEvent.head_commit.message) {
+            git commit -m "$($gitHubEvent.head_commit.message)"
         }
         $anyFilesChanged = $true
     }
@@ -143,7 +158,8 @@ if ($CommitMessage -or $anyFilesChanged) {
 
     $checkDetached = git symbolic-ref -q HEAD
     if (-not $LASTEXITCODE) {
-        "::notice::Pushing Changes" | Out-Host        
+        "::notice::Pushing Changes" | Out-Host
+        git push        
         "Git Push Output: $($gitPushed  | Out-String)"
     } else {
         "::notice::Not pushing changes (on detached head)" | Out-Host

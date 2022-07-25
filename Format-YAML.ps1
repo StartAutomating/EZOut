@@ -46,13 +46,13 @@ function Format-YAML
                 if ( $Object -is [string] ) { # If it's a string
                     if ($object -match '\n') { # see if it's a multline string.
                         "|" # If it is, emit the multiline indicator
-                        $indent+=2
+                        $indent +=2
                         foreach ($l in $object -split '(?>\r\n|\n)') { # and emit each line indented
                             [Environment]::NewLine
                             ' ' * $indent
                             $l
                         }
-                        $indent-=2
+                        $indent -=2
                     } elseif ("$object".Contains('*')) {
                         "'$($Object -replace "'","''")'"
                     } else {
@@ -94,7 +94,7 @@ function Format-YAML
             
             
                 #region Nested
-                if ($Object -is [Collections.IDictionary] -or $Object  -is [PSObject]) {
+                if ($parent -and ($Object -is [Collections.IDictionary] -or $Object  -is [PSObject])) {
                     $Indent += 2
                 } 
                 elseif ($object -is [Collections.IList]) {
@@ -107,7 +107,7 @@ function Format-YAML
                             $obj -is [bool]
                         ) 
                     }
-                    if (-not $allPrimitive) {
+                    if ($parent -and -not $allPrimitive) {
                         $Indent += 2
                     }            
                 }
@@ -151,6 +151,7 @@ function Format-YAML
     }
 
     end {
+        if (-not $allInputObjects) { return }
         if ($allInputObjects.Length -eq 1) {
             '' + $(if ($YamlHeader) { '---' + [Environment]::NewLine}) + (
                 (& $toYaml -object $inputObject) -join '' -replace 
