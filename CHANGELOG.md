@@ -1,3 +1,7 @@
+## 1.8.8:
+* Write-EZFormatFile generates scripts that output files.  Fixes #56 and #43.
+---
+
 ## 1.8.7:
 * Out-FormatData: Now supports -Debug (#46)
 * Format-YAML: Fixing Indentation (#49)

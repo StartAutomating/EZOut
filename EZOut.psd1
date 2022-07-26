@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.8.7'
+    ModuleVersion = '1.8.8'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -42,6 +42,10 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.8.8:
+* Write-EZFormatFile generates scripts that output files.  Fixes #56 and #43.
+---
+
 ## 1.8.7:
 * Out-FormatData: Now supports -Debug (#46)
 * Format-YAML: Fixing Indentation (#49)
