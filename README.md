@@ -1,48 +1,10 @@
-
-EzOut [1.8.6]
-=============
-Easily Author Rich Format Files to Customize PowerShell Output
---------------------------------------------------------------
-### Commands
-|Verb     |Noun                |
-|---------|--------------------|
-|Add      |FormatData          |
-|Add      |TypeData            |
-|Clear    |FormatData          |
-|Clear    |TypeData            |
-|ConvertTo|PropertySet         |
-|Find     |FormatView          |
-|Format   |Heatmap             |
-|Format   |Markdown            |
-|Format   |Object              |
-|Format   |RichText            |
-|Format   |YAML                |
-|Get      |EZOutExtension      |
-|Get      |FormatFile          |
-|Get      |PropertySet         |
-|Import   |FormatView          |
-|Import   |TypeView            |
-|Out      |FormatData          |
-|Out      |TypeData            |
-|Remove   |FormatData          |
-|Remove   |TypeData            |
-|Write    |EZFormatFile        |
-|Write    |FormatControl       |
-|Write    |FormatCustomView    |
-|Write    |FormatListView      |
-|Write    |FormatTableView     |
-|Write    |FormatTreeView      |
-|Write    |FormatView          |
-|Write    |FormatViewExpression|
-|Write    |FormatWideView      |
-|Write    |PropertySet         |
-|Write    |TypeView            |
 ### Installing EZOut
 
 You can install EZOut from the PowerShell Gallery.  Simply:
 ~~~PowerShell
 Install-Module EZOut -AllowClobber -Scope CurrentUser
 ~~~
+
 ### Understanding PowerShell Formatting
 
 Unlike many languages, PowerShell has a formatting engine built into the box.  
