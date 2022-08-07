@@ -1,3 +1,8 @@
+## 1.8.8.1:
+* Format-YAML now supports -Indent (Fixes #59)
+* Format-YAML now supports all primitive types (Fixes #58). Thanks @dfinke!
+---
+
 ## 1.8.8:
 * Write-EZFormatFile generates scripts that output files.  Fixes #56 and #43.
 ---
