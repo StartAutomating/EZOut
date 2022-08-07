@@ -1161,16 +1161,14 @@ describe 'Format-Object' {
 
 describe 'Format-YAML' {
     it 'Formats an object as YAML' {
-        [Ordered]@{a=1;b=2.1;c='c';d=@{k='v'}} | Format-YAML | 
-            Should -BeLike @'
-*
+        ([Ordered]@{a=1;b=2.1;c='c';d=@{k='v'}} | Format-YAML).Trim() | 
+            Should -BeLike '
 a: 1
 b: 2.1
 c: c
-d:
+d:*
   k: v
-*
-'@
+'.Trim()
     }
     it 'Can indent yaml' {
         Format-YAML -InputObject @{a='a'} -Indent 4 | Should -Match '(?m)^\s{4}'
