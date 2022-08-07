@@ -1158,3 +1158,13 @@ describe 'Format-Object' {
         100 | Format-Object -HeatMapMax 100 -HeatMapHot 0xff0000 | Should -be '#ff0000'
     }
 }
+
+describe 'Format-YAML' {
+    it 'Formats an object as YAML' {
+        ([Ordered]@{a=1;b=2.1;c='c';d=@{k='v'}} | Format-YAML).Trim() | 
+            Should -BeLike '*a:*1*b:*2.1*c:*c*d:*k:*v*'
+    }
+    it 'Can indent yaml' {
+        Format-YAML -InputObject @{a='a'} -Indent 4 | Should -Match '(?m)^\s{4}'
+    }
+}

@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.8.8'
+    ModuleVersion = '1.8.8.1'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -42,6 +42,11 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.8.8.1:
+* Format-YAML now supports -Indent (Fixes #59)
+* Format-YAML now supports all primitive types (Fixes #58). Thanks @dfinke!
+---
+
 ## 1.8.8:
 * Write-EZFormatFile generates scripts that output files.  Fixes #56 and #43.
 ---
