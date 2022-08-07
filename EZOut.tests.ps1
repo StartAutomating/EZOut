@@ -1169,6 +1169,10 @@ b: 2.1
 c: c
 d:
   k: v
+*
 '@
-    }    
+    }
+    it 'Can indent yaml' {
+        Format-YAML -InputObject @{a='a'} -Indent 4 | Should -Match '(?m)^\s{4}'
+    }
 }
