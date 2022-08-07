@@ -23,7 +23,7 @@ Format-Yaml -InputObject @("a", "b", "c")
 
 ---
 ### Parameters
-#### **inputObject**
+#### **InputObject**
 
 The InputObject.
 
@@ -43,9 +43,15 @@ If set, will make a YAML header by adding a YAML Document tag above and below ou
 |--------------|--------|-------|-------------|
 |```[Switch]```|false   |named  |false        |
 ---
+#### **Indent**
+
+|Type         |Requried|Postion|PipelineInput|
+|-------------|--------|-------|-------------|
+|```[Int32]```|false   |2      |false        |
+---
 ### Syntax
 ```PowerShell
-Format-YAML [[-inputObject] <PSObject>] [-YamlHeader] [<CommonParameters>]
+Format-YAML [[-InputObject] <PSObject>] [-YamlHeader] [[-Indent] <Int32>] [<CommonParameters>]
 ```
 ---
 
