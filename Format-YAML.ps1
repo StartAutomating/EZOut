@@ -16,7 +16,7 @@ function Format-YAML
     # The InputObject.
     [Parameter(ValueFromPipeline)]
     [PSObject]
-    $inputObject,
+    $InputObject,
 
     # If set, will make a YAML header by adding a YAML Document tag above and below output.
     [Alias('YAMLDocument')]
@@ -64,7 +64,7 @@ function Format-YAML
                     }
                     return # Once the string has been emitted, return.
                 }
-                if ( [int], [float], [bool] -contains $Object.GetType() ) { # If it is an [int] or [float] or [bool]
+                if ( $Object.GetType().IsPrimitive ) { # If it is a primitive type
                     "$Object".ToLower()  # Emit it in lowercase.
                     if ($Parent -is [Collections.IList]) {
                         [Environment]::NewLine
@@ -102,14 +102,12 @@ function Format-YAML
                     foreach ($Obj in $Object) { 
                         $allPrimitive = $allPrimitive -band (
                             $Obj -is [string] -or 
-                            $obj -is [int] -or 
-                            $obj -is [float] -or 
-                            $obj -is [bool]
+                            $obj.GetType().IsPrimitive
                         ) 
                     }
                     if ($parent -and -not $allPrimitive) {
                         $Indent += 2
-                    }            
+                    }
                 }
             
             
