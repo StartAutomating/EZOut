@@ -21,7 +21,10 @@ function Format-YAML
     # If set, will make a YAML header by adding a YAML Document tag above and below output.
     [Alias('YAMLDocument')]
     [switch]
-    $YamlHeader
+    $YamlHeader,
+
+    [int]
+    $Indent = 0
     )
 
     begin {
@@ -133,16 +136,21 @@ function Format-YAML
                 #endregion Nested
             }                
         }
+        function IndentString([string]$String,[int]$Indent) {
+            @(foreach ($line in @($String -split '(?>\r\n|\n)')) {
+                (' ' * $indent) + $line 
+            }) -join [Environment]::NewLine
+        }
         $inputWasNotPiped = $PSBoundParameters.InputObject -as [bool]
         $allInputObjects  = @()
     }
 
     process {
         if ($inputWasNotPiped) {
-            '' + $(if ($YamlHeader) { '---' + [Environment]::NewLine })  + (
+            IndentString ('' + $(if ($YamlHeader) { '---' + [Environment]::NewLine })  + (
                 (& $toYaml -object $inputObject) -join '' -replace 
                     "$([Environment]::NewLine * 2)", [Environment]::NewLine
-            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})
+            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})) -Indent $Indent
         } else {
             $allInputObjects += $inputObject
         }
@@ -151,15 +159,15 @@ function Format-YAML
     end {
         if (-not $allInputObjects) { return }
         if ($allInputObjects.Length -eq 1) {
-            '' + $(if ($YamlHeader) { '---' + [Environment]::NewLine}) + (
+            IndentString ('' + $(if ($YamlHeader) { '---' + [Environment]::NewLine}) + (
                 (& $toYaml -object $inputObject) -join '' -replace 
                     "$([Environment]::NewLine * 2)", [Environment]::NewLine
-            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})
+            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})) -Indent $Indent
         } else {
-            '' + $(if ($YamlHeader) { '---' + [Environment]::NewLine})  + (
+            IndentString ('' + $(if ($YamlHeader) { '---' + [Environment]::NewLine})  + (
                 (& $toYaml -object $allInputObjects) -join '' -replace 
                     "$([Environment]::NewLine * 2)", [Environment]::NewLine
-            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})
+            ) + $(if ($YamlHeader) { [Environment]::NewLine  + '---'})) -Indent $Indent
         }
     }
 }
