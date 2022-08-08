@@ -137,7 +137,7 @@
                 } elseif ($itemName.StartsWith('.')) {
                     # If the file starts with a ., hide the property.
                     $itemName = $itemName.TrimStart('.')
-                    $hideProperty += $itemName
+                    $hideProperty += $itemName -replace '^(?>get|set)_'
                 }
 
 
