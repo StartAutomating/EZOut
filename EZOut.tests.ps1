@@ -1168,3 +1168,9 @@ describe 'Format-YAML' {
         Format-YAML -InputObject @{a='a'} -Indent 4 | Should -Match '(?m)^\s{4}'
     }
 }
+
+describe 'Format-Hashtable' {
+    it 'Can format a hashtable' {
+        Format-Hashtable -InputObject @{a='a'} | Should -Match "^\@\{\s+a\s=\s'a'\s+}"
+    }
+}

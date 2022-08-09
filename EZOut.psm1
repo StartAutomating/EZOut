@@ -65,6 +65,7 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 . $psScriptRoot\Format-RichText.ps1
 . $psScriptRoot\Format-Markdown.ps1
 . $psScriptRoot\Format-YAML.ps1
+. $psScriptRoot\Format-Hashtable.ps1
 
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 

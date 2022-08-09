@@ -1,3 +1,8 @@
+## 1.8.9:
+* Added Format-Hashtable (Fixes #61)
+* Import-TypeView now supports hidden properties (Fixes #62)
+---
+
 ## 1.8.8.1:
 * Format-YAML now supports -Indent (Fixes #59)
 * Format-YAML now supports all primitive types (Fixes #58). Thanks @dfinke!
