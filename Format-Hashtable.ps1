@@ -25,8 +25,7 @@ function Format-Hashtable {
     [PSObject]
     $InputObject,
 
-    # Returns the content as a script block, rather than a string
-    [Alias('ScriptBlock')]
+    # Returns the content as a script block, rather than a string    
     [switch]$AsScriptBlock,
 
     # If set, will return the hashtable and all nested hashtables as custom objects.
