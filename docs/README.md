@@ -4,7 +4,6 @@ You can install EZOut from the PowerShell Gallery.  Simply:
 ~~~PowerShell
 Install-Module EZOut -AllowClobber -Scope CurrentUser
 ~~~
-
 ### Understanding PowerShell Formatting
 
 Unlike many languages, PowerShell has a formatting engine built into the box.  
@@ -181,9 +180,6 @@ EZOut ships with a rich PSModuleInfo formatter, which will display the module na
 ~~~PowerShell
 Get-Module EZOut | Format-Custom
 ~~~
-
-
-
 
 
 
