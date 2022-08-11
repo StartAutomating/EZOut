@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.8.9'
+    ModuleVersion = '1.9.0'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,13 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.0:
+* Format-Hashtable:  Better Handling of [string]s, [enum]s, and primitive types (Fixes #64).
+* Format-YAML:
+  * Added -Depth (Fixes #65)
+  * Supporting Enums (Fixes #66)
+---
+
 ## 1.8.9:
 * Added Format-Hashtable (Fixes #61)
 * Import-TypeView now supports hidden properties (Fixes #62)
