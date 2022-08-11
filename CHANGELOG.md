@@ -1,3 +1,10 @@
+## 1.9.0:
+* Format-Hashtable:  Better Handling of [string]s, [enum]s, and primitive types (Fixes #64).
+* Format-YAML:
+  * Added -Depth (Fixes #65)
+  * Supporting Enums (Fixes #66)
+---
+
 ## 1.8.9:
 * Added Format-Hashtable (Fixes #61)
 * Import-TypeView now supports hidden properties (Fixes #62)

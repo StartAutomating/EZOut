@@ -51,6 +51,7 @@ function Format-Hashtable {
 
     begin {
         $myCmd = $MyInvocation.MyCommand
+        $myScriptBlock = $myCmd.ScriptBlock
     }
 
     process {
@@ -73,7 +74,15 @@ function Format-Hashtable {
             return '$null'
         }
 
-        if ($inputObject -isnot [Collections.IDictionary]) {
+        
+
+        if ($inputObject -and 
+            $inputObject -isnot [Collections.IDictionary] -and 
+            $inputObject -isnot [string] -and 
+            (-not $InputObject.GetType().IsPrimitive) -and
+            $InputObject -isnot [Enum]
+        )
+        {
             $newInputObject = [Ordered]@{
                 PSTypeName=@($inputobject.pstypenames)[0]
             }
@@ -87,9 +96,9 @@ function Format-Hashtable {
             $inputObject = $newInputObject
         }
         
+        $scriptString = ""
         if ($inputObject -is [Collections.IDictionary]) {
-            #region Indent
-            $scriptString = ""
+            #region Indent            
             $indent = $CurrentDepth * 4
             $scriptString+= 
                 if ($Compress) {
@@ -168,7 +177,7 @@ function Format-Hashtable {
                             }
                         @(foreach ($v in $value) {
                             if ($v -is [Collections.IDictionary]) {                            
-                                & $myCmd -InputObject $v @myParams
+                                & $myScriptBlock -InputObject $v @myParams
                             } elseif ($v -is [ScriptBlock] -or $v -is [Management.Automation.Language.Ast]) {
                                 if ($Safe) {
 
@@ -176,7 +185,7 @@ function Format-Hashtable {
                                     "{$v}"
                                 }
                             } elseif ($v -is [Object] -and $v -isnot [string]) {
-                                & $myCmd -InputObject $v @myParams
+                                & $myScriptBlock -InputObject $v @myParams
                             } elseif ($v -is [bool] -or $v -is [switch]) {
                                 "`$$v"
                             } elseif ($null -ne ($v -as [float])) {
@@ -187,14 +196,14 @@ function Format-Hashtable {
                         }) -join $joiner                                        
                     } elseif ($value -as [Collections.IDictionary[]]) {
                         @(foreach ($v in $value) {
-                            & $myCmd $v @myParams
+                            & $myScriptBlock $v @myParams
                         }) -join ","                    
                     } elseif ($value -is [Collections.IDictionary]) {
-                        "$(& $myCmd $value @myParams)"
+                        "$(& $myScriptBlock $value @myParams)"
                     } elseif ($value -as [Double]) {
                         "$value"
                     } elseif ($value -is [Management.Automation.PSCredential] -and $ExpandCredential) {
-                        & $myCmd -InputObject ([Ordered]@{
+                        & $myScriptBlock -InputObject ([Ordered]@{
                                 Username = $value.Username
                                 Password = $value.GetNetworkCredential().Password
                         }) @myParams
@@ -203,7 +212,7 @@ function Format-Hashtable {
                         if ($valueString[0] -eq "'" -and 
                             $valueString[1] -eq "@" -and 
                             $valueString[2] -eq "{") {
-                            & $myCmd -InputObject $value @myParams
+                            & $myScriptBlock -InputObject $value @myParams
                         } else {
                             $valueString
                         }                        
@@ -224,14 +233,34 @@ function Format-Hashtable {
             if ($AsPSObject -and -not $Safe) {
                 $scriptString = "[PSCustomObject][Ordered]$ScriptString"
             }
-            
-            if ($AsScriptBlock) {
-                [ScriptBlock]::Create($scriptString)
-            } else {                
-                $scriptString
-            }
             #endregion Include
-        }          
+        }
+        elseif ($InputObject -is [string]) {
+            $scriptString = "'" + $InputObject.Replace("'", "''") + "'"
+        }
+        elseif (
+            $InputObject.GetType -and $InputObject.GetType().IsPrimitive
+        ) {
+            $scriptString += "$inputObject"
+        }
+        elseif ($inputObject -is [Enum]) {
+            $scriptString = 
+                if ($safe) {
+                    "'" + $InputObject.ToString().Replace("'", "''") + "'"
+                } else {
+                    "[$($InputObject.GetType().FullName -replace '^System\.')]" + 
+                    "'" + $InputObject.ToString().Replace("'", "''") + "'"
+                }
+        }
+        elseif (-not $inputObject) {
+            $scriptString += '$null'
+        }
+        
+        if ($AsScriptBlock) {
+            [ScriptBlock]::Create($scriptString)
+        } else {                
+            $scriptString
+        }
    }
 }         
 
