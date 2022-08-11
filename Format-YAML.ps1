@@ -24,7 +24,12 @@ function Format-YAML
     $YamlHeader,
 
     [int]
-    $Indent = 0
+    $Indent = 0,
+
+    # The maximum depth of objects to include.
+    # Beyond this depth, an empty string will be returned.    
+    [int]
+    $Depth
     )
 
     begin {
@@ -39,6 +44,13 @@ function Format-YAML
             process {
                 $n++
                 if ($Object -eq $null) { return }
+
+                if ($depth) {
+                    $myDepth = $indent / 2
+                    if ($myDepth -gt $depth) {
+                        return ''
+                    }
+                }
             
                 if ($Parent -and $Parent -is [Collections.IList]) {
                     if ($Parent.IndexOf($Object) -gt 0) { ' ' * $Indent }
