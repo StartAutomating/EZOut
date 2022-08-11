@@ -136,7 +136,11 @@ function Format-YAML
                     $Object |
                         & $mySelf -Parent $Object -GrandParent $Parent -Indent $Indent
             
-                } elseif ($Object.PSObject.Properties) {
+                } 
+                elseif ($object -is [enum]) {
+                    $object.ToString()
+                }
+                elseif ($Object.PSObject.Properties) {
                     $Object.psobject.properties |
                         & $mySelf -Parent $Object -GrandParent $Parent -Indent $Indent
                 }
