@@ -49,9 +49,20 @@ If set, will make a YAML header by adding a YAML Document tag above and below ou
 |-------------|--------|-------|-------------|
 |```[Int32]```|false   |2      |false        |
 ---
+#### **Depth**
+
+The maximum depth of objects to include.
+Beyond this depth, an empty string will be returned.
+
+
+
+|Type         |Requried|Postion|PipelineInput|
+|-------------|--------|-------|-------------|
+|```[Int32]```|false   |3      |false        |
+---
 ### Syntax
 ```PowerShell
-Format-YAML [[-InputObject] <PSObject>] [-YamlHeader] [[-Indent] <Int32>] [<CommonParameters>]
+Format-YAML [[-InputObject] <PSObject>] [-YamlHeader] [[-Indent] <Int32>] [[-Depth] <Int32>] [<CommonParameters>]
 ```
 ---
 
