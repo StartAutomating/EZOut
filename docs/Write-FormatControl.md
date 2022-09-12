@@ -12,6 +12,9 @@ Writes the .format.ps1xml for a custom control.  Custom Controls can be reused t
 ---
 ### Related Links
 * [Write-FormatCustomView](Write-FormatCustomView.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -24,9 +27,16 @@ The name of the control
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Action**
 
@@ -41,9 +51,16 @@ code in between Write-FormatViewExpression will not be included in the formatter
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[ScriptBlock]```|true    |2      |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: true
+
+> **Position**: 2
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Syntax
 ```PowerShell
