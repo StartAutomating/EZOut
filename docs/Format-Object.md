@@ -12,10 +12,25 @@ Formats any object, using any number of Format-Object extensions.
 ---
 ### Related Links
 * [Get-EZOutExtension](Get-EZOutExtension.md)
+
+
+
 * [Format-RichText](Format-RichText.md)
+
+
+
 * [Format-Markdown](Format-Markdown.md)
+
+
+
 * [Format-YAML](Format-YAML.md)
+
+
+
 * [Format-Heatmap](Format-Heatmap.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -32,9 +47,16 @@ Formats any object, using any number of Format-Object extensions.
 ### Parameters
 #### **InputObject**
 
-|Type            |Requried|Postion|PipelineInput |
-|----------------|--------|-------|--------------|
-|```[PSObject]```|false   |1      |true (ByValue)|
+> **Type**: ```[PSObject]```
+
+> **Required**: false
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 ### Syntax
 ```PowerShell
