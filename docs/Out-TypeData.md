@@ -36,9 +36,16 @@ but it's easier to use Write-FormatView to create it
 
 
 
-|Type               |Requried|Postion|PipelineInput |
-|-------------------|--------|-------|--------------|
-|```[XmlDocument]```|true    |1      |true (ByValue)|
+> **Type**: ```[XmlDocument]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 ### Syntax
 ```PowerShell
