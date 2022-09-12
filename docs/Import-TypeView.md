@@ -12,6 +12,9 @@ Imports a Type View, defined in a external file .method or .property file
 ---
 ### Related Links
 * [Write-TypeView](Write-TypeView.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -23,9 +26,16 @@ Import-TypeView .\Types
 ### Parameters
 #### **FilePath**
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Deserialized**
 
@@ -33,9 +43,16 @@ If set, will generate an identical typeview for the deserialized form of each ty
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Syntax
 ```PowerShell
