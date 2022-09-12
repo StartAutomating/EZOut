@@ -17,9 +17,16 @@ The value that will be heatmapped.
 
 
 
-|Type          |Requried|Postion|PipelineInput |
-|--------------|--------|-------|--------------|
-|```[Object]```|false   |1      |true (ByValue)|
+> **Type**: ```[Object]```
+
+> **Required**: false
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 #### **HeatMapMax**
 
@@ -27,9 +34,16 @@ The Heatmap maximum, by default 1gb
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Object]```|true    |2      |false        |
+> **Type**: ```[Object]```
+
+> **Required**: true
+
+> **Position**: 2
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **HeatMapMiddle**
 
@@ -37,9 +51,16 @@ The Heatmap middle value, by default 512mb
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Object]```|false   |3      |false        |
+> **Type**: ```[Object]```
+
+> **Required**: false
+
+> **Position**: 3
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **HeatMapMin**
 
@@ -47,9 +68,16 @@ The Heatmap minimum value, by default 0
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Object]```|false   |4      |false        |
+> **Type**: ```[Object]```
+
+> **Required**: false
+
+> **Position**: 4
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **HeatMapCool**
 
@@ -59,9 +87,16 @@ To pass a Hex color as an int, simply replace # with 0x
 
 
 
-|Type         |Requried|Postion|PipelineInput|
-|-------------|--------|-------|-------------|
-|```[Int32]```|false   |5      |false        |
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: 5
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **HeatMapHot**
 
@@ -71,9 +106,16 @@ To pass a Hex color as an int, simply replace # with 0x
 
 
 
-|Type         |Requried|Postion|PipelineInput|
-|-------------|--------|-------|-------------|
-|```[Int32]```|false   |6      |false        |
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: 6
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Syntax
 ```PowerShell
