@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.0'
+    ModuleVersion = '1.9.1'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,9 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.1:
+* Format-Markdown:  Escaping -Code blocks (Fixes #69)
+---
 ## 1.9.0:
 * Format-Hashtable:  Better Handling of [string]s, [enum]s, and primitive types (Fixes #64).
 * Format-YAML:
