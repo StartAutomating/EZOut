@@ -18,9 +18,16 @@ this is the name of the module.
 
 
 
-|Type          |Requried|Postion|PipelineInput |
-|--------------|--------|-------|--------------|
-|```[String]```|true    |named  |true (ByValue)|
+> **Type**: ```[String]```
+
+> **Required**: true
+
+> **Position**: named
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 ### Syntax
 ```PowerShell
@@ -43,6 +50,9 @@ Remove-TypeData -Path <string[]> [-WhatIf] [-Confirm] [<CommonParameters>]
 ---
 ### Related Links
 * [https://go.microsoft.com/fwlink/?LinkID=2096622](https://go.microsoft.com/fwlink/?LinkID=2096622)
+
+
+
 ---
 ### Parameters
 #### **Confirm**
@@ -56,21 +66,42 @@ If the command sets a ```[ConfirmImpact("Medium")]``` which is lower than ```$co
 
 #### **Path**
 
-|Type            |Requried|Postion|PipelineInput|
-|----------------|--------|-------|-------------|
-|```[string[]]```|true    |Named  |false        |
+> **Type**: ```[string[]]```
+
+> **Required**: true
+
+> **Position**: Named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **TypeData**
 
-|Type            |Requried|Postion|PipelineInput |
-|----------------|--------|-------|--------------|
-|```[TypeData]```|true    |Named  |true (ByValue)|
+> **Type**: ```[TypeData]```
+
+> **Required**: true
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 #### **TypeName**
 
-|Type          |Requried|Postion|PipelineInput                 |
-|--------------|--------|-------|------------------------------|
-|```[string]```|true    |0      |true (ByValue, ByPropertyName)|
+> **Type**: ```[string]```
+
+> **Required**: true
+
+> **Position**: 0
+
+> **PipelineInput**:true (ByValue, ByPropertyName)
+
+
+
 ---
 #### **WhatIf**
 -WhatIf is an automatic variable that is created when a command has ```[CmdletBinding(SupportsShouldProcess)]```.
@@ -89,10 +120,10 @@ System.Object
 ---
 ### Syntax
 ```PowerShell
-[32;1msyntaxItem[0m
+syntaxItem
 ```
 ```PowerShell
-[32;1m----------[0m
+----------
 ```
 ```PowerShell
 {@{name=Remove-TypeData; CommonParameters=True; parameter=System.Object[]}, @{name=Remove-TypeData; CommonParameters=Tr…

@@ -12,8 +12,17 @@ Writes the .format.ps1xml fragement for a custom control view, or a custom contr
 ---
 ### Related Links
 * [Write-FormatViewExpression](Write-FormatViewExpression.md)
+
+
+
 * [Write-FormatView](Write-FormatView.md)
+
+
+
 * [Write-FormatControl](Write-FormatControl.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -31,9 +40,16 @@ number of speicalized commands that will translate into parts of the formatter.
 
 
 
-|Type                 |Requried|Postion|PipelineInput        |
-|---------------------|--------|-------|---------------------|
-|```[ScriptBlock[]]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock[]]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Indent**
 
@@ -41,9 +57,16 @@ The indentation depth of the custom control
 
 
 
-|Type         |Requried|Postion|PipelineInput        |
-|-------------|--------|-------|---------------------|
-|```[Int32]```|false   |2      |true (ByPropertyName)|
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: 2
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **AsControl**
 
@@ -51,9 +74,16 @@ If set, the content will be created as a control.  Controls can be reused by oth
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Name**
 
@@ -61,9 +91,16 @@ The name of the action
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |3      |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 3
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **VisibilityCondition**
 
@@ -72,9 +109,16 @@ if the content will be rendered.
 
 
 
-|Type                 |Requried|Postion|PipelineInput|
-|---------------------|--------|-------|-------------|
-|```[ScriptBlock[]]```|false   |4      |false        |
+> **Type**: ```[ScriptBlock[]]```
+
+> **Required**: false
+
+> **Position**: 4
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **ViewTypeName**
 
@@ -83,9 +127,16 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |5      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 5
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewSelectionSet**
 
@@ -94,9 +145,16 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |6      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 6
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewCondition**
 
@@ -106,9 +164,16 @@ At least one view must have no conditions.
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[ScriptBlock]```|false   |7      |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: false
+
+> **Position**: 7
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Syntax
 ```PowerShell

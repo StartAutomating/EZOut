@@ -1,3 +1,7 @@
+## 1.9.1:
+* Format-Markdown:  Escaping -Code blocks (Fixes #69)
+---
+
 ## 1.9.0:
 * Format-Hashtable:  Better Handling of [string]s, [enum]s, and primitive types (Fixes #64).
 * Format-YAML:

@@ -13,7 +13,13 @@ Named property sets can be requested from a property
 ---
 ### Related Links
 * [Out-TypeData](Out-TypeData.md)
+
+
+
 * [Add-TypeData](Add-TypeData.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -34,9 +40,16 @@ The output from Select-Object
 
 
 
-|Type          |Requried|Postion|PipelineInput |
-|--------------|--------|-------|--------------|
-|```[Object]```|true    |named  |true (ByValue)|
+> **Type**: ```[Object]```
+
+> **Required**: true
+
+> **Position**: named
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 #### **Name**
 
@@ -44,9 +57,16 @@ The name of the selection set to create
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Object]```|true    |1      |false        |
+> **Type**: ```[Object]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Outputs
 System.String

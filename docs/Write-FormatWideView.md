@@ -16,45 +16,94 @@ Write-FormatWideView -ScriptBlock <scriptblock> [-ViewTypeName <string>] [-ViewC
 ### Parameters
 #### **AutoSize**
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[switch]```|false   |Named  |false        |
+> **Type**: ```[switch]```
+
+> **Required**: false
+
+> **Position**: Named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **ColumnCount**
 
-|Type       |Requried|Postion|PipelineInput|
-|-----------|--------|-------|-------------|
-|```[int]```|false   |Named  |false        |
+> **Type**: ```[int]```
+
+> **Required**: false
+
+> **Position**: Named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Property**
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[string]```|true    |Named  |true (ByPropertyName)|
+> **Type**: ```[string]```
+
+> **Required**: true
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ScriptBlock**
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[scriptblock]```|true    |Named  |true (ByPropertyName)|
+> **Type**: ```[scriptblock]```
+
+> **Required**: true
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewCondition**
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[scriptblock]```|false   |Named  |true (ByPropertyName)|
+> **Type**: ```[scriptblock]```
+
+> **Required**: false
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewSelectionSet**
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[string]```|false   |Named  |true (ByPropertyName)|
+> **Type**: ```[string]```
+
+> **Required**: false
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewTypeName**
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[string]```|false   |Named  |true (ByPropertyName)|
+> **Type**: ```[string]```
+
+> **Required**: false
+
+> **Position**: Named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Inputs
 System.String
@@ -69,10 +118,10 @@ System.Object
 ---
 ### Syntax
 ```PowerShell
-[32;1msyntaxItem[0m
+syntaxItem
 ```
 ```PowerShell
-[32;1m----------[0m
+----------
 ```
 ```PowerShell
 {@{name=Write-FormatWideView; CommonParameters=True; parameter=System.Object[]}, @{name=Write-FormatWideView; CommonPar…

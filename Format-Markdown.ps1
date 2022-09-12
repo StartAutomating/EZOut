@@ -14,7 +14,7 @@ function Format-Markdown
     #>
     [Management.Automation.Cmdlet("Format","Object")]
     [ValidateScript({return $true})]
-    param(
+    param(            
     [Parameter(ValueFromPipeline,ValueFromPipelineByPropertyName)]
     [PSObject]
     $InputObject,
@@ -181,7 +181,10 @@ function Format-Markdown
                 '```' + # Start the code fence,
                     $(if ($CodeLanguage) { $CodeLanguage}) + # add the language,
                     [Environment]::newline + # then a newline,
-                    $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput}) +  # then the -ScriptBlock or -InputObject
+                    $(
+                        $codeContent = $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput})  # then the -ScriptBlock or -InputObject
+                        [Web.HttpUtility]::HtmlEncode($codeContent)
+                    ) +
                     [Environment]::newline + # then a newline
                 '```' # then close the code fence.
             )
@@ -199,7 +202,7 @@ function Format-Markdown
         }
         elseif ($BlockQuote -or $BlockQuoteDepth) {
             if (-not $BlockQuoteDepth) { $BlockQuoteDepth = 1 }
-            $markdownLines += (">" * $BlockQuoteDepth) + ' ' + (
+            $markdownLines += (">" * $BlockQuoteDepth ) + ' ' + (
                 "$inputObject" -split '(?>\r\n|\n)' -join (
                     [Environment]::NewLine + (">" * $BlockQuoteDepth) + ' '
                 )
@@ -324,13 +327,19 @@ function Format-Markdown
                 }
                 
                 # Now we create the row for this object.
-                $markdownLines += '|' + (@(foreach ($prop in $propertyList) {
-                    if ($prop -is [string]) {
-                        $in.$prop | LinkInput
-                    } else {
-                        $prop.Value | LinkInput
-                    }
-                }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+
+                $markdownLine = '|' + (
+                    @(
+                        foreach ($prop in $propertyList) {
+                            if ($prop -is [string]) {
+                                $in.$prop | LinkInput
+                            } else {
+                                $prop.Value | LinkInput
+                            }
+                        }
+                    ) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+
+                $markdownLines += $markdownLine
             }                                    
         }
 

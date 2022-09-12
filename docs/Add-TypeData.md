@@ -12,8 +12,17 @@ The Add-TypeData command adds type data to the current session.
 ---
 ### Related Links
 * [Clear-TypeData](Clear-TypeData.md)
+
+
+
 * [Remove-TypeData](Remove-TypeData.md)
+
+
+
 * [Out-TypeData](Out-TypeData.md)
+
+
+
 ---
 ### Parameters
 #### **TypeXml**
@@ -23,9 +32,16 @@ but it's easier to use Write-FormatView to create it
 
 
 
-|Type               |Requried|Postion|PipelineInput |
-|-------------------|--------|-------|--------------|
-|```[XmlDocument]```|true    |1      |true (ByValue)|
+> **Type**: ```[XmlDocument]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 #### **Name**
 
@@ -35,9 +51,16 @@ N is the number of modules loaded so far
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |2      |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 2
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **PassThru**
 
@@ -45,9 +68,16 @@ If set, the module that contains the format files will be outputted to the pipel
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Outputs
 System.Nullable

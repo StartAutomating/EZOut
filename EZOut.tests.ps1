@@ -1169,6 +1169,18 @@ describe 'Format-YAML' {
     }
 }
 
+describe 'Format-Markdown' {
+    it 'Formats an object as Markdown' {
+        $formatMarkdown = @{a='b'} | Format-Markdown
+        $formatMarkdown | Should -belike '*|a*'
+        $formatMarkdown | Should -belike '*|b*'
+    }
+
+    it 'Will escape code within -Code blocks' {
+        { =<svg> } | Format-Markdown | Should -BeLike '*&lt;svg&gt;*'
+    }    
+}
+
 describe 'Format-Hashtable' {
     it 'Can format a hashtable' {
         Format-Hashtable -InputObject @{a='a'} | Should -Match "^\@\{\s+a\s=\s'a'\s+}"

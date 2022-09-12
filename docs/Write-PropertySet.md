@@ -22,9 +22,21 @@ You can write:
 ---
 ### Related Links
 * [ConvertTo-PropertySet](ConvertTo-PropertySet.md)
+
+
+
 * [Get-PropertySet](Get-PropertySet.md)
+
+
+
 * [Out-TypeData](Out-TypeData.md)
+
+
+
 * [Add-TypeData](Add-TypeData.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -42,9 +54,16 @@ The typename for the property set
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Name**
 
@@ -52,9 +71,16 @@ The name of the property set
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|true    |2      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: true
+
+> **Position**: 2
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **PropertyName**
 
@@ -62,9 +88,16 @@ The names of the properties to include in the property set
 
 
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|true    |3      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: true
+
+> **Position**: 3
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Syntax
 ```PowerShell

@@ -14,6 +14,9 @@ Handles nested hashtables and indents nested hashtables automatically.
 ---
 ### Related Links
 * [about_hash_tables](about_hash_tables.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -30,9 +33,16 @@ The hashtable or PSObject that will be written as a PowerShell Hashtable
 
 
 
-|Type            |Requried|Postion|PipelineInput                 |
-|----------------|--------|-------|------------------------------|
-|```[PSObject]```|false   |1      |true (ByValue, ByPropertyName)|
+> **Type**: ```[PSObject]```
+
+> **Required**: false
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue, ByPropertyName)
+
+
+
 ---
 #### **AsScriptBlock**
 
@@ -40,9 +50,16 @@ Returns the content as a script block, rather than a string
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **AsPSObject**
 
@@ -50,9 +67,16 @@ If set, will return the hashtable and all nested hashtables as custom objects.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Sort**
 
@@ -60,9 +84,16 @@ If set, items in the hashtable will be sorted alphabetically
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **ExpandCredential**
 
@@ -70,9 +101,16 @@ If set, credentials will be expanded out into a hashtable containing the usernam
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Compress**
 
@@ -80,9 +118,16 @@ If set, the outputted hashtable will not contain any extra whitespace.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Safe**
 
@@ -91,9 +136,16 @@ so that the resulting hashtable could work in data language mode.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Depth**
 
@@ -102,9 +154,16 @@ Beneath this depth, items will simply be returned as $null.
 
 
 
-|Type         |Requried|Postion|PipelineInput|
-|-------------|--------|-------|-------------|
-|```[Int32]```|false   |named  |false        |
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Outputs
 [string]
