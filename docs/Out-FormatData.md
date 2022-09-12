@@ -36,9 +36,16 @@ but it's easier to use Write-FormatView to create it
 
 
 
-|Type               |Requried|Postion|PipelineInput |
-|-------------------|--------|-------|--------------|
-|```[XmlDocument]```|true    |1      |true (ByValue)|
+> **Type**: ```[XmlDocument]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByValue)
+
+
+
 ---
 #### **ModuleName**
 
@@ -48,9 +55,16 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |2      |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 2
+
+> **PipelineInput**:false
+
+
+
 ---
 ### Outputs
 System.String

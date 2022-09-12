@@ -36,7 +36,13 @@ new possibilities.
 ---
 ### Related Links
 * [Out-FormatData](Out-FormatData.md)
+
+
+
 * [Add-FormatData](Add-FormatData.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -83,9 +89,16 @@ One or more type names.
 
 
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Property**
 
@@ -93,9 +106,16 @@ One or more properties to include in the default type view.
 
 
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|true    |2      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: true
+
+> **Position**: 2
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **AliasProperty**
 
@@ -104,9 +124,16 @@ The oldname is the name of the old property, and value is either the new header
 
 
 
-|Type             |Requried|Postion|PipelineInput        |
-|-----------------|--------|-------|---------------------|
-|```[Hashtable]```|false   |3      |true (ByPropertyName)|
+> **Type**: ```[Hashtable]```
+
+> **Required**: false
+
+> **Position**: 3
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **VirtualProperty**
 
@@ -114,9 +141,16 @@ If set, will create a number of virtual properties within a table
 
 
 
-|Type             |Requried|Postion|PipelineInput        |
-|-----------------|--------|-------|---------------------|
-|```[Hashtable]```|false   |4      |true (ByPropertyName)|
+> **Type**: ```[Hashtable]```
+
+> **Required**: false
+
+> **Position**: 4
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **FormatProperty**
 
@@ -124,9 +158,16 @@ If set, will be used to format the value of a property.
 
 
 
-|Type             |Requried|Postion|PipelineInput        |
-|-----------------|--------|-------|---------------------|
-|```[Hashtable]```|false   |5      |true (ByPropertyName)|
+> **Type**: ```[Hashtable]```
+
+> **Required**: false
+
+> **Position**: 5
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **AlignProperty**
 
@@ -134,9 +175,16 @@ If provided, will set the alignment used to display a given property.
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[IDictionary]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[IDictionary]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ColorProperty**
 
@@ -147,9 +195,16 @@ The color strings may be ANSI escape codes or two hexadecimal colors (the foregr
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[IDictionary]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[IDictionary]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ColorRow**
 
@@ -158,9 +213,16 @@ If the script block returns a value, it will be treated either as an ANSI escape
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[ScriptBlock]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **AsList**
 
@@ -168,9 +230,16 @@ If set, then the content will be rendered as a list
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[Switch]```|true    |named  |true (ByPropertyName)|
+> **Type**: ```[Switch]```
+
+> **Required**: true
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **AutoSize**
 
@@ -178,9 +247,16 @@ If set, the table will be autosized.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **HideHeader**
 
@@ -188,9 +264,16 @@ If set, the table headers will not be displayed.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Width**
 
@@ -202,9 +285,16 @@ A width of 0 will be ignored.
 
 
 
-|Type           |Requried|Postion|PipelineInput        |
-|---------------|--------|-------|---------------------|
-|```[Int32[]]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[Int32[]]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ConditionalProperty**
 
@@ -212,9 +302,16 @@ If provided, will only display a list property if the condition is met.
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[IDictionary]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[IDictionary]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Action**
 
@@ -224,9 +321,16 @@ number of speicalized commands that will translate into parts of the formatter.
 
 
 
-|Type                 |Requried|Postion|PipelineInput        |
-|---------------------|--------|-------|---------------------|
-|```[ScriptBlock[]]```|true    |named  |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock[]]```
+
+> **Required**: true
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Indent**
 
@@ -234,9 +338,16 @@ The indentation depth of the custom control
 
 
 
-|Type         |Requried|Postion|PipelineInput        |
-|-------------|--------|-------|---------------------|
-|```[Int32]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **FormatXML**
 
@@ -245,9 +356,16 @@ This can be used to include PowerShell formatter features not yet supported by E
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[XmlDocument]```|true    |named  |true (ByPropertyName)|
+> **Type**: ```[XmlDocument]```
+
+> **Required**: true
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **IsSelectionSet**
 
@@ -255,9 +373,16 @@ If set, it will treat the type name as a selection set (a set of predefined type
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **Wrap**
 
@@ -265,9 +390,16 @@ If wrap is set, then items in the table can span multiple lines
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[Switch]```|false   |named  |false        |
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **GroupByProperty**
 
@@ -275,9 +407,16 @@ If this is set, then the view will be grouped by a property.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |named  |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **GroupByScript**
 
@@ -285,9 +424,16 @@ If this is set, then the view will be grouped by the result of a script block
 
 
 
-|Type               |Requried|Postion|PipelineInput|
-|-------------------|--------|-------|-------------|
-|```[ScriptBlock]```|false   |named  |false        |
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **GroupLabel**
 
@@ -295,9 +441,16 @@ If this is set, then the view will be labeled with the value of this parameter.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |named  |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **GroupAction**
 
@@ -307,9 +460,16 @@ to be defined within the same format file.
 
 
 
-|Type          |Requried|Postion|PipelineInput|
-|--------------|--------|-------|-------------|
-|```[String]```|false   |named  |false        |
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
 ---
 #### **AsControl**
 
@@ -317,9 +477,16 @@ If set, will output the format view as an action (a view that can be reused agai
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[Switch]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Name**
 
@@ -327,9 +494,16 @@ If the format view is going to be outputted as a control, it will require a name
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |named  |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Outputs
 [string]

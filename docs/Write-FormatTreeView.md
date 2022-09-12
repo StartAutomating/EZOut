@@ -12,7 +12,13 @@ Writes the .format.ps1xml fragement for a tree view, or a tree node.
 ---
 ### Related Links
 * [Write-FormatCustomView](Write-FormatCustomView.md)
+
+
+
 * [Write-FormatViewExpression](Write-FormatViewExpression.md)
+
+
+
 ---
 ### Examples
 #### EXAMPLE 1
@@ -44,9 +50,16 @@ One or more properties to be displayed.
 
 
 
-|Type              |Requried|Postion|PipelineInput        |
-|------------------|--------|-------|---------------------|
-|```[PSObject[]]```|false   |1      |true (ByPropertyName)|
+> **Type**: ```[PSObject[]]```
+
+> **Required**: false
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Separator**
 
@@ -54,9 +67,16 @@ The separator between one or more properties.
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |2      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 2
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Branch**
 
@@ -65,9 +85,16 @@ This text will be displayed before the node.
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |3      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 3
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Trunk**
 
@@ -77,9 +104,16 @@ By default, this is four blank spaces.
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |4      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 4
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **TypeName**
 
@@ -87,9 +121,16 @@ One or more type names.
 
 
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|false   |5      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: false
+
+> **Position**: 5
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **SelectionSet**
 
@@ -97,9 +138,16 @@ The name of the selection set.  Selection sets are an alternative way to specify
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |6      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 6
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ControlName**
 
@@ -108,9 +156,16 @@ If not provided, this will be Typename1/TypeName2.TreeNode or SelectionSet.TreeN
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |7      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 7
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewTypeName**
 
@@ -119,9 +174,16 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |8      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 8
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewSelectionSet**
 
@@ -130,9 +192,16 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |9      |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 9
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ViewCondition**
 
@@ -140,9 +209,16 @@ If provided, will selectively display items.
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[ScriptBlock]```|false   |10     |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: false
+
+> **Position**: 10
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **EndBranch**
 
@@ -150,9 +226,16 @@ Text displayed at the end of each branch.
 
 
 
-|Type          |Requried|Postion|PipelineInput        |
-|--------------|--------|-------|---------------------|
-|```[String]```|false   |11     |true (ByPropertyName)|
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 11
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **EndBranchScript**
 
@@ -160,9 +243,16 @@ A script block displayed at the end of each branch.
 
 
 
-|Type               |Requried|Postion|PipelineInput        |
-|-------------------|--------|-------|---------------------|
-|```[ScriptBlock]```|false   |12     |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock]```
+
+> **Required**: false
+
+> **Position**: 12
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **HasChildren**
 
@@ -172,9 +262,16 @@ then the associated Children scriptblock will be called.
 
 
 
-|Type                 |Requried|Postion|PipelineInput        |
-|---------------------|--------|-------|---------------------|
-|```[ScriptBlock[]]```|false   |13     |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock[]]```
+
+> **Required**: false
+
+> **Position**: 13
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **Children**
 
@@ -184,9 +281,16 @@ of the same type of tree control.
 
 
 
-|Type                 |Requried|Postion|PipelineInput        |
-|---------------------|--------|-------|---------------------|
-|```[ScriptBlock[]]```|false   |14     |true (ByPropertyName)|
+> **Type**: ```[ScriptBlock[]]```
+
+> **Required**: false
+
+> **Position**: 14
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 #### **ChildNodeControl**
 
@@ -195,9 +299,16 @@ This control must exist in the same format file.
 
 
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|false   |15     |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: false
+
+> **Position**: 15
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Syntax
 ```PowerShell

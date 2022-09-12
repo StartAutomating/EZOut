@@ -12,13 +12,23 @@ Imports a Format View defined in .format or .view .ps1 files
 ---
 ### Related Links
 * [Write-FormatView](Write-FormatView.md)
+
+
+
 ---
 ### Parameters
 #### **FilePath**
 
-|Type            |Requried|Postion|PipelineInput        |
-|----------------|--------|-------|---------------------|
-|```[String[]]```|true    |1      |true (ByPropertyName)|
+> **Type**: ```[String[]]```
+
+> **Required**: true
+
+> **Position**: 1
+
+> **PipelineInput**:true (ByPropertyName)
+
+
+
 ---
 ### Syntax
 ```PowerShell
