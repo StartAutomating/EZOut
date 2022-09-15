@@ -15,30 +15,30 @@ Expressions are used by custom format views and controls to conditionally displa
 #### EXAMPLE 1
 ```PowerShell
 Write-FormatViewExpression -ScriptBlock {
-    "hello world"
+    &quot;hello world&quot;
 }
 ```
 
 #### EXAMPLE 2
 ```PowerShell
-Write-FormatViewExpression -If { $_.Complete } -ScriptBlock { "Complete" }
+Write-FormatViewExpression -If { $_.Complete } -ScriptBlock { &quot;Complete&quot; }
 ```
 
 #### EXAMPLE 3
 ```PowerShell
-Write-FormatViewExpression -Text 'Hello World'
+Write-FormatViewExpression -Text &#39;Hello World&#39;
 ```
 
 #### EXAMPLE 4
 ```PowerShell
-# This will render the property 'Name' property of the underlying object
+# This will render the property &#39;Name&#39; property of the underlying object
 Write-FormatViewExpression -Property Name
 ```
 
 #### EXAMPLE 5
 ```PowerShell
-# This will render the property 'Status' of the current object,
-# if the current object's 'Complete' property is $false.
+# This will render the property &#39;Status&#39; of the current object,
+# if the current object&#39;s &#39;Complete&#39; property is $false.
 Write-FormatViewExpression -Property Status -If { -not $_.Complete }
 ```
 
@@ -359,19 +359,19 @@ System.String
 ---
 ### Syntax
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-ScriptBlock] <ScriptBlock> [-If <ScriptBlock>] [-Bold] [-Underline] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName &lt;String&gt;] [-ScriptBlock] &lt;ScriptBlock&gt; [-If &lt;ScriptBlock&gt;] [-Bold] [-Underline] [-Invert] [-FormatString &lt;String&gt;] [-Enumerate] [-ForegroundColor &lt;String&gt;] [-BackgroundColor &lt;String&gt;] [-Count &lt;UInt32&gt;] [&lt;CommonParameters&gt;]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-Property] <String> [-If <ScriptBlock>] [-Bold] [-Underline] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName &lt;String&gt;] [-Property] &lt;String&gt; [-If &lt;ScriptBlock&gt;] [-Bold] [-Underline] [-Invert] [-FormatString &lt;String&gt;] [-Enumerate] [-ForegroundColor &lt;String&gt;] [-BackgroundColor &lt;String&gt;] [-Count &lt;UInt32&gt;] [&lt;CommonParameters&gt;]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Text <String> [-Bold] [-Underline] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName &lt;String&gt;] [-If &lt;ScriptBlock&gt;] -Text &lt;String&gt; [-Bold] [-Underline] [-Invert] [-FormatString &lt;String&gt;] [-Enumerate] [-ForegroundColor &lt;String&gt;] [-BackgroundColor &lt;String&gt;] [-Count &lt;UInt32&gt;] [&lt;CommonParameters&gt;]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -AssemblyName <String> -BaseName <String> -ResourceID <String> [-Bold] [-Underline] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName &lt;String&gt;] [-If &lt;ScriptBlock&gt;] -AssemblyName &lt;String&gt; -BaseName &lt;String&gt; -ResourceID &lt;String&gt; [-Bold] [-Underline] [-Invert] [-FormatString &lt;String&gt;] [-Enumerate] [-ForegroundColor &lt;String&gt;] [-BackgroundColor &lt;String&gt;] [-Count &lt;UInt32&gt;] [&lt;CommonParameters&gt;]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Newline [-Bold] [-Underline] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName &lt;String&gt;] [-If &lt;ScriptBlock&gt;] -Newline [-Bold] [-Underline] [-Invert] [-FormatString &lt;String&gt;] [-Enumerate] [-ForegroundColor &lt;String&gt;] [-BackgroundColor &lt;String&gt;] [-Count &lt;UInt32&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 
