@@ -89,7 +89,7 @@ System.Management.Automation.PSModuleInfo
 ---
 ### Syntax
 ```PowerShell
-Add-TypeData [-TypeXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
+Add-TypeData [-TypeXml] &lt;XmlDocument&gt; [[-Name] &lt;String&gt;] [-PassThru] [&lt;CommonParameters&gt;]
 ```
 ---
 
