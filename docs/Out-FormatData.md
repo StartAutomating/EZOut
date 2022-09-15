@@ -16,12 +16,12 @@ A Detailed Description of what the command does
 # Create a quick view for any XML element.
 # Piping it into Out-FormatData will make one or more format views into a full format XML file
 # Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
-# There's also a Remove-FormatData and
-Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
-    "Xml" = {
+# There&#39;s also a Remove-FormatData and
+Write-FormatView -TypeName &quot;System.Xml.XmlNode&quot; -Wrap -Property &quot;Xml&quot; -VirtualProperty @{
+    &quot;Xml&quot; = {
         $strWrite = New-Object IO.StringWriter
         ([xml]$_.Outerxml).Save($strWrite)
-        "$strWrite"
+        &quot;$strWrite&quot;
     }
 } |
     Out-FormatData
@@ -73,7 +73,7 @@ System.String
 ---
 ### Syntax
 ```PowerShell
-Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [<CommonParameters>]
+Out-FormatData [-FormatXml] &lt;XmlDocument&gt; [[-ModuleName] &lt;String&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 

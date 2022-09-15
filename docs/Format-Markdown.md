@@ -382,7 +382,7 @@ If provided, will output a script block as a Markdown code block.
 ---
 ### Syntax
 ```PowerShell
-Format-Markdown [[-InputObject] <PSObject>] [-MarkdownParagraph] [-MarkdownTable] [[-MarkdownTableAlignment] <String[]>] [[-Property] <PSObject[]>] [[-Heading] <String>] [[-HeadingSize] <Int32>] [[-Link] <String>] [[-ImageLink] <String>] [-BulletPoint] [-Checkbox] [-Checked] [-NumberedList] [-BlockQuote] [[-BlockQuoteDepth] <Int32>] [[-Number] <Int32>] [-HorizontalRule] [-Code] [[-CodeLanguage] <String>] [[-ScriptBlock] <ScriptBlock>] [<CommonParameters>]
+Format-Markdown [[-InputObject] &lt;PSObject&gt;] [-MarkdownParagraph] [-MarkdownTable] [[-MarkdownTableAlignment] &lt;String[]&gt;] [[-Property] &lt;PSObject[]&gt;] [[-Heading] &lt;String&gt;] [[-HeadingSize] &lt;Int32&gt;] [[-Link] &lt;String&gt;] [[-ImageLink] &lt;String&gt;] [-BulletPoint] [-Checkbox] [-Checked] [-NumberedList] [-BlockQuote] [[-BlockQuoteDepth] &lt;Int32&gt;] [[-Number] &lt;Int32&gt;] [-HorizontalRule] [-Code] [[-CodeLanguage] &lt;String&gt;] [[-ScriptBlock] &lt;ScriptBlock&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 

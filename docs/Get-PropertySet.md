@@ -47,7 +47,7 @@ System.Management.Automation.PSObject
 ---
 ### Syntax
 ```PowerShell
-Get-PropertySet [[-TypeName] <String[]>] [<CommonParameters>]
+Get-PropertySet [[-TypeName] &lt;String[]&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 

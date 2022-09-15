@@ -171,7 +171,7 @@ If set, will not clear formatting
 ---
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Blink] [-Strikethru] [-Underline] [-Invert] [-NoClear] [<CommonParameters>]
+Format-RichText [[-InputObject] &lt;PSObject&gt;] [[-ForegroundColor] &lt;String&gt;] [[-BackgroundColor] &lt;String&gt;] [-Bold] [-Blink] [-Strikethru] [-Underline] [-Invert] [-NoClear] [&lt;CommonParameters&gt;]
 ```
 ---
 ### Notes

@@ -64,7 +64,7 @@ code in between Write-FormatViewExpression will not be included in the formatter
 ---
 ### Syntax
 ```PowerShell
-Write-FormatControl [-Name] <String> [-Action] <ScriptBlock> [<CommonParameters>]
+Write-FormatControl [-Name] &lt;String&gt; [-Action] &lt;ScriptBlock&gt; [&lt;CommonParameters&gt;]
 ```
 ---
 
