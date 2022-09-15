@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9.1: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.9.2: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -1436,7 +1436,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                     [Environment]::newline + # then a newline,
                     $(
                         $codeContent = $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput})  # then the -ScriptBlock or -InputObject
-                        [Web.HttpUtility]::HtmlEncode($codeContent)
+                        $codeContent
                     ) +
                     [Environment]::newline + # then a newline
                 '```' # then close the code fence.
@@ -1544,7 +1544,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                             } else {
                                 $prop.Name
                             }
-                        }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
+                        }) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '\|' -join '|') + '|'
                     # Then create the alignment row.
                     $markdownLines +=
                         '|' + $(
@@ -1575,7 +1575,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                                     
                                     $columnNumber++
                                 }
-                            ) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'                    
+                            ) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '\|' -join '|') + '|'                    
                     $IsFirst = $false
                 }
                 
@@ -1590,7 +1590,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                                 $prop.Value | LinkInput
                             }
                         }
-                    ) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '`|' -join '|') + '|'
+                    ) -replace ([Environment]::newline), '&lt;br/&gt;' -replace '\|', '\|' -join '|') + '|'
 
                 $markdownLines += $markdownLine
             }                                    
@@ -1623,7 +1623,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
             foreach ($ml in $markdownLines) {
                 if ($ml -match '\^|') {
                     $columnCount = 0
-                    foreach ($tablePart in $ml -split '\|' -ne '') {
+                    foreach ($tablePart in $ml -split '(?&lt;!\\)\|' -ne '') {
                         if ((-not $maxColumnSize[$columnCount]) -or $maxColumnSize[$columnCount] -lt $tablePart.Length) {
                             $maxColumnSize[$columnCount] = [Math]::Max($tablePart.Length, 2)
                         }
@@ -1636,7 +1636,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 if ($ml -match '\^|') {
                     $columnCount = 0
                     # Recreate the line with the right amount of padding.
-                    '|' + (@(foreach ($tablePart in $ml -split '\|' -ne '') {
+                    '|' + (@(foreach ($tablePart in $ml -split '(?&lt;!\\)\|' -ne '') {
                         if ($tablePart -match '^[:\-]+$') {
                             if ($tablePart -match '^\:-{0,}\:$') { # If it's an alignment column, make sure to keep the alignment.
                                 if ($maxColumnSize[$columnCount] -gt 2) {

@@ -422,16 +422,27 @@ jobs:
           $ModulePath,
           
           [string[]]
-          $Exclude = @('*.png', '*.mp4', '*.jpg','*.jpeg')
+          $Exclude = @('*.png', '*.mp4', '*.jpg','*.jpeg', '*.gif', 'docs[/\]*')
           )
+          
           $gitHubEvent = if ($env:GITHUB_EVENT_PATH) {
               [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
           } else { $null }
+          
+          if (-not $Exclude) {
+              $Exclude = @('*.png', '*.mp4', '*.jpg','*.jpeg', '*.gif','docs[/\]*')
+          }
           
           
           @"
           ::group::GitHubEvent
           $($gitHubEvent | ConvertTo-Json -Depth 100)
+          ::endgroup::
+          "@ | Out-Host
+          
+          @"
+          ::group::PSBoundParameters
+          $($PSBoundParameters | ConvertTo-Json -Depth 100)
           ::endgroup::
           "@ | Out-Host
           
@@ -479,11 +490,12 @@ jobs:
               }
           
               if ($Exclude) {
+                  "::notice::Attempting to Exlcude $exclude" | Out-Host
                   Get-ChildItem $moduleTempPath -Recurse |
-                      Where-Object {
+                      Where-Object {                
                           foreach ($ex in $exclude) {
                               if ($_.FullName -like $ex) {
-                                  "::notice::Excluding $($_.FullName)"
+                                  "::notice::Excluding $($_.FullName)" | Out-Host
                                   return $true
                               }
                           }

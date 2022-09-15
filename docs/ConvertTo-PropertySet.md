@@ -75,7 +75,7 @@ System.String
 ---
 ### Syntax
 ```PowerShell
-ConvertTo-PropertySet -SelectedObject <Object> [-Name] <Object> [<CommonParameters>]
+ConvertTo-PropertySet -SelectedObject &lt;Object&gt; [-Name] &lt;Object&gt; [&lt;CommonParameters&gt;]
 ```
 ---
 

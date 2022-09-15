@@ -1174,11 +1174,7 @@ describe 'Format-Markdown' {
         $formatMarkdown = @{a='b'} | Format-Markdown
         $formatMarkdown | Should -belike '*|a*'
         $formatMarkdown | Should -belike '*|b*'
-    }
-
-    it 'Will escape code within -Code blocks' {
-        { =<svg> } | Format-Markdown | Should -BeLike '*&lt;svg&gt;*'
-    }    
+    }        
 }
 
 describe 'Format-Hashtable' {

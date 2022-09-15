@@ -289,7 +289,7 @@ System.String
 ---
 ### Syntax
 ```PowerShell
-Write-TypeView [-TypeName] <String[]> [-ScriptMethod <IDictionary>] [-ScriptProperty <IDictionary>] [-NoteProperty <IDictionary>] [-AliasProperty <IDictionary>] [-EventGenerator <IDictionary>] [-EventName <String[]>] [-DefaultDisplay <String[]>] [-IdProperty <String>] [-SerializationDepth <Int32>] [-Reserializer <Type>] [-PropertySet <IDictionary>] [-HideProperty <String[]>] [-Deserialized] [<CommonParameters>]
+Write-TypeView [-TypeName] &lt;String[]&gt; [-ScriptMethod &lt;IDictionary&gt;] [-ScriptProperty &lt;IDictionary&gt;] [-NoteProperty &lt;IDictionary&gt;] [-AliasProperty &lt;IDictionary&gt;] [-EventGenerator &lt;IDictionary&gt;] [-EventName &lt;String[]&gt;] [-DefaultDisplay &lt;String[]&gt;] [-IdProperty &lt;String&gt;] [-SerializationDepth &lt;Int32&gt;] [-Reserializer &lt;Type&gt;] [-PropertySet &lt;IDictionary&gt;] [-HideProperty &lt;String[]&gt;] [-Deserialized] [&lt;CommonParameters&gt;]
 ```
 ---
 

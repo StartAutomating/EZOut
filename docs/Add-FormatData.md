@@ -31,8 +31,8 @@ temporary module to use the formatting file.
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
-# Let's start off by looking at how something like XML is rendered in PowerShell
-[xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
+# Let&#39;s start off by looking at how something like XML is rendered in PowerShell
+[xml]&quot;&lt;a an=&#39;anattribute&#39;&gt;&lt;b d=&#39;attribute&#39;&gt;&lt;c/&gt;&lt;/b&gt;&lt;/a&gt;&quot;
 ```
 # It's not very intuitive.
 # I cannot really only see the element I am looking at, instead of a chunk of data
@@ -126,7 +126,7 @@ System.Management.Automation.PSModuleInfo
 ---
 ### Syntax
 ```PowerShell
-Add-FormatData [-FormatXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
+Add-FormatData [-FormatXml] &lt;XmlDocument&gt; [[-Name] &lt;String&gt;] [-PassThru] [&lt;CommonParameters&gt;]
 ```
 ---
 
