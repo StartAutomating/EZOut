@@ -35,7 +35,7 @@ Formats any object, using any number of Format-Object extensions.
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
-"red" | Format-Object -ForegroundColor "red"
+&quot;red&quot; | Format-Object -ForegroundColor &quot;red&quot;
 ```
 
 #### EXAMPLE 2
@@ -60,7 +60,7 @@ Formats any object, using any number of Format-Object extensions.
 ---
 ### Syntax
 ```PowerShell
-Format-Object [[-InputObject] <PSObject>] [<CommonParameters>]
+Format-Object [[-InputObject] &lt;PSObject&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 
