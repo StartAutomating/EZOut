@@ -35,7 +35,7 @@ System.Nullable
 ---
 ### Syntax
 ```PowerShell
-Clear-FormatData [<CommonParameters>]
+Clear-FormatData [&lt;CommonParameters&gt;]
 ```
 ---
 
