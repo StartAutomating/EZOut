@@ -1,3 +1,10 @@
+## 1.9.2:
+* Format-Markdown:
+  * Improving Handling of | (Fixes #71)
+  * Not escaping code blocks (undoes #69)
+* No longer including images with PowerShell Gallery package (Fixes #67)
+---
+
 ## 1.9.1:
 * Format-Markdown:  Escaping -Code blocks (Fixes #69)
 ---

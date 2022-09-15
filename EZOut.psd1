@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.1'
+    ModuleVersion = '1.9.2'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,12 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.2:
+* Format-Markdown:
+  * Improving Handling of | (Fixes #71)
+  * Not escaping code blocks (undoes #69)
+* No longer including images with PowerShell Gallery package (Fixes #67)
+---
 ## 1.9.1:
 * Format-Markdown:  Escaping -Code blocks (Fixes #69)
 ---
