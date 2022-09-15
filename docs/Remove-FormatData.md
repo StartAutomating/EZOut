@@ -31,7 +31,7 @@ this is the name of the module.
 ---
 ### Syntax
 ```PowerShell
-Remove-FormatData -ModuleName <String> [<CommonParameters>]
+Remove-FormatData -ModuleName &lt;String&gt; [&lt;CommonParameters&gt;]
 ```
 ---
 
