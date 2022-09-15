@@ -27,7 +27,7 @@ Writes the .format.ps1xml fragement for a custom control view, or a custom contr
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
-Write-FormatCustomView -Action {  "This is a message from Process $pid" }
+Write-FormatCustomView -Action {  &quot;This is a message from Process $pid&quot; }
 ```
 
 ---
@@ -177,7 +177,7 @@ At least one view must have no conditions.
 ---
 ### Syntax
 ```PowerShell
-Write-FormatCustomView [-Action] <ScriptBlock[]> [[-Indent] <Int32>] [-AsControl] [[-Name] <String>] [[-VisibilityCondition] <ScriptBlock[]>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [<CommonParameters>]
+Write-FormatCustomView [-Action] &lt;ScriptBlock[]&gt; [[-Indent] &lt;Int32&gt;] [-AsControl] [[-Name] &lt;String&gt;] [[-VisibilityCondition] &lt;ScriptBlock[]&gt;] [[-ViewTypeName] &lt;String&gt;] [[-ViewSelectionSet] &lt;String&gt;] [[-ViewCondition] &lt;ScriptBlock&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 
