@@ -291,7 +291,7 @@ function Format-Markdown
                             } else {
                                 $prop.Name
                             }
-                        }) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+                        }) -replace ([Environment]::newline), '<br/>' -replace '\|', '\|' -join '|') + '|'
                     # Then create the alignment row.
                     $markdownLines +=
                         '|' + $(
@@ -322,7 +322,7 @@ function Format-Markdown
                                     
                                     $columnNumber++
                                 }
-                            ) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'                    
+                            ) -replace ([Environment]::newline), '<br/>' -replace '\|', '\|' -join '|') + '|'                    
                     $IsFirst = $false
                 }
                 
@@ -337,7 +337,7 @@ function Format-Markdown
                                 $prop.Value | LinkInput
                             }
                         }
-                    ) -replace ([Environment]::newline), '<br/>' -replace '\|', '`|' -join '|') + '|'
+                    ) -replace ([Environment]::newline), '<br/>' -replace '\|', '\|' -join '|') + '|'
 
                 $markdownLines += $markdownLine
             }                                    
@@ -370,7 +370,7 @@ function Format-Markdown
             foreach ($ml in $markdownLines) {
                 if ($ml -match '\^|') {
                     $columnCount = 0
-                    foreach ($tablePart in $ml -split '\|' -ne '') {
+                    foreach ($tablePart in $ml -split '(?<!\\)\|' -ne '') {
                         if ((-not $maxColumnSize[$columnCount]) -or $maxColumnSize[$columnCount] -lt $tablePart.Length) {
                             $maxColumnSize[$columnCount] = [Math]::Max($tablePart.Length, 2)
                         }
@@ -383,7 +383,7 @@ function Format-Markdown
                 if ($ml -match '\^|') {
                     $columnCount = 0
                     # Recreate the line with the right amount of padding.
-                    '|' + (@(foreach ($tablePart in $ml -split '\|' -ne '') {
+                    '|' + (@(foreach ($tablePart in $ml -split '(?<!\\)\|' -ne '') {
                         if ($tablePart -match '^[:\-]+$') {
                             if ($tablePart -match '^\:-{0,}\:$') { # If it's an alignment column, make sure to keep the alignment.
                                 if ($maxColumnSize[$columnCount] -gt 2) {
