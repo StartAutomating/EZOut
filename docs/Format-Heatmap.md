@@ -119,7 +119,7 @@ To pass a Hex color as an int, simply replace # with 0x
 ---
 ### Syntax
 ```PowerShell
-Format-Heatmap [[-InputObject] <Object>] [-HeatMapMax] <Object> [[-HeatMapMiddle] <Object>] [[-HeatMapMin] <Object>] [[-HeatMapCool] <Int32>] [[-HeatMapHot] <Int32>] [<CommonParameters>]
+Format-Heatmap [[-InputObject] &lt;Object&gt;] [-HeatMapMax] &lt;Object&gt; [[-HeatMapMiddle] &lt;Object&gt;] [[-HeatMapMin] &lt;Object&gt;] [[-HeatMapCool] &lt;Int32&gt;] [[-HeatMapHot] &lt;Int32&gt;] [&lt;CommonParameters&gt;]
 ```
 ---
 
