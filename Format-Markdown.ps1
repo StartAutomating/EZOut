@@ -183,7 +183,7 @@ function Format-Markdown
                     [Environment]::newline + # then a newline,
                     $(
                         $codeContent = $(if ($ScriptBlock) { "$scriptBlock" } else { $inputObject | LinkInput})  # then the -ScriptBlock or -InputObject
-                        [Web.HttpUtility]::HtmlEncode($codeContent)
+                        $codeContent
                     ) +
                     [Environment]::newline + # then a newline
                 '```' # then close the code fence.
