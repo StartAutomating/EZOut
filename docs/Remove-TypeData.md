@@ -31,7 +31,7 @@ this is the name of the module.
 ---
 ### Syntax
 ```PowerShell
-Remove-TypeData -ModuleName <String> [<CommonParameters>]
+Remove-TypeData -ModuleName &lt;String&gt; [&lt;CommonParameters&gt;]
 ```
 ---
 Remove-TypeData
