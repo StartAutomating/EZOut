@@ -1,3 +1,7 @@
+## 1.9.3:
+* Import-TypeView/Import-FormatView:  Skipping PipeScript Files (Fixes #73)
+---
+
 ## 1.9.2:
 * Format-Markdown:
   * Improving Handling of | (Fixes #71)
