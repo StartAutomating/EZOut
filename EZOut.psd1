@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.2'
+    ModuleVersion = '1.9.3'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,10 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.3:
+* Import-TypeView/Import-FormatView:  Skipping PipeScript Files (Fixes #73)
+---
+
 ## 1.9.2:
 * Format-Markdown:
   * Improving Handling of | (Fixes #71)

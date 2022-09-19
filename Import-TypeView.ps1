@@ -115,9 +115,16 @@
             $noteProperty = [Ordered]@{}
             $hideProperty = [Collections.Generic.List[string]]::new()
             foreach ($item in $sortedValues) {
+
+                # If the file is a [PipeScript](https://github.com/StartAutomating/PipeScript) source generator.
+                if ($item.Name -match '"\.ps1{0,1}\.(?<ext>[^.]+$)"') {
+                    continue # then skip it
+                    # (this can simplify development of ScriptProperties, Methods, and other files).
+                }
+                
                 $itemName =
                     $item.Name.Substring(0, $item.Name.Length - $item.Extension.Length)
-
+                
                 # If it's a .ps1, it will become a method, property, or event.
                 if ($item.Extension -eq '.ps1') {
                     $isScript = $true
