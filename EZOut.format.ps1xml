@@ -2045,6 +2045,9 @@ $BackgroundColor
       <ViewSelectedBy>
         <SelectionSetName>FileSystemTypes</SelectionSetName>
       </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>Directory</PropertyName>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
