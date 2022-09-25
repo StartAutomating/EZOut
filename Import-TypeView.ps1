@@ -102,19 +102,29 @@
             #>
 
             $aliasFileNames = 'Alias','Aliases','AliasProperty', '.Alias','.Aliases','.AliasProperty'
+            $typeNameFileNames = 'TypeName','TypeNames','PSTypeName', 'PSTypeNames', 
+                '.TypeName', '.TypeNames','.PSTypeName', '.PSTypeNames'
             $defaultDisplayFileName = 'DefaultDisplay','.DefaultDisplay'
             $scriptMethods = [Ordered]@{}
             $eventGenerators = [Ordered]@{}
             $eventNames = @()
             $scriptPropertyGet = [Ordered]@{}
             $scriptPropertySet = [Ordered]@{}
+            $propertySets = [Ordered]@{}
             $aliasProperty = [Ordered]@{}
             $noteProperty = [Ordered]@{}
             $hideProperty = [Collections.Generic.List[string]]::new()
             foreach ($item in $sortedValues) {
+
+                # If the file is a [PipeScript](https://github.com/StartAutomating/PipeScript) source generator.
+                if ($item.Name -match '"\.ps1{0,1}\.(?<ext>[^.]+$)"') {
+                    continue # then skip it
+                    # (this can simplify development of ScriptProperties, Methods, and other files).
+                }
+                
                 $itemName =
                     $item.Name.Substring(0, $item.Name.Length - $item.Extension.Length)
-
+                
                 # If it's a .ps1, it will become a method, property, or event.
                 if ($item.Extension -eq '.ps1') {
                     $isScript = $true
@@ -134,7 +144,7 @@
                 } elseif ($itemName.StartsWith('.')) {
                     # If the file starts with a ., hide the property.
                     $itemName = $itemName.TrimStart('.')
-                    $hideProperty += $itemName
+                    $hideProperty += $itemName -replace '^(?>get|set)_'
                 }
 
 
@@ -158,7 +168,7 @@
                         $scriptPropertySet[$propertyName] = $scriptBlock
                     }
                 }
-                elseif ($isScript -and         # If this is a script and it's an event 
+                elseif ($isScript -and         # If this is a script and it's an event
                     ($itemName -match '^@' -or # (prefaced with @ -or ending with .event.ps1)
                      $itemName -match '\.event\.ps1$'
                     )
@@ -199,6 +209,14 @@
                                 # Use each line of the file text as the name of a property to display
                                 $WriteTypeViewSplat.DefaultDisplay =
                                     $fileText -split '(?>\r\n|\n)' -ne ''
+                            }
+                            if ($typeNameFileNames -contains $itemName) {
+                                $WriteTypeViewSplat.TypeName =
+                                    $fileText -split '(?>\r\n|\n)' -ne ''
+                            }
+                            elseif ($itemName -like '*.propertySet') { # If it's a property set file (.propertyset.txt)
+                                $propertySets[$itemName -replace '\.propertySet$'] = # Create a property set with the file name.
+                                    $fileText -split '(?>\r\n|\n)' -ne '' # Each line will be treated as a name of a property.
                             }
                             elseif ($itemName -match '^@') {
                                 $eventNames += $itemName.Substring(1)
@@ -329,6 +347,9 @@ $stream.Dispose()
             }
             if ($aliasProperty.Count) {
                 $WriteTypeViewSplat.AliasProperty = $aliasProperty
+            }
+            if ($propertySets.Count) {
+                $WriteTypeViewSplat.PropertySet = $propertySets
             }
             if ($scriptPropertyGet.Count -or $scriptPropertySet.Count) {
                 $scriptProperties = [Ordered]@{}

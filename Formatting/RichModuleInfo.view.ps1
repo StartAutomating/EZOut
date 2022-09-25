@@ -1,6 +1,9 @@
-﻿[OutputType([Management.Automation.PSModuleInfo])]
-[PSTypeName('EZOut.RichModuleInfo')]
-param($_ = (Get-Module EZOut))
+﻿Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo","EZOut.RichModuleInfo" -Property Name, Version, PreRelease, ExportedCommands -VirtualProperty @{
+    "ExportedCommands" = { $_.ExportedCommands.Values }
+}
+
+
+Write-FormatView -TypeName "System.Management.Automation.PSModuleInfo", "EZOut.RichModuleInfo" -Action {
 $module = $_
 @(
     $moduleNameVer = $module.Name + $(
@@ -8,54 +11,25 @@ $module = $_
             " [$($module.Version)]"
         }
     )
-    . $Heading $moduleNameVer -Level 1
+    Format-Markdown -Heading $moduleNameVer -HeadingSize 1
     if ($module.Description) {
-        . $heading $module.Description -UnderlineLength $moduleNameVer.Length
+        Format-Markdown -Heading $module.Description -HeadingSize 2
     }
 
-    $commandSection = if ($module.ExportedCommands.Count) {
-
-        $byVerb = $module.ExportedCommands.Values |
-            Where-Object { $_.Verb } |
-            Group-Object Verb |
-            Sort-Object Name
-
-        $maxVerbLength = $byVerb |
-            Select-Object -ExpandProperty Name |
-            Measure-Object -Property Length -Maximum |
-            Select-Object -ExpandProperty Maximum
-
-        $maxNounLength = $module.ExportedCommands.Values |
-            Select-Object -ExpandProperty Noun |
-            Measure-Object -Property Length -Maximum |
-            Select-Object -ExpandProperty Maximum
-
-        "|$(' ' * [Math]::Max($maxVerbLength - 4, 0))Verb|Noun$(' ' * [Math]::Max($maxNounLength - 4 + 1, 0))|"
-        "|$('-' * [Math]::Max($maxVerbLength - 1, 0)):|:$('-' * [Math]::Max($maxNounLength, 0))|"
-
-        foreach ($_ in $byVerb) {
-            $v = "$($_.Name)"
-
-            '|' +
-                ' ' * ($maxVerbLength - $v.Length) + $v + '|' +
-                $(
-                    $t = '-' + $_.Group[0].Noun
-                    $t + ' ' * ([Math]::Max($maxNounLength - $t.Length + 1, 0)) + '|'
-                )
-            if ($_.Group.Count -gt 1) {               
-                foreach ($i in $_.Group[1..$($_.Group.Count -1)]) {
-                    '|' + " " * ($maxVerbLength) + '|-' + $i.Noun + ' ' * ([Math]::Max($maxNounLength - $i.Noun.Length, 0)) + '|'
-                }
-            }
+    $commandSection = 
+        if ($module.ExportedCommands.Count) {
+            $sortedByVerb = $module.ExportedCommands.Values |
+                Where-Object { $_.Verb -and $_.Noun } |
+                Sort-Object Verb, Noun |
+                Select-Object Verb, Noun
+            
+            $sortedByVerb | Format-Markdown -MarkdownTable
         }
-    }
 
     if ($commandSection) {
         $commandLineLength = $commandSection | Measure-Object -Property Length -Maximum | Select-Object -ExpandProperty Maximum
-        "### Commands"
-        '-' * $commandLineLength
-        $commandSection -join [Environment]::NewLine
-        '-' * $commandLineLength
+        "### Commands"        
+        $commandSection -join [Environment]::NewLine        
     }
 
     :findAboutText foreach ($culture in "$(Get-Culture)", 'en-us'| Select-Object -Unique) {
@@ -71,3 +45,5 @@ $module = $_
         }
     }
 ) -join [Environment]::NewLine
+}
+

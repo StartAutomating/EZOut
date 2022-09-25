@@ -316,7 +316,7 @@ describe "Write-FormatListView" {
         foreach ($n in 1..10) {
             [PSCustomObject]@{PSTypeName='OddN';N =$n}
         }
-        ) | Out-String | should -Belike *N?:?1*N?:?3*N?:?5*N?:?7*N?:?9*
+        ) | Out-String | should -Belike '*N*1*N*3*N*5*N*7*N*9*'
     }
 
     it 'Can conditionally -ColorProperty.  The ScriptBlock must return a hex color or escape sequence.' {
@@ -530,7 +530,7 @@ describe "Write-FormatViewExpression" {
         $fvXml = [xml]$fv
 
         $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
-            should -Belike '*$setOutputStyle*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
+            should -Belike '*Format-RichText*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
     }
 
     it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
@@ -1100,5 +1100,85 @@ describe 'Import-FormatView' {
             { Import-FormatView .\ThisFileDoesNotExist.format.xml} | should -Throw
             Pop-Location
         }
+    }
+}
+
+describe 'Import-TypeView' {
+    it 'Can create type files out of directories' {
+        $tmp =
+            if ($env:PIPELINE_WORKSPACE) { $env:PIPELINE_WORKSPACE } 
+            elseif ($env:TEMP) { "$env:TEMP" } 
+            else { "/tmp" }
+        $tmpDir = New-Item -ItemType Directory -Path (Join-Path $tmp "$(Get-Random)") 
+        $testTypeDir = New-Item -ItemType Directory -Path (Join-Path $tmpDir.FullName "TestType$($tmpDir.Name)")
+        Push-Location $testTypeDir.FullName
+        Set-Content get_Foo.txt Foo
+        Set-Content Alias.psd1 '@{Foo2="Foo"}'
+        Set-Content DefaultDisplay.txt RandomNumber
+        Set-Content get_RandomNumber.ps1 {Get-Random}
+        Set-Content set_RandomNumber.ps1 {$args}
+        Set-Content .HiddenProperty.txt Value
+        Set-Content XmlProperty.xml '<Message language="en-us">hello</Message>'
+        Set-Content DefaultDisplay.txt RandomNumber
+        'Foo', 'RandomNumber' -join [Environment]::NewLine | 
+            Set-Content Example.PropertySet.txt
+        
+        $typesXml = 
+            [xml](Import-TypeView -FilePath $tmpDir.FullName | Out-TypeData)
+        
+        $typesXml | Add-TypeData
+        $o = [PSCustomObject]@{PSTypeName=$testTypeDir.Name;N=1}
+        $o.RandomNumber | Should -BeGreaterThan 1
+        $o.HiddenProperty | Should -Be Value
+        Pop-Location
+        Remove-Item -Recurse -Force $tmpDir
+        Clear-TypeData
+    }
+    context 'Fault Tolerance' {
+        it 'Will error if the file does not exist' {
+            Get-Module EZOut |
+                Split-Path |
+                Join-Path -ChildPath Formatting |
+                Push-Location
+
+            { Import-TypeView .\ThisFileDoesNotExist.types.xml -ErrorAction Stop } | should -Throw
+            Pop-Location
+        }
+    }
+}
+
+describe 'Format-Object' {
+    it 'Is an extensible format command' {
+        "$(1,2,3 | Format-Object -NumberedList)" | Should -BeLike '*1.?1*2.?2*3.?3*'
+        if ($host.UI.SupportsVirtualTerminal) {
+            "$('red' | Format-Object -ForegroundColor "Red")" | Should -Match '\e.+Red'
+        }
+        "1","2","3" | Format-Object -YamlHeader | Should -BeLike '*- 1*- 2*- 3*'
+        [PSCustomObject]@{a='b';c='d'} | Format-Object -MarkdownTable | Should -BeLike '*|a*|c*|*|b*|d*|'
+        100 | Format-Object -HeatMapMax 100 -HeatMapHot 0xff0000 | Should -be '#ff0000'
+    }
+}
+
+describe 'Format-YAML' {
+    it 'Formats an object as YAML' {
+        ([Ordered]@{a=1;b=2.1;c='c';d=@{k='v'}} | Format-YAML).Trim() | 
+            Should -BeLike '*a:*1*b:*2.1*c:*c*d:*k:*v*'
+    }
+    it 'Can indent yaml' {
+        Format-YAML -InputObject @{a='a'} -Indent 4 | Should -Match '(?m)^\s{4}'
+    }
+}
+
+describe 'Format-Markdown' {
+    it 'Formats an object as Markdown' {
+        $formatMarkdown = @{a='b'} | Format-Markdown
+        $formatMarkdown | Should -belike '*|a*'
+        $formatMarkdown | Should -belike '*|b*'
+    }        
+}
+
+describe 'Format-Hashtable' {
+    it 'Can format a hashtable' {
+        Format-Hashtable -InputObject @{a='a'} | Should -Match "^\@\{\s+a\s=\s'a'\s+}"
     }
 }

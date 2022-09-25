@@ -52,9 +52,24 @@
     $If,
 
     # If provided, will output the provided text.  All other parameters are ignored.
-    [Parameter(Mandatory=$true,ParameterSetName='Text',ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory,ParameterSetName='Text',ValueFromPipelineByPropertyName=$true)]
     [string]
     $Text,
+
+    # If -AssemblyName, -BaseName, and -ResourceID are provided, localized text resources will be outputted.
+    [Parameter(Mandatory,ParameterSetName='LocalizedText',ValueFromPipelineByPropertyName)]
+    [string]
+    $AssemblyName,
+
+    # If -AssemblyName, -BaseName, and -ResourceID are provided, localized text resources will be outputted.
+    [Parameter(Mandatory,ParameterSetName='LocalizedText',ValueFromPipelineByPropertyName)]
+    [string]
+    $BaseName,
+
+    # If -AssemblyName, -BaseName, and -ResourceID are provided, localized text resources will be outputted.
+    [Parameter(Mandatory,ParameterSetName='LocalizedText',ValueFromPipelineByPropertyName)]
+    [string]
+    $ResourceID,
 
     # If provided, will output a <NewLine /> element.  All other parameters are ignored.
     [Parameter(Mandatory=$true,ParameterSetName='NewLine',ValueFromPipelineByPropertyName=$true)]
@@ -130,8 +145,8 @@
         }
 
         foreach ($n in 1..$count) {
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
-                $colorize = [ScriptBlock]::Create(". `$SetOutputStyle $(@(
+            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {                
+                $colorize = [ScriptBlock]::Create("@(Format-RichText $(@(
                     if ($ForegroundColor) {
                         "-ForegroundColor '$ForeGroundColor'"
                     }
@@ -141,7 +156,8 @@
                     if ($Bold) { '-Bold' }
                     if ($Underline) { '-Underline'}
                     if ($Invert) { '-Invert' }
-                ) -join ' ')")
+                    '-NoClear'
+                ) -join ' ')) -join ''")
                 Write-FormatViewExpression -ScriptBlock $colorize
             }
             $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
@@ -150,7 +166,11 @@
 
             if ($Text) {
                 "<Text>$([Security.SecurityElement]::Escape($Text))</Text>"
-            } else {
+            } 
+            elseif ($AssemblyName -and $BaseName -and $ResourceID) {
+                "<Text AssemblyName='$AssemblyName' BaseName='$BaseName' ResourceId='$ResourceID' />"
+            }
+            else {
                 if ($Count -gt 1 -and $PSBoundParameters.ContainsKey('ScriptBlock')) {
                     $ScriptBlock = [ScriptBlock]::Create("`$n = `$number = $n;
 $($PSBoundParameters['ScriptBlock'])
@@ -181,8 +201,9 @@ $if")
                 "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
                 $xOut.Dispose()
             }
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {
-                $(Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create('. $ClearOutputStyle')))
+            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline -or $Invert) {
+
+                Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear')))
             }
         }
     }

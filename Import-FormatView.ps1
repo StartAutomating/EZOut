@@ -92,6 +92,11 @@
                 continue
             }
             if ('.xml', '.ps1' -notcontains $fi.Extension) { continue }
+            # If the file is a [PipeScript](https://github.com/StartAutomating/PipeScript) source generator.
+            if ($fi.Name -match '"\.ps1{0,1}\.(?<ext>[^.]+$)"') {
+                continue # then skip it
+                # (this can simplify development of complex formatting)
+            }
 
             if ($fi.Extension -eq '.xml') {
                 $innerFormat[$fi.Name] = [xml][IO.File]::ReadAllText($fi.FullName)

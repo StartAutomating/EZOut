@@ -24,6 +24,7 @@ $script:TypeModules = @{}
 . $psScriptRoot\Write-FormatTreeView.ps1
 . $psScriptRoot\Write-FormatViewExpression.ps1
 . $psScriptRoot\Write-FormatWideView.ps1
+
 Set-Alias Write-CustomAction Write-FormatCustomView
 Set-Alias Show-CustomAction Write-FormatViewExpression
 #endregion Formatters
@@ -56,6 +57,16 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 
 
 
+
+. $psScriptRoot\Get-EZOutExtension.ps1
+
+. $psScriptRoot\Format-Object.ps1
+. $psScriptRoot\Format-Heatmap.ps1
+. $psScriptRoot\Format-RichText.ps1
+. $psScriptRoot\Format-Markdown.ps1
+. $psScriptRoot\Format-YAML.ps1
+. $psScriptRoot\Format-Hashtable.ps1
+
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 
 #region Import Parts
@@ -81,6 +92,9 @@ if ($partsDirectory) { # If we have parts directory
 }
 #endregion Import Parts
 
+
+
+Update-FormatData -PrependPath $psScriptRoot\EZOut.format.ps1xml
 
 Export-ModuleMember -Function * -Alias *
 $myInvocation.MyCommand.ScriptBlock.Module.OnRemove = {

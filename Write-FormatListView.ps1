@@ -130,12 +130,12 @@
                 `$ci = . {$($ColorProperty.$p)}
                 `$_ = `$__
                 if (`$ci -is [string]) {
-                    `$ci = . `$setOutputStyle `$ci
-                } else {
-                    `$ci = . `$setOutputStyle @ci
+                    `$ci = Format-RichText -NoClear -ForegroundColor `$ci
+                } else {                    
+                    `$ci = Format-RichText -NoClear @ci
                 }
                 `$output = . {" + $existingScript + '}
-                @($ci; $output; . $ClearOutputStyle) -join ""
+                @($ci; $output; Format-RichText) -join ""
                 '
                     $VirtualProperty.$p = $colorizedScript
                 }

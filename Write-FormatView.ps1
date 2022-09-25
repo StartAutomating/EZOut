@@ -265,7 +265,7 @@
             }
         } else {
             $typeNameElements = foreach ($t in $typeName) {
-                "<SelectionSet>$T</SelectionSet>"
+                "<SelectionSetName>$T</SelectionSetName>"
             }
 
         }
