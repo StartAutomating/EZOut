@@ -113,7 +113,7 @@ describe 'Write-FormatView' {
 
     it 'Can use a -TypeName as a SelectionSetName if -IsSelectionSet is passed' {
         $fvXml =[xml](Write-FormatView -TypeName FileSystemTypes -IsSelectionSet -Property a)
-        $fvXml.View.ViewSelectedBy.SelectionSet | should -Be FileSystemTypes
+        $fvXml.View.ViewSelectedBy.SelectionSetName | should -Be FileSystemTypes
     }
 
     it 'Will pass parameters down to Write-FormatTableView or Write-FormatListView' {
