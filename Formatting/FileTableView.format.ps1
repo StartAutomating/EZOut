@@ -18,4 +18,4 @@ Write-FormatView -TypeName FileSystemTypes -Property LastWriteTime, Length, Name
             }
         }
     }
-} -IsSelectionSet
+} -IsSelectionSet -GroupByProperty Directory
