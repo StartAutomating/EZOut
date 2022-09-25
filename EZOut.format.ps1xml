@@ -12,6 +12,29 @@
   </SelectionSets>
   <Controls>
     <Control>
+      <Name>FileSystemTypes-GroupingFormat</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <Frame>
+                <LeftIndent>4</LeftIndent>
+                <CustomItem>
+                  <Text AssemblyName="System.Management.Automation" BaseName="FileSystemProviderStrings" ResourceId="DirectoryDisplayGrouping" />
+                  <ExpressionBinding>
+                    <ScriptBlock>
+                                            $_.PSParentPath.Replace("Microsoft.PowerShell.Core\FileSystem::", "")                                                  
+                                        </ScriptBlock>
+                  </ExpressionBinding>
+                  <NewLine />
+                </CustomItem>
+              </Frame>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+    <Control>
       <Name>FileSystemTypes.TreeNode</Name>
       <CustomControl>
         <CustomEntries>
@@ -2045,9 +2068,6 @@ $BackgroundColor
       <ViewSelectedBy>
         <SelectionSetName>FileSystemTypes</SelectionSetName>
       </ViewSelectedBy>
-      <GroupBy>
-        <PropertyName>Directory</PropertyName>
-      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
