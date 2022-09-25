@@ -84,6 +84,57 @@ If set, will render as bold
 
 
 ---
+#### **Italic**
+
+If set, will render as italic.
+
+
+
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
+---
+#### **Faint**
+
+If set, will render as faint
+
+
+
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
+---
+#### **Hide**
+
+If set, will render as hidden text.
+
+
+
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
+---
 #### **Blink**
 
 If set, will render as blinking (not supported in all terminals or HTML)
@@ -135,6 +186,23 @@ If set, will underline text
 
 
 ---
+#### **DoubleUnderline**
+
+If set, will double underline text.
+
+
+
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
+---
 #### **Invert**
 
 If set, will invert text
@@ -171,7 +239,7 @@ If set, will not clear formatting
 ---
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] &lt;PSObject&gt;] [[-ForegroundColor] &lt;String&gt;] [[-BackgroundColor] &lt;String&gt;] [-Bold] [-Blink] [-Strikethru] [-Underline] [-Invert] [-NoClear] [&lt;CommonParameters&gt;]
+Format-RichText [[-InputObject] &lt;PSObject&gt;] [[-ForegroundColor] &lt;String&gt;] [[-BackgroundColor] &lt;String&gt;] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [-NoClear] [&lt;CommonParameters&gt;]
 ```
 ---
 ### Notes
