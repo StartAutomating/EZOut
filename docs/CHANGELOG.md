@@ -1,3 +1,15 @@
+## 1.9.4:
+* Formatting Improvements:
+  * Adding Colorized Formatter for Get-Member
+  * Adding Simple Table for FileSystemTypes
+* Format-RichText:
+  * Adding -DoubleUnderline (#80)
+  * Adding -Faint (#77)
+  * Adding -Hide (#78)
+  * Adding -Italic (#76)
+  * Fixing -Strikethru behavior (#79)
+---
+
 ## 1.9.3:
 * Import-TypeView/Import-FormatView:  Skipping PipeScript Files (Fixes #73)
 ---
