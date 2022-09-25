@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.3'
+    ModuleVersion = '1.9.4'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,18 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.4:
+* Formatting Improvements:
+  * Adding Colorized Formatter for Get-Member
+  * Adding Simple Table for FileSystemTypes
+* Format-RichText:
+  * Adding -DoubleUnderline (#80)
+  * Adding -Faint (#77)
+  * Adding -Hide (#78)
+  * Adding -Italic (#76)
+  * Fixing -Strikethru behavior (#79)
+---
+
 ## 1.9.3:
 * Import-TypeView/Import-FormatView:  Skipping PipeScript Files (Fixes #73)
 ---
