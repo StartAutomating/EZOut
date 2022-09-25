@@ -2068,6 +2068,10 @@ $BackgroundColor
       <ViewSelectedBy>
         <SelectionSetName>FileSystemTypes</SelectionSetName>
       </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>FileSystemTypes-GroupingFormat</CustomControlName>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
