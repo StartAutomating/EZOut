@@ -1765,6 +1765,55 @@ if ($Request -or $Host.UI.SupportsHTML) {
       <ViewSelectedBy>
         <SelectionSetName>FileSystemTypes</SelectionSetName>
       </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Length</Label>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>LastWriteTime</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+        if ($_.Length) {
+            if ($_.Length / 1gb -eq 1) {
+                '' + $([Math]::Round($_.Length / 1gb, 2)) + 'gb'
+            }
+            elseif ($_.Length / 1mb -ge 1) {
+                '' + $([Math]::Round($_.Length / 1mb, 2)) + 'mb'
+            }
+            elseif ($_.Length -gt 1kb) {
+                '' + $([Math]::Round($_.Length / 1kb, 2)) + 'kb'
+            } elseif ($_ -isnot [IO.DirectoryInfo]) {
+                $_.Length
+            }
+        }
+    </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>FileSystemTypes</Name>
+      <ViewSelectedBy>
+        <SelectionSetName>FileSystemTypes</SelectionSetName>
+      </ViewSelectedBy>
       <CustomControl>
         <CustomEntries>
           <CustomEntry>
