@@ -108,6 +108,11 @@
     [switch]
     $Invert,
 
+    # If set, will cross out the -Text, -Property, -or -ScriptBlock
+    # This is only valid in consoles that support ANSI terminals, or in HTML.
+    [Alias('Strikethrough', 'Crossout')]
+    [switch]$Strikethru,
+
     # If provided, will output the format using this format string.
     [string]
     $FormatString,
@@ -169,6 +174,7 @@
                 $Faint -or 
                 $doubleUnderline -or 
                 $Invert -or
+                $Strikethru -or
                 $hide) {                
                 $colorize = [ScriptBlock]::Create("@(Format-RichText $(@(
                     if ($ForegroundColor) {
@@ -184,6 +190,7 @@
                     if ($DoubleUnderline) { '-DoubleUnderline'}
                     if ($hide) { '-Hide' }
                     if ($Invert) { '-Invert' }
+                    if ($Strikethru) { '-Strikethru' }
                     '-NoClear'
                 ) -join ' ')) -join ''")
                 Write-FormatViewExpression -ScriptBlock $colorize
@@ -237,7 +244,8 @@ $if")
                 $Faint -or 
                 $doubleUnderline -or 
                 $Invert -or
-                $Hide
+                $Hide -or 
+                $Strikethru
             ) {
                 Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear')))
             }
