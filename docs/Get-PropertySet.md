@@ -41,13 +41,15 @@ The name of the typename to get
 
 ---
 ### Outputs
-System.Management.Automation.PSObject
+* [Management.Automation.PSObject](https://learn.microsoft.com/en-us/dotnet/api/System.Management.Automation.PSObject)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Get-PropertySet [[-TypeName] &lt;String[]&gt;] [&lt;CommonParameters&gt;]
+Get-PropertySet [[-TypeName] <String[]>] [<CommonParameters>]
 ```
 ---
 
