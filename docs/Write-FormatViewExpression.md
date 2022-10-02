@@ -308,6 +308,24 @@ This is only valid in consoles that support ANSI terminals, or in HTML.
 
 
 ---
+#### **Strikethru**
+
+If set, will cross out the -Text, -Property, -or -ScriptBlock
+This is only valid in consoles that support ANSI terminals, or in HTML.
+
+
+
+> **Type**: ```[Switch]```
+
+> **Required**: false
+
+> **Position**: named
+
+> **PipelineInput**:false
+
+
+
+---
 #### **FormatString**
 
 If provided, will output the format using this format string.
@@ -415,19 +433,19 @@ With script blocks, the variables $N and $Number will be set to indicate the cur
 ---
 ### Syntax
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-ScriptBlock] <ScriptBlock> [-If <ScriptBlock>] [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName <String>] [-ScriptBlock] <ScriptBlock> [-If <ScriptBlock>] [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-Property] <String> [-If <ScriptBlock>] [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName <String>] [-Property] <String> [-If <ScriptBlock>] [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Text <String> [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Text <String> [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -AssemblyName <String> -BaseName <String> -ResourceID <String> [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -AssemblyName <String> -BaseName <String> -ResourceID <String> [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Newline [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
+Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Newline [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ---
 
