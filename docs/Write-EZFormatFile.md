@@ -98,7 +98,7 @@ The destination path.  By default, the script's root.
 ---
 ### Syntax
 ```PowerShell
-Write-EZFormatFile [[-Format] &lt;ScriptBlock[]&gt;] [[-Type] &lt;ScriptBlock[]&gt;] [[-ModuleName] &lt;String&gt;] [[-SourcePath] &lt;String&gt;] [[-DestinationPath] &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-EZFormatFile [[-Format] <ScriptBlock[]>] [[-Type] <ScriptBlock[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [<CommonParameters>]
 ```
 ---
 
