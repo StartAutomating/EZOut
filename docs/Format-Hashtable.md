@@ -22,7 +22,7 @@ Handles nested hashtables and indents nested hashtables automatically.
 #### EXAMPLE 1
 ```PowerShell
 # Corrects the presentation of a PowerShell hashtable
-[Ordered]@{Foo=&#39;Bar&#39;;Baz=&#39;Bing&#39;;Boo=@{Bam=&#39;Blang&#39;}} | Format-Hashtable
+[Ordered]@{Foo='Bar';Baz='Bing';Boo=@{Bam='Blang'}} | Format-Hashtable
 ```
 
 ---
@@ -166,16 +166,18 @@ Beneath this depth, items will simply be returned as $null.
 
 ---
 ### Outputs
-[string]
+* [string]
 
 
-[ScriptBlock]
+* [ScriptBlock]
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Format-Hashtable [[-InputObject] &lt;PSObject&gt;] [-AsScriptBlock] [-AsPSObject] [-Sort] [-ExpandCredential] [-Compress] [-Safe] [-Depth &lt;Int32&gt;] [&lt;CommonParameters&gt;]
+Format-Hashtable [[-InputObject] <PSObject>] [-AsScriptBlock] [-AsPSObject] [-Sort] [-ExpandCredential] [-Compress] [-Safe] [-Depth <Int32>] [<CommonParameters>]
 ```
 ---
 
