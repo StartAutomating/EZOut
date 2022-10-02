@@ -31,8 +31,8 @@ temporary module to use the formatting file.
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
-# Let&#39;s start off by looking at how something like XML is rendered in PowerShell
-[xml]&quot;&lt;a an=&#39;anattribute&#39;&gt;&lt;b d=&#39;attribute&#39;&gt;&lt;c/&gt;&lt;/b&gt;&lt;/a&gt;&quot;
+# Let's start off by looking at how something like XML is rendered in PowerShell
+[xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
 ```
 # It's not very intuitive.
 # I cannot really only see the element I am looking at, instead of a chunk of data
@@ -117,16 +117,18 @@ If set, the module that contains the format files will be outputted to the pipel
 
 ---
 ### Outputs
-System.Nullable
+* [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
 
 
-System.Management.Automation.PSModuleInfo
+* [Management.Automation.PSModuleInfo](https://learn.microsoft.com/en-us/dotnet/api/System.Management.Automation.PSModuleInfo)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Add-FormatData [-FormatXml] &lt;XmlDocument&gt; [[-Name] &lt;String&gt;] [-PassThru] [&lt;CommonParameters&gt;]
+Add-FormatData [-FormatXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```
 ---
 

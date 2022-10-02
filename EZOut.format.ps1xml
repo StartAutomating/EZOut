@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9.4: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.9.5: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -1000,6 +1000,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
     [switch]$Bold,
 
     # If set, will render as italic.
+    [Alias('Italics')]
     [switch]$Italic,
 
     # If set, will render as faint

@@ -80,16 +80,18 @@ If set, the module that contains the format files will be outputted to the pipel
 
 ---
 ### Outputs
-System.Nullable
+* [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
 
 
-System.Management.Automation.PSModuleInfo
+* [Management.Automation.PSModuleInfo](https://learn.microsoft.com/en-us/dotnet/api/System.Management.Automation.PSModuleInfo)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Add-TypeData [-TypeXml] &lt;XmlDocument&gt; [[-Name] &lt;String&gt;] [-PassThru] [&lt;CommonParameters&gt;]
+Add-TypeData [-TypeXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```
 ---
 

@@ -1,3 +1,14 @@
+## 1.9.5:
+* Write-FormatViewExpression:
+  * Adding -DoubleUnderline
+  * Adding -Faint
+  * Adding -Italic
+  * Adding -Strikthru
+  * Adding -Hide
+* Format-RichText:
+  * Adding plural alias for -Italic (Fixes #83)
+---
+
 ## 1.9.4:
 * Formatting Improvements:
   * Adding Colorized Formatter for Get-Member

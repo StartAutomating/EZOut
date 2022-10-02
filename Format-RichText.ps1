@@ -38,6 +38,7 @@ function Format-RichText
     [switch]$Bold,
 
     # If set, will render as italic.
+    [Alias('Italics')]
     [switch]$Italic,
 
     # If set, will render as faint

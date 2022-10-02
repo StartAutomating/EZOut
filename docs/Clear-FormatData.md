@@ -29,13 +29,15 @@ Clear-FormatData
 
 ---
 ### Outputs
-System.Nullable
+* [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Clear-FormatData [&lt;CommonParameters&gt;]
+Clear-FormatData [<CommonParameters>]
 ```
 ---
 

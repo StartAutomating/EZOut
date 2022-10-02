@@ -69,13 +69,15 @@ The name of the selection set to create
 
 ---
 ### Outputs
-System.String
+* [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-ConvertTo-PropertySet -SelectedObject &lt;Object&gt; [-Name] &lt;Object&gt; [&lt;CommonParameters&gt;]
+ConvertTo-PropertySet -SelectedObject <Object> [-Name] <Object> [<CommonParameters>]
 ```
 ---
 

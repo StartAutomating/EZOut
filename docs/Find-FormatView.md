@@ -43,7 +43,7 @@ The name of the type of format view to find
 ---
 ### Syntax
 ```PowerShell
-Find-FormatView [-TypeName] &lt;String&gt; [&lt;CommonParameters&gt;]
+Find-FormatView [-TypeName] <String> [<CommonParameters>]
 ```
 ---
 

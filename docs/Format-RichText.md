@@ -239,7 +239,7 @@ If set, will not clear formatting
 ---
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] &lt;PSObject&gt;] [[-ForegroundColor] &lt;String&gt;] [[-BackgroundColor] &lt;String&gt;] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [-NoClear] [&lt;CommonParameters&gt;]
+Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [-NoClear] [<CommonParameters>]
 ```
 ---
 ### Notes

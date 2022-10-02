@@ -187,7 +187,7 @@ and at least one of these views must not havea condition.
 ---
 ### Syntax
 ```PowerShell
-Write-FormatListView -Property &lt;String[]&gt; [-AliasProperty &lt;IDictionary&gt;] [-VirtualProperty &lt;IDictionary&gt;] [[-FormatProperty] &lt;IDictionary&gt;] [-ColorProperty &lt;IDictionary&gt;] [-ConditionalProperty &lt;IDictionary&gt;] [-ViewTypeName &lt;String&gt;] [-ViewSelectionSet &lt;String&gt;] [-ViewCondition &lt;ScriptBlock&gt;] [&lt;CommonParameters&gt;]
+Write-FormatListView -Property <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-ColorProperty <IDictionary>] [-ConditionalProperty <IDictionary>] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
 ---
 

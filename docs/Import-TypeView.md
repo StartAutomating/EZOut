@@ -56,7 +56,7 @@ If set, will generate an identical typeview for the deserialized form of each ty
 ---
 ### Syntax
 ```PowerShell
-Import-TypeView [-FilePath] &lt;String[]&gt; [-Deserialized] [&lt;CommonParameters&gt;]
+Import-TypeView [-FilePath] <String[]> [-Deserialized] [<CommonParameters>]
 ```
 ---
 

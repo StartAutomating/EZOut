@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.4'
+    ModuleVersion = '1.9.5'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -43,6 +43,18 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.5:
+* Write-FormatViewExpression:
+  * Adding -DoubleUnderline
+  * Adding -Faint
+  * Adding -Italic
+  * Adding -Strikthru
+  * Adding -Hide
+* Format-RichText:
+  * Adding plural alias for -Italic (Fixes #83)
+---
+
+
 ## 1.9.4:
 * Formatting Improvements:
   * Adding Colorized Formatter for Get-Member
