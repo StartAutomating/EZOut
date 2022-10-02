@@ -533,6 +533,28 @@ describe "Write-FormatViewExpression" {
             should -Belike '*Format-RichText*-ForegroundColor*#000*-BackgroundColor*#ffffff*'
     }
 
+    it 'Can be -Bold (if ($host.UI.SupportsVirtualTerminal))' {
+        $fv =
+            Write-FormatCustomView -Action {
+                Write-FormatViewExpression -ScriptBlock { "hello world" } -Bold
+            }
+        $fvXml = [xml]$fv
+
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
+            should -Belike '*Format-RichText*-Bold*'
+    }
+
+    it 'Can use -Italics (if ($host.UI.SupportsVirtualTerminal))' {
+        $fv =
+            Write-FormatCustomView -Action {
+                Write-FormatViewExpression -ScriptBlock { "hello world" } -Italic
+            }
+        $fvXml = [xml]$fv
+
+        $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ExpressionBinding[0].ScriptBlock |
+            should -Belike '*Format-RichText*-Italic*'
+    }
+
     it 'Will create a <NewLine> element when the -NewLine parameter is provided' {
         $fvxml = [xml](Write-FormatViewExpression -Newline)
         $fvxml.FirstChild.LocalName | should -Be 'Newline'
