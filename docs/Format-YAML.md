@@ -13,12 +13,12 @@ Formats an object as YAML.
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
-Format-Yaml -InputObject @(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+Format-Yaml -InputObject @("a", "b", "c")
 ```
 
 #### EXAMPLE 2
 ```PowerShell
-@{a=&quot;b&quot;;c=&quot;d&quot;;e=@{f=@(&#39;g&#39;)}} | Format-Yaml
+@{a="b";c="d";e=@{f=@('g')}} | Format-Yaml
 ```
 
 ---
@@ -90,7 +90,7 @@ Beyond this depth, an empty string will be returned.
 ---
 ### Syntax
 ```PowerShell
-Format-YAML [[-InputObject] &lt;PSObject&gt;] [-YamlHeader] [[-Indent] &lt;Int32&gt;] [[-Depth] &lt;Int32&gt;] [&lt;CommonParameters&gt;]
+Format-YAML [[-InputObject] <PSObject>] [-YamlHeader] [[-Indent] <Int32>] [[-Depth] <Int32>] [<CommonParameters>]
 ```
 ---
 
