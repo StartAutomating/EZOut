@@ -101,7 +101,7 @@ The names of the properties to include in the property set
 ---
 ### Syntax
 ```PowerShell
-Write-PropertySet [-TypeName] &lt;String&gt; [-Name] &lt;String&gt; [-PropertyName] &lt;String[]&gt; [&lt;CommonParameters&gt;]
+Write-PropertySet [-TypeName] <String> [-Name] <String> [-PropertyName] <String[]> [<CommonParameters>]
 ```
 ---
 
