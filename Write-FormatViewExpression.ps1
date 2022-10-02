@@ -87,6 +87,22 @@
     [switch]
     $Underline,
 
+    # If set, will double underline the -Text, -Property, or -ScriptBlock.
+    # This is only valid in consoles that support ANSI terminals, or in HTML
+    [switch]
+    $DoubleUnderline,
+
+    # If set, make the -Text, -Property, or -ScriptBlock Italic.
+    # This is only valid in consoles that support ANSI terminals, or in HTML
+    [Alias('Italics')]
+    [switch]
+    $Italic,
+
+    # If set, will hide  the -Text, -Property, or -ScriptBlock.
+    # This is only valid in consoles that support ANSI terminals, or in HTML
+    [switch]
+    $Hide,
+
     # If set, will invert the -Text, -Property, -or -ScriptBlock
     # This is only valid in consoles that support ANSI terminals, or in HTML.
     [switch]
@@ -145,7 +161,15 @@
         }
 
         foreach ($n in 1..$count) {
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline) {                
+            if ($ForegroundColor -or 
+                $BackgroundColor -or 
+                $Bold -or 
+                $Underline -or 
+                $Italic -or 
+                $Faint -or 
+                $doubleUnderline -or 
+                $Invert -or
+                $hide) {                
                 $colorize = [ScriptBlock]::Create("@(Format-RichText $(@(
                     if ($ForegroundColor) {
                         "-ForegroundColor '$ForeGroundColor'"
@@ -153,8 +177,12 @@
                     if ($BackgroundColor) {
                         "-BackgroundColor '$BackgroundColor'"
                     }
+                    if ($Italic) { '-Italic' }
                     if ($Bold) { '-Bold' }
+                    if ($Faint) { '-Faint' }
                     if ($Underline) { '-Underline'}
+                    if ($DoubleUnderline) { '-DoubleUnderline'}
+                    if ($hide) { '-Hide' }
                     if ($Invert) { '-Invert' }
                     '-NoClear'
                 ) -join ' ')) -join ''")
@@ -201,8 +229,16 @@ $if")
                 "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
                 $xOut.Dispose()
             }
-            if ($ForegroundColor -or $BackgroundColor -or $Bold -or $Underline -or $Invert) {
-
+            if ($ForegroundColor -or 
+                $BackgroundColor -or 
+                $Bold -or 
+                $Underline -or 
+                $Italic -or 
+                $Faint -or 
+                $doubleUnderline -or 
+                $Invert -or
+                $Hide
+            ) {
                 Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear')))
             }
         }
