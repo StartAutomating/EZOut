@@ -69,7 +69,7 @@ Get-FormatFile -OnlyBuildIn
 ---
 ### Syntax
 ```PowerShell
-Get-FormatFile [-OnlyFromModule] [-OnlyBuiltIn] [-FromSnapins] [&lt;CommonParameters&gt;]
+Get-FormatFile [-OnlyFromModule] [-OnlyBuiltIn] [-FromSnapins] [<CommonParameters>]
 ```
 ---
 
