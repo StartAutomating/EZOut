@@ -24,8 +24,8 @@ Write-FormatTableView -Property myFirstProperty,mySecondProperty -TypeName MyPro
 
 #### EXAMPLE 2
 ```PowerShell
-Write-FormatTableView -Property &quot;Friendly Property Name&quot; -RenameProperty @{
-    &quot;Friendly Property Name&quot; = &#39;SystemName&#39;
+Write-FormatTableView -Property "Friendly Property Name" -RenameProperty @{
+    "Friendly Property Name" = 'SystemName'
 }
 ```
 
@@ -36,11 +36,11 @@ Write-FormatTableView -Property Name, Bio -Width 20 -Wrap
 
 #### EXAMPLE 4
 ```PowerShell
-Write-FormatTableView -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { &quot;#ff0000&quot;} else {&quot;#0f0&quot;} } -VirtualProperty @{
+Write-FormatTableView -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} } -VirtualProperty @{
     IsEven = { -not ($_.N % 2)}
     IsOdd = { ($_.N % 2) -as [bool] }
 } -AliasProperty @{
-    Number = &#39;N&#39;
+    Number = 'N'
 }
 ```
 
@@ -295,13 +295,15 @@ If provided, will selectively display items.
 
 ---
 ### Outputs
-System.String
+* [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Write-FormatTableView [-Property] &lt;String[]&gt; [-AliasProperty &lt;IDictionary&gt;] [-VirtualProperty &lt;IDictionary&gt;] [[-FormatProperty] &lt;IDictionary&gt;] [-AlignProperty &lt;IDictionary&gt;] [-ColorProperty &lt;IDictionary&gt;] [-ColorRow &lt;ScriptBlock&gt;] [-AutoSize] [-HideHeader] [-Width &lt;Int32[]&gt;] [-Wrap] [-ViewTypeName &lt;String&gt;] [-ViewSelectionSet &lt;String&gt;] [-ViewCondition &lt;ScriptBlock&gt;] [&lt;CommonParameters&gt;]
+Write-FormatTableView [-Property] <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-Wrap] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
 ---
 
