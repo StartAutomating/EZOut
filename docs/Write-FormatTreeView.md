@@ -34,10 +34,10 @@ Write-FormatTreeView -TypeName System.IO.FileInfo, System.IO.DirectoryInfo -Node
     $_.EnumerateFiles()
 }, {
     foreach ($d in $_.EnumerateDirectories()) {
-        if ($d.Attributes -band &#39;Hidden&#39;) { continue }
+        if ($d.Attributes -band 'Hidden') { continue }
         $d
     }
-} -Branch (&#39;&#39; + [char]9500 + [char]9472 + [char]9472) -Trunk &#39;|  &#39; |
+} -Branch ('' + [char]9500 + [char]9472 + [char]9472) -Trunk '|  ' |
     Out-FormatData |
     Add-FormatData
 ```
@@ -312,7 +312,7 @@ This control must exist in the same format file.
 ---
 ### Syntax
 ```PowerShell
-Write-FormatTreeView [[-Property] &lt;PSObject[]&gt;] [[-Separator] &lt;String&gt;] [[-Branch] &lt;String&gt;] [[-Trunk] &lt;String&gt;] [[-TypeName] &lt;String[]&gt;] [[-SelectionSet] &lt;String&gt;] [[-ControlName] &lt;String&gt;] [[-ViewTypeName] &lt;String&gt;] [[-ViewSelectionSet] &lt;String&gt;] [[-ViewCondition] &lt;ScriptBlock&gt;] [[-EndBranch] &lt;String&gt;] [[-EndBranchScript] &lt;ScriptBlock&gt;] [[-HasChildren] &lt;ScriptBlock[]&gt;] [[-Children] &lt;ScriptBlock[]&gt;] [[-ChildNodeControl] &lt;String[]&gt;] [&lt;CommonParameters&gt;]
+Write-FormatTreeView [[-Property] <PSObject[]>] [[-Separator] <String>] [[-Branch] <String>] [[-Trunk] <String>] [[-TypeName] <String[]>] [[-SelectionSet] <String>] [[-ControlName] <String>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [[-EndBranch] <String>] [[-EndBranchScript] <ScriptBlock>] [[-HasChildren] <ScriptBlock[]>] [[-Children] <ScriptBlock[]>] [[-ChildNodeControl] <String[]>] [<CommonParameters>]
 ```
 ---
 
