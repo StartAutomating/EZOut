@@ -52,11 +52,11 @@ Write-FormatView -TypeName MyType -Property Property1, Property2
 
 #### EXAMPLE 2
 ```PowerShell
-Write-FormatView -TypeName ColorizedRow -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { &quot;#ff0000&quot;} else {&quot;#0f0&quot;} } -VirtualProperty @{
+Write-FormatView -TypeName ColorizedRow -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} } -VirtualProperty @{
     IsEven = { -not ($_.N % 2)}
     IsOdd = { ($_.N % 2) -as [bool] }
 } -AliasProperty @{
-    Number = &#39;N&#39;
+    Number = 'N'
 } | 
     Out-FormatData | 
     Add-FormatData
@@ -70,11 +70,11 @@ foreach ($n in 1..5) {
 }
 #### EXAMPLE 3
 ```PowerShell
-Write-FormatView -TypeName &quot;System.Xml.XmlNode&quot; -Wrap -Property &quot;Xml&quot; -VirtualProperty @{
-    &quot;Xml&quot; = {
+Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
+    "Xml" = {
         $strWrite = New-Object IO.StringWriter
         ([xml]$_.Outerxml).Save($strWrite)
-        &quot;$strWrite&quot;
+        "$strWrite"
     }
 } |
     Out-FormatData |
@@ -506,25 +506,27 @@ If the format view is going to be outputted as a control, it will require a name
 
 ---
 ### Outputs
-[string]
+* [string]
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Write-FormatView [-TypeName] &lt;String[]&gt; [-Property] &lt;String[]&gt; [[-AliasProperty] &lt;Hashtable&gt;] [[-VirtualProperty] &lt;Hashtable&gt;] [[-FormatProperty] &lt;Hashtable&gt;] [-AlignProperty &lt;IDictionary&gt;] [-ColorProperty &lt;IDictionary&gt;] [-ColorRow &lt;ScriptBlock&gt;] [-AutoSize] [-HideHeader] [-Width &lt;Int32[]&gt;] [-IsSelectionSet] [-Wrap] [-GroupByProperty &lt;String&gt;] [-GroupByScript &lt;ScriptBlock&gt;] [-GroupLabel &lt;String&gt;] [-GroupAction &lt;String&gt;] [-Name &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-IsSelectionSet] [-Wrap] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] &lt;String[]&gt; [-Property] &lt;String[]&gt; [[-AliasProperty] &lt;Hashtable&gt;] [[-VirtualProperty] &lt;Hashtable&gt;] [[-FormatProperty] &lt;Hashtable&gt;] [-ColorProperty &lt;IDictionary&gt;] [-ColorRow &lt;ScriptBlock&gt;] -AsList [-ConditionalProperty &lt;IDictionary&gt;] [-IsSelectionSet] [-GroupByProperty &lt;String&gt;] [-GroupByScript &lt;ScriptBlock&gt;] [-GroupLabel &lt;String&gt;] [-GroupAction &lt;String&gt;] [-Name &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] -AsList [-ConditionalProperty <IDictionary>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] &lt;String[]&gt; [-AutoSize] [-IsSelectionSet] [-GroupByProperty &lt;String&gt;] [-GroupByScript &lt;ScriptBlock&gt;] [-GroupLabel &lt;String&gt;] [-GroupAction &lt;String&gt;] [-Name &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-FormatView [-TypeName] <String[]> [-AutoSize] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] &lt;String[]&gt; -Action &lt;ScriptBlock[]&gt; [-Indent &lt;Int32&gt;] [-IsSelectionSet] [-GroupByProperty &lt;String&gt;] [-GroupByScript &lt;ScriptBlock&gt;] [-GroupLabel &lt;String&gt;] [-GroupAction &lt;String&gt;] [-AsControl] [-Name &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-FormatView [-TypeName] <String[]> -Action <ScriptBlock[]> [-Indent <Int32>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-AsControl] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] &lt;String[]&gt; -FormatXML &lt;XmlDocument&gt; [-IsSelectionSet] [-GroupByProperty &lt;String&gt;] [-GroupByScript &lt;ScriptBlock&gt;] [-GroupLabel &lt;String&gt;] [-GroupAction &lt;String&gt;] [-Name &lt;String&gt;] [&lt;CommonParameters&gt;]
+Write-FormatView [-TypeName] <String[]> -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ---
 

@@ -31,7 +31,7 @@ this is the name of the module.
 ---
 ### Syntax
 ```PowerShell
-Remove-TypeData -ModuleName &lt;String&gt; [&lt;CommonParameters&gt;]
+Remove-TypeData -ModuleName <String> [<CommonParameters>]
 ```
 ---
 Remove-TypeData
@@ -114,7 +114,9 @@ System.Management.Automation.Runspaces.TypeData
 
 ---
 ### Outputs
-System.Object
+* [Object](https://learn.microsoft.com/en-us/dotnet/api/System.Object)
+
+
 
 
 ---

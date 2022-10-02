@@ -112,7 +112,9 @@ System.Management.Automation.ScriptBlock
 
 ---
 ### Outputs
-System.Object
+* [Object](https://learn.microsoft.com/en-us/dotnet/api/System.Object)
+
+
 
 
 ---

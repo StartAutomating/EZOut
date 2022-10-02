@@ -406,13 +406,15 @@ If set, will output the full help for the extensions
 
 ---
 ### Outputs
-Extension
+* Extension
+
+
 
 
 ---
 ### Syntax
 ```PowerShell
-Get-EZOutExtension [[-ExtensionPath] &lt;String&gt;] [-Force] [[-CommandName] &lt;String[]&gt;] [[-ExtensionName] &lt;String[]&gt;] [-Like] [-Match] [-DynamicParameter] [-CouldRun] [-Run] [-Stream] [[-DynamicParameterSetName] &lt;String&gt;] [[-DynamicParameterPositionOffset] &lt;Int32&gt;] [-NoMandatoryDynamicParameter] [[-ValidateInput] &lt;PSObject&gt;] [-AllValid] [[-ParameterSetName] &lt;String&gt;] [[-Parameter] &lt;IDictionary&gt;] [-SteppablePipeline] [-Help] [[-ParameterHelp] &lt;String[]&gt;] [-Example] [-FullHelp] [&lt;CommonParameters&gt;]
+Get-EZOutExtension [[-ExtensionPath] <String>] [-Force] [[-CommandName] <String[]>] [[-ExtensionName] <String[]>] [-Like] [-Match] [-DynamicParameter] [-CouldRun] [-Run] [-Stream] [[-DynamicParameterSetName] <String>] [[-DynamicParameterPositionOffset] <Int32>] [-NoMandatoryDynamicParameter] [[-ValidateInput] <PSObject>] [-AllValid] [[-ParameterSetName] <String>] [[-Parameter] <IDictionary>] [-SteppablePipeline] [-Help] [[-ParameterHelp] <String[]>] [-Example] [-FullHelp] [<CommonParameters>]
 ```
 ---
 

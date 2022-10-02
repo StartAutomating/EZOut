@@ -23,7 +23,7 @@ The formatting data must have been added with Add-FormatData
 ---
 ### Syntax
 ```PowerShell
-Clear-TypeData [&lt;CommonParameters&gt;]
+Clear-TypeData [<CommonParameters>]
 ```
 ---
 

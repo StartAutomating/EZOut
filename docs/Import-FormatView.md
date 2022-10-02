@@ -32,7 +32,7 @@ Imports a Format View defined in .format or .view .ps1 files
 ---
 ### Syntax
 ```PowerShell
-Import-FormatView [-FilePath] &lt;String[]&gt; [&lt;CommonParameters&gt;]
+Import-FormatView [-FilePath] <String[]> [<CommonParameters>]
 ```
 ---
 
