@@ -1000,6 +1000,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
     [switch]$Bold,
 
     # If set, will render as italic.
+    [Alias('Italics')]
     [switch]$Italic,
 
     # If set, will render as faint
