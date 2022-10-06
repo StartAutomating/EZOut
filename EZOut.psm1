@@ -61,11 +61,14 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 . $psScriptRoot\Get-EZOutExtension.ps1
 
 . $psScriptRoot\Format-Object.ps1
-. $psScriptRoot\Format-Heatmap.ps1
-. $psScriptRoot\Format-RichText.ps1
-. $psScriptRoot\Format-Markdown.ps1
-. $psScriptRoot\Format-YAML.ps1
+
 . $psScriptRoot\Format-Hashtable.ps1
+. $psScriptRoot\Format-Heatmap.ps1
+. $psScriptRoot\Format-JSON.ps1
+. $psScriptRoot\Format-Markdown.ps1
+. $psScriptRoot\Format-RichText.ps1
+. $psScriptRoot\Format-YAML.ps1
+
 
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 
