@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.5'
+    ModuleVersion = '1.9.6'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -65,6 +65,11 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.6:
+* Added Format-JSON (Fixes #86)
+* Improved GitHub Action (Fixes #85)
+---
+
 ## 1.9.5:
 * Write-FormatViewExpression:
   * Adding -DoubleUnderline
