@@ -1,3 +1,8 @@
+## 1.9.6:
+* Added Format-JSON (Fixes #86)
+* Improved GitHub Action (Fixes #85)
+---
+
 ## 1.9.5:
 * Write-FormatViewExpression:
   * Adding -DoubleUnderline
