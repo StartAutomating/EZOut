@@ -42,38 +42,111 @@ $UserEmail,
 $UserName
 )
 
+#region Initial Logging
+
+# Output the parameters passed to this script (for debugging)
 "::group::Parameters" | Out-Host
 [PSCustomObject]$PSBoundParameters | Format-List | Out-Host
 "::endgroup::" | Out-Host
 
-$gitHubEvent = if ($env:GITHUB_EVENT_PATH) {
-    [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
-} else { $null }
+# Get the GitHub Event
+$gitHubEvent = 
+    if ($env:GITHUB_EVENT_PATH) {
+        [IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
+    } else { $null }
 
-$PSD1Found = Get-ChildItem -Recurse -Filter "*.psd1" |
-    Where-Object Name -eq 'EZOut.psd1' | 
-    Select-Object -First 1
+# Log the GitHub Event
+@"
+::group::GitHubEvent
+$($gitHubEvent | ConvertTo-Json -Depth 100)
+::endgroup::
+"@ | Out-Host
 
-if ($PSD1Found) {
-    $EZOutModulePath = $PSD1Found
-    Import-Module $PSD1Found -Force -PassThru | Out-Host
-} 
-elseif ($env:GITHUB_ACTION_PATH) {
-    $EZOutModulePath = Join-Path $env:GITHUB_ACTION_PATH 'EZOut.psd1'
-    if (Test-path $EZOutModulePath) {
-        Import-Module $EZOutModulePath -Force -PassThru | Out-String
-    } else {
-        throw "EZOut not found"
-    }
-} 
-elseif (-not (Get-Module EZOut)) {
-    throw "Action Path not found"
+# Check that there is a workspace (and throw if there is not)
+if (-not $env:GITHUB_WORKSPACE) { throw "No GitHub workspace" }
+
+#endregion Initial Logging
+
+#region Configure UserName and Email
+if (-not $UserName)  {
+    $UserName =  
+        if ($env:GITHUB_TOKEN) {
+            Invoke-RestMethod -uri "https://api.github.com/user" -Headers @{
+                Authorization = "token $env:GITHUB_TOKEN"
+            } |
+                Select-Object -First 1 -ExpandProperty name
+        } else {
+            $env:GITHUB_ACTOR
+        }
 }
 
-"::notice title=ModuleLoaded::EZOut Loaded from Path - $($EZOutModulePath)" | Out-Host
+if (-not $UserEmail) { 
+    $GitHubUserEmail = 
+        if ($env:GITHUB_TOKEN) {
+            Invoke-RestMethod -uri "https://api.github.com/user/emails" -Headers @{
+                Authorization = "token $env:GITHUB_TOKEN"
+            } |
+                Select-Object -First 1 -ExpandProperty email
+        } else {''}
+    $UserEmail = 
+        if ($GitHubUserEmail) {
+            $GitHubUserEmail
+        } else {
+            "$UserName@github.com"
+        }    
+}
+git config --global user.email $UserEmail
+git config --global user.name  $UserName
+#endregion Configure UserName and Email
 
+# Check to ensure we are on a branch
+$branchName = git rev-parse --abrev-ref HEAD
+# If we were not, return.
+if (-not $branchName) {
+    "::notice title=ModuleLoaded::$actionModuleName Loaded from Path - $($actionModulePath)" | Out-Host
+    return
+}
+
+git pull | Out-Host
+
+
+#region Load Action Module
+$ActionModuleName     = "EZOut"
+$ActionModuleFileName = "$ActionModuleName.psd1"
+
+# Try to find a local copy of the action's module.
+# This allows the action to use the current branch's code instead of the action's implementation.
+$PSD1Found = Get-ChildItem -Recurse -Filter "*.psd1" |
+    Where-Object Name -eq $ActionModuleFileName | 
+    Select-Object -First 1
+
+$ActionModulePath, $ActionModule = 
+    # If there was a .PSD1 found
+    if ($PSD1Found) {
+        $PSD1Found.FullName # import from there.
+        Import-Module $PSD1Found.FullName -Force -PassThru
+    } 
+    # Otherwise, if we have a GITHUB_ACTION_PATH
+    elseif ($env:GITHUB_ACTION_PATH) 
+    {
+        $actionModulePath = Join-Path $env:GITHUB_ACTION_PATH $ActionModuleFileName
+        if (Test-path $actionModulePath) {
+            $actionModulePath
+            Import-Module $actionModulePath -Force -PassThru
+        } else {
+            throw "$actionModuleName not found"
+        }
+    } 
+    elseif (-not (Get-Module $ActionModuleName)) {
+        throw "$actionModulePath could not be loaded."
+    }
+
+"::notice title=ModuleLoaded::$actionModuleName Loaded from Path - $($actionModulePath)" | Out-Host
+#endregion Load Action Module
+
+#region Declare Functions and Variables
 $anyFilesChanged = $false
-$processScriptOutput = { process { 
+filter ProcessScriptOutput {
     $out = $_
     $outItem = Get-Item -Path $out -ErrorAction SilentlyContinue
     $fullName, $shouldCommit = 
@@ -94,22 +167,17 @@ $processScriptOutput = { process {
         $anyFilesChanged = $true
     }
     $out
-} }
+}
+
+#endregion Declare Functions and Variables
 
 
-if (-not $UserName) { $UserName = $env:GITHUB_ACTOR }
-if (-not $UserEmail) { $UserEmail = "$UserName@github.com" }
-git config --global user.email $UserEmail
-git config --global user.name  $UserName
-
-if (-not $env:GITHUB_WORKSPACE) { throw "No GitHub workspace" }
-
-git pull | Out-Host
+#region Actual Action
 
 $EZOutScriptStart = [DateTime]::Now
 if ($EZOutScript) {
     Invoke-Expression -Command $EZOutScript |
-        . $processScriptOutput |
+        . processScriptOutput |
         Out-Host
 }
 $EZOutScriptTook = [Datetime]::Now - $EZOutScriptStart
@@ -129,11 +197,11 @@ if (-not $SkipEZOutPS1) {
             $EZOutPS1Count++
             "::notice title=Running::$($_.Fullname)" | Out-Host
             . $_.FullName |            
-                . $processScriptOutput  | 
+                . processScriptOutput  | 
                 Out-Host
         }
     } else {
-        Write-EZFormatFile -ModuleName $ModuleName | Invoke-Expression
+        Write-EZFormatFile -ModuleName $ModuleName | Set-Content "$moduleName.ezout.ps1" -Encoding utf8
         $anyFilesChanged = $true
     }
 }
@@ -158,7 +226,9 @@ if ($CommitMessage -or $anyFilesChanged) {
 
     $checkDetached = git symbolic-ref -q HEAD
     if (-not $LASTEXITCODE) {
-        "::notice::Pushing Changes" | Out-Host
+        "::notice::Pulling Updates" | Out-Host
+        git pull
+        "::notice::Pushing Changes" | Out-Host        
         git push        
         "Git Push Output: $($gitPushed  | Out-String)"
     } else {
@@ -167,3 +237,5 @@ if ($CommitMessage -or $anyFilesChanged) {
         exit 0
     }
 }
+
+#endregion Actual Action
