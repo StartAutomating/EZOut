@@ -1,22 +1,43 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.5'
+    ModuleVersion = '1.9.6'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
     Copyright = '2011-2022'
     Description = 'Easily Author Rich Format Files to Customize PowerShell Output'
     FunctionsToExport =
-        'Add-FormatData', 'Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
+        # Core format manipulation functions
+        'Add-FormatData','Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
         'Add-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData',
+        'Get-FormatFile', 'Find-FormatView',
+        # Imports
         'Import-FormatView','Import-TypeView',
-        'Write-FormatControl','Write-FormatView',
-        'Write-FormatCustomView', 'Write-FormatTableView',
-        'Write-FormatTreeView','Write-FormatWideView', 'Write-FormatListView',
+        # Control authoring
+        'Write-FormatControl',
+        # Creation of formatting views:  splats to
+        'Write-FormatView',            
+            'Write-FormatCustomView',
+            'Write-FormatTableView',
+            'Write-FormatListView',
+        # doesn't splat to Write-FormatWideView, because it's not useful        
+        'Write-FormatWideView',
+        # Write-FormatViewExpression is used in custom actions and controls
         'Write-FormatViewExpression',
-        'Write-TypeView','ConvertTo-PropertySet','Write-PropertySet',
-        'Get-FormatFile', 'Find-FormatView', 'Get-PropertySet', 'Write-EZFormatFile', 'Get-EZOutExtension', 
-        'Format-Object','Format-RichText', 'Format-Markdown', 'Format-YAML','Format-Heatmap','Format-Hashtable'
+        # Write-FormatTreeView is an advanced formatting control
+        'Write-FormatTreeView',
+        # Most other advanced format controls are extensions to Format-Object
+        'Format-Object',
+            'Format-Hashtable','Format-Heatmap','Format-JSON',
+            'Format-Markdown', 'Format-RichText','Format-YAML',
+        # Don't forget types.ps1xml functions
+        'Write-TypeView',
+            'ConvertTo-PropertySet','Write-PropertySet','Get-PropertySet',
+        # or the code generator for .ezout.ps1 files
+        'Write-EZFormatFile',
+        # or Get-EZOutExtension
+        'Get-EZOutExtension'
+        
     AliasesToExport = 'Write-CustomAction'
     FormatsToProcess = 'EZOut.format.ps1xml'
     PrivateData = @{
@@ -36,6 +57,7 @@
             Markdown = "Format-Markdown"
             YAML = "Format-YAML"
             Hashtable = "Format-Hashtable"
+            JSON = "Format-JSON"
         }
         PSData = @{
             ProjectURI = 'https://github.com/StartAutomating/EZOut'
@@ -43,6 +65,11 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.6:
+* Added Format-JSON (Fixes #86)
+* Improved GitHub Action (Fixes #85)
+---
+
 ## 1.9.5:
 * Write-FormatViewExpression:
   * Adding -DoubleUnderline
