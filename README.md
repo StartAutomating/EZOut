@@ -1,7 +1,7 @@
 <div align='center'>
 <img src='Assets/EZOut.svg' />
-<a href='https://www.powershellgallery.com/packages/Irregular/'>
-<img src='https://img.shields.io/powershellgallery/dt/Irregular' />
+<a href='https://www.powershellgallery.com/packages/EZOut/'>
+<img src='https://img.shields.io/powershellgallery/dt/EZOut' />
 </a>
 </div>
 
