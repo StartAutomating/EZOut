@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9.6: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.9.7: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -1041,7 +1041,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
 
         $n =0
         $cssClasses = @()
-        $styleAttributes =
+        $colorAttributes =         
             @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
                 $n++
                 if (-not $hc) { continue }
@@ -1173,6 +1173,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 
             })
         
+        $styleAttributes = @() + $colorAttributes
         
         $styleAttributes += @(
             if ($Bold) {
@@ -1247,7 +1248,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 "&lt;/span&gt;"
             }
             elseif ($canUseANSI) {
-                if ($Bold -or $Faint) {        
+                if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
                     "$esc[22m"
                 }
                 if ($Italic) {

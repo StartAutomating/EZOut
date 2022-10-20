@@ -79,7 +79,7 @@ function Format-RichText
 
         $n =0
         $cssClasses = @()
-        $styleAttributes =
+        $colorAttributes =         
             @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
                 $n++
                 if (-not $hc) { continue }
@@ -211,6 +211,7 @@ function Format-RichText
                 
             })
         
+        $styleAttributes = @() + $colorAttributes
         
         $styleAttributes += @(
             if ($Bold) {
@@ -285,7 +286,7 @@ function Format-RichText
                 "</span>"
             }
             elseif ($canUseANSI) {
-                if ($Bold -or $Faint) {        
+                if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
                     "$esc[22m"
                 }
                 if ($Italic) {

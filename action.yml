@@ -49,12 +49,12 @@ runs:
       id: EZOutAction
       shell: pwsh
       env: 
-        UserName: ${{inputs.UserName}}
         CommitMessage: ${{inputs.CommitMessage}}
         ModuleName: ${{inputs.ModuleName}}
+        UserName: ${{inputs.UserName}}
         EZOutScript: ${{inputs.EZOutScript}}
-        SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
         UserEmail: ${{inputs.UserEmail}}
+        SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
       run: |
         $Parameters = @{}
         $Parameters.EZOutScript = ${env:EZOutScript}
@@ -70,8 +70,7 @@ runs:
             }
         }
         Write-Host "::debug:: EZOutAction $(@(foreach ($p in $Parameters.GetEnumerator()) {'-' + $p.Key + ' ' + $p.Value}) -join ' ')"
-        & {
-            <#
+        & {<#
         .Synopsis
             GitHub Action for EZOut
         .Description
@@ -176,7 +175,7 @@ runs:
         $branchName = git rev-parse --abrev-ref HEAD
         # If we were not, return.
         if (-not $branchName) {
-            "::notice title=ModuleLoaded::$actionModuleName Loaded from Path - $($actionModulePath)" | Out-Host
+            "::warning::Not on a branch" | Out-Host
             return
         }
         
@@ -312,6 +311,5 @@ runs:
         }
         
         #endregion Actual Action
-        
         } @Parameters
 
