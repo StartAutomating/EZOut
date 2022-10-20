@@ -1,3 +1,10 @@
+<div align='center'>
+<img src='Assets/EZOut.svg' />
+<a href='https://www.powershellgallery.com/packages/Irregular/'>
+<img src='https://img.shields.io/powershellgallery/dt/Irregular' />
+</a>
+</div>
+
 ### Installing EZOut
 
 You can install EZOut from the PowerShell Gallery.  Simply:
