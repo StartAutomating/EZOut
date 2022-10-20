@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 300 100" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="psChevron" viewBox="0 0 100 100" preserveAspectRatio="False">
+    <polygon points="40,20 45,20 60,50 35,80 32.5,80 55,50" />
+  </symbol>
+  <use href="#psChevron" x="63%" y="-2%" width="9.5%" stroke="#4488ff" fill="#4488ff" opacity=".8" />
+  <text font-size="36" fill="#4488ff" x="50%" dominant-baseline="middle" text-anchor="middle" y="50%">
+    <tspan font-family="sans-serif">EZ</tspan>
+    <tspan font-family="sans-serif" dx="-0.3em" rotate="1" dy="0.0em" font-size="24" opacity=".9">OUT</tspan>
+  </text>
+</svg>
