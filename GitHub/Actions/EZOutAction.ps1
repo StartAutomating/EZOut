@@ -103,7 +103,7 @@ git config --global user.name  $UserName
 $branchName = git rev-parse --abrev-ref HEAD
 # If we were not, return.
 if (-not $branchName) {
-    "::notice title=ModuleLoaded::$actionModuleName Loaded from Path - $($actionModulePath)" | Out-Host
+    "::warning::Not on a branch" | Out-Host
     return
 }
 
