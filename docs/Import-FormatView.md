@@ -1,4 +1,3 @@
-
 Import-FormatView
 -----------------
 ### Synopsis
@@ -35,5 +34,3 @@ Imports a Format View defined in .format or .view .ps1 files
 Import-FormatView [-FilePath] <String[]> [<CommonParameters>]
 ```
 ---
-
-
