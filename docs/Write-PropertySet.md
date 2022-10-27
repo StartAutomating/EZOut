@@ -1,4 +1,3 @@
-
 Write-PropertySet
 -----------------
 ### Synopsis
@@ -104,5 +103,3 @@ The names of the properties to include in the property set
 Write-PropertySet [-TypeName] <String> [-Name] <String> [-PropertyName] <String[]> [<CommonParameters>]
 ```
 ---
-
-
