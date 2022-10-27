@@ -1,4 +1,3 @@
-
 Format-JSON
 -----------
 ### Synopsis
@@ -51,5 +50,3 @@ If set, will always Format-JSON as a list.
 Format-JSON [-AsList] [<CommonParameters>]
 ```
 ---
-
-
