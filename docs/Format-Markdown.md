@@ -1,4 +1,3 @@
-
 Format-Markdown
 ---------------
 ### Synopsis
@@ -385,5 +384,3 @@ If provided, will output a script block as a Markdown code block.
 Format-Markdown [[-InputObject] <PSObject>] [-MarkdownParagraph] [-MarkdownTable] [[-MarkdownTableAlignment] <String[]>] [[-Property] <PSObject[]>] [[-Heading] <String>] [[-HeadingSize] <Int32>] [[-Link] <String>] [[-ImageLink] <String>] [-BulletPoint] [-Checkbox] [-Checked] [-NumberedList] [-BlockQuote] [[-BlockQuoteDepth] <Int32>] [[-Number] <Int32>] [-HorizontalRule] [-Code] [[-CodeLanguage] <String>] [[-ScriptBlock] <ScriptBlock>] [<CommonParameters>]
 ```
 ---
-
-
