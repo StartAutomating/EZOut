@@ -1,4 +1,3 @@
-
 Format-YAML
 -----------
 ### Synopsis
@@ -93,5 +92,3 @@ Beyond this depth, an empty string will be returned.
 Format-YAML [[-InputObject] <PSObject>] [-YamlHeader] [[-Indent] <Int32>] [[-Depth] <Int32>] [<CommonParameters>]
 ```
 ---
-
-
