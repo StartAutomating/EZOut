@@ -1,4 +1,3 @@
-
 Format-Hashtable
 ----------------
 ### Synopsis
@@ -180,5 +179,3 @@ Beneath this depth, items will simply be returned as $null.
 Format-Hashtable [[-InputObject] <PSObject>] [-AsScriptBlock] [-AsPSObject] [-Sort] [-ExpandCredential] [-Compress] [-Safe] [-Depth <Int32>] [<CommonParameters>]
 ```
 ---
-
-
