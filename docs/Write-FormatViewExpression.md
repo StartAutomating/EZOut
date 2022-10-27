@@ -1,4 +1,3 @@
-
 Write-FormatViewExpression
 --------------------------
 ### Synopsis
@@ -448,5 +447,3 @@ Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Assembly
 Write-FormatViewExpression [-ControlName <String>] [-If <ScriptBlock>] -Newline [-Bold] [-Underline] [-DoubleUnderline] [-Italic] [-Hide] [-Invert] [-Strikethru] [-FormatString <String>] [-Enumerate] [-ForegroundColor <String>] [-BackgroundColor <String>] [-Count <UInt32>] [<CommonParameters>]
 ```
 ---
-
-
