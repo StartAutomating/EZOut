@@ -1,4 +1,3 @@
-
 Clear-FormatData
 ----------------
 ### Synopsis
@@ -40,5 +39,3 @@ Clear-FormatData
 Clear-FormatData [<CommonParameters>]
 ```
 ---
-
-
