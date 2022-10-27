@@ -1,4 +1,3 @@
-
 Write-FormatListView
 --------------------
 ### Synopsis
@@ -190,5 +189,3 @@ and at least one of these views must not havea condition.
 Write-FormatListView -Property <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-ColorProperty <IDictionary>] [-ConditionalProperty <IDictionary>] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
 ---
-
-
