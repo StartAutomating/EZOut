@@ -1,4 +1,3 @@
-
 Format-Heatmap
 --------------
 ### Synopsis
@@ -122,5 +121,3 @@ To pass a Hex color as an int, simply replace # with 0x
 Format-Heatmap [[-InputObject] <Object>] [-HeatMapMax] <Object> [[-HeatMapMiddle] <Object>] [[-HeatMapMin] <Object>] [[-HeatMapCool] <Int32>] [[-HeatMapHot] <Int32>] [<CommonParameters>]
 ```
 ---
-
-
