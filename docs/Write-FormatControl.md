@@ -1,4 +1,3 @@
-
 Write-FormatControl
 -------------------
 ### Synopsis
@@ -67,5 +66,3 @@ code in between Write-FormatViewExpression will not be included in the formatter
 Write-FormatControl [-Name] <String> [-Action] <ScriptBlock> [<CommonParameters>]
 ```
 ---
-
-
