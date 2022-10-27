@@ -1,4 +1,3 @@
-
 Remove-TypeData
 ---------------
 ### Synopsis
@@ -131,5 +130,3 @@ syntaxItem
 {@{name=Remove-TypeData; CommonParameters=True; parameter=System.Object[]}, @{name=Remove-TypeData; CommonParameters=Tr…
 ```
 ---
-
-
