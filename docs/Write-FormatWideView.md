@@ -1,4 +1,3 @@
-
 Write-FormatWideView
 --------------------
 ### Synopsis
@@ -129,5 +128,3 @@ syntaxItem
 {@{name=Write-FormatWideView; CommonParameters=True; parameter=System.Object[]}, @{name=Write-FormatWideView; CommonPar…
 ```
 ---
-
-
