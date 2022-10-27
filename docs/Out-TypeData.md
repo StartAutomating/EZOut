@@ -1,4 +1,3 @@
-
 Out-TypeData
 ------------
 ### Synopsis
@@ -52,5 +51,3 @@ but it's easier to use Write-FormatView to create it
 Out-TypeData [-TypeXml] <XmlDocument> [<CommonParameters>]
 ```
 ---
-
-
