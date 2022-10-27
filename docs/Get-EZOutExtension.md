@@ -1,4 +1,3 @@
-
 Get-EZOutExtension
 ------------------
 ### Synopsis
@@ -417,5 +416,3 @@ If set, will output the full help for the extensions
 Get-EZOutExtension [[-ExtensionPath] <String>] [-Force] [[-CommandName] <String[]>] [[-ExtensionName] <String[]>] [-Like] [-Match] [-DynamicParameter] [-CouldRun] [-Run] [-Stream] [[-DynamicParameterSetName] <String>] [[-DynamicParameterPositionOffset] <Int32>] [-NoMandatoryDynamicParameter] [[-ValidateInput] <PSObject>] [-AllValid] [[-ParameterSetName] <String>] [[-Parameter] <IDictionary>] [-SteppablePipeline] [-Help] [[-ParameterHelp] <String[]>] [-Example] [-FullHelp] [<CommonParameters>]
 ```
 ---
-
-
