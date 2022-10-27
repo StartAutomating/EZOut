@@ -1,4 +1,3 @@
-
 Add-TypeData
 ------------
 ### Synopsis
@@ -94,5 +93,3 @@ If set, the module that contains the format files will be outputted to the pipel
 Add-TypeData [-TypeXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```
 ---
-
-
