@@ -2,7 +2,7 @@ permalink: pretty
 
 defaults:
   - scope:
-      path: "Assets/*.gif"
+      path: "Assets"
     values:
       image: true
       
