@@ -1,4 +1,3 @@
-
 Format-Object
 -------------
 ### Synopsis
@@ -63,5 +62,3 @@ Formats any object, using any number of Format-Object extensions.
 Format-Object [[-InputObject] <PSObject>] [<CommonParameters>]
 ```
 ---
-
-
