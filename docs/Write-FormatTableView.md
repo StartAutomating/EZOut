@@ -1,4 +1,3 @@
-
 Write-FormatTableView
 ---------------------
 ### Synopsis
@@ -306,5 +305,3 @@ If provided, will selectively display items.
 Write-FormatTableView [-Property] <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-Wrap] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
 ---
-
-
