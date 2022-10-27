@@ -1,4 +1,3 @@
-
 Write-FormatCustomView
 ----------------------
 ### Synopsis
@@ -180,5 +179,3 @@ At least one view must have no conditions.
 Write-FormatCustomView [-Action] <ScriptBlock[]> [[-Indent] <Int32>] [-AsControl] [[-Name] <String>] [[-VisibilityCondition] <ScriptBlock[]>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [<CommonParameters>]
 ```
 ---
-
-
