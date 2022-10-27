@@ -1,4 +1,3 @@
-
 Out-FormatData
 --------------
 ### Synopsis
@@ -78,5 +77,3 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [<CommonParameters>]
 ```
 ---
-
-
