@@ -1,4 +1,3 @@
-
 Find-FormatView
 ---------------
 ### Synopsis
@@ -46,5 +45,3 @@ The name of the type of format view to find
 Find-FormatView [-TypeName] <String> [<CommonParameters>]
 ```
 ---
-
-
