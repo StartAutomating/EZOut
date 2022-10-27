@@ -1,4 +1,3 @@
-
 Write-TypeView
 --------------
 ### Synopsis
@@ -294,5 +293,3 @@ If set, will generate an identical typeview for the deserialized form of each ty
 Write-TypeView [-TypeName] <String[]> [-ScriptMethod <IDictionary>] [-ScriptProperty <IDictionary>] [-NoteProperty <IDictionary>] [-AliasProperty <IDictionary>] [-EventGenerator <IDictionary>] [-EventName <String[]>] [-DefaultDisplay <String[]>] [-IdProperty <String>] [-SerializationDepth <Int32>] [-Reserializer <Type>] [-PropertySet <IDictionary>] [-HideProperty <String[]>] [-Deserialized] [<CommonParameters>]
 ```
 ---
-
-
