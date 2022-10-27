@@ -1,4 +1,3 @@
-
 Get-PropertySet
 ---------------
 ### Synopsis
@@ -52,5 +51,3 @@ The name of the typename to get
 Get-PropertySet [[-TypeName] <String[]>] [<CommonParameters>]
 ```
 ---
-
-
