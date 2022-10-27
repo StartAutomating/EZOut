@@ -1,4 +1,3 @@
-
 Write-FormatTreeView
 --------------------
 ### Synopsis
@@ -315,5 +314,3 @@ This control must exist in the same format file.
 Write-FormatTreeView [[-Property] <PSObject[]>] [[-Separator] <String>] [[-Branch] <String>] [[-Trunk] <String>] [[-TypeName] <String[]>] [[-SelectionSet] <String>] [[-ControlName] <String>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [[-EndBranch] <String>] [[-EndBranchScript] <ScriptBlock>] [[-HasChildren] <ScriptBlock[]>] [[-Children] <ScriptBlock[]>] [[-ChildNodeControl] <String[]>] [<CommonParameters>]
 ```
 ---
-
-
