@@ -1,4 +1,3 @@
-
 Get-FormatFile
 --------------
 ### Synopsis
@@ -72,5 +71,3 @@ Get-FormatFile -OnlyBuildIn
 Get-FormatFile [-OnlyFromModule] [-OnlyBuiltIn] [-FromSnapins] [<CommonParameters>]
 ```
 ---
-
-
