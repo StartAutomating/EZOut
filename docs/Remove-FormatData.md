@@ -1,4 +1,3 @@
-
 Remove-FormatData
 -----------------
 ### Synopsis
@@ -34,5 +33,3 @@ this is the name of the module.
 Remove-FormatData -ModuleName <String> [<CommonParameters>]
 ```
 ---
-
-
