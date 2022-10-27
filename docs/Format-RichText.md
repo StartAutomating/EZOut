@@ -1,4 +1,3 @@
-
 Format-RichText
 ---------------
 ### Synopsis
@@ -246,6 +245,3 @@ Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-Bac
 Stylized Output works in two contexts at present:
 * Rich consoles (Windows Terminal, PowerShell.exe, Pwsh.exe) (when $host.UI.SupportsVirtualTerminal)
 * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))
-
-
-
