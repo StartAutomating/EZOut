@@ -1,4 +1,3 @@
-
 Clear-TypeData
 --------------
 ### Synopsis
@@ -26,5 +25,3 @@ The formatting data must have been added with Add-FormatData
 Clear-TypeData [<CommonParameters>]
 ```
 ---
-
-
