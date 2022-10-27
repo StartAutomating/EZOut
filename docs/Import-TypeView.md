@@ -1,4 +1,3 @@
-
 Import-TypeView
 ---------------
 ### Synopsis
@@ -59,5 +58,3 @@ If set, will generate an identical typeview for the deserialized form of each ty
 Import-TypeView [-FilePath] <String[]> [-Deserialized] [<CommonParameters>]
 ```
 ---
-
-
