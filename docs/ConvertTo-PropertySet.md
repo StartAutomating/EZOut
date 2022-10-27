@@ -1,4 +1,3 @@
-
 ConvertTo-PropertySet
 ---------------------
 ### Synopsis
@@ -80,5 +79,3 @@ The name of the selection set to create
 ConvertTo-PropertySet -SelectedObject <Object> [-Name] <Object> [<CommonParameters>]
 ```
 ---
-
-
