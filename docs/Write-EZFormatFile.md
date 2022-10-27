@@ -1,4 +1,3 @@
-
 Write-EZFormatFile
 ------------------
 ### Synopsis
@@ -101,5 +100,3 @@ The destination path.  By default, the script's root.
 Write-EZFormatFile [[-Format] <ScriptBlock[]>] [[-Type] <ScriptBlock[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [<CommonParameters>]
 ```
 ---
-
-
