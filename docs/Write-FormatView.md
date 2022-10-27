@@ -1,4 +1,3 @@
-
 Write-FormatView
 ----------------
 ### Synopsis
@@ -529,5 +528,3 @@ Write-FormatView [-TypeName] <String[]> -Action <ScriptBlock[]> [-Indent <Int32>
 Write-FormatView [-TypeName] <String[]> -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ---
-
-
