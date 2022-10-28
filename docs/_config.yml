@@ -1,4 +1,5 @@
 permalink: pretty
+disable_disk_cache: false
 
 defaults:
   - scope:
