@@ -180,7 +180,7 @@ This formatting works with all XML objects and elements, and makes compact XML e
 ~~~PowerShell
 [xml]"<xmlNode><childNode attribute='value'><grandChildNode>InnerText</grandChildNode></childNode></xmlNode>"
 ~~~
-![ColorizedXml](Assets/ColorizedXml1.gif)
+![ColorizedXml](/Assets/ColorizedXml_1.gif)
 ##### Rich Module Formatting
 
 Want to see a bit more about a module?
