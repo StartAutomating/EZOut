@@ -1,6 +1,7 @@
 permalink: pretty
 disable_disk_cache: false
 ignore_theme_config: true
+incremental: false
 
 defaults:
   - scope:
