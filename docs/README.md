@@ -163,7 +163,7 @@ Ever wanted to see a nice file tree in PowerShell?  With EZOut, it's a snap.  Ju
 ~~~PowerShell
 Get-Module EZOut | Split-Path | Get-ChildItem  | Format-Custom
 ~~~
-![File Tree Formatter](./images/FileTreeFormatter.gif)
+![File Tree Formatter](Assets/FileTreeFormatter.gif)
 ##### Colorized XML Formatter
 
 Wish you could see more of any XML node you're working with?  EZOut ships with a colorized XML formatter! (colors are supported in PowerShell.exe and pwsh.exe, but not in the PowerShell ISE)
@@ -180,7 +180,7 @@ This formatting works with all XML objects and elements, and makes compact XML e
 ~~~PowerShell
 [xml]"<xmlNode><childNode attribute='value'><grandChildNode>InnerText</grandChildNode></childNode></xmlNode>"
 ~~~
-![ColorizedXml](Assets/ColorizedXml1.gif)
+![ColorizedXml](/Assets/ColorizedXml_1.gif)
 ##### Rich Module Formatting
 
 Want to see a bit more about a module?
@@ -188,8 +188,6 @@ EZOut ships with a rich PSModuleInfo formatter, which will display the module na
 ~~~PowerShell
 Get-Module EZOut | Format-Custom
 ~~~
-
-
 
 
 
