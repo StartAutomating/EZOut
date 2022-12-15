@@ -438,13 +438,13 @@ describe "Write-FormatCustomView" {
         [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike '*This is true*'
     }
 
-    it "Will render an -Action that has only one token, which is a literal string, as <Text>" {
+    it "Will render an -Action that has only one token, which is a literal string, as a Text element" {
         $fv = Write-formatCustomview -Action { "foobar" }
         $fvXml = [xml]$fv
         $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.Text | should -Be foobar
     }
 
-    it "Will render an -Action that uses the mythical command Write-NewLine will become a <Newline/>" {
+    it "Will render an -Action that uses the mythical command Write-NewLine will become a Newline element" {
         $fv = Write-FormatCustomView -Action { Write-NewLine }
         $fvXml = [xml]$fv
         if (-not $fvXml.CustomControl.CustomEntries.CustomEntry.CustomItem.ChildNodes[0].Name -eq 'Newline') {
@@ -470,7 +470,7 @@ describe "Write-FormatCustomView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal host*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal*host*"
     }
 
     it 'Can use a -ViewCondition with a -ViewSelectionSet to match multiple typenames (piping is still required)' {
@@ -486,7 +486,7 @@ describe "Write-FormatCustomView" {
             Add-FormatData
 
 
-        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal host*"
+        [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normal*host*"
     }
 
     it 'Can just run a command with no parameters in -Action' {
@@ -1022,7 +1022,7 @@ describe 'Add-FormatData' {
                 Out-FormatData  |
                 Add-FormatData -PassThru |
                 Select-Object -ExpandProperty Name |
-                should match 'FormatModule\d+'
+                should -Match 'FormatModule\d+'
         }
     }
 }
