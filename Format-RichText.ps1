@@ -65,9 +65,9 @@ function Format-RichText
     [switch]$Invert,
 
     # If provided, will create a hyperlink to a given uri
-    [Alias('Link')]
+    [Alias('Hyperlink', 'Href')]
     [uri]
-    $Hyperlink,
+    $Link,
 
     # If set, will not clear formatting
     [switch]$NoClear
