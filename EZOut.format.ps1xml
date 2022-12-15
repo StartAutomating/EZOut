@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 1.9.8: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 1.9.7: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <SelectionSets>
     <SelectionSet>
@@ -984,13 +984,12 @@ if ($Request -or $Host.UI.SupportsHTML) {
         if (-not ($canUseANSI -or $canUseHTML)) { return $false}
         return $true
     })]
-    [OutputType([string])]
     param(
     # The input object
     [Parameter(ValueFromPipeline)]
     [PSObject]
     $InputObject,
-    
+
     # The foreground color
     [string]$ForegroundColor,
 
@@ -1025,12 +1024,6 @@ if ($Request -or $Host.UI.SupportsHTML) {
 
     # If set, will invert text
     [switch]$Invert,
-
-    # If provided, will create a hyperlink to a given uri
-    [Alias('Hyperlink', 'Href')]
-    [uri]
-    $Link,
-
     # If set, will not clear formatting
     [switch]$NoClear
     )    
@@ -1046,10 +1039,8 @@ if ($Request -or $Host.UI.SupportsHTML) {
         $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
         $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 
-        $allOutput      = @()
-
         $n =0
-        $cssClasses = @()        
+        $cssClasses = @()
         $colorAttributes =         
             @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
                 $n++
@@ -1226,17 +1217,6 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 if ($canUseHTML) { "border-bottom: 3px double;"}
                 elseif ($canUseANSI) {'' +$esc + "[21m" }
             }
-
-            if ($Hyperlink) {
-                if ($canUseHTML) { 
-                    # Hyperlinks need to be a nested element
-                    # so we will not add it to style attributes for HTML
-                }
-                elseif ($canUseANSI) {
-                    # For ANSI,
-                    '' + $esc + ']8m;;' + $Hyperlink + $esc + '\'   
-                }
-            }
             
         )
         
@@ -1246,76 +1226,61 @@ if ($Request -or $Host.UI.SupportsHTML) {
                     if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
                 )$(
                     if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
-                )&gt;" + $(
-                    if ($Hyperlink) {
-                        "&lt;a href='$hyperLink'&gt;"
-                    }
-                )
+                )&gt;"
             } elseif ($canUseANSI) {
                 $styleAttributes -join ''
             }
     }
 
     process {
-        $allOutput +=
-            if ($header) {
-                "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
-            }
-            elseif ($inputObject) {
-                ($inputObject | Out-String).Trim()
-            }        
+        if ($header) {
+            "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+        }
+        elseif ($inputObject) {
+            ($inputObject | Out-String).Trim()
+        }        
     }
 
     end {
         
         if (-not $NoClear) {
-            $allOutput += 
-                if ($canUseHTML) {
-                    if ($Hyperlink) {
-                        "&lt;/a&gt;"
-                    }
-                    "&lt;/span&gt;"
+            if ($canUseHTML) {
+                "&lt;/span&gt;"
+            }
+            elseif ($canUseANSI) {
+                if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
+                    "$esc[22m"
                 }
-                elseif ($canUseANSI) {
-                    if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
-                        "$esc[22m"
-                    }
-                    if ($Italic) {
-                        "$esc[23m"
-                    }
-                    if ($Underline -or $doubleUnderline) {
-                        "$esc[24m"
-                    }
-                    if ($Blink) {
-                        "$esc[25m"
-                    }                
-                    if ($Invert) {
-                        "$esc[27m"
-                    }
-                    if ($hide) {
-                        "$esc[28m"
-                    }
-                    if ($Strikethru) {
-                        "$esc[29m"
-                    }
-                    if ($ForegroundColor) {
-                        "$esc[39m"
-                    }
-                    if ($BackgroundColor) {
-                        "$esc[49m"
-                    }
-
-                    if ($Hyperlink) {
-                        "$esc]8;;$esc\"
-                    }
-                
-                    if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
-                        '' + $esc + '[0m'
-                    }
+                if ($Italic) {
+                    "$esc[23m"
                 }
+                if ($Underline -or $doubleUnderline) {
+                    "$esc[24m"
+                }
+                if ($Blink) {
+                    "$esc[25m"
+                }                
+                if ($Invert) {
+                    "$esc[27m"
+                }
+                if ($hide) {
+                    "$esc[28m"
+                }
+                if ($Strikethru) {
+                    "$esc[29m"
+                }
+                if ($ForegroundColor) {
+                    "$esc[39m"
+                }
+                if ($BackgroundColor) {
+                    "$esc[49m"
+                }
+            
+                if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
+                    '' + $esc + '[0m'
+                }
+            }
         }
-
-        $allOutput -join ''
     }
 </ScriptBlock>
               </ExpressionBinding>
@@ -1650,7 +1615,6 @@ $BackgroundColor
 
     # If set, will create a link.  The -InputObject will be used as the link content    
     [Parameter(ValueFromPipelineByPropertyName)]
-    [Alias('Hyperlink', 'Href')]
     [string]
     $Link,
 

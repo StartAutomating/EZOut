@@ -219,23 +219,6 @@ If set, will invert text
 
 
 ---
-#### **Link**
-
-If provided, will create a hyperlink to a given uri
-
-
-
-> **Type**: ```[Uri]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:false
-
-
-
----
 #### **NoClear**
 
 If set, will not clear formatting
@@ -253,16 +236,9 @@ If set, will not clear formatting
 
 
 ---
-### Outputs
-* [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
-
-
-
-
----
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [<CommonParameters>]
+Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [-NoClear] [<CommonParameters>]
 ```
 ---
 ### Notes
