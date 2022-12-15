@@ -253,6 +253,13 @@ If set, will not clear formatting
 
 
 ---
+### Outputs
+* [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
+
+
+
+
+---
 ### Syntax
 ```PowerShell
 Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Hyperlink] <Uri>] [-NoClear] [<CommonParameters>]
