@@ -1219,6 +1219,18 @@ describe 'Format-RichText' {
 
     it 'Can make a hyperlink' {
         Format-RichText -Hyperlink https://github.com/StartAutomating/EZOut -InputObject EZOut |
-            Should -Match '^\e\[8;;'
+            Should -Match '^\e\]8m;;'
+    }
+
+    it 'Can make text bold' {
+        Format-RichText -InputObject "bold" -Bold | Should -Match '\e\[1'
+    }
+
+    it 'Can make text italic' {
+        Format-RichText -InputObject 'italic' -Italic | Should -Match '\e\[2'
+    }
+
+    it 'Can make text underlined' {
+        Format-RichText -InputObject 'underline' -Underline | Should -Match '\e\[4'
     }
 }
