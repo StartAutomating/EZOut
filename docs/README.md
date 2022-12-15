@@ -163,7 +163,7 @@ Ever wanted to see a nice file tree in PowerShell?  With EZOut, it's a snap.  Ju
 ~~~PowerShell
 Get-Module EZOut | Split-Path | Get-ChildItem  | Format-Custom
 ~~~
-![File Tree Formatter](/Assets/FileTreeFormatter.gif)
+![File Tree Formatter](Assets/FileTreeFormatter.gif)
 ##### Colorized XML Formatter
 
 Wish you could see more of any XML node you're working with?  EZOut ships with a colorized XML formatter! (colors are supported in PowerShell.exe and pwsh.exe, but not in the PowerShell ISE)

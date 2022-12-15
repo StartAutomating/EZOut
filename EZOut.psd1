@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.7'
+    ModuleVersion = '1.9.8'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -65,6 +65,14 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.8:
+
+* Format-RichText now supports -Hyperlink (Fixes #93)
+* Format-RichText now outputs a single string (Fixes #95)
+
+---
+
+
 ## 1.9.7:
 * Format-RichText now unbolds bright colors (Fixes #88)
 * Now Blogging with GitPub (Fixes #89)

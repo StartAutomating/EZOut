@@ -22,12 +22,13 @@ function Format-RichText
         if (-not ($canUseANSI -or $canUseHTML)) { return $false}
         return $true
     })]
+    [OutputType([string])]
     param(
     # The input object
     [Parameter(ValueFromPipeline)]
     [PSObject]
     $InputObject,
-
+    
     # The foreground color
     [string]$ForegroundColor,
 
@@ -62,6 +63,12 @@ function Format-RichText
 
     # If set, will invert text
     [switch]$Invert,
+
+    # If provided, will create a hyperlink to a given uri
+    [Alias('Hyperlink', 'Href')]
+    [uri]
+    $Link,
+
     # If set, will not clear formatting
     [switch]$NoClear
     )    
@@ -77,8 +84,10 @@ function Format-RichText
         $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
         $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
 
+        $allOutput      = @()
+
         $n =0
-        $cssClasses = @()
+        $cssClasses = @()        
         $colorAttributes =         
             @(:nextColor foreach ($hc in $ForegroundColor,$BackgroundColor) {
                 $n++
@@ -255,6 +264,17 @@ function Format-RichText
                 if ($canUseHTML) { "border-bottom: 3px double;"}
                 elseif ($canUseANSI) {'' +$esc + "[21m" }
             }
+
+            if ($Hyperlink) {
+                if ($canUseHTML) { 
+                    # Hyperlinks need to be a nested element
+                    # so we will not add it to style attributes for HTML
+                }
+                elseif ($canUseANSI) {
+                    # For ANSI,
+                    '' + $esc + ']8m;;' + $Hyperlink + $esc + '\'   
+                }
+            }
             
         )
         
@@ -264,60 +284,75 @@ function Format-RichText
                     if ($styleAttributes) { " style='$($styleAttributes -join ';')'"}
                 )$(
                     if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
-                )>"
+                )>" + $(
+                    if ($Hyperlink) {
+                        "<a href='$hyperLink'>"
+                    }
+                )
             } elseif ($canUseANSI) {
                 $styleAttributes -join ''
             }
     }
 
     process {
-        if ($header) {
-            "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
-        }
-        elseif ($inputObject) {
-            ($inputObject | Out-String).Trim()
-        }        
+        $allOutput +=
+            if ($header) {
+                "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+            }
+            elseif ($inputObject) {
+                ($inputObject | Out-String).Trim()
+            }        
     }
 
     end {
         
         if (-not $NoClear) {
-            if ($canUseHTML) {
-                "</span>"
-            }
-            elseif ($canUseANSI) {
-                if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
-                    "$esc[22m"
+            $allOutput += 
+                if ($canUseHTML) {
+                    if ($Hyperlink) {
+                        "</a>"
+                    }
+                    "</span>"
                 }
-                if ($Italic) {
-                    "$esc[23m"
+                elseif ($canUseANSI) {
+                    if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
+                        "$esc[22m"
+                    }
+                    if ($Italic) {
+                        "$esc[23m"
+                    }
+                    if ($Underline -or $doubleUnderline) {
+                        "$esc[24m"
+                    }
+                    if ($Blink) {
+                        "$esc[25m"
+                    }                
+                    if ($Invert) {
+                        "$esc[27m"
+                    }
+                    if ($hide) {
+                        "$esc[28m"
+                    }
+                    if ($Strikethru) {
+                        "$esc[29m"
+                    }
+                    if ($ForegroundColor) {
+                        "$esc[39m"
+                    }
+                    if ($BackgroundColor) {
+                        "$esc[49m"
+                    }
+
+                    if ($Hyperlink) {
+                        "$esc]8;;$esc\"
+                    }
+                
+                    if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
+                        '' + $esc + '[0m'
+                    }
                 }
-                if ($Underline -or $doubleUnderline) {
-                    "$esc[24m"
-                }
-                if ($Blink) {
-                    "$esc[25m"
-                }                
-                if ($Invert) {
-                    "$esc[27m"
-                }
-                if ($hide) {
-                    "$esc[28m"
-                }
-                if ($Strikethru) {
-                    "$esc[29m"
-                }
-                if ($ForegroundColor) {
-                    "$esc[39m"
-                }
-                if ($BackgroundColor) {
-                    "$esc[49m"
-                }
-            
-                if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
-                    '' + $esc + '[0m'
-                }
-            }
         }
+
+        $allOutput -join ''
     }
 }

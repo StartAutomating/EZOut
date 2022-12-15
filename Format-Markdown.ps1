@@ -57,6 +57,7 @@ function Format-Markdown
 
     # If set, will create a link.  The -InputObject will be used as the link content    
     [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Hyperlink', 'Href')]
     [string]
     $Link,
 
