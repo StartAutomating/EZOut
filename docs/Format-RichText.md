@@ -219,7 +219,7 @@ If set, will invert text
 
 
 ---
-#### **Hyperlink**
+#### **Link**
 
 If provided, will create a hyperlink to a given uri
 
@@ -262,7 +262,7 @@ If set, will not clear formatting
 ---
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Hyperlink] <Uri>] [-NoClear] [<CommonParameters>]
+Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [<CommonParameters>]
 ```
 ---
 ### Notes
