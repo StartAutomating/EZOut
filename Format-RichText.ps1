@@ -265,14 +265,14 @@ function Format-RichText
                 elseif ($canUseANSI) {'' +$esc + "[21m" }
             }
 
-            if ($Hyperlink) {
+            if ($Link) {
                 if ($canUseHTML) { 
                     # Hyperlinks need to be a nested element
                     # so we will not add it to style attributes for HTML
                 }
                 elseif ($canUseANSI) {
                     # For ANSI,
-                    '' + $esc + ']8m;;' + $Hyperlink + $esc + '\'   
+                    '' + $esc + ']8m;;' + $Link + $esc + '\'   
                 }
             }
             
@@ -285,8 +285,8 @@ function Format-RichText
                 )$(
                     if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
                 )>" + $(
-                    if ($Hyperlink) {
-                        "<a href='$hyperLink'>"
+                    if ($Link) {
+                        "<a href='$link'>"
                     }
                 )
             } elseif ($canUseANSI) {
@@ -309,7 +309,7 @@ function Format-RichText
         if (-not $NoClear) {
             $allOutput += 
                 if ($canUseHTML) {
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "</a>"
                     }
                     "</span>"
@@ -343,7 +343,7 @@ function Format-RichText
                         "$esc[49m"
                     }
 
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "$esc]8;;$esc\"
                     }
                 
