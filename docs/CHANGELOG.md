@@ -1,3 +1,10 @@
+## 1.9.8:
+
+* Format-RichText now -Hyperlinks (Fixes #93)
+* Format-RichText now outputs a single string (Fixes #95)
+
+---
+
 ## 1.9.7:
 * Format-RichText now unbolds bright colors (Fixes #88)
 * Now Blogging with GitPub (Fixes #89)
