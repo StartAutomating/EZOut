@@ -1,6 +1,6 @@
 ## 1.9.8:
 
-* Format-RichText now -Hyperlinks (Fixes #93)
+* Format-RichText now supports -Hyperlink (Fixes #93)
 * Format-RichText now outputs a single string (Fixes #95)
 
 ---
