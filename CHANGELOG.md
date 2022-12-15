@@ -1,3 +1,11 @@
+## 1.9.9:
+
+* Format-RichText -Hyperlink/-Link/-HRef now works (Fixes #93)
+* Format-RichText now supports -Alignment and -LineLength (Fixes #45)
+* GitHub Action no longer output extra information (Fixes #98)
+
+---
+
 ## 1.9.8:
 
 * Format-RichText now supports -Hyperlink (Fixes #93)

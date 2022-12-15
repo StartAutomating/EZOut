@@ -13,7 +13,7 @@ function Format-RichText
     .Notes
         Stylized Output works in two contexts at present:
         * Rich consoles (Windows Terminal, PowerShell.exe, Pwsh.exe) (when $host.UI.SupportsVirtualTerminal)
-        * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))        
+        * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))
     #>
     [Management.Automation.Cmdlet("Format","Object")]
     [ValidateScript({
@@ -70,7 +70,16 @@ function Format-RichText
     $Link,
 
     # If set, will not clear formatting
-    [switch]$NoClear
+    [switch]$NoClear,
+
+    # The alignment.  Defaulting to Left.
+    # Setting an alignment will pad the remaining space on each line.
+    [ValidateSet('Left','Right','Center')]
+    [string]
+    $Alignment,
+
+    # The length of a line.  By default, the buffer width
+    [int]$LineLength = $($host.UI.RawUI.BufferSize.Width)
     )    
 
     begin {
@@ -80,6 +89,19 @@ function Format-RichText
             Output='';Error='BrightRed';Warning='BrightYellow';
             Verbose='BrightCyan';Debug='Yellow';Progress='Cyan';
             Success='BrightGreen';Failure='Red';Default=''}
+
+        $ansiCode = [Regex]::new(@'
+        (?<ANSI_Code>
+        (?-i)\e                                                                                   # An Escape
+        \[                                                                                        # Followed by a bracket
+        (?<ParameterBytes>[\d\:\;\<\=\>\?]{0,})                                                   # Followed by zero or more parameter  
+        bytes
+        (?<IntermediateBytes>[\s\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/]{0,})                              # Followed by zero or more 
+        intermediate bytes
+        (?<FinalByte>[\@ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]\^_\`abcdefghijklmnopqrstuvwxyz\{\|\}\~]) # Followed by a final byte
+        
+        )                
+'@)
         $esc = [char]0x1b
         $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
         $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
@@ -265,14 +287,18 @@ function Format-RichText
                 elseif ($canUseANSI) {'' +$esc + "[21m" }
             }
 
-            if ($Hyperlink) {
+            if ($Alignment -and $canUseHTML) {
+                "display:block;text-align:$($Alignment.ToLower())"
+            }
+
+            if ($Link) {
                 if ($canUseHTML) { 
                     # Hyperlinks need to be a nested element
                     # so we will not add it to style attributes for HTML
                 }
                 elseif ($canUseANSI) {
                     # For ANSI,
-                    '' + $esc + ']8m;;' + $Hyperlink + $esc + '\'   
+                    '' + $esc + ']8m;;' + $Link + $esc + '\'   
                 }
             }
             
@@ -285,8 +311,8 @@ function Format-RichText
                 )$(
                     if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
                 )>" + $(
-                    if ($Hyperlink) {
-                        "<a href='$hyperLink'>"
+                    if ($Link) {
+                        "<a href='$link'>"
                     }
                 )
             } elseif ($canUseANSI) {
@@ -295,13 +321,39 @@ function Format-RichText
     }
 
     process {
+        $inputObjectAsString =
+            "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+
+        $inputObjectAsString = 
+            if ($Alignment -and -not $canUseHTML) {
+                (@(foreach ($inputObjectLine in ($inputObjectAsString -split '(?>\r\n|\n)')) {
+                    $inputObjectLength = $ansiCode.Replace($inputObjectLine, '').Length
+                    if ($inputObjectLength -lt $LineLength) {
+                        if ($Alignment -eq 'Left') {
+                            $inputObjectLine
+                        } elseif ($Alignment -eq 'Right') {
+                            (' ' * ($LineLength - $inputObjectLength)) + $inputObjectLine                            
+                        } else {
+                            $half = ($LineLength - $inputObjectLength)/2
+                            (' ' * [Math]::Floor($half)) + $inputObjectLine +
+                            (' ' * [Math]::Ceiling($half))
+                        }
+                    }
+                    else {
+                        $inputObjectLine
+                    }
+                }) -join [Environment]::NewLine) + [Environment]::newline
+            } else {
+                $inputObjectAsString
+            }
+
         $allOutput +=
             if ($header) {
-                "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+                "$header" + $inputObjectAsString
             }
             elseif ($inputObject) {
-                ($inputObject | Out-String).Trim()
-            }        
+                $inputObjectAsString
+            }
     }
 
     end {
@@ -309,7 +361,7 @@ function Format-RichText
         if (-not $NoClear) {
             $allOutput += 
                 if ($canUseHTML) {
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "</a>"
                     }
                     "</span>"
@@ -343,7 +395,7 @@ function Format-RichText
                         "$esc[49m"
                     }
 
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "$esc]8;;$esc\"
                     }
                 

@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '1.9.8'
+    ModuleVersion = '1.9.9'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -65,6 +65,14 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
+## 1.9.9:
+
+* Format-RichText -Hyperlink/-Link/-HRef now works (Fixes #93)
+* Format-RichText now supports -Alignment and -LineLength (Fixes #45)
+* GitHub Action no longer output extra information (Fixes #98)
+
+---
+
 ## 1.9.8:
 
 * Format-RichText now supports -Hyperlink (Fixes #93)

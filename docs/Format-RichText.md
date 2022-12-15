@@ -253,6 +253,49 @@ If set, will not clear formatting
 
 
 ---
+#### **Alignment**
+
+The alignment.  Defaulting to Left.
+Setting an alignment will pad the remaining space on each line.
+
+
+
+Valid Values:
+
+* Left
+* Right
+* Center
+
+
+
+> **Type**: ```[String]```
+
+> **Required**: false
+
+> **Position**: 5
+
+> **PipelineInput**:false
+
+
+
+---
+#### **LineLength**
+
+The length of a line.  By default, the buffer width
+
+
+
+> **Type**: ```[Int32]```
+
+> **Required**: false
+
+> **Position**: 6
+
+> **PipelineInput**:false
+
+
+
+---
 ### Outputs
 * [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
 
@@ -262,7 +305,7 @@ If set, will not clear formatting
 ---
 ### Syntax
 ```PowerShell
-Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [<CommonParameters>]
+Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [[-Alignment] <String>] [[-LineLength] <Int32>] [<CommonParameters>]
 ```
 ---
 ### Notes
