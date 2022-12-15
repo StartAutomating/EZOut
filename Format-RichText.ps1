@@ -73,7 +73,7 @@ function Format-RichText
     [switch]$NoClear,
 
     # The alignment.  Defaulting to Left.
-    # Setting an alignment will pad the empty space of each line.
+    # Setting an alignment will pad the remaining space on each line.
     [ValidateSet('Left','Right','Center')]
     [string]
     $Alignment,
