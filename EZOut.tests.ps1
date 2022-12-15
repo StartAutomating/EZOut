@@ -1204,3 +1204,21 @@ describe 'Format-Hashtable' {
         Format-Hashtable -InputObject @{a='a'} | Should -Match "^\@\{\s+a\s=\s'a'\s+}"
     }
 }
+
+describe 'Format-RichText' {
+    it 'Can format rich text' {
+        Format-RichText -ForegroundColor success -InputObject 'yay' | Should -Match '\e\[1;32'
+    }
+
+    it 'Can format any RGB color' {
+        $r, $g, $b  =  foreach ($n in 1..3) { Get-Random -Minimum 0 -Maximum 255 }
+        $rgb = "#{0:x2}{1:x2}{2:x2}" -f $r,$g,$b
+        Format-RichText -InputObject $rgb -ForegroundColor $rgb | 
+            Should -Match "^\e\[38;2;$r;$g;$b"
+    }
+
+    it 'Can make a hyperlink' {
+        Format-RichText -Hyperlink https://github.com/StartAutomating/EZOut -InputObject EZOut |
+            Should -Match '^\e\[8;;'
+    }
+}
