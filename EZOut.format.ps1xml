@@ -1227,14 +1227,14 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 elseif ($canUseANSI) {'' +$esc + "[21m" }
             }
 
-            if ($Hyperlink) {
+            if ($Link) {
                 if ($canUseHTML) { 
                     # Hyperlinks need to be a nested element
                     # so we will not add it to style attributes for HTML
                 }
                 elseif ($canUseANSI) {
                     # For ANSI,
-                    '' + $esc + ']8m;;' + $Hyperlink + $esc + '\'   
+                    '' + $esc + ']8m;;' + $Link + $esc + '\'   
                 }
             }
             
@@ -1247,8 +1247,8 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 )$(
                     if ($cssClasses) { " class='$($cssClasses -join ' ')'"}
                 )&gt;" + $(
-                    if ($Hyperlink) {
-                        "&lt;a href='$hyperLink'&gt;"
+                    if ($Link) {
+                        "&lt;a href='$link'&gt;"
                     }
                 )
             } elseif ($canUseANSI) {
@@ -1271,7 +1271,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
         if (-not $NoClear) {
             $allOutput += 
                 if ($canUseHTML) {
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "&lt;/a&gt;"
                     }
                     "&lt;/span&gt;"
@@ -1305,7 +1305,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                         "$esc[49m"
                     }
 
-                    if ($Hyperlink) {
+                    if ($Link) {
                         "$esc]8;;$esc\"
                     }
                 
