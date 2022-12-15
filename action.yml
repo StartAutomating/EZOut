@@ -28,20 +28,6 @@ inputs:
 branding: 
   icon: code
   color: blue
-outputs: 
-  
-    EZOutScriptRuntime: 
-      description: The time it took the .EZOutScript parameter to run
-      value: ${{steps.EZOutAction.outputs.EZOutScriptRuntime}}
-    EZOutPS1Runtime: 
-      description: The time it took all .EZOut.ps1 files to run
-      value: ${{steps.EZOutAction.outputs.EZOutPS1Runtime}}
-    EZOutPS1Files: 
-      description: The .EZOut.ps1 files that were run (separated by semicolons)
-      value: ${{steps.EZOutAction.outputs.EZOutPS1Files}}
-    EZOutPS1Count: 
-      description: The number of .EZOut.ps1 files that were run
-      value: ${{steps.EZOutAction.outputs.EZOutPS1Count}}
 runs: 
   using: composite
   steps: 
@@ -49,12 +35,12 @@ runs:
       id: EZOutAction
       shell: pwsh
       env: 
-        CommitMessage: ${{inputs.CommitMessage}}
         ModuleName: ${{inputs.ModuleName}}
         UserName: ${{inputs.UserName}}
-        EZOutScript: ${{inputs.EZOutScript}}
         UserEmail: ${{inputs.UserEmail}}
         SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
+        CommitMessage: ${{inputs.CommitMessage}}
+        EZOutScript: ${{inputs.EZOutScript}}
       run: |
         $Parameters = @{}
         $Parameters.EZOutScript = ${env:EZOutScript}
@@ -253,7 +239,7 @@ runs:
                 Out-Host
         }
         $EZOutScriptTook = [Datetime]::Now - $EZOutScriptStart
-        "::set-output name=EZOutScriptRuntime::$($EZOutScriptTook.TotalMilliseconds)"   | Out-Host
+        # "::set-output name=EZOutScriptRuntime::$($EZOutScriptTook.TotalMilliseconds)"   | Out-Host
         
         $EZOutPS1Start = [DateTime]::Now
         $EZOutPS1List  = @()
@@ -280,9 +266,9 @@ runs:
         
         $EZOutPS1EndStart = [DateTime]::Now
         $EZOutPS1Took = [Datetime]::Now - $EZOutPS1Start
-        "::set-output name=EZOutPS1Count::$($EZOutPS1List.Length)"   | Out-Host
-        "::set-output name=EZOutPS1Files::$($EZOutPS1List -join ';')"   | Out-Host
-        "::set-output name=EZOutPS1Runtime::$($EZOutPS1Took.TotalMilliseconds)"   | Out-Host
+        # "::set-output name=EZOutPS1Count::$($EZOutPS1List.Length)"   | Out-Host
+        # "::set-output name=EZOutPS1Files::$($EZOutPS1List -join ';')"   | Out-Host
+        # "::set-output name=EZOutPS1Runtime::$($EZOutPS1Took.TotalMilliseconds)"   | Out-Host
         if ($CommitMessage -or $anyFilesChanged) {
             if ($CommitMessage) {
                 dir $env:GITHUB_WORKSPACE -Recurse |

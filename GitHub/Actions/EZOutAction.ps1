@@ -181,7 +181,7 @@ if ($EZOutScript) {
         Out-Host
 }
 $EZOutScriptTook = [Datetime]::Now - $EZOutScriptStart
-"::set-output name=EZOutScriptRuntime::$($EZOutScriptTook.TotalMilliseconds)"   | Out-Host
+# "::set-output name=EZOutScriptRuntime::$($EZOutScriptTook.TotalMilliseconds)"   | Out-Host
 
 $EZOutPS1Start = [DateTime]::Now
 $EZOutPS1List  = @()
@@ -208,9 +208,9 @@ if (-not $SkipEZOutPS1) {
 
 $EZOutPS1EndStart = [DateTime]::Now
 $EZOutPS1Took = [Datetime]::Now - $EZOutPS1Start
-"::set-output name=EZOutPS1Count::$($EZOutPS1List.Length)"   | Out-Host
-"::set-output name=EZOutPS1Files::$($EZOutPS1List -join ';')"   | Out-Host
-"::set-output name=EZOutPS1Runtime::$($EZOutPS1Took.TotalMilliseconds)"   | Out-Host
+# "::set-output name=EZOutPS1Count::$($EZOutPS1List.Length)"   | Out-Host
+# "::set-output name=EZOutPS1Files::$($EZOutPS1List -join ';')"   | Out-Host
+# "::set-output name=EZOutPS1Runtime::$($EZOutPS1Took.TotalMilliseconds)"   | Out-Host
 if ($CommitMessage -or $anyFilesChanged) {
     if ($CommitMessage) {
         dir $env:GITHUB_WORKSPACE -Recurse |
