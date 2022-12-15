@@ -22,6 +22,7 @@ function Format-RichText
         if (-not ($canUseANSI -or $canUseHTML)) { return $false}
         return $true
     })]
+    [OutputType([string])]
     param(
     # The input object
     [Parameter(ValueFromPipeline)]
@@ -82,6 +83,8 @@ function Format-RichText
         $esc = [char]0x1b
         $standardColors = 'Black', 'Red', 'Green', 'Yellow', 'Blue','Magenta', 'Cyan', 'White'
         $brightColors   = 'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue','BrightMagenta', 'BrightCyan', 'BrightWhite'
+
+        $allOutput      = @()
 
         $n =0
         $cssClasses = @()        
@@ -292,60 +295,64 @@ function Format-RichText
     }
 
     process {
-        if ($header) {
-            "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
-        }
-        elseif ($inputObject) {
-            ($inputObject | Out-String).Trim()
-        }        
+        $allOutput +=
+            if ($header) {
+                "$header" + "$(if ($inputObject) { $inputObject | Out-String})".Trim()
+            }
+            elseif ($inputObject) {
+                ($inputObject | Out-String).Trim()
+            }        
     }
 
     end {
         
         if (-not $NoClear) {
-            if ($canUseHTML) {
-                if ($Hyperlink) {
-                    "</a>"
+            $allOutput += 
+                if ($canUseHTML) {
+                    if ($Hyperlink) {
+                        "</a>"
+                    }
+                    "</span>"
                 }
-                "</span>"
-            }
-            elseif ($canUseANSI) {
-                if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
-                    "$esc[22m"
-                }
-                if ($Italic) {
-                    "$esc[23m"
-                }
-                if ($Underline -or $doubleUnderline) {
-                    "$esc[24m"
-                }
-                if ($Blink) {
-                    "$esc[25m"
-                }                
-                if ($Invert) {
-                    "$esc[27m"
-                }
-                if ($hide) {
-                    "$esc[28m"
-                }
-                if ($Strikethru) {
-                    "$esc[29m"
-                }
-                if ($ForegroundColor) {
-                    "$esc[39m"
-                }
-                if ($BackgroundColor) {
-                    "$esc[49m"
-                }
+                elseif ($canUseANSI) {
+                    if ($Bold -or $Faint -or $colorAttributes -match '\[1;') {
+                        "$esc[22m"
+                    }
+                    if ($Italic) {
+                        "$esc[23m"
+                    }
+                    if ($Underline -or $doubleUnderline) {
+                        "$esc[24m"
+                    }
+                    if ($Blink) {
+                        "$esc[25m"
+                    }                
+                    if ($Invert) {
+                        "$esc[27m"
+                    }
+                    if ($hide) {
+                        "$esc[28m"
+                    }
+                    if ($Strikethru) {
+                        "$esc[29m"
+                    }
+                    if ($ForegroundColor) {
+                        "$esc[39m"
+                    }
+                    if ($BackgroundColor) {
+                        "$esc[49m"
+                    }
 
-                if ($Hyperlink) {
-                    "$esc]8;;$esc\"
+                    if ($Hyperlink) {
+                        "$esc]8;;$esc\"
+                    }
+                
+                    if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
+                        '' + $esc + '[0m'
+                    }
                 }
-            
-                if (-not ($Underline -or $Bold -or $Invert -or $ForegroundColor -or $BackgroundColor)) {
-                    '' + $esc + '[0m'
-                }
-            }
         }
+
+        $allOutput -join ''
     }
 }
