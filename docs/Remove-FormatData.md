@@ -1,14 +1,26 @@
 Remove-FormatData
 -----------------
+
+
+
+
 ### Synopsis
 Removes formatting to the current session.
 
+
+
 ---
+
+
 ### Description
 
 The Remove-FormatData command removes the formatting data for the current session.
 
+
+
 ---
+
+
 ### Parameters
 #### **ModuleName**
 
@@ -17,19 +29,21 @@ this is the name of the module.
 
 
 
-> **Type**: ```[String]```
 
-> **Required**: true
 
-> **Position**: named
 
-> **PipelineInput**:true (ByValue)
+|Type      |Required|Position|PipelineInput |
+|----------|--------|--------|--------------|
+|`[String]`|true    |named   |true (ByValue)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Remove-FormatData -ModuleName <String> [<CommonParameters>]
 ```
----
