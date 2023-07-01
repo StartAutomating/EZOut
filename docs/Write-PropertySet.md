@@ -1,9 +1,17 @@
 Write-PropertySet
 -----------------
+
+
+
+
 ### Synopsis
 Writes a property set
 
+
+
 ---
+
+
 ### Description
 
 Writes a property set.
@@ -18,7 +26,11 @@ You can write:
 
     Select-Object mypropertyset
 
+
+
 ---
+
+
 ### Related Links
 * [ConvertTo-PropertySet](ConvertTo-PropertySet.md)
 
@@ -36,7 +48,11 @@ You can write:
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -45,7 +61,11 @@ Write-PropertySet -typename System.IO.FileInfo -name filetimes -propertyname Nam
     Add-TypeData
 ```
 dir | select filetimes
+
+
 ---
+
+
 ### Parameters
 #### **TypeName**
 
@@ -53,53 +73,51 @@ The typename for the property set
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|true    |1       |true (ByPropertyName)|
+
+
+
 #### **Name**
 
 The name of the property set
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: true
-
-> **Position**: 2
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|true    |2       |true (ByPropertyName)|
+
+
+
 #### **PropertyName**
 
 The names of the properties to include in the property set
 
 
 
-> **Type**: ```[String[]]```
 
-> **Required**: true
 
-> **Position**: 3
 
-> **PipelineInput**:true (ByPropertyName)
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|true    |3       |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Write-PropertySet [-TypeName] <String> [-Name] <String> [-PropertyName] <String[]> [<CommonParameters>]
 ```
----
