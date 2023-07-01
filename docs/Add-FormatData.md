@@ -1,9 +1,17 @@
 Add-FormatData
 --------------
+
+
+
+
 ### Synopsis
 Adds formatting to the current session.
 
+
+
 ---
+
+
 ### Description
 
 The Add-FormatData command gets the formatting data for the current session.
@@ -12,7 +20,11 @@ The formatting data is defined in .Format.ps1xml files (such as those in the $ps
 Add-FormatData will take one or more XML documents containing format data and will create a
 temporary module to use the formatting file.
 
+
+
 ---
+
+
 ### Related Links
 * [Clear-FormatData](Clear-FormatData.md)
 
@@ -26,7 +38,11 @@ temporary module to use the formatting file.
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -59,7 +75,11 @@ Clear-FormatData
 
 # And we're back to the original formatting
 [xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
+
+
 ---
+
+
 ### Parameters
 #### **FormatXml**
 
@@ -68,17 +88,15 @@ but it's easier to use Write-FormatView to create it
 
 
 
-> **Type**: ```[XmlDocument]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByValue)
 
 
 
----
+|Type           |Required|Position|PipelineInput |
+|---------------|--------|--------|--------------|
+|`[XmlDocument]`|true    |1       |true (ByValue)|
+
+
+
 #### **Name**
 
 The name of the format module.  If the name is not provided, the name of the module will be the first
@@ -87,34 +105,35 @@ N is the number of modules loaded so far
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |2       |false        |
+
+
+
 #### **PassThru**
 
 If set, the module that contains the format files will be outputted to the pipeline
 
 
 
-> **Type**: ```[Switch]```
 
-> **Required**: false
 
-> **Position**: named
 
-> **PipelineInput**:false
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
 
 
 
 ---
+
+
 ### Outputs
 * [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
 
@@ -124,9 +143,12 @@ If set, the module that contains the format files will be outputted to the pipel
 
 
 
+
+
 ---
+
+
 ### Syntax
 ```PowerShell
 Add-FormatData [-FormatXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```
----
