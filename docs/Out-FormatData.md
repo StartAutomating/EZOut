@@ -1,14 +1,26 @@
 Out-FormatData
 --------------
+
+
+
+
 ### Synopsis
 Takes a series of format views and format actions and outputs a format data XML
 
+
+
 ---
+
+
 ### Description
 
 A Detailed Description of what the command does
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -26,7 +38,11 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
     Out-FormatData
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **FormatXml**
 
@@ -35,17 +51,15 @@ but it's easier to use Write-FormatView to create it
 
 
 
-> **Type**: ```[XmlDocument]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByValue)
 
 
 
----
+|Type           |Required|Position|PipelineInput |
+|---------------|--------|--------|--------------|
+|`[XmlDocument]`|true    |1       |true (ByValue)|
+
+
+
 #### **ModuleName**
 
 The name of the module the format.ps1xml applies to.
@@ -54,26 +68,32 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 
 
-> **Type**: ```[String]```
 
-> **Required**: false
 
-> **Position**: 2
 
-> **PipelineInput**:false
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |2       |false        |
+
+
 
 
 
 ---
+
+
 ### Outputs
 * [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
 
 
 
 
+
+
 ---
+
+
 ### Syntax
 ```PowerShell
 Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [<CommonParameters>]
 ```
----
