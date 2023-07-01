@@ -188,11 +188,3 @@ EZOut ships with a rich PSModuleInfo formatter, which will display the module na
 ~~~PowerShell
 Get-Module EZOut | Format-Custom
 ~~~
-
-
-
-
-
-
-
-
