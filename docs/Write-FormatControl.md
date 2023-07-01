@@ -1,24 +1,44 @@
 Write-FormatControl
 -------------------
+
+
+
+
 ### Synopsis
 Writes the Format XML for a Control
 
+
+
 ---
+
+
 ### Description
 
 Writes the .format.ps1xml for a custom control.  Custom Controls can be reused throughout the formatting file.
 
+
+
 ---
+
+
 ### Related Links
 * [Write-FormatCustomView](Write-FormatCustomView.md)
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 
+
+
 ---
+
+
 ### Parameters
 #### **Name**
 
@@ -26,17 +46,15 @@ The name of the control
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|true    |1       |true (ByPropertyName)|
+
+
+
 #### **Action**
 
 The script block used to fill in the contents of a custom control.
@@ -50,19 +68,21 @@ code in between Write-FormatViewExpression will not be included in the formatter
 
 
 
-> **Type**: ```[ScriptBlock]```
 
-> **Required**: true
 
-> **Position**: 2
 
-> **PipelineInput**:true (ByPropertyName)
+|Type           |Required|Position|PipelineInput        |Aliases                      |
+|---------------|--------|--------|---------------------|-----------------------------|
+|`[ScriptBlock]`|true    |2       |true (ByPropertyName)|ScriptBlock<br/>DefaultAction|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Write-FormatControl [-Name] <String> [-Action] <ScriptBlock> [<CommonParameters>]
 ```
----
