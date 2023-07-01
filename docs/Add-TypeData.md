@@ -1,14 +1,26 @@
 Add-TypeData
 ------------
+
+
+
+
 ### Synopsis
 Adds type data to the current session.
 
+
+
 ---
+
+
 ### Description
 
 The Add-TypeData command adds type data to the current session.
 
+
+
 ---
+
+
 ### Related Links
 * [Clear-TypeData](Clear-TypeData.md)
 
@@ -22,7 +34,11 @@ The Add-TypeData command adds type data to the current session.
 
 
 
+
+
 ---
+
+
 ### Parameters
 #### **TypeXml**
 
@@ -31,17 +47,15 @@ but it's easier to use Write-FormatView to create it
 
 
 
-> **Type**: ```[XmlDocument]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByValue)
 
 
 
----
+|Type           |Required|Position|PipelineInput |
+|---------------|--------|--------|--------------|
+|`[XmlDocument]`|true    |1       |true (ByValue)|
+
+
+
 #### **Name**
 
 The name of the format module.  If the name is not provided, the name of the module will be the first
@@ -50,34 +64,35 @@ N is the number of modules loaded so far
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |2       |false        |
+
+
+
 #### **PassThru**
 
 If set, the module that contains the format files will be outputted to the pipeline
 
 
 
-> **Type**: ```[Switch]```
 
-> **Required**: false
 
-> **Position**: named
 
-> **PipelineInput**:false
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
 
 
 
 ---
+
+
 ### Outputs
 * [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
 
@@ -87,9 +102,12 @@ If set, the module that contains the format files will be outputted to the pipel
 
 
 
+
+
 ---
+
+
 ### Syntax
 ```PowerShell
 Add-TypeData [-TypeXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```
----
