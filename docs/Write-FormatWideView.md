@@ -1,5 +1,9 @@
 Write-FormatWideView
 --------------------
+
+
+
+
 ### Synopsis
 
 Write-FormatWideView [-ViewTypeName <string>] [-ViewCondition <scriptblock>] [-ViewSelectionSet <string>] [-AutoSize] [-ColumnCount <int>] [<CommonParameters>]
@@ -9,114 +13,121 @@ Write-FormatWideView -Property <string> [-ViewTypeName <string>] [-ViewCondition
 Write-FormatWideView -ScriptBlock <scriptblock> [-ViewTypeName <string>] [-ViewCondition <scriptblock>] [-ViewSelectionSet <string>] [-AutoSize] [-ColumnCount <int>] [<CommonParameters>]
 
 
+
+
 ---
+
+
 ### Description
+
+
 ---
+
+
 ### Parameters
 #### **AutoSize**
 
-> **Type**: ```[switch]```
-
-> **Required**: false
-
-> **Position**: Named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[switch]`|false   |Named   |false        |
+
+
+
 #### **ColumnCount**
 
-> **Type**: ```[int]```
-
-> **Required**: false
-
-> **Position**: Named
-
-> **PipelineInput**:false
 
 
 
----
+|Type   |Required|Position|PipelineInput|Aliases                 |
+|-------|--------|--------|-------------|------------------------|
+|`[int]`|false   |Named   |false        |Columns<br/>ColumnNumber|
+
+
+
 #### **Property**
 
-> **Type**: ```[string]```
-
-> **Required**: true
-
-> **Position**: Named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[string]`|true    |Named   |true (ByPropertyName)|
+
+
+
 #### **ScriptBlock**
 
-> **Type**: ```[scriptblock]```
-
-> **Required**: true
-
-> **Position**: Named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[scriptblock]`|true    |Named   |true (ByPropertyName)|
+
+
+
 #### **ViewCondition**
 
-> **Type**: ```[scriptblock]```
-
-> **Required**: false
-
-> **Position**: Named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[scriptblock]`|false   |Named   |true (ByPropertyName)|
+
+
+
 #### **ViewSelectionSet**
 
-> **Type**: ```[string]```
-
-> **Required**: false
-
-> **Position**: Named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[string]`|false   |Named   |true (ByPropertyName)|
+
+
+
 #### **ViewTypeName**
 
-> **Type**: ```[string]```
 
-> **Required**: false
 
-> **Position**: Named
 
-> **PipelineInput**:true (ByPropertyName)
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[string]`|false   |Named   |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Inputs
 System.String
 System.Management.Automation.ScriptBlock
 
 
+
+
 ---
+
+
 ### Outputs
 * [Object](https://learn.microsoft.com/en-us/dotnet/api/System.Object)
 
 
 
 
+
+
 ---
+
+
 ### Syntax
 ```PowerShell
 syntaxItem
@@ -127,4 +138,3 @@ syntaxItem
 ```PowerShell
 {@{name=Write-FormatWideView; CommonParameters=True; parameter=System.Object[]}, @{name=Write-FormatWideView; CommonPar…
 ```
----
