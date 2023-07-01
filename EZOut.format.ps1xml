@@ -157,6 +157,9 @@ if ($script:treeDepth) {
 $script:TreeDepth++;</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>$moduleName = 'EZOut'
 
             do {
@@ -193,9 +196,15 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock> '&lt;'.Trim() </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -207,6 +216,9 @@ $script:TreeDepth++;</ScriptBlock>
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Element' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -220,6 +232,9 @@ $script:TreeDepth++;</ScriptBlock>
                 <CustomControlName>XmlAttributeControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -235,9 +250,15 @@ $script:TreeDepth++;</ScriptBlock>
     </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>'#text','#whitespace' -notcontains $_.LocalName </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.Tag' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.LocalName -eq '#text' </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.InnerText' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -247,6 +268,9 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock>$_.InnerText </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> $_.LocalName -eq '#text' </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'EZOut.Xml.InnerText' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -567,6 +591,9 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock> ' static ' </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>$moduleName = 'EZOut'
 
             do {
@@ -604,9 +631,15 @@ $script:TreeDepth++;</ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock>$_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor -and $_.ReturnType </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -617,9 +650,15 @@ $script:TreeDepth++;</ScriptBlock>
                 <CustomControlName>TypeNameControl</CustomControlName>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor -and $_.ReturnType </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Verbose' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' -NoClear) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
@@ -629,6 +668,9 @@ $script:TreeDepth++;</ScriptBlock>
                 <ScriptBlock> ' ' +  $_.Name </ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
+                <ItemSelectionCondition>
+                  <ScriptBlock> -not $_.IsConstructor </ScriptBlock>
+                </ItemSelectionCondition>
                 <ScriptBlock>@(&amp; ${EZOut_Format-RichText} -ForegroundColor 'Warning' ) -join ''</ScriptBlock>
               </ExpressionBinding>
               <ExpressionBinding>
