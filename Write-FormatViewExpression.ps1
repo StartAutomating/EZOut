@@ -76,6 +76,13 @@
     [switch]
     $Newline,
 
+    # The name of one or more $psStyle properties to apply.
+    # If $psStyle is present, this will use put these properties prior to an expression.
+    # A $psStyle.Reset will be outputted after the expression.
+    [Alias('PSStyle', 'PSStyles')]
+    [string[]]
+    $Style,
+
     # If set, will bold the -Text, -Property, or -ScriptBlock.
     # This is only valid in consoles that support ANSI terminals ($host.UI.SupportsVirtualTerminal),
     # or while rendering HTML
@@ -166,6 +173,21 @@
         }
 
         foreach ($n in 1..$count) {
+            if ($Style) {
+                $scriptLines = 
+                    @('if ($psStyle) {'
+                    "   @(foreach (`$styleProp in '$($style -join "','")') {"
+                    '       if ($styleProp -match ''\.'') {'
+                    '           $styleGroup, $styleProp = $styleProp -split ''\.'''
+                    '           $psStyle.$styleGroup.$styleProp'
+                    '       } else {'                    
+                    '           $psStyle.$styleProp'
+                    '       }'
+                    "   }) -ne '' -join ''"
+                    '}')
+                $styleScript = [ScriptBlock]::Create($scriptLines -join [Environment]::NewLine)
+                Write-FormatViewExpression -ScriptBlock $styleScript -If $if
+            }
             if ($ForegroundColor -or 
                 $BackgroundColor -or 
                 $Bold -or 
@@ -193,8 +215,9 @@
                     if ($Strikethru) { '-Strikethru' }
                     '-NoClear'
                 ) -join ' ')) -join ''")
-                Write-FormatViewExpression -ScriptBlock $colorize
+                Write-FormatViewExpression -ScriptBlock $colorize -If $if
             }
+
             $ControlChunk = if ($ControlName) { "<CustomControlName>$([Security.SecurityElement]::Escape($ControlName))</CustomControlName>" }
             $EnumerationChunk = if ($Enumerate) { '<EnumerateCollection/>' } else { '' }
             $formatChunk = if ($FormatString) { "<FormatString>$([Security.SecurityElement]::Escape($FormatString))</FormatString>"}
@@ -236,7 +259,14 @@ $if")
                 "$xOut".Substring('<?xml version="1.0" encoding="utf-16"?>'.Length + [Environment]::NewLine.Length)
                 $xOut.Dispose()
             }
-            if ($ForegroundColor -or 
+            if ($style) {
+                Write-FormatViewExpression -ScriptBlock {
+                    if ($PSStyle) {
+                        $PSStyle.Reset
+                    }
+                } -If $if
+            }
+            elseif ($ForegroundColor -or 
                 $BackgroundColor -or 
                 $Bold -or 
                 $Underline -or 
@@ -247,7 +277,7 @@ $if")
                 $Hide -or 
                 $Strikethru
             ) {
-                Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear')))
+                Write-FormatViewExpression -ScriptBlock ([ScriptBlock]::Create(($colorize -replace '-NoClear'))) -If $if
             }
         }
     }
