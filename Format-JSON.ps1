@@ -61,6 +61,9 @@ function Format-JSON {
         begin {
         $accumulateInput = [Collections.Queue]::new()
         $rawJSON         = [Collections.Queue]::new()
+        if (-not $PSBoundParameters['Depth']) {
+            $PSBoundParameters['Depth'] = $FormatEnumerationLimit
+        }
     
     }
         process {
