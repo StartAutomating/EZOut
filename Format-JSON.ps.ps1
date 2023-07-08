@@ -30,6 +30,9 @@ function Format-JSON
     begin {
         $accumulateInput = [Collections.Queue]::new()
         $rawJSON         = [Collections.Queue]::new()
+        if (-not $PSBoundParameters['Depth']) {
+            $PSBoundParameters['Depth'] = $FormatEnumerationLimit
+        }
     }
     process {
         if ($_ -is [string] -and $_ -match '^\s{0,}[\[\{"]' -and $_ -match '[\]\}"]\s{0,}$') {

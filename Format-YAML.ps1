@@ -33,6 +33,7 @@ function Format-YAML
     )
 
     begin {
+        if (-not $Depth) { $depth = $FormatEnumerationLimit }
         $toYaml = {
             param(
             [Parameter(ValueFromPipeline,Position=0)]$Object,
