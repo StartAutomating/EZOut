@@ -363,7 +363,7 @@ $stream.Dispose()
                 }
                 foreach ($k in $scriptPropertySet.Keys) {
                     if (-not $scriptProperties[$k]) {
-                        $scriptProperties[$k] = {}, $scriptPropertySet[$k]
+                        $scriptProperties[$k] = {return $null}, $scriptPropertySet[$k]
                     } else {
                         $scriptProperties[$k] = $scriptProperties[$k], $scriptPropertySet[$k]
                     }
