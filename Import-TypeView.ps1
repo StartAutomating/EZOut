@@ -11,6 +11,7 @@
         Import-TypeView .\Types
     #>
     param(
+    # The path containing type information.
     [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
     [Alias('FullName')]
     [string[]]
@@ -134,6 +135,10 @@
                         ).ScriptBlock
                 } else {
                     $isScript = $false
+                }
+
+                if ($isScript -and -not ($scriptBlock -replace '\s')) {
+                    continue
                 }
 
                 if (-not $isScript -and $itemName -eq $item.Directory.Name) {
