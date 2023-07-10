@@ -45,6 +45,10 @@ Import-TypeView .\Types
 ### Parameters
 #### **FilePath**
 
+The path containing type information.
+
+
+
 
 
 
