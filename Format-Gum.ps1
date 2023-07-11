@@ -1,4 +1,18 @@
 function Format-Gum {
+<#
+.Synopsis
+    Formats Output using Gum
+.Description
+    
+    Allows you to format objects using [CharmBraclet's Gum](https://github.com/charmbracelet/gum).
+    
+.Example
+    'live', 'die' | Format-Gum choose
+.Example
+    'What is best in life?' | Format-Gum -Command input
+.Link
+    https://github.com/charmbraclet/gum
+#>
 [CmdletBinding(PositionalBinding=$false)]
 [Management.Automation.Cmdlet("Format", "Object")]
 param(
