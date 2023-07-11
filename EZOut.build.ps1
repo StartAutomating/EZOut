@@ -177,7 +177,12 @@ $newScript = New-PipeScript -Parameter $GumParameters -FunctionName "Format-Gum"
 } -Noun "Gum" -Verb "Format" -Attribute @(
     '[CmdletBinding(PositionalBinding=$false)]'
     '[Management.Automation.Cmdlet("Format", "Object")]'
-)
+) -Synopsis "Formats Output using Gum" -Description "
+Allows you to format objects using [CharmBraclet's Gum](https://github.com/charmbracelet/gum).
+" -Example @(
+    "'live', 'die' | Format-Gum choose"
+    "'What is best in life?' | Format-Gum -Command input"
+) -Link "https://github.com/charmbraclet/gum"
 
 
 $newScript | Set-Content .\Format-Gum.ps1
