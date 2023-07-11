@@ -6,8 +6,6 @@ if (-not $gumCmd) {
     $goInstallGum | Out-Host
     "::endgroup::" | Out-Host
 
-    
-    
     $gumCmd = $ExecutionContext.SessionState.InvokeCommand.GetCommand('gum', 'Application')
 
     if (-not $gumCmd) {
@@ -68,56 +66,16 @@ $GumParameters = [Ordered]@{
         Help = "The input object."
     }
 
-    "GumArgumentList" = @{
+    "GumArgument" = @{
+        Alias = 'GumArguments'
         ParameterType = [string[]]
-        Attributes = 'ValueFromRemainingArguments'
-        Help = "Any additional arguments"
-    }
-}
-$gumCmdHelps = @{}
-
-foreach ($gumCommandName in $GumCommandNames) {
-    $gumCmdHelp = & $gumCmd -h $gumCommandName
-    $gumCmdHelps[$gumCommandName] = $gumCmdHelp
-    
-    foreach ($helpLine in $gumCmdHelp) {
-        if ($helpline -notmatch '^\s{1,}.{0,}?\--(?<N>[\S-[\=]]+)') {
-            continue
-        }
-        $bindingTo  = $matches.n        
-        $dontCare, $paramDescription = $helpline -split "$bindingTo\S{0,}\s{0,}"
-        $parameterName = [Regex]::Replace($bindingTo, "[\.\-]\p{L}", {
-            "$args".Substring(1).ToUpper()
-        })
-        $parameterName = $parameterName.Substring(0,1).ToUpper() + $parameterName.Substring(1)
-        $parameterType = [PSObject]
-        if ($helpLine -match '=\d\.') {
-            $parameterType = [double]
-        }
-        elseif ($helpLine -notmatch "$bindingTo=") {
-            $parameterType = [switch]
-        }        
-        if ($parameterName -match '\p{P}') {
-            if ($parameterName -match '--\[') {
-
-            } 
-            
-        } else {
-            if (-not $GumParameters.$parameterName) {
-
-                $GumParameters.$parameterName = [Ordered]@{
-                    Name = $parameterName
-                    Description = $paramDescription
-                    Binding = $bindingTo
-                    Type = $parameterType
-                }
-    
-            }
-        }
+        Attributes = @('ValueFromRemainingArguments')
+        Help = "Any additional arguments to gum (and any remaining arguments)"
     }
 }
 
-$newScript = New-PipeScript -Parameter $GumParameters -FunctionName "Format-Gum" -Begin {
+
+$newScript = New-PipeScript -Parameter $GumParameters -FunctionName "Out-Gum" -Begin {
     $accumulateInput = [Collections.Queue]::new()
 } -Process {
     if ($inputObject) {
@@ -130,26 +88,18 @@ $newScript = New-PipeScript -Parameter $GumParameters -FunctionName "Format-Gum"
         return
     }
 
-    $myCmd = $MyInvocation.MyCommand
-    $myParameters = [Ordered]@{} + $PSBoundParameters
-    $gumArgs = @(
-    :nextParameter foreach ($parameterKV in $MyInvocation.MyCommand.Parameters.GetEnumerator()) {
-
-        if (-not $myParameters.Contains($parameterKV.Key)) {
-            continue
-        }
-        foreach ($attr in $parameterKV.Value.Attributes) {
-            if ($attr -is [ComponentModel.DefaultBindingPropertyAttribute]) {
-                "--$($attr.Name)"
-                if ($myParameters[$parameterKV.Key] -isnot [switch]) {
-                    $myParameters[$parameterKV.Key]
-                }
-                continue nextParameter
+    #region Fix Gum Arguments
+    $allGumArgs = @(
+        foreach ($gumArg in $gumArgument) {
+            # Fix single dashing / slashing parameter convention.
+            if ($gumArg -match '^[-/]\w') {
+                $gumArg -replace '^[-/]', '--'
+            } else {
+                $gumArg
             }
         }
-    })
-
-    $allGumArgs = @() + $gumArgs + $gumArgumentList
+    )
+    #endregion Fix Gum Arguments
 
     Write-Verbose "Calling gum with $allGumArgs"
 
@@ -166,24 +116,35 @@ $newScript = New-PipeScript -Parameter $GumParameters -FunctionName "Format-Gum"
             }
         })
         if ($MustConvert) {
-            $filteredInput | ConvertTo-Csv | & $gumCmd $Command @allGumArgs
+            $filteredInput = $filteredInput | ConvertTo-Csv
         }
-        else {
+
+        if ($isPipedFrom) {
+            $gumOutput = $filteredInput | & $gumCmd $Command @allGumArgs
+            $gumOutput
+        } else {
             $filteredInput | & $gumCmd $Command @allGumArgs
         }
+
     } else {
-        & $gumCmd $Command @allGumArgs
+        if ($isPipedFrom) {
+            $gumOutput = $filteredInput | & $gumCmd $Command @allGumArgs
+            $gumOutput
+        } else {
+            & $gumCmd $Command @allGumArgs
+        }
     }
 } -Noun "Gum" -Verb "Format" -Attribute @(
     '[CmdletBinding(PositionalBinding=$false)]'
     '[Management.Automation.Cmdlet("Format", "Object")]'
-) -Synopsis "Formats Output using Gum" -Description "
+    '[Alias("gum")]'
+) -Synopsis "Outputs using Gum" -Description "
 Allows you to format objects using [CharmBraclet's Gum](https://github.com/charmbracelet/gum).
 " -Example @(
-    "'live', 'die' | Format-Gum choose"
-    "'What is best in life?' | Format-Gum -Command input"
+    "'live', 'die' | Out-Gum choose"
+    "'What is best in life?' | Out-Gum -Command input"
 ) -Link "https://github.com/charmbraclet/gum"
 
 
-$newScript | Set-Content .\Format-Gum.ps1
-Get-Item -Path .\Format-Gum.ps1
+$newScript | Set-Content .\Out-Gum.ps1
+Get-Item -Path .\Out-Gum.ps1
