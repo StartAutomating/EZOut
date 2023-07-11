@@ -10,7 +10,12 @@ if (-not $gumCmd) {
     
     $gumCmd = $ExecutionContext.SessionState.InvokeCommand.GetCommand('gum', 'Application')
 
-    if (-not $gumCmd) { 
+    if (-not $gumCmd) {
+        if (-not $env:GOPATH) {
+            
+            $null, $env:GOPATH = @(go env) -like 'set GOPath*' -split '=', 2
+            "Setting `$ENV:GOPATH to '$ENV:GoPath'" | Out-Host
+        } 
         if ($env:GOPATH) {
             $gumExeFound  = Get-ChildItem -Path $env:GOPATH -Recurse -Filter "gum.exe"
             if ($gumExeFound) {
