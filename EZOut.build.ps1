@@ -5,12 +5,22 @@ if (-not $gumCmd) {
     $goInstallGum = go install 'github.com/charmbracelet/gum@latest'
     $goInstallGum | Out-Host
     "::endgroup::" | Out-Host
+
+    
     
     $gumCmd = $ExecutionContext.SessionState.InvokeCommand.GetCommand('gum', 'Application')
 
     if (-not $gumCmd) { 
-        throw "Gum not installed"
-        return
+        if ($env:GOPATH) {
+            $gumExeFound  = Get-ChildItem -Path $env:GOPATH -Recurse -Filter "gum.exe"
+            if ($gumExeFound) {
+                $gumCmd = $ExecutionContext.SessionState.InvokeCommand.GetCommand($gumExeFound.FullName, 'Application')
+            }
+        }
+        if (-not $gumCmd) {
+            throw "Gum not installed"
+            return
+        }        
     }
 }
 
