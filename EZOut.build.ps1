@@ -2,7 +2,7 @@
 
 if (-not $gumCmd) {
     "::group::Installing Gum" | Out-Host
-    $goInstallGum = go install 'gum@latest'
+    $goInstallGum = go install 'github.com/charmbracelet/gum@latest'
     $goInstallGum | Out-Host
     "::endgroup::" | Out-Host
     
