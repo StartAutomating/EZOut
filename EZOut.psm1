@@ -18,6 +18,7 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
 }
 
 #region Formatters
+. $psScriptRoot\Add-FormatData.ps1
 . $psScriptRoot\Clear-FormatData.ps1
 . $psScriptRoot\Remove-FormatData.ps1
 
@@ -55,7 +56,6 @@ Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
 #endregion Property Sets
 
 #region TypeData
-. $psScriptRoot\Add-TypeData.ps1
 . $psScriptRoot\Clear-TypeData.ps1
 . $psScriptRoot\Remove-TypeData.ps1
 
