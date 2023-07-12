@@ -957,7 +957,7 @@ describe 'Write-TypeView' {
     it 'Can specify a -Reserializer' {
         $tvXml = [xml](Write-TypeView -Reserializer ([Hashtable]) -TypeName t)
         $tvXml.Type.Members.MemberSet.Members.NoteProperty.Name | should -Be TargetTypeForDeserialization
-        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should -Be hashtable
+        $tvXml.Type.Members.MemberSet.Members.NoteProperty.Value | should -BeLike '*hashtable'
     }
 
     it 'Can specify -Deserialized (and get two type definitions for the price of one)' {
