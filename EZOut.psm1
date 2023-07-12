@@ -40,15 +40,6 @@ Set-Alias Write-CustomAction Write-FormatCustomView
 Set-Alias Show-CustomAction Write-FormatViewExpression
 #endregion Formatters
 
-
-#region Property Sets
-. $psScriptRoot\ConvertTo-PropertySet.ps1
-. $psScriptRoot\Get-PropertySet.ps1
-. $psScriptRoot\Write-PropertySet.ps1
-
-Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
-#endregion Property Sets
-
 #region TypeData
 . $psScriptRoot\Remove-TypeData.ps1
 
