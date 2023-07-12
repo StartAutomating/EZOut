@@ -18,7 +18,6 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
 }
 
 #region Formatters
-. $psScriptRoot\Clear-FormatData.ps1
 . $psScriptRoot\Remove-FormatData.ps1
 
 . $psScriptRoot\Out-FormatData.ps1
