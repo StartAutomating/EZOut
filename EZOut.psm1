@@ -17,14 +17,6 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
     . $file.FullName
 }
 
-#region Formatters
-. $psScriptRoot\Remove-FormatData.ps1
-#endregion Formatters
-
-#region TypeData
-. $psScriptRoot\Remove-TypeData.ps1
-#endregion TypeData
-
 . $psScriptRoot\@.ps1 # Import Splatter
 
 . $psScriptRoot\Format-Object.ps1

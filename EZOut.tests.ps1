@@ -50,7 +50,7 @@ describe 'Write-FormatView' {
 
         Write-FormatView -TypeName $tn -VirtualProperty @{foo={'bar'}} -Property foo |
             Out-FormatData |
-            Add-FormatData
+            Push-FormatData
 
 
         [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *foo*bar*
@@ -60,7 +60,7 @@ describe 'Write-FormatView' {
         $tn = "type$(Get-random)"
         Write-FormatView -TypeName $tn -AliasProperty @{N2='n'} -Property n2 |
             Out-FormatData |
-            Add-FormatData
+            Push-FormatData
 
         [PSCustomObject]@{PSTypeName=$tn;n=1} | Out-String | should -Belike *n2*1*
     }
@@ -790,7 +790,7 @@ describe "Write-FormatWideView" {
 
         [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normalhost*"
 
-        Remove-FormatData -ModuleName HostAwareFormatter
+        Pop-FormatData -ModuleName HostAwareFormatter
     }
 
     it 'Can use a -ViewCondition with a -ViewSelectionSet to match multiple typenames (piping in is still required)' {
@@ -808,7 +808,7 @@ describe "Write-FormatWideView" {
 
         [PSCustomObject]@{PSTypeName='HostAwareFormatter';N=1} | Out-String | should -Belike "*normalhost*"
 
-        Remove-FormatData -ModuleName HostAwareFormatter
+        Pop-FormatData -ModuleName HostAwareFormatter
     }
 }
 
@@ -873,7 +873,7 @@ describe 'Write-TypeView' {
         $o = [PSCustomObject]@{PSTypeName=$tn}
         $o.foo | should -Be bar
 
-        Remove-TypeData -ModuleName $tn
+        Pop-TypeData -ModuleName $tn
     }
 
     it 'Can add an -AliasProperty' {
@@ -882,7 +882,7 @@ describe 'Write-TypeView' {
             mytypenames = 'pstypenames'
         } -HideProperty mytypenames | Out-TypeData | Add-TypeData
         ([PSCustomObject]@{PSTypeName=$tn}).mytypenames[0] | should -Be $tn
-        Remove-TypeData -ModuleName $tn
+        Pop-TypeData -ModuleName $tn
     }
 
     it 'Can add a -ScriptMethod' {
@@ -1219,7 +1219,7 @@ describe 'Format-RichText' {
 
     it 'Can make a hyperlink' {
         Format-RichText -Hyperlink https://github.com/StartAutomating/EZOut -InputObject EZOut |
-            Should -Match '^\e\]8m;;'
+            Should -Match '^\e\]8;;'
     }
 
     it 'Can make text bold' {
