@@ -16,10 +16,11 @@ Gets Extensions
 
 Gets Extensions.
 
-EZOut Extensions can be found in:
+EZOutExtensions can be found in:
 
-* Any module that includes -ExtensionModuleName in it's tags.
-* The directory specified in -ExtensionPath
+* Any module that includes -EZOutExtensionModuleName in it's tags.
+* The directory specified in -EZOutExtensionPath
+* Commands that meet the naming criteria
 
 
 
@@ -70,7 +71,7 @@ If set, will clear caches of extensions, forcing a refresh.
 
 #### **CommandName**
 
-If provided, will get EZOut Extensions that extend a given command
+If provided, will get EZOutExtensions that extend a given command
 
 
 
@@ -85,7 +86,10 @@ If provided, will get EZOut Extensions that extend a given command
 
 #### **ExtensionName**
 
-The name of an extension
+The name of an extension.
+By default, this will match any extension command whose name, displayname, or aliases exactly match the name.
+
+If the extension has an Alias with a regular expression literal (```'/Expression/'```) then the -EZOutExtensionName will be valid if that regular expression matches.
 
 
 
@@ -100,7 +104,10 @@ The name of an extension
 
 #### **Like**
 
-If provided, will treat -ExtensionName as a wildcard.
+If provided, will treat -EZOutExtensionName as a wildcard.
+This will return any extension whose name, displayname, or aliases are like the -EZOutExtensionName.
+
+If the extension has an Alias with a regular expression literal (```'/Expression/'```) then the -EZOutExtensionName will be valid if that regular expression matches.
 
 
 
@@ -115,7 +122,10 @@ If provided, will treat -ExtensionName as a wildcard.
 
 #### **Match**
 
-If provided, will treat -ExtensionName as a regular expression.
+If provided, will treat -EZOutExtensionName as a regular expression.
+This will return any extension whose name, displayname, or aliases match the -EZOutExtensionName.
+
+If the extension has an Alias with a regular expression literal (```'/Expression/'```) then the -EZOutExtensionName will be valid if that regular expression matches.
 
 
 
@@ -130,7 +140,7 @@ If provided, will treat -ExtensionName as a regular expression.
 
 #### **DynamicParameter**
 
-If set, will return the dynamic parameters object of all the EZOut Extensions for a given command.
+If set, will return the dynamic parameters object of all the EZOutExtensions for a given command.
 
 
 
@@ -145,7 +155,7 @@ If set, will return the dynamic parameters object of all the EZOut Extensions fo
 
 #### **CouldRun**
 
-If set, will return if the extension could run
+If set, will return if the extension could run.
 
 
 
@@ -155,6 +165,21 @@ If set, will return if the extension could run
 |Type      |Required|Position|PipelineInput        |Aliases|
 |----------|--------|--------|---------------------|-------|
 |`[Switch]`|false   |named   |true (ByPropertyName)|CanRun |
+
+
+
+#### **CouldPipe**
+
+If set, will return if the extension could accept this input from the pipeline.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|Aliases|
+|------------|--------|--------|-------------|-------|
+|`[PSObject]`|false   |4       |false        |CanPipe|
 
 
 
@@ -192,7 +217,7 @@ By default, extension results are wrapped in a return object.
 
 #### **DynamicParameterSetName**
 
-If set, will return the dynamic parameters of all EZOut Extensions for a given command, using the provided DynamicParameterSetName.
+If set, will return the dynamic parameters of all EZOutExtensions for a given command, using the provided DynamicParameterSetName.
 Implies -DynamicParameter.
 
 
@@ -202,13 +227,13 @@ Implies -DynamicParameter.
 
 |Type      |Required|Position|PipelineInput        |
 |----------|--------|--------|---------------------|
-|`[String]`|false   |4       |true (ByPropertyName)|
+|`[String]`|false   |5       |true (ByPropertyName)|
 
 
 
 #### **DynamicParameterPositionOffset**
 
-If provided, will return the dynamic parameters of all EZOut Extensions for a given command, with all positional parameters offset.
+If provided, will return the dynamic parameters of all EZOutExtensions for a given command, with all positional parameters offset.
 Implies -DynamicParameter.
 
 
@@ -218,13 +243,13 @@ Implies -DynamicParameter.
 
 |Type     |Required|Position|PipelineInput        |
 |---------|--------|--------|---------------------|
-|`[Int32]`|false   |5       |true (ByPropertyName)|
+|`[Int32]`|false   |6       |true (ByPropertyName)|
 
 
 
 #### **NoMandatoryDynamicParameter**
 
-If set, will return the dynamic parameters of all EZOut Extensions for a given command, with all mandatory parameters marked as optional.
+If set, will return the dynamic parameters of all EZOutExtensions for a given command, with all mandatory parameters marked as optional.
 Implies -DynamicParameter.  Does not actually prevent the parameter from being Mandatory on the Extension.
 
 
@@ -235,6 +260,21 @@ Implies -DynamicParameter.  Does not actually prevent the parameter from being M
 |Type      |Required|Position|PipelineInput        |Aliases                     |
 |----------|--------|--------|---------------------|----------------------------|
 |`[Switch]`|false   |named   |true (ByPropertyName)|NoMandatoryDynamicParameters|
+
+
+
+#### **RequireExtensionAttribute**
+
+If set, will require a [Runtime.CompilerServices.Extension()] attribute to be considered an extension.
+
+
+
+
+
+
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
 
 
 
@@ -249,7 +289,7 @@ If set, will validate this input against [ValidateScript], [ValidatePattern], [V
 
 |Type        |Required|Position|PipelineInput        |
 |------------|--------|--------|---------------------|
-|`[PSObject]`|false   |6       |true (ByPropertyName)|
+|`[PSObject]`|false   |7       |true (ByPropertyName)|
 
 
 
@@ -280,7 +320,7 @@ The name of the parameter set.  This is used by -CouldRun and -Run to enforce a 
 
 |Type      |Required|Position|PipelineInput        |
 |----------|--------|--------|---------------------|
-|`[String]`|false   |7       |true (ByPropertyName)|
+|`[String]`|false   |8       |true (ByPropertyName)|
 
 
 
@@ -295,7 +335,7 @@ The parameters to the extension.  Only used when determining if the extension -C
 
 |Type           |Required|Position|PipelineInput        |Aliases                                                  |
 |---------------|--------|--------|---------------------|---------------------------------------------------------|
-|`[IDictionary]`|false   |8       |true (ByPropertyName)|Parameters<br/>ExtensionParameter<br/>ExtensionParameters|
+|`[IDictionary]`|false   |9       |true (ByPropertyName)|Parameters<br/>ExtensionParameter<br/>ExtensionParameters|
 
 
 
@@ -331,51 +371,6 @@ If set, will output the help for the extensions
 
 
 
-#### **ParameterHelp**
-
-If set, will get help about one or more parameters of an extension
-
-
-
-
-
-
-|Type        |Required|Position|PipelineInput|
-|------------|--------|--------|-------------|
-|`[String[]]`|false   |9       |false        |
-
-
-
-#### **Example**
-
-If set, will get help examples
-
-
-
-
-
-
-|Type      |Required|Position|PipelineInput|Aliases |
-|----------|--------|--------|-------------|--------|
-|`[Switch]`|false   |named   |false        |Examples|
-
-
-
-#### **FullHelp**
-
-If set, will output the full help for the extensions
-
-
-
-
-
-
-|Type      |Required|Position|PipelineInput|
-|----------|--------|--------|-------------|
-|`[Switch]`|false   |named   |false        |
-
-
-
 
 
 ---
@@ -394,5 +389,5 @@ If set, will output the full help for the extensions
 
 ### Syntax
 ```PowerShell
-Get-EZOutExtension [[-ExtensionPath] <String>] [-Force] [[-CommandName] <String[]>] [[-ExtensionName] <String[]>] [-Like] [-Match] [-DynamicParameter] [-CouldRun] [-Run] [-Stream] [[-DynamicParameterSetName] <String>] [[-DynamicParameterPositionOffset] <Int32>] [-NoMandatoryDynamicParameter] [[-ValidateInput] <PSObject>] [-AllValid] [[-ParameterSetName] <String>] [[-Parameter] <IDictionary>] [-SteppablePipeline] [-Help] [[-ParameterHelp] <String[]>] [-Example] [-FullHelp] [<CommonParameters>]
+Get-EZOutExtension [[-ExtensionPath] <String>] [-Force] [[-CommandName] <String[]>] [[-ExtensionName] <String[]>] [-Like] [-Match] [-DynamicParameter] [-CouldRun] [[-CouldPipe] <PSObject>] [-Run] [-Stream] [[-DynamicParameterSetName] <String>] [[-DynamicParameterPositionOffset] <Int32>] [-NoMandatoryDynamicParameter] [-RequireExtensionAttribute] [[-ValidateInput] <PSObject>] [-AllValid] [[-ParameterSetName] <String>] [[-Parameter] <IDictionary>] [-SteppablePipeline] [-Help] [<CommonParameters>]
 ```
