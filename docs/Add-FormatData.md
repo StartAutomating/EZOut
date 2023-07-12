@@ -5,7 +5,7 @@ Add-FormatData
 
 
 ### Synopsis
-Adds formatting to the current session.
+Pushes formatting to the current session.
 
 
 
@@ -14,7 +14,7 @@ Adds formatting to the current session.
 
 ### Description
 
-The Add-FormatData command gets the formatting data for the current session.
+Push-FormatData pushes formatting data into the current session.
 
 The formatting data is defined in .Format.ps1xml files (such as those in the $pshome directory).
 Add-FormatData will take one or more XML documents containing format data and will create a
@@ -64,7 +64,7 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
     }
 } |
     Out-FormatData |
-    Add-FormatData
+    Push-FormatData
 
 # Now let's take a look at how the xml renders
 [xml]"<a an='anattribute'><b d='attribute'><c /></b></a>"
