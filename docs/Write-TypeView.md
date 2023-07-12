@@ -190,11 +190,18 @@ The ID property
 
 #### **SerializationDepth**
 
-The serialization depth.  If the type is deserialized, this is the depth of subpropeties
-that will be stored.  For instance, a serialization depth of 3 would storage an object, it's
-subproperties, and those objects' subproperties.  You can use the serialization depth
-to minimize the overhead of moving objects back and forth across the remoting boundary,
-or to ensure that you capture the correct information.
+The serialization depth.
+
+Serialization depth can be used to minimize the overhead of objects.
+
+If the type is deserialized, this is the depth of subpropeties that will be stored.
+
+For instance, a serialization depth of 3 would store:
+  * an object, 
+  * it's subproperties
+  * those objects' subproperties
+  
+The default serialization depth is 2.
 
 
 
@@ -241,7 +248,7 @@ to display just that set of properties.
 
 #### **HideProperty**
 
-Will hide any properties in the list from a display
+If provided, will hide any properties in the list from automatically being displayed.
 
 
 
