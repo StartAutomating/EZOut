@@ -9,7 +9,7 @@
 
 You can install EZOut from the PowerShell Gallery.  Simply:
 ~~~PowerShell
-Install-Module EZOut -AllowClobber -Scope CurrentUser
+Install-Module EZOut -Scope CurrentUser
 ~~~
 
 ### Understanding PowerShell Formatting
@@ -174,7 +174,7 @@ Get-Module EZOut |
     Select-Xml //TypeName |
     Select-Object -ExpandProperty Node
 ~~~
-![SelectXml Output](Assets/ColorizedXml2.gif)
+![SelectXml Output](/Assets/ColorizedXml2.gif)
 
 This formatting works with all XML objects and elements, and makes compact XML easier to read.
 ~~~PowerShell

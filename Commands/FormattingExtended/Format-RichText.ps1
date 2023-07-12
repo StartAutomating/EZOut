@@ -298,7 +298,7 @@ function Format-RichText
                 }
                 elseif ($canUseANSI) {
                     # For ANSI,
-                    '' + $esc + ']8m;;' + $Link + $esc + '\'   
+                    '' + $esc + ']8;;' + $Link + $esc + '\'   
                 }
             }
             

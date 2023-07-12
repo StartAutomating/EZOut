@@ -1,5 +1,5 @@
-Add-FormatData
---------------
+Push-FormatData
+---------------
 
 
 
@@ -30,7 +30,7 @@ temporary module to use the formatting file.
 
 
 
-* [Remove-FormatData](Remove-FormatData.md)
+* [Pop-FormatData](Pop-FormatData.md)
 
 
 
@@ -150,5 +150,5 @@ If set, the module that contains the format files will be outputted to the pipel
 
 ### Syntax
 ```PowerShell
-Add-FormatData [-FormatXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
+Push-FormatData [-FormatXml] <XmlDocument> [[-Name] <String>] [-PassThru] [<CommonParameters>]
 ```

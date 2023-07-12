@@ -4,71 +4,20 @@ param()
 $Script:FormatModules = @{}
 $script:TypeModules = @{}
 
-#region Formatters
-. $psScriptRoot\Add-FormatData.ps1
-. $psScriptRoot\Clear-FormatData.ps1
-. $psScriptRoot\Remove-FormatData.ps1
+$commandsPath = Join-Path $psScriptRoot "Commands"
 
-. $psScriptRoot\Out-FormatData.ps1
-
-
-. $psScriptRoot\Import-FormatView.ps1
-. $psScriptRoot\Import-TypeView.ps1
-
-. $psScriptRoot\Write-FormatControl.ps1
-. $psScriptRoot\Write-FormatView.ps1
-
-. $psScriptRoot\Write-FormatCustomView.ps1
-. $psScriptRoot\Write-FormatListView.ps1
-. $psScriptRoot\Write-FormatTableView.ps1
-. $psScriptRoot\Write-FormatTreeView.ps1
-. $psScriptRoot\Write-FormatViewExpression.ps1
-. $psScriptRoot\Write-FormatWideView.ps1
-
-Set-Alias Write-CustomAction Write-FormatCustomView
-Set-Alias Show-CustomAction Write-FormatViewExpression
-#endregion Formatters
-
-#region Format Discovery
-. $psScriptRoot\Get-FormatFile.ps1
-. $psScriptRoot\Find-FormatView.ps1
-#endregion Format Discovery
-
-#region Property Sets
-. $psScriptRoot\ConvertTo-PropertySet.ps1
-. $psScriptRoot\Get-PropertySet.ps1
-. $psScriptRoot\Write-PropertySet.ps1
-
-Set-Alias ConvertTo-TypePropertySet ConvertTo-PropertySet
-#endregion Property Sets
-
-#region TypeData
-. $psScriptRoot\Add-TypeData.ps1
-. $psScriptRoot\Clear-TypeData.ps1
-. $psScriptRoot\Remove-TypeData.ps1
-
-. $psScriptRoot\Out-TypeData.ps1
-. $psScriptRoot\Write-TypeView.ps1
-#endregion TypeData
-
-. $PSScriptRoot\Write-EZFormatFile.ps1
+:ToIncludeFiles foreach ($file in (Get-ChildItem -Path "$commandsPath" -Filter "*-*" -Recurse)) {
+    if ($file.Extension -ne '.ps1')      { continue }  # Skip if the extension is not .ps1
+    foreach ($exclusion in '\.[^\.]+\.ps1$') {
+        if (-not $exclusion) { continue }
+        if ($file.Name -match $exclusion) {
+            continue ToIncludeFiles  # Skip excluded files
+        }
+    }
+    . $file.FullName
+}
 
 . $psScriptRoot\@.ps1 # Import Splatter
-
-
-
-
-. $psScriptRoot\Get-EZOutExtension.ps1
-
-. $psScriptRoot\Format-Object.ps1
-
-. $psScriptRoot\Format-Hashtable.ps1
-. $psScriptRoot\Format-Heatmap.ps1
-. $psScriptRoot\Format-JSON.ps1
-. $psScriptRoot\Format-Markdown.ps1
-. $psScriptRoot\Format-RichText.ps1
-. $psScriptRoot\Format-YAML.ps1
-
 
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 

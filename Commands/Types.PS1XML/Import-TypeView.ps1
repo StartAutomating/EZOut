@@ -38,17 +38,17 @@
             $filePathRoot = Get-Item -Path $fp
             $filesBeneathRoot = Get-ChildItem -Recurse -Path $fp -Force
 
-            foreach ($fbr in $filesBeneathRoot) {
-                if ($fbr -is [IO.DirectoryInfo]) { continue }
-                if ($fbr.Directory.FullName -eq $filePathRoot.FullName) {
+            foreach ($fileBeneathRoot in $filesBeneathRoot) {
+                if ($fileBeneathRoot -is [IO.DirectoryInfo]) { continue }
+                if ($fileBeneathRoot.Directory.FullName -eq $filePathRoot.FullName) {
                     # Files directly beneath the root become methods / properties shared by all typenames
                     if (-not $membersByType['*']) {
                         $membersByType['*'] = @()
                     }
-                    $membersByType['*'] += $fbr
+                    $membersByType['*'] += $fileBeneathRoot
                 } else {
                     # Files in subdirectories become the methods / properties used by a directory sharing that typename.
-                    $subTypeNames = @($fbr.FullName.Substring(
+                    $subTypeNames = @($fileBeneathRoot.FullName.Substring(
                         $filePathRoot.FullName.Length
                     ).TrimStart(
                         [IO.Path]::DirectorySeparatorChar
@@ -59,7 +59,7 @@
                         if (-not $membersByType[$subType]) {
                             $membersByType[$subType] = @()
                         }
-                        $membersByType[$subType] += $fbr
+                        $membersByType[$subType] += $fileBeneathRoot
                     }
                 }
             }
@@ -208,7 +208,7 @@
                         $itemName = $itemName.TrimStart('.')
                         $hideProperty += $itemName
                     }
-                    
+
                     # Let's take a look at the extension to figure out what we do.
                     switch ($item.Extension)
                     {

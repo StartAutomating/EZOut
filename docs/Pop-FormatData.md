@@ -1,11 +1,11 @@
-Remove-FormatData
------------------
+Pop-FormatData
+--------------
 
 
 
 
 ### Synopsis
-Removes formatting to the current session.
+Removes formatting from the current session.
 
 
 
@@ -14,7 +14,17 @@ Removes formatting to the current session.
 
 ### Description
 
-The Remove-FormatData command removes the formatting data for the current session.
+Pop-FormatData command removes dynamically loaded formatting data from the current session.
+
+
+
+---
+
+
+### Related Links
+* [Push-FormatData](Push-FormatData.md)
+
+
 
 
 
@@ -45,5 +55,5 @@ this is the name of the module.
 
 ### Syntax
 ```PowerShell
-Remove-FormatData -ModuleName <String> [<CommonParameters>]
+Pop-FormatData -ModuleName <String> [<CommonParameters>]
 ```

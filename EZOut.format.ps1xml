@@ -1302,7 +1302,7 @@ if ($Request -or $Host.UI.SupportsHTML) {
                 }
                 elseif ($canUseANSI) {
                     # For ANSI,
-                    '' + $esc + ']8m;;' + $Link + $esc + '\'   
+                    '' + $esc + ']8;;' + $Link + $esc + '\'   
                 }
             }
             
