@@ -1,5 +1,7 @@
 #requires -Module PipeScript
 
+Push-Location ($PSScriptRoot | Split-Path)
+
 if (-not $gumCmd) {
     "::group::Installing Gum" | Out-Host
     $goInstallGum = go install 'github.com/charmbracelet/gum@latest'
