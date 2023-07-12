@@ -23,11 +23,11 @@ The formatting data must have been added with Add-FormatData
 
 
 ### Related Links
-* [Add-FormatData](Add-FormatData.md)
+* [Push-FormatData](Push-FormatData.md)
 
 
 
-* [Remove-FormatData](Remove-FormatData.md)
+* [Pop-FormatData](Pop-FormatData.md)
 
 
 
