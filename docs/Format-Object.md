@@ -16,6 +16,8 @@ Formats an Object
 
 Formats any object, using any number of Format-Object extensions.
 
+Any of the extensions to Format-Object can be embedded into a FormatXML file.
+
 
 
 ---
