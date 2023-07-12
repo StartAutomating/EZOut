@@ -107,11 +107,21 @@
     # The ID property
     [string]$IdProperty,
 
-    # The serialization depth.  If the type is deserialized, this is the depth of subpropeties
-    # that will be stored.  For instance, a serialization depth of 3 would storage an object, it's
-    # subproperties, and those objects' subproperties.  You can use the serialization depth
-    # to minimize the overhead of moving objects back and forth across the remoting boundary,
-    # or to ensure that you capture the correct information.
+    <#
+    
+    The serialization depth.
+
+    Serialization depth can be used to minimize the overhead of objects.
+    
+    If the type is deserialized, this is the depth of subpropeties that will be stored.
+    
+    For instance, a serialization depth of 3 would store:
+      * an object, 
+      * it's subproperties
+      * those objects' subproperties
+      
+    The default serialization depth is 2.
+    #>    
     [int]$SerializationDepth = 2,
 
     # The reserializer type used for recreating a deserialized type.
@@ -132,14 +142,14 @@
     })]
     [Collections.IDictionary]$PropertySet,
 
-    # Will hide any properties in the list from a display
+    # If provided, will hide any properties in the list from automatically being displayed.
     [string[]]$HideProperty,
 
     # If set, will generate an identical typeview for the deserialized form of each typename.
     [switch]$Deserialized
     )
 
-    begin {
+    begin {        
         $RegisterMethod = {
             param(
             [Parameter(Mandatory)]
@@ -168,6 +178,9 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
     throw "Handler must be a [PSEventSubscriber], [ScriptBlock], a [string] SourceIdentifier, or an [int]SubscriptionID"
 }
 "@)
+
+        $DebugBuild = 
+            $DebugPreference -ne 'SilentlyContinue' -and $DebugPreference -ne 'Ignore'
     }
 
     process {
@@ -224,13 +237,21 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
 
         foreach ($tn in $TypeName) {
             $memberSetXml = ""
-
+            if ($DebugBuild) {
+                $updateSplat = [Ordered]@{
+                    TypeName = $tn
+                    Force = $true
+                }
+            }
             #region Construct PSStandardMembers
             if ($psBoundParameters.ContainsKey('SerializationDepth') -or
                 $psBoundParameters.ContainsKey('IdProperty') -or
                 $psBoundParameters.ContainsKey('DefaultDisplay') -or
                 $psBoundParameters.ContainsKey('Reserializer')) {
                 $defaultDisplayXml = if ($psBoundParameters.ContainsKey('DefaultDisplay')) {
+                    if ($DebugBuild) {
+                        Update-TypeData @updateSplat -DefaultDisplayPropertySet $DefaultDisplay
+                    }
     $referencedProperties = "<Name>" + ($defaultDisplay -join "</Name>
                             <Name>") + "</Name>"
     "                <PropertySet>
@@ -242,6 +263,9 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
     "
                 }
                 $serializationDepthXml = if ($psBoundParameters.ContainsKey('SerializationDepth')) {
+                    if ($DebugBuild) {
+                        Update-TypeData @updateSplat -SerializationDepth $SerializationDepth
+                    }
                     "
                     <NoteProperty>
                         <Name>SerializationDepth</Name>
@@ -250,10 +274,13 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
                 } else {$null }
 
                 $ReserializerXml = if ($psBoundParameters.ContainsKey('Reserializer'))  {
+                    if ($DebugBuild) {
+                        Update-TypeData @updateSplat -TargetTypeForDeserialization $Reserializer 
+                    }
     "
                     <NoteProperty>
                         <Name>TargetTypeForDeserialization</Name>
-                        <Value>$Reserializer</Value>
+                        <Value>$($Reserializer.FullName)</Value>
                     </NoteProperty>
 
     "
@@ -274,7 +301,8 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
 
             #region PropertySetXml
             $propertySetXml  = if ($psBoundParameters.PropertySet) {
-                foreach ($NameAndValue in $PropertySet.GetEnumerator() | Sort-Object Key) {
+
+                foreach ($NameAndValue in $PropertySet.GetEnumerator() | Sort-Object Key) {                    
                     $referencedProperties = "<Name>" + ($NameAndValue.Value -join "</Name>
                         <Name>") + "</Name>"
                 "<PropertySet>
@@ -297,6 +325,9 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
                     $isHiddenChunk = if ($HideProperty -contains $NameAndValue.Key) {
                         'IsHidden="true"'
                     }
+                    if ($DebugBuild) {                        
+                        Update-TypeData @updateSplat -MemberType AliasProperty -MemberName $NameAndValue.Key -Value $NameAndValue.Value
+                    }
                     "
                 <AliasProperty $isHiddenChunk>
                     <Name>$([Security.SecurityElement]::Escape($NameAndValue.Key))</Name>
@@ -309,6 +340,9 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
             #endregion Aliases
             $NotePropertyXml = if ($psBoundParameters.NoteProperty) {
                 foreach ($NameAndValue in $NoteProperty.GetEnumerator() | Sort-Object Key) {
+                    if ($DebugBuild) {                        
+                        Update-TypeData @updateSplat -MemberType NoteProperty -MemberName $NameAndValue.Key -Value $NameAndValue.Value
+                    }
                     $isHiddenChunk = if ($HideProperty -contains $NameAndValue.Key) {
                         'IsHidden="true"'
                     }
@@ -321,9 +355,12 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
             } else {
                 ""
             }
-            $scriptMethodXml = if ($ScriptMethod -and $ScriptMethod.Count) {
-                foreach ($methodNameAndCode in $ScriptMethod.GetEnumerator() | Sort-Object Key) {                                "
-                <ScriptMethod>
+            $scriptMethodXml = if ($ScriptMethod -and $ScriptMethod.Count) {                
+                foreach ($methodNameAndCode in $ScriptMethod.GetEnumerator() | Sort-Object Key) {
+                if ($DebugBuild) {                        
+                    Update-TypeData @updateSplat -MemberType ScriptMethod -MemberName $methodNameAndCode.Key -Value $methodNameAndCode.Value
+                }
+                "<ScriptMethod>
                     <Name>$($methodNameAndCode.Key)</Name>
                     <Script>
                         $([Security.SecurityElement]::Escape($methodNameAndCode.Value))
@@ -342,6 +379,10 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
                     }
                     $getScript, $setScript = $propertyNameAndCode.Value
                     if ($getScript -and $setScript) {
+                        if ($DebugBuild) {
+                            Update-TypeData @updateSplat -MemberType ScriptProperty -MemberName $propertyNameAndCode.Key -Value $getScript -SecondValue $setScript
+                        }
+
                         "
                 <ScriptProperty $isHiddenChunk>
                     <Name>$($propertyNameAndCode.Key)</Name>
@@ -353,6 +394,9 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
                     </SetScriptBlock>
                 </ScriptProperty>"
                     } else {
+                        if ($DebugBuild) {
+                            Update-TypeData @updateSplat -MemberType ScriptProperty -MemberName $propertyNameAndCode.Key -Value $getScript
+                        }
                         "
                 <ScriptProperty $isHiddenChunk>
                     <Name>$($propertyNameAndCode.Key)</Name>
@@ -376,5 +420,4 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
         </Type>"
         }
     }
-
 }
