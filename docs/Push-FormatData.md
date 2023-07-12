@@ -30,7 +30,7 @@ temporary module to use the formatting file.
 
 
 
-* [Remove-FormatData](Remove-FormatData.md)
+* [Pop-FormatData](Pop-FormatData.md)
 
 
 
