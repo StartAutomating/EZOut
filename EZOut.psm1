@@ -20,12 +20,6 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
 #region Formatters
 . $psScriptRoot\Remove-FormatData.ps1
 
-. $psScriptRoot\Out-FormatData.ps1
-
-
-. $psScriptRoot\Import-FormatView.ps1
-. $psScriptRoot\Import-TypeView.ps1
-
 . $psScriptRoot\Write-FormatControl.ps1
 . $psScriptRoot\Write-FormatView.ps1
 
@@ -42,17 +36,10 @@ Set-Alias Show-CustomAction Write-FormatViewExpression
 
 #region TypeData
 . $psScriptRoot\Remove-TypeData.ps1
-
-. $psScriptRoot\Out-TypeData.ps1
 . $psScriptRoot\Write-TypeView.ps1
 #endregion TypeData
 
-. $PSScriptRoot\Write-EZFormatFile.ps1
-
 . $psScriptRoot\@.ps1 # Import Splatter
-
-
-
 
 . $psScriptRoot\Get-EZOutExtension.ps1
 
