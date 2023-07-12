@@ -4,12 +4,12 @@
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
-    Copyright = '2011-2022'
+    Copyright = '2011-2023'
     Description = 'Easily Author Rich Format Files to Customize PowerShell Output'
     FunctionsToExport =
         # Core format manipulation functions
-        'Push-FormatData','Clear-FormatData', 'Out-FormatData', 'Remove-FormatData',
-        'Push-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Remove-TypeData',
+        'Push-FormatData','Clear-FormatData', 'Out-FormatData', 'Pop-FormatData',
+        'Push-TypeData', 'Clear-TypeData', 'Out-TypeData', 'Pop-TypeData',
         'Get-FormatFile', 'Find-FormatView',
         # Imports
         'Import-FormatView','Import-TypeView',
@@ -38,7 +38,7 @@
         # or Get-EZOutExtension
         'Get-EZOutExtension'
         
-    AliasesToExport = 'Write-CustomAction', 'Add-TypeData', 'Add-FormatData'
+    AliasesToExport  = 'Write-CustomAction', 'Add-TypeData', 'Add-FormatData'
     FormatsToProcess = 'EZOut.format.ps1xml'
     PrivateData = @{
         Colors = @{
