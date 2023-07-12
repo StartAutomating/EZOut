@@ -19,8 +19,6 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
 
 . $psScriptRoot\@.ps1 # Import Splatter
 
-. $psScriptRoot\Format-Object.ps1
-
 $myInvocation.MyCommand.ScriptBlock.Module.pstypenames.insert(0,'EZOut.RichModuleInfo')
 
 #region Import Parts
