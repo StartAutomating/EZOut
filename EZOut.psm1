@@ -19,24 +19,10 @@ $commandsPath = Join-Path $psScriptRoot "Commands"
 
 #region Formatters
 . $psScriptRoot\Remove-FormatData.ps1
-
-. $psScriptRoot\Write-FormatControl.ps1
-. $psScriptRoot\Write-FormatView.ps1
-
-. $psScriptRoot\Write-FormatCustomView.ps1
-. $psScriptRoot\Write-FormatListView.ps1
-. $psScriptRoot\Write-FormatTableView.ps1
-. $psScriptRoot\Write-FormatTreeView.ps1
-. $psScriptRoot\Write-FormatViewExpression.ps1
-. $psScriptRoot\Write-FormatWideView.ps1
-
-Set-Alias Write-CustomAction Write-FormatCustomView
-Set-Alias Show-CustomAction Write-FormatViewExpression
 #endregion Formatters
 
 #region TypeData
 . $psScriptRoot\Remove-TypeData.ps1
-. $psScriptRoot\Write-TypeView.ps1
 #endregion TypeData
 
 . $psScriptRoot\@.ps1 # Import Splatter

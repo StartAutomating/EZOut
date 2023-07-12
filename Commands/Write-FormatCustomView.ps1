@@ -14,6 +14,7 @@
     .Example
         Write-FormatCustomView -Action {  "This is a message from Process $pid" }
     #>
+    [Alias('Write-CustomAction')]
     param(
     # The script block used to fill in the contents of a custom control.
     # The script block can either be an arbitrary script, which will be run, or it can include a

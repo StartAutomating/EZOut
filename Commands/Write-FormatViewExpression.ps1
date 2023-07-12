@@ -25,6 +25,7 @@
     #>
     [CmdletBinding(DefaultParameterSetName='ScriptBlock')]
     [OutputType([string])]
+    [Alias('Show-CustomAction')]
     param(
     # The name of the control.  If this is provided, it will be used to display the property or script block.
     [Parameter(ValueFromPipelineByPropertyName=$true)]
