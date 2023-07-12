@@ -148,5 +148,9 @@ Allows you to format objects using [CharmBraclet's Gum](https://github.com/charm
 ) -Link "https://github.com/charmbraclet/gum"
 
 
-$newScript | Set-Content .\Out-Gum.ps1
-Get-Item -Path .\Out-Gum.ps1
+$DestinationPath = Join-Path (Join-Path (Join-Path $pwd Commands) FormattingExtended) "Out-Gum.ps1"
+
+$newScript | Set-Content -Path $DestinationPath
+Get-Item -Path $DestinationPath
+
+Pop-Location
