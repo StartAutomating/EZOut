@@ -4,7 +4,9 @@ function Format-Object
     .SYNOPSIS
         Formats an Object
     .DESCRIPTION
-        Formats any object, using any number of Format-Object extensions.    
+        Formats any object, using any number of Format-Object extensions.
+
+        Any of the extensions to Format-Object can be embedded into a FormatXML file.
     .EXAMPLE
         "red" | Format-Object -ForegroundColor "red"
     .EXAMPLE
