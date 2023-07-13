@@ -6,6 +6,10 @@
             name = 'Check out repository'
             uses = 'actions/checkout@v2'
         }, 
+        @{
+            name = 'Setup GO'
+            uses = 'actions/setup-go@v4'
+        },
         @{    
             name = 'Use PSSVG Action'
             uses = 'StartAutomating/PSSVG@main'
@@ -13,7 +17,19 @@
         },
         'RunPiecemeal',
         'RunPipeScript',
-        'RunEZOut',       
+        @{
+            name = 'Run EZOut  (on master)'
+            if   = '${{github.ref_name == ''master''}}'
+            uses = 'StartAutomating/EZOut@master'
+            id = 'EZOutMaster'
+        },
+        @{
+            name = 'Run EZOut (on branch)'
+            if   = '${{github.ref_name != ''master''}}'
+            uses = './'
+            id = 'EZOutBranch'
+        },
         'RunHelpOut'
+
     )
 }

@@ -584,8 +584,14 @@ jobs:
         uses: StartAutomating/Piecemeal@main
       - name: BuildPipeScript
         uses: StartAutomating/PipeScript@main
-      - name: UseEZOut
+      - name: Run EZOut  (on master)
+        if: ${{github.ref_name == 'master'}}
         uses: StartAutomating/EZOut@master
+        id: EZOutMaster
+      - name: Run EZOut (on branch)
+        if: ${{github.ref_name != 'master'}}
+        uses: ./
+        id: EZOutBranch
       - name: UseHelpOut
         uses: StartAutomating/HelpOut@master
 
