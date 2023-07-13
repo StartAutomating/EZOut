@@ -107,8 +107,11 @@ if (-not $branchName) {
     return
 }
 
-git pull | Out-Host
-
+# Check for a detached head before we try to pull
+$checkDetached = git symbolic-ref -q HEAD
+if (-not $LASTEXITCODE) {
+    git pull | Out-Host
+}
 
 #region Load Action Module
 $ActionModuleName     = "EZOut"
