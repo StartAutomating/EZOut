@@ -1,0 +1,24 @@
+name: Add Example
+description: Add an Example
+title: "Example: "
+labels: ["HowTo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us a bit about your example
+  - type: textarea
+    id: Example
+    attributes:
+      label: Example
+      description: The example content.
+      render: PowerShell
+    validations:
+      required: false
+  - type: textarea
+    id: Links
+    attributes:
+      label: Links
+      description: Any related links.
+    validations:
+      required: false

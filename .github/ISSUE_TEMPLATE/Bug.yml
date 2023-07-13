@@ -1,0 +1,31 @@
+name: Bug Report
+description: Report a Problem
+title: ""
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        What's broken?  Let's get some info and get it fixed.
+  - type: textarea
+    id: Description
+    attributes:
+      label: Description
+      description: Describe what's wrong.
+    validations:
+      required: true  
+  - type: textarea
+    id: ReproSteps
+    attributes:
+      label: Reproducable Steps
+      description: A script that would generate the error
+      render: PowerShell
+    validations:
+      required: false
+  - type: textarea
+    id: Links
+    attributes:
+      label: Links
+      description: Any related links.
+    validations:
+      required: false
