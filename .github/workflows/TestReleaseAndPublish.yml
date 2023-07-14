@@ -582,6 +582,9 @@ jobs:
         id: PSSVG
       - name: UsePiecemeal
         uses: StartAutomating/Piecemeal@main
+      - name: Initialize Splatter
+        uses: StartAutomating/Splatter@main
+        id: Splatter
       - name: BuildPipeScript
         uses: StartAutomating/PipeScript@main
       - name: Run EZOut  (on master)

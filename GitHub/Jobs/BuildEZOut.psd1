@@ -16,6 +16,11 @@
             id = 'PSSVG'
         },
         'RunPiecemeal',
+        @{    
+            name = 'Initialize Splatter'
+            uses = 'StartAutomating/Splatter@main'
+            id = 'Splatter'
+        },
         'RunPipeScript',
         @{
             name = 'Run EZOut  (on master)'
