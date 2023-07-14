@@ -1,7 +1,7 @@
 #region Piecemeal [ 0.4.1 ] : Easy Extensible Plugins for PowerShell
 # Install-Module Piecemeal -Scope CurrentUser 
 # Import-Module Piecemeal -Force 
-# Install-Piecemeal -ExtensionModule 'EZOut' -ExtensionModuleAlias 'ez' -ExtensionTypeName 'EZOut.Extension' -OutputPath '.\Get-EZOutExtension.ps1'
+# Install-Piecemeal -ExtensionModule 'EZOut' -ExtensionModuleAlias 'ez' -ExtensionTypeName 'EZOut.Extension' -OutputPath '/home/runner/work/EZOut/EZOut/Commands/Get-EZOutExtension.ps1'
 function Get-EZOutExtension
 {
     <#
