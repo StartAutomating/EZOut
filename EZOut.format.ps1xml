@@ -2336,25 +2336,25 @@ $BackgroundColor
             } while ($false)
             
         
-
-                $__ = $_
-                $ci = . {
+                        
+                        $CellColorValue = $($Script:_LastCellStyle = $($__ = $_;. {
         if ($_.MemberType -like '*property*') {        
             "Success"
         }
         elseif ($_.MemberType -like '*method' -or $_.MemberType -eq 'Event') {
             "Warning"
         }        
-    }
-                $_ = $__
-                if ($ci -is [string]) {
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {                    
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
-                }
-                $output = . {$_.'Name'}
-                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
-                </ScriptBlock>
+    };$_ = $__);$Script:_LastCellStyle)
+                        
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear @CellColorValue
+                            }
+                                                    
+                        $output = . {$_.'Name'}
+                        @($CellColorValue; $output; &amp; ${EZOut_Format-RichText}) -join ''
+                        </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:"
         if ($_.MemberType -like &apos;*property*&apos;) {        
@@ -2365,25 +2365,25 @@ $BackgroundColor
         }        
     "}-->
               <TableColumnItem>
-                <ScriptBlock>
-                $__ = $_
-                $ci = . {
+                <ScriptBlock>                        
+                        $CellColorValue = $($Script:_LastCellStyle = $($__ = $_;. {
         if ($_.MemberType -like '*property*') {        
             "Success"
         }
         elseif ($_.MemberType -like '*method' -or $_.MemberType -eq 'Event') {
             "Warning"
         }        
-    }
-                $_ = $__
-                if ($ci -is [string]) {
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {                    
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
-                }
-                $output = . {$_.'MemberType'}
-                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
-                </ScriptBlock>
+    };$_ = $__);$Script:_LastCellStyle)
+                        
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear @CellColorValue
+                            }
+                                                    
+                        $output = . {$_.'MemberType'}
+                        @($CellColorValue; $output; &amp; ${EZOut_Format-RichText}) -join ''
+                        </ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
@@ -2616,25 +2616,25 @@ $module = $_
             } while ($false)
             
         
-
-                $__ = $_
-                $ci = . {
+                        
+                        $CellColorValue = $($Script:_LastCellStyle = $($__ = $_;. {
         &amp; ${EZOut_Format-Heatmap} -InputObject $_.NPM -HeatMapMin 16mb -HeatMapMiddle .5gb -HeatMapMax 1gb 
 &lt;#        if ($_.NPM -le 1MB) { '#00FF00'}
         elseif ($_.NPM -le 256mb) { '#ffff00' }
         else {
             '#FF0000'
         }#&gt;
-    }
-                $_ = $__
-                if ($ci -is [string]) {
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {                    
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
-                }
-                $output = . { [long]($_.NPM / 1024) }
-                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
-                </ScriptBlock>
+    };$_ = $__);$Script:_LastCellStyle)
+                        
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear @CellColorValue
+                            }
+                                                    
+                        $output = . { [long]($_.NPM / 1024) }
+                        @($CellColorValue; $output; &amp; ${EZOut_Format-RichText}) -join ''
+                        </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:" 
         Format-Heatmap -InputObject $_.PM -HeatMapMin 16mb -HeatMapMiddle .5GB -HeatMapMax 1gb 
@@ -2645,25 +2645,25 @@ $module = $_
         }#&gt;
     "}-->
               <TableColumnItem>
-                <ScriptBlock>
-                $__ = $_
-                $ci = . { 
+                <ScriptBlock>                        
+                        $CellColorValue = $($Script:_LastCellStyle = $($__ = $_;. { 
         &amp; ${EZOut_Format-Heatmap} -InputObject $_.PM -HeatMapMin 16mb -HeatMapMiddle .5GB -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
             '#FF0000'
         }#&gt;
-    }
-                $_ = $__
-                if ($ci -is [string]) {
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {                    
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
-                }
-                $output = . { [long]($_.PM / 1024) }
-                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
-                </ScriptBlock>
+    };$_ = $__);$Script:_LastCellStyle)
+                        
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear @CellColorValue
+                            }
+                                                    
+                        $output = . { [long]($_.PM / 1024) }
+                        @($CellColorValue; $output; &amp; ${EZOut_Format-RichText}) -join ''
+                        </ScriptBlock>
               </TableColumnItem>
               <!-- {ConditionalColor:"
         Format-Heatmap -InputObject $_.WS -HeatMapMin 16mb -HeatMapMiddle 512mb -HeatMapMax 1gb 
@@ -2674,25 +2674,25 @@ $module = $_
         }#&gt;
     "}-->
               <TableColumnItem>
-                <ScriptBlock>
-                $__ = $_
-                $ci = . {
+                <ScriptBlock>                        
+                        $CellColorValue = $($Script:_LastCellStyle = $($__ = $_;. {
         &amp; ${EZOut_Format-Heatmap} -InputObject $_.WS -HeatMapMin 16mb -HeatMapMiddle 512mb -HeatMapMax 1gb 
         &lt;#if ($_.PM -le 1MB) { '#00FF00'}
         elseif ($_.PM -le 256mb) { '#ffff00' }
         else {
             '#FF0000'
         }#&gt;
-    }
-                $_ = $__
-                if ($ci -is [string]) {
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $ci
-                } else {                    
-                    $ci = &amp; ${EZOut_Format-RichText} -NoClear @ci
-                }
-                $output = . { [long]($_.WS / 1024) }
-                @($ci; $output; &amp; ${EZOut_Format-RichText}) -join ""
-                </ScriptBlock>
+    };$_ = $__);$Script:_LastCellStyle)
+                        
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = &amp; ${EZOut_Format-RichText} -NoClear @CellColorValue
+                            }
+                                                    
+                        $output = . { [long]($_.WS / 1024) }
+                        @($CellColorValue; $output; &amp; ${EZOut_Format-RichText}) -join ''
+                        </ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock> 
