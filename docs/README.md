@@ -91,7 +91,7 @@ Write-FormatView -TypeName APerson -Property FirstName, LastName, Age |
     Out-FormatData |
     Add-FormatData
         
-[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=38}
+[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=41}
 ~~~
     
 We can specify a -Width for each column.  Using a negative number will make the column right-aligned:
@@ -101,7 +101,7 @@ Write-FormatView -TypeName APerson -Property FirstName, LastName, Age -Width -20
     Out-FormatData |
     Add-FormatData
         
-[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=38}
+[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=41}
 ~~~
 
 We can also specify alignment using -AlignProperty, or use -FormatProperty to determine how a property is displayed, and even -HideHeader.
@@ -174,13 +174,13 @@ Get-Module EZOut |
     Select-Xml //TypeName |
     Select-Object -ExpandProperty Node
 ~~~
-![SelectXml Output](/Assets/ColorizedXml2.gif)
+![SelectXml Output](Assets/ColorizedXml2.gif)
 
 This formatting works with all XML objects and elements, and makes compact XML easier to read.
 ~~~PowerShell
 [xml]"<xmlNode><childNode attribute='value'><grandChildNode>InnerText</grandChildNode></childNode></xmlNode>"
 ~~~
-![ColorizedXml](/Assets/ColorizedXml_1.gif)
+![ColorizedXml](Assets/ColorizedXml_1.gif)
 ##### Rich Module Formatting
 
 Want to see a bit more about a module?
