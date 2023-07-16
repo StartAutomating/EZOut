@@ -9,8 +9,8 @@ New-GitHubWorkflow -Name "Test, Tag, Release, and Publish" -On Demand, Push -Job
         Join-Path $pwd .\.github\workflows\TestReleaseAndPublish.yml
     )    
 
-New-GitHubWorkflow -On Issue, Demand -Job RunGitPub -Name OnIssueChanged -OutputPath (
-    Join-Path $pwd .github\workflows\OnIssue.yml
+New-GitHubWorkflow -On Demand -Job RunGitPub -Name OnIssueChanged -OutputPath (
+    Join-Path $pwd .github\workflows\GitPub.yml
 )
 
 Pop-Location

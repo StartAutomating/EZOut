@@ -1,7 +1,6 @@
 
 name: OnIssueChanged
 on: 
-  issues: 
   workflow_dispatch: 
 jobs: 
   RunGitPub: 
