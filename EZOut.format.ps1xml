@@ -2277,6 +2277,67 @@ $BackgroundColor
       </CustomControl>
     </View>
     <View>
+      <Name>Hello.EZOut</Name>
+      <ViewSelectedBy>
+        <TypeName>Hello.EZOut</TypeName>
+      </ViewSelectedBy>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <ExpressionBinding>
+                <ScriptBlock>
+    if ($_.Message) {
+        $_.Message
+    } else {
+        "Hello World"
+    }
+</ScriptBlock>
+              </ExpressionBinding>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </View>
+    <View>
+      <Name>Hello.EZOut</Name>
+      <ViewSelectedBy>
+        <TypeName>Hello.EZOut</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Message</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Hello.EZOut</Name>
+      <ViewSelectedBy>
+        <TypeName>Hello.EZOut</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Message</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
       <Name>Microsoft.PowerShell.Commands.MemberDefinition</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.PowerShell.Commands.MemberDefinition</TypeName>
