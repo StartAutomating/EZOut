@@ -1,0 +1,1 @@
+($this | Format-Custom | Out-String).Trim()
