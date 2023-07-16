@@ -122,6 +122,23 @@ The color strings may be ANSI escape codes or two hexadecimal colors (the foregr
 
 
 
+#### **StyleProperty**
+
+If provided, will use $psStyle to style the property.
+# This will add colorization in the hosts that support it, and act normally in hosts that do not.
+The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+
+
+
+
+
+
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **ConditionalProperty**
 
 If provided, will only display a property if the condition is met.
@@ -193,5 +210,5 @@ and at least one of these views must not havea condition.
 
 ### Syntax
 ```PowerShell
-Write-FormatListView -Property <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-ColorProperty <IDictionary>] [-ConditionalProperty <IDictionary>] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
+Write-FormatListView -Property <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-ColorProperty <IDictionary>] [-StyleProperty <IDictionary>] [-ConditionalProperty <IDictionary>] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
