@@ -221,9 +221,42 @@ If the script block returns a value, it will be treated either as an ANSI escape
 
 
 
-|Type           |Required|Position|PipelineInput        |Aliases  |
-|---------------|--------|--------|---------------------|---------|
-|`[ScriptBlock]`|false   |named   |true (ByPropertyName)|ColourRow|
+|Type        |Required|Position|PipelineInput|Aliases  |
+|------------|--------|--------|-------------|---------|
+|`[PSObject]`|false   |named   |false        |ColourRow|
+
+
+
+#### **StyleProperty**
+
+If provided, will use $psStyle to style the property.
+# This will add colorization in the hosts that support it, and act normally in hosts that do not.
+The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+
+
+
+
+
+
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
+#### **StyleRow**
+
+If provided, will style all rows in a table, according to the script block.
+If the script block returns a value, it will be treated as a value on $PSStyle.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |named   |false        |
 
 
 
@@ -494,17 +527,17 @@ If the format view is going to be outputted as a control, it will require a name
 
 ### Syntax
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-IsSelectionSet] [-Wrap] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <PSObject>] [-StyleProperty <IDictionary>] [-StyleRow <PSObject>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-IsSelectionSet] [-Wrap] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] -AsList [-ConditionalProperty <IDictionary>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-ColorProperty <IDictionary>] [-StyleProperty <IDictionary>] [-StyleRow <PSObject>] -AsList [-ConditionalProperty <IDictionary>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-AutoSize] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] [-AutoSize] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> -Action <ScriptBlock[]> [-Indent <Int32>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-AsControl] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] -Action <ScriptBlock[]> [-Indent <Int32>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-AsControl] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
