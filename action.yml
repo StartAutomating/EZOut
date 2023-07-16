@@ -36,11 +36,11 @@ runs:
       shell: pwsh
       env: 
         SkipEZOutPS1: ${{inputs.SkipEZOutPS1}}
-        UserEmail: ${{inputs.UserEmail}}
-        EZOutScript: ${{inputs.EZOutScript}}
         UserName: ${{inputs.UserName}}
-        ModuleName: ${{inputs.ModuleName}}
+        UserEmail: ${{inputs.UserEmail}}
         CommitMessage: ${{inputs.CommitMessage}}
+        EZOutScript: ${{inputs.EZOutScript}}
+        ModuleName: ${{inputs.ModuleName}}
       run: |
         $Parameters = @{}
         $Parameters.EZOutScript = ${env:EZOutScript}
@@ -263,6 +263,9 @@ runs:
                 }
             } else {
                 Write-EZFormatFile -ModuleName $ModuleName | Set-Content "$moduleName.ezout.ps1" -Encoding utf8
+                & "$moduleName.ezout.ps1" |
+                    . ProcessScriptOutput |
+                    Out-Host
                 $anyFilesChanged = $true
             }
         }

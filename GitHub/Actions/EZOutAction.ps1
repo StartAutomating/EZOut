@@ -205,6 +205,9 @@ if (-not $SkipEZOutPS1) {
         }
     } else {
         Write-EZFormatFile -ModuleName $ModuleName | Set-Content "$moduleName.ezout.ps1" -Encoding utf8
+        & "$moduleName.ezout.ps1" |
+            . ProcessScriptOutput |
+            Out-Host
         $anyFilesChanged = $true
     }
 }
