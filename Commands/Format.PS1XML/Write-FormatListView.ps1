@@ -69,6 +69,12 @@
     [Alias('ColourProperty')]
     [Collections.IDictionary]$ColorProperty,
 
+    # If provided, will use $psStyle to style the property.
+    # # This will add colorization in the hosts that support it, and act normally in hosts that do not.
+    # The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Collections.IDictionary]$StyleProperty,
+
     # If provided, will only display a property if the condition is met.
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [ValidateScript({
@@ -98,10 +104,16 @@
     # and at least one of these views must not havea condition.
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [ScriptBlock]
-    $ViewCondition)
+    $ViewCondition
+    )
 
     begin {
         $listEntries = @()
+
+        filter EmbedColorValue {
+            if ($_ -is [scriptblock]) { "`$(`$__ = `$_;. {$($_)};`$_ = `$__))"}
+            else { "'$($_)'" }
+        }
     }
 
     process {
@@ -115,6 +127,70 @@
                     } else { '' }
 
 
+                if ($ColorProperty.$p -or $StyleProperty.$p) {
+                    $existingScript =
+                        if ($VirtualProperty.$p) {
+                            $VirtualProperty.$p
+                        }
+                        elseif ($AliasProperty.$p) {
+                            "`$_.'$($AliasProperty.$p.Replace("'","''"))'"
+                        } else {
+                            "`$_.'$($p.Replace("'","''"))'"
+                        }
+
+                    $interpretCellStyle =
+                        if ($ColorRow -or $ColorProperty.$p) {
+                            {
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = Format-RichText -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = Format-RichText -NoClear @CellColorValue
+                            }
+                            }
+                        }
+                        elseif ($StyleRow -or $StyleProperty.$p) {
+                            {
+                            $CellColorValue = if ($psStyle) {
+                                @(foreach ($styleProp in $CellColorValue) {
+                                    if ($styleProp -match '\.') {
+                                            $styleGroup, $styleProp = $styleProp -split '\.'
+                                            $psStyle.$styleGroup.$styleProp
+                                    } else {
+                                        $psStyle.$styleProp
+                                    }
+                                }) -join ''
+                            }
+                            }
+                        }
+
+                    $ColorizerInfo = if ($ColorProperty.$p) {
+                        $ColorProperty.$p | EmbedColorValue
+                        
+                    }
+                    elseif ($StyleProperty.$p) {
+                        $StyleProperty.$p | EmbedColorValue                        
+                    }
+
+                    $cellResetScript = 
+                        if ($ColorRow -or $ColorProperty.$p) {
+                            'Format-RichText'                        
+                        }
+                        elseif ($StyleRow -or $StyleProperty.$p) {
+                            '$psStyle.Reset'
+                        }
+
+                    $colorizedScript =
+                        "                        
+                        `$CellColorValue = $ColorizerInfo
+                        $InterpretCellStyle                        
+                        `$output = . {$existingScript}
+                        @(`$CellColorValue; `$output; $cellResetScript) -join ''
+                        "
+                    
+                    
+                    $VirtualProperty.$p = $colorizedScript
+                }
+                <#
                 if ($ColorProperty.$p) {
                     $existingScript =
                         if ($VirtualProperty.$p) {
@@ -139,9 +215,13 @@
                 '
                     $VirtualProperty.$p = $colorizedScript
                 }
+                #>
 
                 if ($ColorProperty.$p) {
                     "<!-- {ConditionalColor:`"$([Security.SecurityElement]::Escape($ColorProperty.$p))`"}-->"
+                }
+                if ($StyleProperty.$p) {
+                    "<!-- {ConditionalStyle:`"$([Security.SecurityElement]::Escape($StyleProperty.$p))`"}-->"
                 }
                 $propCondition = if ($ConditionalProperty.$p) {
                     "<ItemSelectionCondition><ScriptBlock>$([Security.SecurityElement]::Escape($ConditionalProperty.$p))</ScriptBlock></ItemSelectionCondition>"

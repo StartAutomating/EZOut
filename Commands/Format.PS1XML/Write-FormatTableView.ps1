@@ -96,11 +96,22 @@ function Write-FormatTableView
     [Alias('ColourProperty')]
     [Collections.IDictionary]$ColorProperty,
 
+    # If provided, will use $psStyle to style the property.
+    # # This will add colorization in the hosts that support it, and act normally in hosts that do not.
+    # The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Collections.IDictionary]$StyleProperty,
+
     # If provided, will colorize all rows in a table, according to the script block.
     # If the script block returns a value, it will be treated either as an ANSI escape sequence or up to two hexadecimal colors
     [Parameter(ValueFromPipelineByPropertyName=$true)]
     [Alias('ColourRow')]
     [ScriptBlock]$ColorRow,
+
+    # If provided, will style all rows in a table, according to the script block.
+    # If the script block returns a value, it will be treated as a value on $PSStyle.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ScriptBlock]$StyleRow,
 
     # If set, the table will be autosized.
     [switch]
@@ -142,6 +153,11 @@ function Write-FormatTableView
 
     begin {
         $rowEntries = @()
+
+        filter EmbedColorValue {
+            if ($_ -is [scriptblock]) { "`$(`$Script:_LastCellStyle = `$(`$__ = `$_;. {$($_)};`$_ = `$__);`$Script:_LastCellStyle)"}
+            else { "`$(`$Script:_LastCellStyle ='$($_)';`$Script:_LastCellStyle)" }
+        }
     }
 
     process {
@@ -171,7 +187,7 @@ function Write-FormatTableView
                     } else { '' }
 
 
-                if ($ColorProperty.$p -or $ColorRow) {
+                if ($ColorProperty.$p -or $ColorRow -or $StyleProperty.$p -or $StyleRow) {
                     $existingScript =
                         if ($VirtualProperty.$p) {
                             $VirtualProperty.$p
@@ -181,23 +197,78 @@ function Write-FormatTableView
                         } else {
                             "`$_.'$($p.Replace("'","''"))'"
                         }
-                    $colorizedScript = "
-                `$__ = `$_
-                `$ci = . {$(if ($ColorProperty.$p) { $ColorProperty.$p} else {$ColorRow})}
-                `$_ = `$__
-                if (`$ci -is [string]) {
-                    `$ci = Format-RichText -NoClear -ForegroundColor `$ci
-                } else {                    
-                    `$ci = Format-RichText -NoClear @ci
-                }
-                `$output = . {" + $existingScript + '}
-                @($ci; $output; Format-RichText) -join ""
-                '
+
+                    $interpretCellStyle =
+                        if ($ColorRow -or $ColorProperty.$p) {
+                            {
+                            if ($CellColorValue -and $CellColorValue -is [string]) {
+                                $CellColorValue = Format-RichText -NoClear -ForegroundColor $CellColorValue
+                            } elseif (`$CellColorValue -is [Collections.IDictionary]) {
+                                $CellColorValue = Format-RichText -NoClear @CellColorValue
+                            }
+                            }
+                        }
+                        elseif ($StyleRow -or $StyleProperty.$p) {
+                            {
+                            $CellColorValue = if ($psStyle) {
+                                @(foreach ($styleProp in $CellColorValue) {
+                                    if ($styleProp -match '\.') {
+                                            $styleGroup, $styleProp = $styleProp -split '\.'
+                                            $psStyle.$styleGroup.$styleProp
+                                    } else {
+                                        $psStyle.$styleProp
+                                    }
+                                }) -join ''
+                            }
+                            }
+                        }
+
+                    $ColorizerInfo = if ($ColorRow) {
+                        if ($i -eq 0) {
+                            $ColorRow | EmbedColorValue                            
+                        } else {
+                            '$Script:_LastCellStyle'
+                        }                        
+                    } elseif ($StyleRow) {
+                        if ($i -eq 0) {
+                            $styleRow | EmbedColorValue
+                        } else {
+                            '$Script:_LastCellStyle'
+                        }                        
+                    }
+                    elseif ($ColorProperty.$p) {
+                        $ColorProperty.$p | EmbedColorValue
+                        
+                    }
+                    elseif ($StyleProperty.$p) {
+                        $StyleProperty.$p | EmbedColorValue                        
+                    }
+
+                    $cellResetScript = 
+                        if ($ColorRow -or $ColorProperty.$p) {
+                            'Format-RichText'                        
+                        }
+                        elseif ($StyleRow -or $StyleProperty.$p) {
+                            '$psStyle.Reset'
+                        }
+
+                    $colorizedScript =
+                        "                        
+                        `$CellColorValue = $ColorizerInfo
+                        $InterpretCellStyle                        
+                        `$output = . {$existingScript}
+                        @(`$CellColorValue; `$output; $cellResetScript) -join ''
+                        "
+                    
+                    
                     $VirtualProperty.$p = $colorizedScript
                 }
 
                 if ($ColorProperty.$p) {
                     "<!-- {ConditionalColor:`"$([Security.SecurityElement]::Escape($ColorProperty.$p))`"}-->"
+                }
+                if ($StyleProperty.$p) {
+                    "<!-- {ConditionalStyle:`"$([Security.SecurityElement]::Escape($StyleProperty.$p))`"}-->"
                 }
                 $label = ""
                 # If there was an alias defined for this property, use it

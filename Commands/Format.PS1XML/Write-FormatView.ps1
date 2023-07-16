@@ -156,10 +156,49 @@
 
     # If provided, will colorize all rows in a table, according to the script block.
     # If the script block returns a value, it will be treated either as an ANSI escape sequence or up to two hexadecimal colors
-    [Parameter(ValueFromPipelineByPropertyName=$true,ParameterSetName='TableView')]
-    [Parameter(ValueFromPipelineByPropertyName=$true,ParameterSetName='ListView')]
+    [Parameter(ParameterSetName='TableView')]
     [Alias('ColourRow')]
-    [ScriptBlock]$ColorRow,
+    [ValidateScript({
+        $validTypeList = [System.String],[System.Management.Automation.ScriptBlock]
+        $thisType = $_.GetType()
+        $IsTypeOk =
+            $(@( foreach ($validType in $validTypeList) {
+                if ($_ -as $validType) {
+                    $true;break
+                }
+            }))
+        if (-not $isTypeOk) {
+            throw "Unexpected type '$(@($thisType)[0])'.  Must be 'string','scriptblock'."
+        }
+        return $true
+    })]
+    [psobject]$ColorRow,
+
+    # If provided, will use $psStyle to style the property.
+    # # This will add colorization in the hosts that support it, and act normally in hosts that do not.
+    # The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+    [Parameter(ValueFromPipelineByPropertyName,ParameterSetName='TableView')]
+    [Parameter(ValueFromPipelineByPropertyName,ParameterSetName='ListView')]
+    [Collections.IDictionary]$StyleProperty,
+    
+
+    # If provided, will style all rows in a table, according to the script block.
+    # If the script block returns a value, it will be treated as a value on $PSStyle.
+    [ValidateScript({
+        $validTypeList = [System.String],[System.Management.Automation.ScriptBlock]
+        $thisType = $_.GetType()
+        $IsTypeOk =
+            $(@( foreach ($validType in $validTypeList) {
+                if ($_ -as $validType) {
+                    $true;break
+                }
+            }))
+        if (-not $isTypeOk) {
+            throw "Unexpected type '$(@($thisType)[0])'.  Must be 'string','scriptblock'."
+        }
+        return $true
+    })]
+    [psobject]$StyleRow,
 
 
     # If set, then the content will be rendered as a list
