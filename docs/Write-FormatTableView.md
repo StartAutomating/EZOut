@@ -159,6 +159,23 @@ The color strings may be ANSI escape codes or two hexadecimal colors (the foregr
 
 
 
+#### **StyleProperty**
+
+If provided, will use $psStyle to style the property.
+# This will add colorization in the hosts that support it, and act normally in hosts that do not.
+The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+
+
+
+
+
+
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **ColorRow**
 
 If provided, will colorize all rows in a table, according to the script block.
@@ -172,6 +189,22 @@ If the script block returns a value, it will be treated either as an ANSI escape
 |Type           |Required|Position|PipelineInput        |Aliases  |
 |---------------|--------|--------|---------------------|---------|
 |`[ScriptBlock]`|false   |named   |true (ByPropertyName)|ColourRow|
+
+
+
+#### **StyleRow**
+
+If provided, will style all rows in a table, according to the script block.
+If the script block returns a value, it will be treated as a value on $PSStyle.
+
+
+
+
+
+
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[ScriptBlock]`|false   |named   |true (ByPropertyName)|
 
 
 
@@ -303,5 +336,5 @@ If provided, will selectively display items.
 
 ### Syntax
 ```PowerShell
-Write-FormatTableView [-Property] <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-Wrap] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
+Write-FormatTableView [-Property] <String[]> [-AliasProperty <IDictionary>] [-VirtualProperty <IDictionary>] [[-FormatProperty] <IDictionary>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-StyleProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-StyleRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-Wrap] [-ViewTypeName <String>] [-ViewSelectionSet <String>] [-ViewCondition <ScriptBlock>] [<CommonParameters>]
 ```
