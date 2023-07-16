@@ -262,6 +262,11 @@ runs:
                         Out-Host
                 }
             } else {
+                "::notice title=No EZOut File Found, generating one" | Out-Host
+                if (-not $ModuleName) {
+                    "::notice title=No ModuleName provided, default to repository name" | Out-Host
+                    $ModuleName = $gitHubEvent.repository.Name
+                }
                 Write-EZFormatFile -ModuleName $ModuleName | Set-Content "$moduleName.ezout.ps1" -Encoding utf8
                 & "$moduleName.ezout.ps1" |
                     . ProcessScriptOutput |
