@@ -597,4 +597,7 @@ jobs:
         id: EZOutBranch
       - name: UseHelpOut
         uses: StartAutomating/HelpOut@master
+      - name: GitLogger
+        uses: GitLogging/GitLoggerAction@main
+        id: GitLogger
 

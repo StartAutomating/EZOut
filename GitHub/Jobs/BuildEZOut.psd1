@@ -34,7 +34,12 @@
             uses = './'
             id = 'EZOutBranch'
         },
-        'RunHelpOut'
+        'RunHelpOut',
+        @{
+            name = 'GitLogger'
+            uses = 'GitLogging/GitLoggerAction@main'
+            id = 'GitLogger'
+        }
 
     )
 }
