@@ -148,7 +148,7 @@
                     $hideProperty += $itemName
                 } elseif ($itemName.StartsWith('.')) {
                     # If the file starts with a ., hide the property.
-                    $itemName = $itemName.TrimStart('.')
+                    $itemName = $itemName.Substring(1)
                     $hideProperty += $itemName -replace '^(?>get|set)_'
                 }
 
@@ -202,12 +202,7 @@
                     {
                         # Of course if we've already given this a .ps1, we'd prefer that and will move onto the next.
                         continue
-                    }
-
-                    if ($itemName.StartsWith('.')) {
-                        $itemName = $itemName.TrimStart('.')
-                        $hideProperty += $itemName
-                    }
+                    }                    
 
                     # Let's take a look at the extension to figure out what we do.
                     switch ($item.Extension)
@@ -308,7 +303,7 @@ $fileText
                             $null = $gzipStream.Close()    # close the stream.  This was the easy part.
                             $itemName = $item.Name
                             if ($itemName.StartsWith('.')) {
-                                $itemName = $itemName.TrimStart('.')
+                                $itemName = $itemName.Substring(1)
                                 $hideProperty += $itemName
                             }
                             if (-not $scriptPropertyGet.Contains($itemName)) {
