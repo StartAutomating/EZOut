@@ -54,13 +54,38 @@
                         [IO.Path]::DirectorySeparatorChar
                     ).Split([IO.Path]::DirectorySeparatorChar))
 
-                    foreach ($subType in $subTypeNames) {
-                        if ($subType -eq $subTypeNames[-1]) { continue }
-                        if (-not $membersByType[$subType]) {
-                            $membersByType[$subType] = @()
+                    # Initialize the name of the subtype to zero
+                    $subType = ''
+                    for (
+                        # and walk backwards thru name segements
+                        # (skipping the first one, since it's our file name)
+                        $subtypeIndex = $subTypeNames.Length - 1;                        
+                        $subtypeIndex -ge 0;
+                        $subTypeIndex--
+                    ) {                                          
+                        # If it's the second to last segment, it's our directory name
+                        # (the bucket we're using to psuedo-type).
+                        if ($subTypeindex -eq ($subTypeNames.Length - 2)) {
+                            # Map the subtype
+                            $subType = $subTypeNames[$subtypeIndex]
+                            if (-not $membersByType[$subType]) {
+                                $membersByType[$subType] = @()
+                            }
+                            # and add this file to it
+                            $membersByType[$subType] += $fileBeneathRoot
                         }
-                        $membersByType[$subType] += $fileBeneathRoot
-                    }
+                        elseif (
+                            # If it's _not_ the subtype, but information is defined on that level
+                            $membersByType[$subTypeNames[$subtypeIndex]] -and $subType
+                        ) {
+                            # we will take everything that is not PSTypeName.txt
+                            $membersByType[$subType] += @(
+                                @($membersByType[$subTypeNames[$subtypeIndex]]) -notmatch '^(?:PS)?TypeNames{0,1}\.txt$'
+                            )
+
+                            # Congratulations!  These very few lines are all it takes to enable inheritance!
+                        }
+                    }                    
                 }
             }
         }
