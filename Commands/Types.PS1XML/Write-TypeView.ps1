@@ -419,5 +419,14 @@ if (`$Eventhandler -is [Management.Automation.PSEventSubscriber]) {
             </Members>
         </Type>"
         }
+
+        if ($DebugBuild) {
+            $myModule = $MyInvocation.MyCommand.ScriptBlock.Module
+            if (-not $myModule.DebuggingTypeNames) {
+                $myModule |
+                    Add-Member NoteProperty DebuggingTypeNames @() -Force
+            }
+            $MyInvocation.MyCommand.ScriptBlock.Module.DebuggingTypeNames += $TypeName
+        }
     }
 }

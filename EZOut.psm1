@@ -50,6 +50,18 @@ Update-FormatData -PrependPath $psScriptRoot\EZOut.format.ps1xml
 
 Export-ModuleMember -Function * -Alias *
 $myInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
+    $myModule = Get-Module EZOut
+    $debuggingTypeNames = $myModule.DebuggingTypeNames
+    if ($debuggingTypeNames) {
+        
+        foreach ($typeName in $debuggingTypeNames | Select-Object -Unique) {
+            try {
+                Remove-TypeData -TypeName $typeName -Confirm:$false -ErrorAction Ignore
+            } catch {
+                Write-Debug "$_"
+            }
+        }
+    }
     Clear-FormatData
     Clear-TypeData
 }
