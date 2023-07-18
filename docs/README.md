@@ -12,6 +12,16 @@ You can install EZOut from the PowerShell Gallery.  Simply:
 Install-Module EZOut -Scope CurrentUser
 ~~~
 
+### Using EZOut as a GitHub Action:
+
+You can use EZOut as a GitHub Action to automatically build your formatting and types files on every checkin.
+
+~~~yaml
+ - name: Build Formatting and Types   
+   uses: StartAutomating/EZOut@master
+   id: BuildEZOut
+~~~
+
 ### Understanding PowerShell Formatting
 
 Unlike many languages, PowerShell has a formatting engine built into the box.  
@@ -64,7 +74,6 @@ As the typename in this example implies, you can have a valid typename in PowerS
 ~~~
 
 ### Using EZOut
-
 
 #### Using EZOut to build your formatting:
 
