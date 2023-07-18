@@ -261,6 +261,15 @@
                             }
 
                         }
+
+                        .md {
+                            if (-not $noteProperty.Contains($itemName)) # Otherwise, it's a simple string noteproperty
+                            {
+                                $noteProperty[$itemName] = $fileText
+                            }
+                        }
+
+                        
                         #endregion .txt Files
                         #region .psd1 Files
                         .psd1 {
