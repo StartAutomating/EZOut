@@ -143,7 +143,7 @@
             foreach ($item in $sortedValues) {
 
                 # If the file is a [PipeScript](https://github.com/StartAutomating/PipeScript) source generator.
-                if ($item.Name -match '"\.ps1{0,1}\.(?<ext>[^.]+$)"') {
+                if ($item.Name -match '\.ps1{0,1}\.(?<ext>[^.]+$)') {
                     continue # then skip it
                     # (this can simplify development of ScriptProperties, Methods, and other files).
                 }
