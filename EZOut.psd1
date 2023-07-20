@@ -36,10 +36,12 @@
         # or the code generator for .ezout.ps1 files
         'Write-EZFormatFile',
         # or Get-EZOutExtension
-        'Get-EZOutExtension'
+        'Get-EZOutExtension',
+        'Out-Mermaid','Out-Gum'
         
     AliasesToExport  = 'Write-CustomAction', 'Add-TypeData', 'Add-FormatData'
     FormatsToProcess = 'EZOut.format.ps1xml'
+    TypesToProcess   = 'EZOut.types.ps1xml'
     PrivateData = @{
         Colors = @{
             Xml = @{
