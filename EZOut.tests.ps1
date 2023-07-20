@@ -1108,7 +1108,7 @@ describe 'Import-FormatView' {
             Join-Path -ChildPath Formatting |
             Push-Location
 
-        Import-FormatView .\FileSystemTypes.format.xml
+        Import-FormatView .\Hello.EZOut.format.ps1
         Pop-Location
     }
 
