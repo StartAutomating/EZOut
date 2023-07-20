@@ -56,4 +56,3 @@ $typeName |
 # Let's see the difference
 Get-WmiObject Win32_PnpEntity |
     Sort-Object Manufacturer
-

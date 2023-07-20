@@ -1,9 +1,17 @@
 Format-RichText
 ---------------
+
+
+
+
 ### Synopsis
 Formats the text color of output
 
+
+
 ---
+
+
 ### Description
 
 Formats the text color of output
@@ -13,7 +21,11 @@ Formats the text color of output
 * Bold
 * Underline
 
+
+
 ---
+
+
 ### Parameters
 #### **InputObject**
 
@@ -21,238 +33,210 @@ The input object
 
 
 
-> **Type**: ```[PSObject]```
-
-> **Required**: false
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByValue)
 
 
 
----
+|Type        |Required|Position|PipelineInput |
+|------------|--------|--------|--------------|
+|`[PSObject]`|false   |1       |true (ByValue)|
+
+
+
 #### **ForegroundColor**
 
 The foreground color
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |2       |false        |
+
+
+
 #### **BackgroundColor**
 
 The background color
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 3
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |3       |false        |
+
+
+
 #### **Bold**
 
 If set, will render as bold
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Italic**
 
 If set, will render as italic.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|Aliases|
+|----------|--------|--------|-------------|-------|
+|`[Switch]`|false   |named   |false        |Italics|
+
+
+
 #### **Faint**
 
 If set, will render as faint
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Hide**
 
 If set, will render as hidden text.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Blink**
 
 If set, will render as blinking (not supported in all terminals or HTML)
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Strikethru**
 
 If set, will render as strikethru
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|Aliases                   |
+|----------|--------|--------|-------------|--------------------------|
+|`[Switch]`|false   |named   |false        |Strikethrough<br/>Crossout|
+
+
+
 #### **Underline**
 
 If set, will underline text
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **DoubleUnderline**
 
 If set, will double underline text.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Invert**
 
 If set, will invert text
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Link**
 
 If provided, will create a hyperlink to a given uri
 
 
 
-> **Type**: ```[Uri]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:false
 
 
 
----
+|Type   |Required|Position|PipelineInput|Aliases           |
+|-------|--------|--------|-------------|------------------|
+|`[Uri]`|false   |4       |false        |Hyperlink<br/>Href|
+
+
+
 #### **NoClear**
 
 If set, will not clear formatting
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Alignment**
 
 The alignment.  Defaulting to Left.
@@ -268,47 +252,57 @@ Valid Values:
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 5
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |5       |false        |
+
+
+
 #### **LineLength**
 
 The length of a line.  By default, the buffer width
 
 
 
-> **Type**: ```[Int32]```
 
-> **Required**: false
 
-> **Position**: 6
 
-> **PipelineInput**:false
+|Type     |Required|Position|PipelineInput|
+|---------|--------|--------|-------------|
+|`[Int32]`|false   |6       |false        |
+
+
 
 
 
 ---
+
+
 ### Outputs
 * [String](https://learn.microsoft.com/en-us/dotnet/api/System.String)
 
 
 
 
+
+
 ---
-### Syntax
-```PowerShell
-Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [[-Alignment] <String>] [[-LineLength] <Int32>] [<CommonParameters>]
-```
----
+
+
 ### Notes
 Stylized Output works in two contexts at present:
 * Rich consoles (Windows Terminal, PowerShell.exe, Pwsh.exe) (when $host.UI.SupportsVirtualTerminal)
 * Web pages (Based off the presence of a $Request variable, or when $host.UI.SupportsHTML (you must add this property to $host.UI))
+
+
+
+---
+
+
+### Syntax
+```PowerShell
+Format-RichText [[-InputObject] <PSObject>] [[-ForegroundColor] <String>] [[-BackgroundColor] <String>] [-Bold] [-Italic] [-Faint] [-Hide] [-Blink] [-Strikethru] [-Underline] [-DoubleUnderline] [-Invert] [[-Link] <Uri>] [-NoClear] [[-Alignment] <String>] [[-LineLength] <Int32>] [<CommonParameters>]
+```

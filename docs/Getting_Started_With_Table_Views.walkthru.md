@@ -102,4 +102,3 @@ Write-FormatView -TypeName $typeName -Property Name, Memory, Mode -Width 30,15,4
     
 # Let's see the difference
 Get-WmiObject Win32_VideoController
-

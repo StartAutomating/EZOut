@@ -40,5 +40,3 @@ $views += Write-FormatView -TypeName GoodOrBad -Action {
     $null
 }
 $views | Out-FormatData | Set-Content .\YourModule.Format.ps1xml
-
-

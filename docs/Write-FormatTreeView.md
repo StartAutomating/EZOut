@@ -1,14 +1,26 @@
 Write-FormatTreeView
 --------------------
+
+
+
+
 ### Synopsis
 Writes the format XML for a TreeView
 
+
+
 ---
+
+
 ### Description
 
 Writes the .format.ps1xml fragement for a tree view, or a tree node.
 
+
+
 ---
+
+
 ### Related Links
 * [Write-FormatCustomView](Write-FormatCustomView.md)
 
@@ -18,7 +30,11 @@ Writes the .format.ps1xml fragement for a tree view, or a tree node.
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -41,7 +57,11 @@ Write-FormatTreeView -TypeName System.IO.FileInfo, System.IO.DirectoryInfo -Node
     Add-FormatData
 ```
 Get-Module EZOut | Split-Path | Get-Item | Format-Custom
+
+
 ---
+
+
 ### Parameters
 #### **Property**
 
@@ -49,34 +69,30 @@ One or more properties to be displayed.
 
 
 
-> **Type**: ```[PSObject[]]```
-
-> **Required**: false
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type          |Required|Position|PipelineInput        |Aliases     |
+|--------------|--------|--------|---------------------|------------|
+|`[PSObject[]]`|false   |1       |true (ByPropertyName)|NodeProperty|
+
+
+
 #### **Separator**
 
 The separator between one or more properties.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |2       |true (ByPropertyName)|
+
+
+
 #### **Branch**
 
 The Tree View's branch.
@@ -84,17 +100,15 @@ This text will be displayed before the node.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 3
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |3       |true (ByPropertyName)|
+
+
+
 #### **Trunk**
 
 The Tree View's Trunk.
@@ -103,51 +117,45 @@ By default, this is four blank spaces.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |4       |true (ByPropertyName)|
+
+
+
 #### **TypeName**
 
 One or more type names.
 
 
 
-> **Type**: ```[String[]]```
-
-> **Required**: false
-
-> **Position**: 5
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|false   |5       |true (ByPropertyName)|
+
+
+
 #### **SelectionSet**
 
 The name of the selection set.  Selection sets are an alternative way to specify a list of types.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 6
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |Aliases         |
+|----------|--------|--------|---------------------|----------------|
+|`[String]`|false   |6       |true (ByPropertyName)|SelectionSetName|
+
+
+
 #### **ControlName**
 
 The name of the tree node control.
@@ -155,17 +163,15 @@ If not provided, this will be Typename1/TypeName2.TreeNode or SelectionSet.TreeN
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 7
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |7       |true (ByPropertyName)|
+
+
+
 #### **ViewTypeName**
 
 If provided, the table view will only be used if the the typename includes this value.
@@ -173,17 +179,15 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 8
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |8       |true (ByPropertyName)|
+
+
+
 #### **ViewSelectionSet**
 
 If provided, the table view will only be used if the the typename is in a SelectionSet.
@@ -191,68 +195,60 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 9
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |9       |true (ByPropertyName)|
+
+
+
 #### **ViewCondition**
 
 If provided, will selectively display items.
 
 
 
-> **Type**: ```[ScriptBlock]```
-
-> **Required**: false
-
-> **Position**: 10
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[ScriptBlock]`|false   |10      |true (ByPropertyName)|
+
+
+
 #### **EndBranch**
 
 Text displayed at the end of each branch.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 11
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |11      |true (ByPropertyName)|
+
+
+
 #### **EndBranchScript**
 
 A script block displayed at the end of each branch.
 
 
 
-> **Type**: ```[ScriptBlock]```
-
-> **Required**: false
-
-> **Position**: 12
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[ScriptBlock]`|false   |12      |true (ByPropertyName)|
+
+
+
 #### **HasChildren**
 
 A set of script blocks that determine if the node has children.
@@ -261,17 +257,15 @@ then the associated Children scriptblock will be called.
 
 
 
-> **Type**: ```[ScriptBlock[]]```
-
-> **Required**: false
-
-> **Position**: 13
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|false   |13      |true (ByPropertyName)|
+
+
+
 #### **Children**
 
 A set of script blocks to populate the next generation of nodes.
@@ -280,17 +274,15 @@ of the same type of tree control.
 
 
 
-> **Type**: ```[ScriptBlock[]]```
-
-> **Required**: false
-
-> **Position**: 14
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|false   |14      |true (ByPropertyName)|
+
+
+
 #### **ChildNodeControl**
 
 If provided, child nodes will be rendered with a different custom custom control.
@@ -298,19 +290,21 @@ This control must exist in the same format file.
 
 
 
-> **Type**: ```[String[]]```
 
-> **Required**: false
 
-> **Position**: 15
 
-> **PipelineInput**:true (ByPropertyName)
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|false   |15      |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Write-FormatTreeView [[-Property] <PSObject[]>] [[-Separator] <String>] [[-Branch] <String>] [[-Trunk] <String>] [[-TypeName] <String[]>] [[-SelectionSet] <String>] [[-ControlName] <String>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [[-EndBranch] <String>] [[-EndBranchScript] <ScriptBlock>] [[-HasChildren] <ScriptBlock[]>] [[-Children] <ScriptBlock[]>] [[-ChildNodeControl] <String[]>] [<CommonParameters>]
 ```
----

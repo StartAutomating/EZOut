@@ -9,7 +9,17 @@
 
 You can install EZOut from the PowerShell Gallery.  Simply:
 ~~~PowerShell
-Install-Module EZOut -AllowClobber -Scope CurrentUser
+Install-Module EZOut -Scope CurrentUser
+~~~
+
+### Using EZOut as a GitHub Action:
+
+You can use EZOut as a GitHub Action to automatically build your formatting and types files on every checkin.
+
+~~~yaml
+ - name: Build Formatting and Types   
+   uses: StartAutomating/EZOut@master
+   id: BuildEZOut
 ~~~
 
 ### Understanding PowerShell Formatting
@@ -65,7 +75,6 @@ As the typename in this example implies, you can have a valid typename in PowerS
 
 ### Using EZOut
 
-
 #### Using EZOut to build your formatting:
 
 Switch to your module directory, then run:
@@ -91,7 +100,7 @@ Write-FormatView -TypeName APerson -Property FirstName, LastName, Age |
     Out-FormatData |
     Add-FormatData
         
-[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=38}
+[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=41}
 ~~~
     
 We can specify a -Width for each column.  Using a negative number will make the column right-aligned:
@@ -101,7 +110,7 @@ Write-FormatView -TypeName APerson -Property FirstName, LastName, Age -Width -20
     Out-FormatData |
     Add-FormatData
         
-[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=38}
+[PSCustomObject]@{PSTypeName='APerson';FirstName='James';LastName='Brundage';Age=41}
 ~~~
 
 We can also specify alignment using -AlignProperty, or use -FormatProperty to determine how a property is displayed, and even -HideHeader.
@@ -139,60 +148,26 @@ As shown in the examples above, we can use EZOut to add formatting interactively
 ~~~PowerShell
 Import-Module EZOut
 
-Write-FormatView -TypeName 'System.Management.ManagementObject#root\cimv2\Win32_VideoController' -Property Name, Memory, Mode -Width 30,15,40 -VirtualProperty @{ 
-        "Memory" = {
-            "$($_.AdapterRAM / 1mb) mb"
-        }
-    } -RenamedProperty @{
-        "Mode" = "VideoModeDescription"
-    } | 
+Write-FormatView -TypeName 'System.TimeZoneInfo' -Property Id, DisplayName -AlignProperty @{
+    ID = 'Right'
+    DisplayName = 'Left'
+} -AutoSize |  
         Out-FormatData |
-        Add-FormatData
+        Push-FormatData
     
-Get-WmiObject Win32_VideoController # Note, this example will only work on Windows, and not in PowerShell core
+Get-TimeZone
 ~~~
 
-#### Using out-of-the-box formatting
+### Creating Types with EZOut
 
-EZOut ships with a few useful formatters that help improve your PowerShell experience, show you what you can do, and learn EZOut.
+EZOut can also create types files.
 
-##### File Tree Formatter
+You can use [Write-TypeView](Write-TypeView.md) to write a segment of a types.ps1xml directly.
 
-Ever wanted to see a nice file tree in PowerShell?  With EZOut, it's a snap.  Just pipe a given directory or files into Format-Custom
+You can also use [Import-TypeView](Import-TypeView.md) to import an entire directory tree into a types.ps1xml file.
 
-~~~PowerShell
-Get-Module EZOut | Split-Path | Get-ChildItem  | Format-Custom
-~~~
-![File Tree Formatter](Assets/FileTreeFormatter.gif)
-##### Colorized XML Formatter
+#### Advanced EZOut examples
 
-Wish you could see more of any XML node you're working with?  EZOut ships with a colorized XML formatter! (colors are supported in PowerShell.exe and pwsh.exe, but not in the PowerShell ISE)
-~~~PowerShell
-Get-Module EZOut |
-    Select-Object -ExpandProperty ExportedFormatFiles  |
-    Get-Item |
-    Select-Xml //TypeName |
-    Select-Object -ExpandProperty Node
-~~~
-![SelectXml Output](Assets/ColorizedXml2.gif)
+Due to EZOut being a build tool, we want to impact your runspace as little as possible.
 
-This formatting works with all XML objects and elements, and makes compact XML easier to read.
-~~~PowerShell
-[xml]"<xmlNode><childNode attribute='value'><grandChildNode>InnerText</grandChildNode></childNode></xmlNode>"
-~~~
-![ColorizedXml](/Assets/ColorizedXml_1.gif)
-##### Rich Module Formatting
-
-Want to see a bit more about a module?
-EZOut ships with a rich PSModuleInfo formatter, which will display the module name, version, about topic, and a Markdown table of module commands:
-~~~PowerShell
-Get-Module EZOut | Format-Custom
-~~~
-
-
-
-
-
-
-
-
+Therefore, advanced EZOut formatting examples have been moved into a new module: [Posh](https://github.com/StartAutomating/Posh)

@@ -1,14 +1,26 @@
 Write-FormatCustomView
 ----------------------
+
+
+
+
 ### Synopsis
 Writes the format XML for a custom view.
 
+
+
 ---
+
+
 ### Description
 
 Writes the .format.ps1xml fragement for a custom control view, or a custom control.
 
+
+
 ---
+
+
 ### Related Links
 * [Write-FormatViewExpression](Write-FormatViewExpression.md)
 
@@ -22,14 +34,22 @@ Writes the .format.ps1xml fragement for a custom control view, or a custom contr
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
 Write-FormatCustomView -Action {  "This is a message from Process $pid" }
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **Action**
 
@@ -39,68 +59,60 @@ number of speicalized commands that will translate into parts of the formatter.
 
 
 
-> **Type**: ```[ScriptBlock[]]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type             |Required|Position|PipelineInput        |Aliases    |
+|-----------------|--------|--------|---------------------|-----------|
+|`[ScriptBlock[]]`|true    |1       |true (ByPropertyName)|ScriptBlock|
+
+
+
 #### **Indent**
 
 The indentation depth of the custom control
 
 
 
-> **Type**: ```[Int32]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type     |Required|Position|PipelineInput        |
+|---------|--------|--------|---------------------|
+|`[Int32]`|false   |2       |true (ByPropertyName)|
+
+
+
 #### **AsControl**
 
 If set, the content will be created as a control.  Controls can be reused by other formatters.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Name**
 
 The name of the action
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 3
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |3       |false        |
+
+
+
 #### **VisibilityCondition**
 
 The VisibilityCondition parameter is used to add a condition that will determine
@@ -108,17 +120,15 @@ if the content will be rendered.
 
 
 
-> **Type**: ```[ScriptBlock[]]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:false
 
 
 
----
+|Type             |Required|Position|PipelineInput|
+|-----------------|--------|--------|-------------|
+|`[ScriptBlock[]]`|false   |4       |false        |
+
+
+
 #### **ViewTypeName**
 
 If provided, the table view will only be used if the the typename is this value.
@@ -126,17 +136,15 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 5
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |5       |true (ByPropertyName)|
+
+
+
 #### **ViewSelectionSet**
 
 If provided, the table view will only be used if the the typename is in a SelectionSet.
@@ -144,17 +152,15 @@ This is distinct from the overall typename, and can be used to have different ta
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 6
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |6       |true (ByPropertyName)|
+
+
+
 #### **ViewCondition**
 
 If provided, will selectively display items.
@@ -163,19 +169,21 @@ At least one view must have no conditions.
 
 
 
-> **Type**: ```[ScriptBlock]```
 
-> **Required**: false
 
-> **Position**: 7
 
-> **PipelineInput**:true (ByPropertyName)
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[ScriptBlock]`|false   |7       |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Write-FormatCustomView [-Action] <ScriptBlock[]> [[-Indent] <Int32>] [-AsControl] [[-Name] <String>] [[-VisibilityCondition] <ScriptBlock[]>] [[-ViewTypeName] <String>] [[-ViewSelectionSet] <String>] [[-ViewCondition] <ScriptBlock>] [<CommonParameters>]
 ```
----

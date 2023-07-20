@@ -1,14 +1,26 @@
 Get-FormatFile
 --------------
+
+
+
+
 ### Synopsis
 Gets format files
 
+
+
 ---
+
+
 ### Description
 
 Gets loaded format files
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -25,49 +37,51 @@ Get-FormatFile -OnlyFromModule
 Get-FormatFile -OnlyBuildIn
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **OnlyFromModule**
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **OnlyBuiltIn**
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **FromSnapins**
 
-> **Type**: ```[Switch]```
 
-> **Required**: false
 
-> **Position**: named
 
-> **PipelineInput**:false
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Get-FormatFile [-OnlyFromModule] [-OnlyBuiltIn] [-FromSnapins] [<CommonParameters>]
 ```
----

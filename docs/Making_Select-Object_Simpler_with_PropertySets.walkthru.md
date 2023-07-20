@@ -22,5 +22,3 @@ Get-ChildItem |
 # Now we can ask for the FileTimes property set when we use Select-Object
 Get-ChildItem | 
     Select-Object filetimes
- 
-

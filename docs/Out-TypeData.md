@@ -1,14 +1,26 @@
 Out-TypeData
 ------------
+
+
+
+
 ### Synopsis
 Takes a series of type views and format actions and outputs a type data XML
 
+
+
 ---
+
+
 ### Description
 
 Takes a series of type views and format actions and outputs a type data XML
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -26,7 +38,11 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
     Out-FormatData
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **TypeXml**
 
@@ -35,19 +51,21 @@ but it's easier to use Write-FormatView to create it
 
 
 
-> **Type**: ```[XmlDocument]```
 
-> **Required**: true
 
-> **Position**: 1
 
-> **PipelineInput**:true (ByValue)
+|Type           |Required|Position|PipelineInput |
+|---------------|--------|--------|--------------|
+|`[XmlDocument]`|true    |1       |true (ByValue)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Out-TypeData [-TypeXml] <XmlDocument> [<CommonParameters>]
 ```
----

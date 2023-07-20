@@ -1,14 +1,28 @@
 Format-Object
 -------------
+
+
+
+
 ### Synopsis
 Formats an Object
 
+
+
 ---
+
+
 ### Description
 
 Formats any object, using any number of Format-Object extensions.
 
+Any of the extensions to Format-Object can be embedded into a FormatXML file.
+
+
+
 ---
+
+
 ### Related Links
 * [Get-EZOutExtension](Get-EZOutExtension.md)
 
@@ -30,7 +44,11 @@ Formats any object, using any number of Format-Object extensions.
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -42,23 +60,29 @@ Formats any object, using any number of Format-Object extensions.
 1..10 | Format-Object -NumberedList
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **InputObject**
 
-> **Type**: ```[PSObject]```
 
-> **Required**: false
 
-> **Position**: 1
 
-> **PipelineInput**:true (ByValue)
+|Type        |Required|Position|PipelineInput |
+|------------|--------|--------|--------------|
+|`[PSObject]`|false   |1       |true (ByValue)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Format-Object [[-InputObject] <PSObject>] [<CommonParameters>]
 ```
----

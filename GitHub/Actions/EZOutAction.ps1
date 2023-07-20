@@ -107,8 +107,11 @@ if (-not $branchName) {
     return
 }
 
-git pull | Out-Host
-
+# Check for a detached head before we try to pull
+$checkDetached = git symbolic-ref -q HEAD
+if (-not $LASTEXITCODE) {
+    git pull | Out-Host
+}
 
 #region Load Action Module
 $ActionModuleName     = "EZOut"
@@ -201,7 +204,16 @@ if (-not $SkipEZOutPS1) {
                 Out-Host
         }
     } else {
-        Write-EZFormatFile -ModuleName $ModuleName | Set-Content "$moduleName.ezout.ps1" -Encoding utf8
+        "::notice title=No EZOut File Found, generating one" | Out-Host
+        if (-not $ModuleName) {
+            "::notice title=No ModuleName provided, default to repository name" | Out-Host
+            $ModuleName = $gitHubEvent.repository.Name
+        }
+        $TemporaryEzOutFilePath = Join-Path $pwd "$moduleName.ezout.ps1"          
+        Write-EZFormatFile -ModuleName $ModuleName | Set-Content $TemporaryEzOutFilePath -Encoding utf8
+        & $TemporaryEzOutFilePath |
+            . ProcessScriptOutput |
+            Out-Host
         $anyFilesChanged = $true
     }
 }

@@ -1,14 +1,26 @@
 Format-Markdown
 ---------------
+
+
+
+
 ### Synopsis
 Formats an object as Markdown
 
+
+
 ---
+
+
 ### Description
 
 Formats an object as Markdown, with many options to work with
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -22,21 +34,23 @@ Format-Markdown -ScriptBlock {
 1..6 | Format-Markdown  -HeadingSize { $_ }
 ```
 
+
+
 ---
+
+
 ### Parameters
 #### **InputObject**
 
-> **Type**: ```[PSObject]```
-
-> **Required**: false
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByValue, ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput                 |
+|------------|--------|--------|------------------------------|
+|`[PSObject]`|false   |1       |true (ByValue, ByPropertyName)|
+
+
+
 #### **MarkdownParagraph**
 
 If set, will treat the -InputObject as a paragraph.
@@ -44,34 +58,30 @@ This is the default for strings, booleans, numbers, and other primitive types.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **MarkdownTable**
 
 If set, will generate a markdown table.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **MarkdownTableAlignment**
 
 If provided, will align columnns in a markdown table.
@@ -87,34 +97,30 @@ Valid Values:
 
 
 
-> **Type**: ```[String[]]```
-
-> **Required**: false
-
-> **Position**: 2
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|false   |2       |true (ByPropertyName)|
+
+
+
 #### **Property**
 
 An array of properties.  Providing this implies -MarkdownTable
 
 
 
-> **Type**: ```[PSObject[]]```
-
-> **Required**: false
-
-> **Position**: 3
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type          |Required|Position|PipelineInput        |
+|--------------|--------|--------|---------------------|
+|`[PSObject[]]`|false   |3       |true (ByPropertyName)|
+
+
+
 #### **Heading**
 
 A heading.
@@ -123,17 +129,15 @@ If provided with -InputObject, -Heading will take priority.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |4       |true (ByPropertyName)|
+
+
+
 #### **HeadingSize**
 
 The heading size (1-6)
@@ -141,68 +145,60 @@ If provided without -Heading, the -InputObject will be considered to be a headin
 
 
 
-> **Type**: ```[Int32]```
-
-> **Required**: false
-
-> **Position**: 5
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type     |Required|Position|PipelineInput        |
+|---------|--------|--------|---------------------|
+|`[Int32]`|false   |5       |true (ByPropertyName)|
+
+
+
 #### **Link**
 
 If set, will create a link.  The -InputObject will be used as the link content
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 6
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |Aliases           |
+|----------|--------|--------|---------------------|------------------|
+|`[String]`|false   |6       |true (ByPropertyName)|Hyperlink<br/>Href|
+
+
+
 #### **ImageLink**
 
 If set, will create an image link.  The -Inputobject will be used as the link content.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 7
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |7       |true (ByPropertyName)|
+
+
+
 #### **BulletPoint**
 
 If set, will generate a bullet point list.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |Aliases        |
+|----------|--------|--------|---------------------|---------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|BulletpointList|
+
+
+
 #### **Checkbox**
 
 If set, bullet or numbered list items will have a checkbox.
@@ -210,34 +206,30 @@ Each piped -InputObject will be an additional list item.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **Checked**
 
 If set, bullet or numbered list items will be checked.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **NumberedList**
 
 If set, will generate a numbered list.
@@ -245,17 +237,15 @@ Each piped -InputObject will be an additional list item.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **BlockQuote**
 
 If set, will generate a block quote.
@@ -263,17 +253,15 @@ Each line of the -InputObject will be block quoted.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **BlockQuoteDepth**
 
 If set, will generate a block quote of a particular depth.
@@ -281,34 +269,30 @@ Each line of the -InputObject will be block quoted.
 
 
 
-> **Type**: ```[Int32]```
-
-> **Required**: false
-
-> **Position**: 8
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type     |Required|Position|PipelineInput        |
+|---------|--------|--------|---------------------|
+|`[Int32]`|false   |8       |true (ByPropertyName)|
+
+
+
 #### **Number**
 
 If provided, will create a markdown numbered list with this particular item as the number.
 
 
 
-> **Type**: ```[Int32]```
-
-> **Required**: false
-
-> **Position**: 9
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type     |Required|Position|PipelineInput        |
+|---------|--------|--------|---------------------|
+|`[Int32]`|false   |9       |true (ByPropertyName)|
+
+
+
 #### **HorizontalRule**
 
 If set, will generate a horizontal rule.  
@@ -316,34 +300,30 @@ If other parameters are provided, the horiztonal rule will be placed after.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **Code**
 
 If set, will output the -InputObject as a Markdown code block
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **CodeLanguage**
 
 If set, will output the -InputObject as a Markdown code block, with a given language
@@ -351,36 +331,36 @@ If the -InputObject is a ScriptBlock, -CodeLanguage will be set to PowerShell.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: 10
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |10      |true (ByPropertyName)|
+
+
+
 #### **ScriptBlock**
 
 If provided, will output a script block as a Markdown code block.
 
 
 
-> **Type**: ```[ScriptBlock]```
 
-> **Required**: false
 
-> **Position**: 11
 
-> **PipelineInput**:true (ByPropertyName)
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[ScriptBlock]`|false   |11      |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Syntax
 ```PowerShell
 Format-Markdown [[-InputObject] <PSObject>] [-MarkdownParagraph] [-MarkdownTable] [[-MarkdownTableAlignment] <String[]>] [[-Property] <PSObject[]>] [[-Heading] <String>] [[-HeadingSize] <Int32>] [[-Link] <String>] [[-ImageLink] <String>] [-BulletPoint] [-Checkbox] [-Checked] [-NumberedList] [-BlockQuote] [[-BlockQuoteDepth] <Int32>] [[-Number] <Int32>] [-HorizontalRule] [-Code] [[-CodeLanguage] <String>] [[-ScriptBlock] <ScriptBlock>] [<CommonParameters>]
 ```
----

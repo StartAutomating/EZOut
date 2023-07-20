@@ -1,0 +1,40 @@
+name: New Command
+description: Request a new command
+title: ""
+labels: ["enhancement"]
+assignees:
+  - startautomating
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Want this module to include a new command?  Tell us more.
+  - type: input
+    id: Synopsis
+    attributes:
+      label: Synopsis
+      description: A Synopsis of the command.
+    validations:
+      required: true
+  - type: textarea
+    id: Description
+    attributes:
+      label: Description
+      description: A description of the command      
+    validations:
+      required: false
+  - type: textarea
+    id: Example
+    attributes:
+      label: Example
+      description: An example of using the command
+      render: PowerShell
+    validations:
+      required: false
+  - type: textarea
+    id: Links
+    attributes:
+      label: Links
+      description: Any related links.      
+    validations:
+      required: false

@@ -1,9 +1,17 @@
 Write-FormatView
 ----------------
+
+
+
+
 ### Synopsis
 Creates a format XML that will be used to display a type.
 
+
+
 ---
+
+
 ### Description
 
 Creates a format XML that will be used to display a type.
@@ -32,7 +40,11 @@ display data, and to write functions that leverage the formatting system in Powe
 you write the information.  This can streamline your use of PowerShell, and open up many
 new possibilities.
 
+
+
 ---
+
+
 ### Related Links
 * [Out-FormatData](Out-FormatData.md)
 
@@ -42,7 +54,11 @@ new possibilities.
 
 
 
+
+
 ---
+
+
 ### Examples
 #### EXAMPLE 1
 ```PowerShell
@@ -80,7 +96,11 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
     Add-FormatData
 ```
 [xml]"<a an='anattribute'><b d='attribute'><c /></b></a>"
+
+
 ---
+
+
 ### Parameters
 #### **TypeName**
 
@@ -88,34 +108,30 @@ One or more type names.
 
 
 
-> **Type**: ```[String[]]```
-
-> **Required**: true
-
-> **Position**: 1
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|true    |1       |true (ByPropertyName)|
+
+
+
 #### **Property**
 
 One or more properties to include in the default type view.
 
 
 
-> **Type**: ```[String[]]```
-
-> **Required**: true
-
-> **Position**: 2
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|true    |2       |true (ByPropertyName)|
+
+
+
 #### **AliasProperty**
 
 If set, will rename the properties in the table.
@@ -123,68 +139,60 @@ The oldname is the name of the old property, and value is either the new header
 
 
 
-> **Type**: ```[Hashtable]```
-
-> **Required**: false
-
-> **Position**: 3
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type         |Required|Position|PipelineInput        |Aliases                           |
+|-------------|--------|--------|---------------------|----------------------------------|
+|`[Hashtable]`|false   |3       |true (ByPropertyName)|RenamedProperty<br/>RenameProperty|
+
+
+
 #### **VirtualProperty**
 
 If set, will create a number of virtual properties within a table
 
 
 
-> **Type**: ```[Hashtable]```
-
-> **Required**: false
-
-> **Position**: 4
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type         |Required|Position|PipelineInput        |
+|-------------|--------|--------|---------------------|
+|`[Hashtable]`|false   |4       |true (ByPropertyName)|
+
+
+
 #### **FormatProperty**
 
 If set, will be used to format the value of a property.
 
 
 
-> **Type**: ```[Hashtable]```
-
-> **Required**: false
-
-> **Position**: 5
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type         |Required|Position|PipelineInput        |
+|-------------|--------|--------|---------------------|
+|`[Hashtable]`|false   |5       |true (ByPropertyName)|
+
+
+
 #### **AlignProperty**
 
 If provided, will set the alignment used to display a given property.
 
 
 
-> **Type**: ```[IDictionary]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **ColorProperty**
 
 If provided, will conditionally color the property.
@@ -194,17 +202,15 @@ The color strings may be ANSI escape codes or two hexadecimal colors (the foregr
 
 
 
-> **Type**: ```[IDictionary]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |Aliases       |
+|---------------|--------|--------|---------------------|--------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|ColourProperty|
+
+
+
 #### **ColorRow**
 
 If provided, will colorize all rows in a table, according to the script block.
@@ -212,68 +218,93 @@ If the script block returns a value, it will be treated either as an ANSI escape
 
 
 
-> **Type**: ```[ScriptBlock]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type        |Required|Position|PipelineInput|Aliases  |
+|------------|--------|--------|-------------|---------|
+|`[PSObject]`|false   |named   |false        |ColourRow|
+
+
+
+#### **StyleProperty**
+
+If provided, will use $psStyle to style the property.
+# This will add colorization in the hosts that support it, and act normally in hosts that do not.
+The key is the name of the property.  The value is a script block that may return one or more $psStyle property names.
+
+
+
+
+
+
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
+#### **StyleRow**
+
+If provided, will style all rows in a table, according to the script block.
+If the script block returns a value, it will be treated as a value on $PSStyle.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |named   |false        |
+
+
+
 #### **AsList**
 
 If set, then the content will be rendered as a list
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: true
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|true    |named   |true (ByPropertyName)|
+
+
+
 #### **AutoSize**
 
 If set, the table will be autosized.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **HideHeader**
 
 If set, the table headers will not be displayed.
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|Aliases         |
+|----------|--------|--------|-------------|----------------|
+|`[Switch]`|false   |named   |false        |HideTableHeaders|
+
+
+
 #### **Width**
 
 The width of any the properties.  This parameter is optional, and cannot be used with
@@ -284,34 +315,30 @@ A width of 0 will be ignored.
 
 
 
-> **Type**: ```[Int32[]]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type       |Required|Position|PipelineInput        |
+|-----------|--------|--------|---------------------|
+|`[Int32[]]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **ConditionalProperty**
 
 If provided, will only display a list property if the condition is met.
 
 
 
-> **Type**: ```[IDictionary]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[IDictionary]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **Action**
 
 The script block used to fill in the contents of a custom control.
@@ -320,34 +347,30 @@ number of speicalized commands that will translate into parts of the formatter.
 
 
 
-> **Type**: ```[ScriptBlock[]]```
-
-> **Required**: true
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|true    |named   |true (ByPropertyName)|
+
+
+
 #### **Indent**
 
 The indentation depth of the custom control
 
 
 
-> **Type**: ```[Int32]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type     |Required|Position|PipelineInput        |
+|---------|--------|--------|---------------------|
+|`[Int32]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **FormatXML**
 
 Passes thru the provided Format XML.
@@ -355,102 +378,90 @@ This can be used to include PowerShell formatter features not yet supported by E
 
 
 
-> **Type**: ```[XmlDocument]```
-
-> **Required**: true
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type           |Required|Position|PipelineInput        |
+|---------------|--------|--------|---------------------|
+|`[XmlDocument]`|true    |named   |true (ByPropertyName)|
+
+
+
 #### **IsSelectionSet**
 
 If set, it will treat the type name as a selection set (a set of predefined types)
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **Wrap**
 
 If wrap is set, then items in the table can span multiple lines
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+
+
 #### **GroupByProperty**
 
 If this is set, then the view will be grouped by a property.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |named   |false        |
+
+
+
 #### **GroupByScript**
 
 If this is set, then the view will be grouped by the result of a script block
 
 
 
-> **Type**: ```[ScriptBlock]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type           |Required|Position|PipelineInput|
+|---------------|--------|--------|-------------|
+|`[ScriptBlock]`|false   |named   |false        |
+
+
+
 #### **GroupLabel**
 
 If this is set, then the view will be labeled with the value of this parameter.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |named   |false        |
+
+
+
 #### **GroupAction**
 
 If this is set, then the view will be rendered with a custom action.  The custom action can
@@ -459,72 +470,74 @@ to be defined within the same format file.
 
 
 
-> **Type**: ```[String]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:false
 
 
 
----
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |named   |false        |
+
+
+
 #### **AsControl**
 
 If set, will output the format view as an action (a view that can be reused again and again)
 
 
 
-> **Type**: ```[Switch]```
-
-> **Required**: false
-
-> **Position**: named
-
-> **PipelineInput**:true (ByPropertyName)
 
 
 
----
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[Switch]`|false   |named   |true (ByPropertyName)|
+
+
+
 #### **Name**
 
 If the format view is going to be outputted as a control, it will require a name
 
 
 
-> **Type**: ```[String]```
 
-> **Required**: false
 
-> **Position**: named
 
-> **PipelineInput**:true (ByPropertyName)
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |named   |true (ByPropertyName)|
+
+
 
 
 
 ---
+
+
 ### Outputs
 * [string]
 
 
 
 
+
+
 ---
+
+
 ### Syntax
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-IsSelectionSet] [-Wrap] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-AlignProperty <IDictionary>] [-ColorProperty <IDictionary>] [-ColorRow <PSObject>] [-StyleProperty <IDictionary>] [-StyleRow <PSObject>] [-AutoSize] [-HideHeader] [-Width <Int32[]>] [-IsSelectionSet] [-Wrap] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-ColorProperty <IDictionary>] [-ColorRow <ScriptBlock>] -AsList [-ConditionalProperty <IDictionary>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-Property] <String[]> [[-AliasProperty] <Hashtable>] [[-VirtualProperty] <Hashtable>] [[-FormatProperty] <Hashtable>] [-ColorProperty <IDictionary>] [-StyleProperty <IDictionary>] [-StyleRow <PSObject>] -AsList [-ConditionalProperty <IDictionary>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> [-AutoSize] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] [-AutoSize] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> -Action <ScriptBlock[]> [-Indent <Int32>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-AsControl] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] -Action <ScriptBlock[]> [-Indent <Int32>] [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-AsControl] [-Name <String>] [<CommonParameters>]
 ```
 ```PowerShell
-Write-FormatView [-TypeName] <String[]> -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
+Write-FormatView [-TypeName] <String[]> [-StyleRow <PSObject>] -FormatXML <XmlDocument> [-IsSelectionSet] [-GroupByProperty <String>] [-GroupByScript <ScriptBlock>] [-GroupLabel <String>] [-GroupAction <String>] [-Name <String>] [<CommonParameters>]
 ```
----
