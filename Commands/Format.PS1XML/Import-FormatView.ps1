@@ -98,10 +98,21 @@
                 # (this can simplify development of complex formatting)
             }
 
+            
+
             if ($fi.Extension -eq '.xml') {
                 $innerFormat[$fi.Name] = [xml][IO.File]::ReadAllText($fi.FullName)
             } else {
-                $innerFormat[$fi.Name] = [ScriptBlock]::Create([IO.File]::ReadAllText($fi.FullName))
+                $scriptBlock = $ExecutionContext.SessionState.InvokeCommand.GetCommand($fi.FullName, 'ExternalScript').ScriptBlock                 
+                
+                if ($fi.Name -notmatch '\.(?>format|view)\.ps1') {
+                    if (@($ScriptBlock.Attributes.PSTypeName)) {
+                        $innerFormat[$fi.FullName] = $scriptBlock
+                    }                                        
+                } else {
+                    $innerFormat[$fi.FullName] = $scriptBlock
+                }
+                
             }
         }
 
@@ -123,23 +134,20 @@
                     }
                 }) | Select-Object -Unique
 
-                # Infer the type name from the file name.
-                $inferredTypeName = $if.Key -replace '\.(format|type|view)\.ps1'
+                
 
 
                 if (-not $typeName) { # If no typename has been determined by now,
-                    $typeName = $inferredTypeName # use the inferred type name.
+                    # Infer the type name from the file name.                    
+                    $formatFileName = $if.Key | Split-Path -Leaf
+                    if ($formatFileName -notmatch '\.(format|type|view)') {
+                        continue
+                    }
+                    $inferredTypeName = $formatFileName -replace '\.(format|type|view)\.ps1'
+                    
+                    $typeName = $inferredTypeName # then use the inferred type name.
                 }
-
-                if ($typeName -ne $inferredTypeName) { # If the typename is not the inferred type name,
-                    # the last item before . will denote a known condition.
-                    $pluginName = @($inferredTypeName -split '\.')[-1]
-                }
-
-
-
-
-
+            
                 if (-not $formatterByTypeName[$typeName]) {
                     $formatterByTypeName[$typeName] = @()
                 }
@@ -151,7 +159,7 @@
 
         foreach ($formatterGroup in $formatterByTypeName.GetEnumerator()) {
             foreach ($fileNameAndScriptBlock in $formatterGroup.Value) {
-                $fileName, $scriptBlock = $fileNameAndScriptBlock.Key, $fileNameAndScriptBlock.Value
+                $fileName, $scriptBlock = $fileNameAndScriptBlock.Key, $fileNameAndScriptBlock.Value                
                 if (-not $scriptBlock)  {continue }
                 $usesEzOutCommands = $scriptBlock.Ast.FindAll({param($ast)
                     $ast -is [Management.Automation.Language.CommandAst] -and $ezOutCommands -contains $ast.CommandElements[0].Value
@@ -183,9 +191,26 @@
                                     $defaultValueName
                                 }
                             })
+                        
+                        $psTypeNameFile = $null
+                        if ($scriptBlock.File) {
+                            $psTypeNameFile = 
+                                $scriptBlock.File | 
+                                    Split-Path | 
+                                    Get-ChildItem |
+                                    Where-Object Name -Match '^(?:PS)?TypeNames{0,1}\.txt$' | 
+                                    Select-Object -First 1
+                            if ($psTypeNameFile) {
+                                $global:ExecutionContext.SessionState.PSVariable.Set('PSTypeName', @(Get-Content $psTypeNameFile))
+                            }
+                        }
+
                         & $scriptBlock
                         foreach ($unset in $toUnset) {
                             $Global:PSDefaultParameterValues.Remove($unset)
+                        }
+                        if ($psTypeNameFile) {
+                            $global:ExecutionContext.SessionState.PSVariable.Remove('PSTypeName')
                         }
                     }
                 } else {
