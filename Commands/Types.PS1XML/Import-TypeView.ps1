@@ -147,6 +147,11 @@
                     continue # then skip it
                     # (this can simplify development of ScriptProperties, Methods, and other files).
                 }
+
+                # Skip format/view files (this allows them to be in the same directory as types, if that is preferred)
+                if ($item.Name -match '\.(?>format|view)\.ps1') {
+                    continue
+                }
                 
                 $itemName =
                     $item.Name.Substring(0, $item.Name.Length - $item.Extension.Length)
