@@ -37,7 +37,10 @@
         'Write-EZFormatFile',
         # or Get-EZOutExtension
         'Get-EZOutExtension',
-        'Out-Mermaid','Out-Gum'
+        
+        # More formatting controls.
+        # These can be embedded, but do not directly extend Format-Object.
+        'Out-Mermaid','Out-Gum','Out-Alternate'
         
     AliasesToExport  = 'Write-CustomAction', 'Add-TypeData', 'Add-FormatData'
     FormatsToProcess = 'EZOut.format.ps1xml'
