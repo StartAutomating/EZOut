@@ -1,6 +1,6 @@
 name: New Command
 description: Request a new command
-title: ""
+title: "New Command - "
 labels: ["enhancement"]
 assignees:
   - startautomating
