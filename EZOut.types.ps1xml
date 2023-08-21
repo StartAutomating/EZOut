@@ -27,4 +27,30 @@ $this.'.Message'
       </ScriptProperty>
     </Members>
   </Type>
+  <Type>
+    <Name>Hi.EZOut</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>SayHello</Name>
+        <Script>
+                        ($this | Format-Custom | Out-String).Trim()
+                    </Script>
+      </ScriptMethod>
+      <ScriptProperty>
+        <Name>Message</Name>
+        <GetScriptBlock>
+                        if (-not $this.'.Message') {
+    Add-Member -InputObject $this NoteProperty '.Message' 'Hello World' -Force
+}
+$this.'.Message'
+
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        $this | Add-Member NoteProperty '.Message' "$args" -Force
+
+
+                    </SetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
 </Types>
