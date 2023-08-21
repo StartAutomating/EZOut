@@ -6,6 +6,7 @@
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <CustomControl>
         <CustomEntries>
@@ -29,6 +30,7 @@
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -50,6 +52,7 @@
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
