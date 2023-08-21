@@ -1098,14 +1098,15 @@ describe 'Import-FormatView' {
     it 'Can import .format.ps1 and .view.ps1 files' {
         Get-Module EZOut |
             Split-Path |
-            Join-Path -ChildPath Formatting |
+            Join-Path -ChildPath Types |
             Get-Item |
             Import-FormatView
     }
     it 'Can import files with a relative path' {
         Get-Module EZOut |
             Split-Path |
-            Join-Path -ChildPath Formatting |
+            Join-Path -ChildPath Types |
+            Join-Path -ChildPath Hello.EZOut |
             Push-Location
 
         Import-FormatView .\Hello.EZOut.format.ps1
@@ -1116,7 +1117,7 @@ describe 'Import-FormatView' {
         it 'Will error if the file does not exist' {
             Get-Module EZOut |
                 Split-Path |
-                Join-Path -ChildPath Formatting |
+                Join-Path -ChildPath Types |
                 Push-Location
 
             { Import-FormatView .\ThisFileDoesNotExist.format.xml} | should -Throw
