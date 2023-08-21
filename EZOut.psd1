@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '2.0'
+    ModuleVersion = '2.0.1'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -70,44 +70,19 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-## 2.0:
+## 2.0.1
 
-* EZOut Turns 2.0!
-* EZOut Supports Sponsorship (please show your support) (#120)
-* $PSStyle Support
-  * Write-FormatViewExpression now supports -PSStyle/-Style (#106)
-    * Use any property from $PSStyle in a formatter, if present
-    * This is faster and smaller than other color customizations, and will only work on core.
-  * Write-FormatTableView supports -StyleProperty/-StyleRow (#129)
-  * Write-FormatListView supports -StyleProperty (#130)
-* New Commands:
-  * Out-Gum      - Use [CharmBraclet's Gum](https://github.com/charmbracelet/gum) to prompt for input (#111)
-  * Out-Mermaid  - Generate Diagrams with [MermaidJS](https://mermaid.js.org/)  (#112)
-* _Example Formatting Has Moved to [Posh](https://github.com/StartAutomating/Posh)_ (#127)
-* Write-TypeView now supports -Debug (#114) 
-  If you Import-TypeView with -Debug or Write-TypeView with -Debug, 
-  Update-TypeData will be called to force the types to be loaded with the exact values you provide
-  (thus enabling you to put a breakpoint in and -Debug a type!)
-  (when you're done debugging, Remove-Module EZOut to clear any dynamic typea)
-* Import-TypeView improvements
-  * Psuedo-inheritance (#143)
-  * Better Markdown file support (#144)  
-  * No longer over-hiding (#142)
-  * Skipping Empty ScriptBlocks (#108)
-  * Improving Empty get Property (#109)
-  * Allowing NoteProperties to be hidden (#110)
-* Format/JSON-YAML:  -Depth defaults to $FormatEnumerationLimit (#107)
-* Module / Repository Improvements
-  * Refactored Repository (#115)
-    * Build files are now beneath `/Build` (#116)
-    * Commands are now beneath `/Commands` (#117)
-  * Added Issue Templates (#125)
-  * Added Contribution Guide (#126)
-* Breaking Changes (for the better)
-  * The module no longer requires -AllowClobber (#105)
-  * Add/Remove-TypeData/FormatData are now Push/Pop-TypeData/FormatData (#113)
-  * These functions are only used during authorship and other interactive use.
-  * Most users should be unaffected.  
+* Formatting can now live in the Types directory!
+  * Import-TypeView - Skipping format files (#151)
+  * Import-FormatView - Skipping non-format files (#157)
+  * Import-FormatView - Setting $PSTypeName (if file is present) (#159)
+  * Write-EZFormatFile - Adding 'Types' to Import-FormatView (#158)
+  * Moving Hello.EZOut to 'Types' (#150)
+* -Style Parameter improvements
+  * Infinite dotting (#148)
+  * Arbitrary variable support (#155)
+* Write-FormatView - Defaulting -ViewName to first -TypeName (Fixes #160)
+* New Command: Out-Alternate (Fixes #156)
 
 ---
 
