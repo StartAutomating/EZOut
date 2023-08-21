@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 2.0: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 2.0.1: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Configuration>
   <ViewDefinitions>
     <View>
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <CustomControl>
         <CustomEntries>
@@ -29,6 +30,7 @@
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -50,6 +52,7 @@
       <Name>Hello.EZOut</Name>
       <ViewSelectedBy>
         <TypeName>Hello.EZOut</TypeName>
+        <TypeName>Hi.EZOut</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

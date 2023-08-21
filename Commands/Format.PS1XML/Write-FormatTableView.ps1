@@ -212,10 +212,24 @@ function Write-FormatTableView
                             {
                             $CellColorValue = if ($psStyle) {
                                 @(foreach ($styleProp in $CellColorValue) {
-                                    if ($styleProp -match '\.') {
-                                            $styleGroup, $styleProp = $styleProp -split '\.'
-                                            $psStyle.$styleGroup.$styleProp
-                                    } else {
+                                    if ($styleProp -match '^\$') {
+                                        $ExecutionContext.SessionState.InvokeCommand.InvokeScript($styleProp)
+                                    }
+                                    elseif ($styleProp -match '\.') {
+                                        $targetObject = $psStyle
+                                        foreach ($dotProperty in $styleProp -split '(?<!\.)\.') {
+                                            if ($targetObject.Item -is [Management.Automation.PSMethodInfo] -or 
+                                                $targetObject -is [Collections.IDictionary]) {
+                                                $targetObject = $targetObject[$dotProperty]
+                                            } else {
+                                                $targetObject = $targetObject.$dotProperty
+                                            }
+                                        }
+                                        if ($targetObject) {
+                                            $targetObject
+                                        }
+                                    }
+                                    else {
                                         $psStyle.$styleProp
                                     }
                                 }) -join ''

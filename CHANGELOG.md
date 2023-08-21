@@ -1,3 +1,19 @@
+## 2.0.1
+
+* Formatting can now live in the Types directory!
+  * Import-TypeView - Skipping format files (#151)
+  * Import-FormatView - Skipping non-format files (#157)
+  * Import-FormatView - Setting $PSTypeName (if file is present) (#159)
+  * Write-EZFormatFile - Adding 'Types' to Import-FormatView (#158)
+  * Moving Hello.EZOut to 'Types' (#150)
+* -Style Parameter improvements
+  * Infinite dotting (#148)
+  * Arbitrary variable support (#155)
+* Write-FormatView - Defaulting -ViewName to first -TypeName (Fixes #160)
+* New Command: Out-Alternate (Fixes #156)
+
+---
+
 ## 2.0:
 
 * EZOut Turns 2.0!

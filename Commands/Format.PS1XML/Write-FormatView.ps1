@@ -289,12 +289,13 @@
     process {
         #region Generate Format Content
         [string]$FormatContent = ""
+        $parameterCopy = [Ordered]@{} + $psBoundParameters
         if ($psCmdlet.ParameterSetName -eq "Action") {
-            $FormatContent = $psBoundParameters | & ${.@} Write-FormatCustomView
+            $FormatContent = $parameterCopy | & ${.@} Write-FormatCustomView
         } elseif ($psCmdlet.ParameterSetName -eq 'TableView') {
-            $formatContent = $PSBoundParameters | & ${.@} Write-FormatTableView
+            $formatContent = $parameterCopy | & ${.@} Write-FormatTableView
         } elseif ($psCmdlet.ParameterSetName -eq "ListView") {
-            $formatContent = $psBoundParameters | & ${.@} Write-FormatListView
+            $formatContent = $parameterCopy | & ${.@} Write-FormatListView
         }
         #endregion Generate Format Content
 
@@ -344,7 +345,7 @@
             }
     $viewName = $Name
     if (-not $viewName)  {
-        $viewName = $typeName
+        $viewName = $typeName[0]
     }
     $xml = [xml]"
     <View>

@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-16"?>
-<!-- Generated with EZOut 2.0: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<!-- Generated with EZOut 2.0.1: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Types>
   <Type>
     <Name>Hello.EZOut</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>SayHello</Name>
+        <Script>
+                        ($this | Format-Custom | Out-String).Trim()
+                    </Script>
+      </ScriptMethod>
+      <ScriptProperty>
+        <Name>Message</Name>
+        <GetScriptBlock>
+                        if (-not $this.'.Message') {
+    Add-Member -InputObject $this NoteProperty '.Message' 'Hello World' -Force
+}
+$this.'.Message'
+
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        $this | Add-Member NoteProperty '.Message' "$args" -Force
+
+
+                    </SetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>Hi.EZOut</Name>
     <Members>
       <ScriptMethod>
         <Name>SayHello</Name>

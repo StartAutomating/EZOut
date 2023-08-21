@@ -175,17 +175,34 @@
 
         foreach ($n in 1..$count) {
             if ($Style) {
-                $scriptLines = 
-                    @('if ($psStyle) {'
-                    "   @(foreach (`$styleProp in '$($style -join "','")') {"
-                    '       if ($styleProp -match ''\.'') {'
-                    '           $styleGroup, $styleProp = $styleProp -split ''\.'''
-                    '           $psStyle.$styleGroup.$styleProp'
-                    '       } else {'                    
-                    '           $psStyle.$styleProp'
-                    '       }'
-                    "   }) -ne '' -join ''"
-                    '}')
+                $scriptLines = @(
+'if ($psStyle) {'
+"   @(foreach (`$styleProp in '$($style -join "','")') {"
+{
+        if ($styleProp -match '^\$') {
+            $ExecutionContext.SessionState.InvokeCommand.InvokeScript($styleProp)
+        }
+        elseif ($styleProp -match '\.') {
+            $targetObject = $psStyle
+            foreach ($dotProperty in $styleProp -split '(?<!\.)\.') {
+                if ($targetObject.Item -is [Management.Automation.PSMethodInfo] -or 
+                    $targetObject -is [Collections.IDictionary]) {
+                    $targetObject = $targetObject[$dotProperty]
+                } else {
+                    $targetObject = $targetObject.$dotProperty
+                }
+            }
+            if ($targetObject) {
+                $targetObject
+            }
+        }
+        else {
+            $psStyle.$styleProp
+        }    
+}
+"   }) -ne '' -join ''"
+'}'
+                )
                 $styleScript = [ScriptBlock]::Create($scriptLines -join [Environment]::NewLine)
                 Write-FormatViewExpression -ScriptBlock $styleScript -If $if
             }
