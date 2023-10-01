@@ -60,12 +60,13 @@ new possibilities.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatView -TypeName MyType -Property Property1, Property2
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 Write-FormatView -TypeName ColorizedRow -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} } -VirtualProperty @{
     IsEven = { -not ($_.N % 2)}
@@ -75,7 +76,6 @@ Write-FormatView -TypeName ColorizedRow -Property Number, IsEven, IsOdd -AutoSiz
 } | 
     Out-FormatData | 
     Add-FormatData
-```
 # Colorized formatting will not work in the ISE
 foreach ($n in 1..5) {
     [PSCustomObject]@{
@@ -83,7 +83,9 @@ foreach ($n in 1..5) {
         N = $n
     }
 }
-#### EXAMPLE 3
+```
+> EXAMPLE 3
+
 ```PowerShell
 Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
     "Xml" = {
@@ -94,8 +96,8 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
 } |
     Out-FormatData |
     Add-FormatData
-```
 [xml]"<a an='anattribute'><b d='attribute'><c /></b></a>"
+```
 
 
 ---
