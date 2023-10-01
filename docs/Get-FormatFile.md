@@ -22,21 +22,21 @@ Gets loaded format files
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Get-FormatFile
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 Get-FormatFile -OnlyFromModule
 ```
+> EXAMPLE 3
 
-#### EXAMPLE 3
 ```PowerShell
 Get-FormatFile -OnlyBuildIn
 ```
-
 
 
 ---
