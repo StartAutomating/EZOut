@@ -34,12 +34,11 @@ Handles nested hashtables and indents nested hashtables automatically.
 
 
 ### Examples
-#### EXAMPLE 1
+Corrects the presentation of a PowerShell hashtable
+
 ```PowerShell
-# Corrects the presentation of a PowerShell hashtable
 [Ordered]@{Foo='Bar';Baz='Bing';Boo=@{Bam='Blang'}} | Format-Hashtable
 ```
-
 
 
 ---
