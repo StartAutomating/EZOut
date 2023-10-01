@@ -32,11 +32,11 @@ Imports a Type View, defined in a external file .method or .property file
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Import-TypeView .\Types
 ```
-
 
 
 ---
