@@ -54,13 +54,14 @@ You can write:
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-PropertySet -typename System.IO.FileInfo -name filetimes -propertyname Name, LastAccessTime, CreationTime, LastWriteTime |
     Out-TypeData |
     Add-TypeData
-```
 dir | select filetimes
+```
 
 
 ---
