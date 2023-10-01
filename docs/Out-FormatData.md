@@ -22,12 +22,12 @@ A Detailed Description of what the command does
 
 
 ### Examples
-#### EXAMPLE 1
+Create a quick view for any XML element.
+Piping it into Out-FormatData will make one or more format views into a full format XML file
+Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
+There's also a Remove-FormatData and
+
 ```PowerShell
-# Create a quick view for any XML element.
-# Piping it into Out-FormatData will make one or more format views into a full format XML file
-# Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
-# There's also a Remove-FormatData and
 Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
     "Xml" = {
         $strWrite = New-Object IO.StringWriter
@@ -37,7 +37,6 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
 } |
     Out-FormatData
 ```
-
 
 
 ---
