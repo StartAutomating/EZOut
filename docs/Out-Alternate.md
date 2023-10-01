@@ -129,6 +129,38 @@ If set, will not padd the space between the name of the format control and the -
 
 
 
+#### **ModuleName**
+
+The name of one or more modules.
+If provided, will provide the -PS1XMLPath of each module's .ExportedFormatFiles
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[String[]]`|false   |6       |false        |
+
+
+
+#### **PS1XMLPath**
+
+The path to one or more .ps1xml files.
+If these are provided (or inferred thru -ModuleName), will look for alternates in PS1XML.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[String[]]`|false   |7       |false        |
+
+
+
 
 
 ---
@@ -136,5 +168,5 @@ If set, will not padd the space between the name of the format control and the -
 
 ### Syntax
 ```PowerShell
-Out-Alternate [[-InputObject] <PSObject>] [[-PSTypeName] <String[]>] [[-CurrentView] <String>] [[-Prefix] <String>] [[-Suffix] <String>] [-NoPadding] [<CommonParameters>]
+Out-Alternate [[-InputObject] <PSObject>] [[-PSTypeName] <String[]>] [[-CurrentView] <String>] [[-Prefix] <String>] [[-Suffix] <String>] [-NoPadding] [[-ModuleName] <String[]>] [[-PS1XMLPath] <String[]>] [<CommonParameters>]
 ```
