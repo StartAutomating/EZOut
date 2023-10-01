@@ -32,8 +32,7 @@ Writes the .format.ps1xml for a custom control.  Custom Controls can be reused t
 
 
 ### Examples
-#### EXAMPLE 1
-
+> EXAMPLE 1
 
 
 ---
