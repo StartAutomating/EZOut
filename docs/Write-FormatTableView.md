@@ -32,24 +32,25 @@ Writes the XML for a PowerShell Format TableControl.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatTableView -Property myFirstProperty,mySecondProperty -TypeName MyPropertyBag
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 Write-FormatTableView -Property "Friendly Property Name" -RenameProperty @{
     "Friendly Property Name" = 'SystemName'
 }
 ```
+> EXAMPLE 3
 
-#### EXAMPLE 3
 ```PowerShell
 Write-FormatTableView -Property Name, Bio -Width 20 -Wrap
 ```
+> EXAMPLE 4
 
-#### EXAMPLE 4
 ```PowerShell
 Write-FormatTableView -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($_.N % 2) { "#ff0000"} else {"#0f0"} } -VirtualProperty @{
     IsEven = { -not ($_.N % 2)}
@@ -58,7 +59,6 @@ Write-FormatTableView -Property Number, IsEven, IsOdd -AutoSize -ColorRow {if ($
     Number = 'N'
 }
 ```
-
 
 
 ---
