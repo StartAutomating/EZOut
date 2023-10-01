@@ -26,11 +26,11 @@ Out-Alternate solves this problem, and is embeddable within a format file.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Out-Alternate -TypeName "System.Diagnostics.Process"
 ```
-
 
 
 ---
