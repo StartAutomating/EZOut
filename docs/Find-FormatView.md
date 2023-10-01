@@ -32,11 +32,11 @@ Finds a format view for a given typename
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Find-FormatView System.Diagnostics.Process
 ```
-
 
 
 ---
