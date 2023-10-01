@@ -32,11 +32,11 @@ Writes the XML for a PowerShell Format ListControl
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatListView -Property N
 ```
-
 
 
 ---
