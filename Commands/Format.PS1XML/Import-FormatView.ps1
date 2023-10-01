@@ -26,7 +26,7 @@
         # Pipe to Out-FormatData
         $MySelf = $MyInvocation.MyCommand.ScriptBlock
 
-
+        $FormatFilePattern = '\.(?>format|type|view|control)\.ps1$'
 
         $ezOutCommands=
             @(
@@ -53,7 +53,7 @@
             }) | Select-Object -Unique
 
             # Infer the type name from the file name.
-            $inferredTypeName = $fileName -replace '\.(format|type|view|control)\.ps1'
+            $inferredTypeName = $fileName -replace $FormatFilePattern
 
             if (-not $typeName) { # If no typename has been determined by now,
                 $typeName = $inferredTypeName # use the inferred type name.
@@ -105,7 +105,7 @@
             } else {
                 $scriptBlock = $ExecutionContext.SessionState.InvokeCommand.GetCommand($fi.FullName, 'ExternalScript').ScriptBlock                 
                 
-                if ($fi.Name -notmatch '\.(?>format|view)\.ps1') {
+                if ($fi.Name -notmatch $FormatFilePattern) {
                     if (@($ScriptBlock.Attributes.PSTypeName)) {
                         $innerFormat[$fi.FullName] = $scriptBlock
                     }                                        
@@ -140,10 +140,10 @@
                 if (-not $typeName) { # If no typename has been determined by now,
                     # Infer the type name from the file name.                    
                     $formatFileName = $if.Key | Split-Path -Leaf
-                    if ($formatFileName -notmatch '\.(format|type|view)') {
+                    if ($formatFileName -notmatch $FormatFilePattern) {
                         continue
                     }
-                    $inferredTypeName = $formatFileName -replace '\.(format|type|view)\.ps1'
+                    $inferredTypeName = $formatFileName -replace $FormatFilePattern
                     
                     $typeName = $inferredTypeName # then use the inferred type name.
                 }
