@@ -36,7 +36,8 @@ Writes the .format.ps1xml fragement for a tree view, or a tree node.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatTreeView -TypeName System.IO.FileInfo, System.IO.DirectoryInfo -NodeProperty Name -HasChildren {
     if (-not $_.EnumerateFiles) { return $false }
@@ -55,8 +56,8 @@ Write-FormatTreeView -TypeName System.IO.FileInfo, System.IO.DirectoryInfo -Node
 } -Branch ('' + [char]9500 + [char]9472 + [char]9472) -Trunk '|  ' |
     Out-FormatData |
     Add-FormatData
-```
 Get-Module EZOut | Split-Path | Get-Item | Format-Custom
+```
 
 
 ---
