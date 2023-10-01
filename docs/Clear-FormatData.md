@@ -37,11 +37,11 @@ The formatting data must have been added with Add-FormatData
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Clear-FormatData
 ```
-
 
 
 ---
