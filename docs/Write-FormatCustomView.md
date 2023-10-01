@@ -40,11 +40,11 @@ Writes the .format.ps1xml fragement for a custom control view, or a custom contr
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatCustomView -Action {  "This is a message from Process $pid" }
 ```
-
 
 
 ---
