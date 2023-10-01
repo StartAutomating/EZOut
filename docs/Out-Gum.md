@@ -32,16 +32,16 @@ Allows you to format objects using [CharmBraclet's Gum](https://github.com/charm
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 'live', 'die' | Out-Gum choose
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 'What is best in life?' | Out-Gum -Command input
 ```
-
 
 
 ---
