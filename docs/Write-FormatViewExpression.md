@@ -23,36 +23,34 @@ Expressions are used by custom format views and controls to conditionally displa
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Write-FormatViewExpression -ScriptBlock {
     "hello world"
 }
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 Write-FormatViewExpression -If { $_.Complete } -ScriptBlock { "Complete" }
 ```
+> EXAMPLE 3
 
-#### EXAMPLE 3
 ```PowerShell
 Write-FormatViewExpression -Text 'Hello World'
 ```
+This will render the property 'Name' property of the underlying object
 
-#### EXAMPLE 4
 ```PowerShell
-# This will render the property 'Name' property of the underlying object
 Write-FormatViewExpression -Property Name
 ```
+This will render the property 'Status' of the current object,
+if the current object's 'Complete' property is $false.
 
-#### EXAMPLE 5
 ```PowerShell
-# This will render the property 'Status' of the current object,
-# if the current object's 'Complete' property is $false.
 Write-FormatViewExpression -Property Status -If { -not $_.Complete }
 ```
-
 
 
 ---
