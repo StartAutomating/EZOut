@@ -37,16 +37,17 @@ Named property sets can be requested from a property
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Get-ChildItem |
     Select-Object Name, LastWriteTime, LastModifiedTime, CreationTime |
     ConvertTo-TypePropertySet -Name FileTimes |
     Out-TypeData |
     Add-TypeData
-```
 Get-ChildItem |
     Select-Object filetimes
+```
 
 
 ---
