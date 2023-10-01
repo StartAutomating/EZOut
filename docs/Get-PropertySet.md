@@ -22,16 +22,16 @@ Gets the property sets.  Property sets are predefined views of an object.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Get-PropertySet
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 Get-PropertySet -TypeName System.Diagnostics.Process
 ```
-
 
 
 ---
