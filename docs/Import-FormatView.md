@@ -31,8 +31,28 @@ Imports a Format View defined in .format or .view .ps1 files
 ---
 
 
+### Examples
+Imports any formatting in the formatting directory
+
+```PowerShell
+Import-FormatView -FilePath ./Formatting/
+```
+Imports any formatting in the types directory
+
+```PowerShell
+Import-FormatView -FilePath ./Types/
+```
+
+
+---
+
+
 ### Parameters
 #### **FilePath**
+
+The path containing one or more formatting files.
+
+
 
 
 
@@ -43,6 +63,24 @@ Imports a Format View defined in .format or .view .ps1 files
 
 
 
+#### **FormatFilePattern**
+
+The format file pattern.  
+This is used to explicitly indicate a file contains PowerShell formatting.
+By default, it is `'\.(?>format|type|view|control)\.ps1$'`, or:
+Any `*.format.ps1`, `*.type.ps1`, `*.view.ps1`, or `*.control.ps1`
+
+
+
+
+
+
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[String]`|false   |2       |false        |
+
+
+
 
 
 ---
@@ -50,5 +88,5 @@ Imports a Format View defined in .format or .view .ps1 files
 
 ### Syntax
 ```PowerShell
-Import-FormatView [-FilePath] <String[]> [<CommonParameters>]
+Import-FormatView [-FilePath] <String[]> [[-FormatFilePattern] <String>] [<CommonParameters>]
 ```
