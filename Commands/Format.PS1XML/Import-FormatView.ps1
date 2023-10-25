@@ -7,12 +7,26 @@
         Imports a Format View defined in .format or .view .ps1 files
     .Link
         Write-FormatView
+    .EXAMPLE
+        # Imports any formatting in the formatting directory
+        Import-FormatView -FilePath ./Formatting/ 
+    .EXAMPLE
+        # Imports any formatting in the types directory
+        Import-FormatView -FilePath ./Types/
     #>
     param(
-    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    # The path containing one or more formatting files.
+    [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
     [Alias('FullName')]
     [string[]]
-    $FilePath
+    $FilePath,
+
+    # The format file pattern.  
+    # This is used to explicitly indicate a file contains PowerShell formatting.
+    # By default, it is `'\.(?>format|type|view|control)\.ps1$'`, or:
+    # Any `*.format.ps1`, `*.type.ps1`, `*.view.ps1`, or `*.control.ps1`
+    [string]    
+    $FormatFilePattern = '\.(?>format|type|view|control)\.ps1$'
     )
 
     begin {
@@ -24,9 +38,7 @@
         # Otherwise, make it a custom action (convert it to XML)
         # If it was XML, use it directly
         # Pipe to Out-FormatData
-        $MySelf = $MyInvocation.MyCommand.ScriptBlock
-
-        $FormatFilePattern = '\.(?>format|type|view|control)\.ps1$'
+        $MySelf = $MyInvocation.MyCommand.ScriptBlock        
 
         $ezOutCommands=
             @(
