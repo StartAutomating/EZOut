@@ -78,6 +78,12 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 #### **OutputPath**
 
+The output path.
+This can be a string or a dictionary.
+If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
+
+
+
 
 
 
