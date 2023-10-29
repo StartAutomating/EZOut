@@ -59,6 +59,23 @@ but it's easier to use Write-FormatView to create it
 
 
 
+#### **OutputPath**
+
+The output path.
+This can be a string or a dictionary.
+If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |2       |false        |
+
+
+
 
 
 ---
@@ -66,5 +83,5 @@ but it's easier to use Write-FormatView to create it
 
 ### Syntax
 ```PowerShell
-Out-TypeData [-TypeXml] <XmlDocument> [<CommonParameters>]
+Out-TypeData [-TypeXml] <XmlDocument> [[-OutputPath] <PSObject>] [<CommonParameters>]
 ```
