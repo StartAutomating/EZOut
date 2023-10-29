@@ -76,6 +76,17 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 
 
+#### **OutputPath**
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |3       |false        |
+
+
+
 
 
 ---
@@ -94,5 +105,5 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 ### Syntax
 ```PowerShell
-Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [<CommonParameters>]
+Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [[-OutputPath] <PSObject>] [<CommonParameters>]
 ```
