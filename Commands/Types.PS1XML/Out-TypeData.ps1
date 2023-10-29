@@ -106,7 +106,7 @@ function Out-TypeData {
                     $filePath = $fileOut.Key
                     $createdOutputFile = New-Item -ItemType File -Path $filePath -Force
                     if (-not $createdOutputFile) { continue }
-                    $fileXml.Save($createdOutputFile.FullName)
+                    ($fileXml -as [xml]).Save($createdOutputFile.FullName)
                     Get-Item -LiteralPath $createdOutputFile.FullName
                 }                
             }            
