@@ -70,168 +70,166 @@ $Aspect = {
         $selectionSets = ""
         
         function findUsedParts {
-                            param(
-                                [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
-                                [Alias('InnerText','ScriptBlock','ScriptContents')]
-                                [string]$InScript,
-                                
-                                [PSModuleInfo[]]
-                                $FromModule = @(Get-Module),
-                                
-                                # If set, will look for a part globally if it does not find in any of the modules.
-                                [switch]
-                                $AllowGlobal
-                                )
-                                
-                                begin {
-                                    if (-not $script:LookedUpCommands) {
-                                        $script:LookedUpCommands = @{}
-                                    }
-                                    if (-not $script:CommandModuleLookup) {
-                                        $script:CommandModuleLookup = @{}
-                                    }
-                                    $GetVariableValue = {
-                                        param($name)
-                                        $ExecutionContext.SessionState.PSVariable.Get($name).Value
-                                    }            
-                                }
-                                
-                                    process {
-                                        $in = $_
-                                
-                                        $inScriptBlock = try { [scriptblock]::Create($InScript) } catch { $null }
-                                
-                                        if ($inScriptBlock.Ast) {
-                                            $cmdRefs = @($inScriptBlock.Ast.FindAll($Aspect, $true))
-                                
-                                            foreach ($cmd in $cmdRefs) {
-                                                $variableName = 
-                                                    if ($cmd.CommandElements[0].VariablePath) {
-                                                        "$($cmd.CommandElements[0].VariablePath)"
-                                                    } else { '' }
-                                                $commandName =
-                                                    if ($cmd.CommandElements[0].Value) {
-                                                        $cmd.CommandElements[0].Value
-                                                    }
-                                
-                                                if (-not ($variableName -or $commandName)) { continue }
-                                                $foundCommand = 
-                                                    foreach ($module in $FromModule) {
-                                                        $foundIt = 
-                                                            if ($variableName) {
-                                                                & $module $GetVariableValue $variableName
-                                                            } elseif ($commandName) {
-                                                                $script:CommandModuleLookup["$commandName"] = $module
-                                                                $module.ExportedCommands[$commandName]
-                                                            }
-                                                        if ($foundIt -and $variableName) {
-                                                            $script:CommandModuleLookup[$variableName] = $module
-                                                            if ($foundIt -is [ScriptBlock]) {
-                                                                $PSBoundParameters.InScript = "$foundIt"
-                                                                if ("$foundIt") {
-                                                                    & $MyInvocation.MyCommand.ScriptBlock @PSBoundParameters
-                                                                }
-                                                            }
-                                                            $foundIt; break
-                                                        } elseif ($foundIt -and $commandName) {
-                                                            $script:CommandModuleLookup[$commandName] = $module
-                                                            $foundIt
-                                                        }
-                                                    }
-                                
-                                                if (-not $foundCommand -and $AllowGlobal) {
-                                                    $foundCommand = & $getVariableValue $variableName
-                                                }
-                                                if ($variableName) {
-                                                    $script:LookedUpCommands["$variableName"] = $foundCommand
-                                                    $PartName = "$variableName"
-                                                } elseif ($commandName) {
-                                                    $script:LookedUpCommands["& $commandName"]  = 
-                                                        if ($foundCommand.ScriptBlock) {
-                                                            $foundCommand.ScriptBlock
-                                                        } 
-                                                        elseif ($foundCommand.ResolvedCommand.ScriptBlock) {
-                                                            $foundCommand.ResolvedCommand.ScriptBlock
-                                                        }
-                                                        else {
-                                                            $isOk = $false
-                                                        }
-                                                        $PartName = "& $commandName"
-                                
-                                                    $isOk =
-                                                        foreach ($attr in $foundCommand.ScriptBlock.Attributes) {
-                                                            if ($attr -is [Management.Automation.CmdletAttribute]){
-                                                                $extensionCommandName = (
-                                                                    ($attr.VerbName -replace '\s') + '-' + ($attr.NounName -replace '\s')
-                                                                ) -replace '^\-' -replace '\-$'
-                                                                if ('Format-Object' -match $extensionCommandName) {
-                                                                    $true
-                                                                    break
-                                                                }
-                                                            }
-                                                        }
-                                
-                                                    if (-not $isOk) { continue }
-                                                }
-                                
-                                                
-                                                if ($script:LookedUpCommands[$partName] -and $script:LookedUpCommands[$partName] -isnot [ScriptBlock]) {
-                                                    continue 
-                                                }
-                                                [PSCustomObject][Ordered]@{
-                                                    Name = $PartName
-                                                    CommandName = $commandName
-                                                    VariableName = $variableName
-                                                    ScriptBlock = $script:LookedUpCommands[$PartName]
-                                                    Module = $script:CommandModuleLookup[$PartName]                    
-                                                    FindInput = $in
-                                                }                
-                                            }
-                                        }                                        
-                                }
+                    param(
+                        [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+                        [Alias('InnerText','ScriptBlock','ScriptContents')]
+                        [string]$InScript,
                         
+                        [PSModuleInfo[]]
+                        $FromModule = @(Get-Module),
+                        
+                        # If set, will look for a part globally if it does not find in any of the modules.
+                        [switch]
+                        $AllowGlobal
+                        )
+                        
+                        begin {
+                            if (-not $script:LookedUpCommands) {
+                                $script:LookedUpCommands = @{}
+                            }
+                            if (-not $script:CommandModuleLookup) {
+                                $script:CommandModuleLookup = @{}
+                            }
+                            $GetVariableValue = {
+                                param($name)
+                                $ExecutionContext.SessionState.PSVariable.Get($name).Value
+                            }            
+                        }
+                        
+                            process {
+                                $in = $_
+                        
+                                $inScriptBlock = try { [scriptblock]::Create($InScript) } catch { $null }
+                        
+                                if ($inScriptBlock.Ast) {
+                                    $cmdRefs = @($inScriptBlock.Ast.FindAll($Aspect, $true))
+                        
+                                    foreach ($cmd in $cmdRefs) {
+                                        $variableName = 
+                                            if ($cmd.CommandElements[0].VariablePath) {
+                                                "$($cmd.CommandElements[0].VariablePath)"
+                                            } else { '' }
+                                        $commandName =
+                                            if ($cmd.CommandElements[0].Value) {
+                                                $cmd.CommandElements[0].Value
+                                            }
+                        
+                                        if (-not ($variableName -or $commandName)) { continue }
+                                        $foundCommand = 
+                                            foreach ($module in $FromModule) {
+                                                $foundIt = 
+                                                    if ($variableName) {
+                                                        & $module $GetVariableValue $variableName
+                                                    } elseif ($commandName) {
+                                                        $script:CommandModuleLookup["$commandName"] = $module
+                                                        $module.ExportedCommands[$commandName]
+                                                    }
+                                                if ($foundIt -and $variableName) {
+                                                    $script:CommandModuleLookup[$variableName] = $module
+                                                    if ($foundIt -is [ScriptBlock]) {
+                                                        $PSBoundParameters.InScript = "$foundIt"
+                                                        if ("$foundIt") {
+                                                            & $MyInvocation.MyCommand.ScriptBlock @PSBoundParameters
+                                                        }
+                                                    }
+                                                    $foundIt; break
+                                                } elseif ($foundIt -and $commandName) {
+                                                    $script:CommandModuleLookup[$commandName] = $module
+                                                    $foundIt
+                                                }
+                                            }
+                        
+                                        if (-not $foundCommand -and $AllowGlobal) {
+                                            $foundCommand = & $getVariableValue $variableName
+                                        }
+                                        if ($variableName) {
+                                            $script:LookedUpCommands["$variableName"] = $foundCommand
+                                            $PartName = "$variableName"
+                                        } elseif ($commandName) {
+                                            $script:LookedUpCommands["& $commandName"]  = 
+                                                if ($foundCommand.ScriptBlock) {
+                                                    $foundCommand.ScriptBlock
+                                                } 
+                                                elseif ($foundCommand.ResolvedCommand.ScriptBlock) {
+                                                    $foundCommand.ResolvedCommand.ScriptBlock
+                                                }
+                                                else {
+                                                    $isOk = $false
+                                                }
+                                                $PartName = "& $commandName"
+                        
+                                            $isOk =
+                                                foreach ($attr in $foundCommand.ScriptBlock.Attributes) {
+                                                    if ($attr -is [Management.Automation.CmdletAttribute]){
+                                                        $extensionCommandName = (
+                                                            ($attr.VerbName -replace '\s') + '-' + ($attr.NounName -replace '\s')
+                                                        ) -replace '^\-' -replace '\-$'
+                                                        if ('Format-Object' -match $extensionCommandName) {
+                                                            $true
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                        
+                                            if (-not $isOk) { continue }
+                                        }
+                        
+                                        
+                                        if ($script:LookedUpCommands[$partName] -and $script:LookedUpCommands[$partName] -isnot [ScriptBlock]) {
+                                            continue 
+                                        }
+                                        [PSCustomObject][Ordered]@{
+                                            Name = $PartName
+                                            CommandName = $commandName
+                                            VariableName = $variableName
+                                            ScriptBlock = $script:LookedUpCommands[$PartName]
+                                            Module = $script:CommandModuleLookup[$PartName]                    
+                                            FindInput = $in
+                                        }                
+                                    }
+                                }                                        
+                        }
                 
         }
         filter ReplaceParts {
-                            if ($DebugPreference -ne 'silentlyContinue') {
-                                $in = $_
-                                if ($in.InnerText) { return $in.InnerText}
-                                else { return $in }
-                            }
-                            $inScriptBlock = try { [scriptblock]::Create($_) } catch { $null }
-                            $inScriptString = "$inScriptBlock"
-                            $cmdRefs = @($inScriptBlock.Ast.FindAll($Aspect, $true))
-                            $replacements = @()
-                            foreach ($cmd in $cmdRefs) {
-                                $partName = 
-                                    if ($cmd.CommandElements[0].VariablePath) {
-                                        "$($cmd.CommandElements[0].VariablePath)"
-                                    } elseif ($cmd.CommandElements[0].Value) {
-                                        "& $($cmd.CommandElements[0].Value)"
-                                    } else  { ''}
-                                
-                                foreach ($part in $foundParts) {
-                                    if ("$($part.Name)" -eq $partName) {
-                                        $replacements += @{
-                                            Ast = $cmd.CommandElements[0]
-                                            ReplacementText = if ($newPartNames.$partName) { $newPartNames.$partName} else {$partName}
-                                        }
-                                        break
-                                    }
-                                }
-                            }
-                            $stringBuilder = [Text.StringBuilder]::new()
-                            $stringIndex   =0            
-                            $null = for ($rc = 0; $rc -lt $replacements.Length; $rc++) {
-                                if ($replacements[$rc].Ast.Extent.StartOffset -gt $stringIndex) {
-                                    $stringBuilder.Append($inScriptString.Substring($stringIndex, $replacements[$rc].Ast.Extent.StartOffset - $stringIndex))
-                                }
-                                $stringBuilder.Append($replacements[$rc].ReplacementText)
-                                $stringIndex = $replacements[$rc].Ast.extent.Endoffset
-                            }
-                            $null = $stringBuilder.Append($inScriptString.Substring($stringIndex))
-                            "$stringBuilder"
+                    if ($DebugPreference -ne 'silentlyContinue') {
+                        $in = $_
+                        if ($in.InnerText) { return $in.InnerText}
+                        else { return $in }
+                    }
+                    $inScriptBlock = try { [scriptblock]::Create($_) } catch { $null }
+                    $inScriptString = "$inScriptBlock"
+                    $cmdRefs = @($inScriptBlock.Ast.FindAll($Aspect, $true))
+                    $replacements = @()
+                    foreach ($cmd in $cmdRefs) {
+                        $partName = 
+                            if ($cmd.CommandElements[0].VariablePath) {
+                                "$($cmd.CommandElements[0].VariablePath)"
+                            } elseif ($cmd.CommandElements[0].Value) {
+                                "& $($cmd.CommandElements[0].Value)"
+                            } else  { ''}
                         
+                        foreach ($part in $foundParts) {
+                            if ("$($part.Name)" -eq $partName) {
+                                $replacements += @{
+                                    Ast = $cmd.CommandElements[0]
+                                    ReplacementText = if ($newPartNames.$partName) { $newPartNames.$partName} else {$partName}
+                                }
+                                break
+                            }
+                        }
+                    }
+                    $stringBuilder = [Text.StringBuilder]::new()
+                    $stringIndex   =0            
+                    $null = for ($rc = 0; $rc -lt $replacements.Length; $rc++) {
+                        if ($replacements[$rc].Ast.Extent.StartOffset -gt $stringIndex) {
+                            $stringBuilder.Append($inScriptString.Substring($stringIndex, $replacements[$rc].Ast.Extent.StartOffset - $stringIndex))
+                        }
+                        $stringBuilder.Append($replacements[$rc].ReplacementText)
+                        $stringIndex = $replacements[$rc].Ast.extent.Endoffset
+                    }
+                    $null = $stringBuilder.Append($inScriptString.Substring($stringIndex))
+                    "$stringBuilder"
                 
         }
         $importFormatParts = {
@@ -479,5 +477,4 @@ $Aspect = {
         
     }
 }
-
 
