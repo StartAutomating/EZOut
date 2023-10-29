@@ -94,7 +94,7 @@ function Out-TypeData {
                         if (-not $fileOutputs[$kv.Value]) {
                             $fileOutputs[$kv.Value] = @()
                         }
-                        $fileOutputs[$kv.Value] += $typeXml                                
+                        $fileOutputs[$kv.Value] += $typeXml.OuterXml                                
                     }                                   
                 }
                 foreach ($fileOut in $fileOutputs.GetEnumerator()) {                    
