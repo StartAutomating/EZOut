@@ -38,21 +38,15 @@ function Out-FormatData {
     [string]
     $ModuleName = 'EZOut',
     
-    [ValidateScript({
-    $validTypeList = [System.String],[System.String[]],[System.Text.RegularExpressions.Regex[]],[System.Collections.IDictionary]
-    $thisType = $_.GetType()
-    $IsTypeOk =
-        $(@( foreach ($validType in $validTypeList) {
-            if ($_ -as $validType) {
-                $true;break
-            }
-        }))
-    if (-not $isTypeOk) {
-        throw "Unexpected type '$(@($thisType)[0])'.  Must be 'string','string[]','regex[]','System.Collections.IDictionary'."
-    }
-    return $true
-    })]
     
+    # The output path.
+    # This can be a string or a dictionary.
+    # If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
+    [ValidateTypes(
+        TypeName={
+            [string],[Collections.IDictionary]
+        }
+    )]    
     [PSObject]
     $OutputPath
     )
