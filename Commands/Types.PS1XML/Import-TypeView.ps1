@@ -22,8 +22,16 @@
 
     # Any file paths to exclude.
     [Parameter(ValueFromPipelineByPropertyName)]
+    [SupportsWildcards()]
     [PSObject[]]
-    $ExcludeFilePath
+    $ExcludeFilePath,
+
+    # A pattern describing the types of files that will embedded as constant note properties containing the file's text.    
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('TextFilePattern')]
+    [SupportsWildcards()]
+    [PSObject[]]
+    $TextFileType = @('.cs','.js','.ts','.htm*','.*proj','.h','.cpp')
     )
 
     process {
@@ -119,7 +127,7 @@
             $membersByType.Remove('*') # then remove it (so we don't do it twice).
         }
 
-        foreach ($mt in $membersByType.GetEnumerator() | Sort-Object Key) {    # Walk thru the members by type
+        :nextMember foreach ($mt in $membersByType.GetEnumerator() | Sort-Object Key) {    # Walk thru the members by type
             $WriteTypeViewSplat = @{                         # and create a hashtable to splat.
                 TypeName = $mt.Key
                 Deserialized = $Deserialized
@@ -250,7 +258,22 @@
                     {
                         # Of course if we've already given this a .ps1, we'd prefer that and will move onto the next.
                         continue
-                    }                    
+                    }
+                    
+                    if ($TextFileType) {
+                        foreach ($textFilePattern in $TextFileType) {
+                            if ($textFilePattern -is [string] -and 
+                                ($file.Name -like "*$textFilePattern" -or $file.FullName -like "*$textFilePattern")) {
+                                $noteProperty[$item.Name] = $fileText
+                                continue nextMember
+                            }
+                            elseif ($exclusion -is [regex] -and
+                                ($file.Name -match $textFilePattern -or $file.FullName -match $textFilePattern)) {
+                                $noteProperty[$item.Name] = $fileText
+                                continue nextMember
+                            }
+                        }                        
+                    }
 
                     # Let's take a look at the extension to figure out what we do.
                     switch ($item.Extension)
