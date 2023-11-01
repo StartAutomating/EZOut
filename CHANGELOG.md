@@ -1,3 +1,20 @@
+## 2.0.2
+
+* Import Improvements
+  * Import-TypeView - -TextFileType (#174)
+  * Import-TypeView - *.class.ps1 will become netproperties (#167)
+  * Import-FormatView - Adding -FormatFilePattern (#175)
+  * Import-FormatView - Including *.control.ps1 (#162)
+* Output Improvements
+  * Out-TypeData -OutputPath (#173, #178)
+  * Out-FormatData -OutputPath (#172, #177)
+  * Write-EZFormatFile -OutputPath (#179/#180)
+  * Write-EZFormatFile piping support (#188)
+* Out-Alternate - Adding -ModuleName/-PS1XMLPath (#163)
+* Integrated PSA into build (#189, #190, #191, #192)
+
+---
+
 ## 2.0.1
 
 * Formatting can now live in the Types directory!

@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '2.0.1'
+    ModuleVersion = '2.0.2'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -54,7 +54,7 @@
             Hashtable = "Format-Hashtable"
             JSON = "Format-JSON"
         }
-        
+
         Taglines = 
             "Easily Output anything from PowerShell",
             "Flexibly Format with PowerShell",
@@ -69,19 +69,20 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-## 2.0.1
+## 2.0.2
 
-* Formatting can now live in the Types directory!
-  * Import-TypeView - Skipping format files (#151)
-  * Import-FormatView - Skipping non-format files (#157)
-  * Import-FormatView - Setting $PSTypeName (if file is present) (#159)
-  * Write-EZFormatFile - Adding 'Types' to Import-FormatView (#158)
-  * Moving Hello.EZOut to 'Types' (#150)
-* -Style Parameter improvements
-  * Infinite dotting (#148)
-  * Arbitrary variable support (#155)
-* Write-FormatView - Defaulting -ViewName to first -TypeName (Fixes #160)
-* New Command: Out-Alternate (Fixes #156)
+* Import Improvements
+  * Import-TypeView - -TextFileType (#174)
+  * Import-TypeView - *.class.ps1 will become netproperties (#167)
+  * Import-FormatView - Adding -FormatFilePattern (#175)
+  * Import-FormatView - Including *.control.ps1 (#162)
+* Output Improvements
+  * Out-TypeData -OutputPath (#173, #178)
+  * Out-FormatData -OutputPath (#172, #177)
+  * Write-EZFormatFile -OutputPath (#179/#180)
+  * Write-EZFormatFile piping support (#188)
+* Out-Alternate - Adding -ModuleName/-PS1XMLPath (#163)
+* Integrated PSA into build (#189, #190, #191, #192)
 
 ---
 
