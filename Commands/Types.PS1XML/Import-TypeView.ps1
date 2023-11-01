@@ -259,18 +259,17 @@
                         # Of course if we've already given this a .ps1, we'd prefer that and will move onto the next.
                         continue
                     }
+
                     
                     if ($TextFileType) {
                         foreach ($textFilePattern in $TextFileType) {
                             if ($textFilePattern -is [string] -and 
-                                ($file.Name -like "*$textFilePattern" -or $file.FullName -like "*$textFilePattern")) {
+                                ($item.Name -like "*$textFilePattern" -or $item.FullName -like "*$textFilePattern")) {
                                 $noteProperty[$item.Name] = $fileText
-                                continue nextMember
                             }
                             elseif ($exclusion -is [regex] -and
-                                ($file.Name -match $textFilePattern -or $file.FullName -match $textFilePattern)) {
-                                $noteProperty[$item.Name] = $fileText
-                                continue nextMember
+                                ($item.Name -match $textFilePattern -or $item.FullName -match $textFilePattern)) {
+                                $noteProperty[$item.Name] = $fileText                                
                             }
                         }                        
                     }
@@ -329,7 +328,7 @@ data { $([ScriptBlock]::Create($fileText)) }
                             {
                                 # we load it now
                                 $aliasProperty = (& $dataScriptBlock) -as [Collections.IDictionary]
-                            } else {
+                            } elseif (-not $noteProperty.Contains($itemName)) {
                                 # otherwise, we load it in a ScriptProperty
                                 $scriptPropertyGet[$itemName] = $dataScriptBlock
                             }
@@ -338,32 +337,37 @@ data { $([ScriptBlock]::Create($fileText)) }
                         #region XML files
                         .xml {
                             # Xml content is cached inline in a ScriptProperty and returned casted to [xml]
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 [xml]@'
 $fileText
 '@
 "@)
+                            }
                         }
                         #endregion XML files
                         #region JSON files
                         .json {
                             # Json files are piped to ConvertFrom-Json
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 @'
 $fileText
 '@ | ConvertFrom-Json
 "@)
-
+                            }
                         }
                         #endregion JSON files
                         #region CliXML files
                             # Clixml files are embedded into a ScriptProperty and Deserialized.
                         .clixml {
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 [Management.Automation.PSSerializer]::Deserialize(@'
 $fileText
 '@)
 "@)
+                            }
                         }
                         #endregion CliXML files
                         default {
@@ -386,7 +390,7 @@ $fileText
                                 $itemName = $itemName.Substring(1)
                                 $hideProperty += $itemName
                             }
-                            if (-not $scriptPropertyGet.Contains($itemName)) {
+                            if ((-not $scriptPropertyGet.Contains($itemName)) -and (-not $noteProperty[$item.Name])) {
                                 # The hard part is dynamically creating the unpacker.
                                 # The get script will need to do the above steps in reverse, and read the bytes back
                                 $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
