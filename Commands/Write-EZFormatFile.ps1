@@ -15,7 +15,7 @@
     [ScriptBlock[]]
     $Type,
 
-    # The name of the module.  By default, this will be inferred from the name of the file.
+    # The name of the module.  By default, this will be inferred from the name of the file.    
     [string]
     $ModuleName = @'
 $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
@@ -57,9 +57,9 @@ $formatting = @(
 $destinationRoot = $_MyDestination
 
 if ($formatting) {
-    $myFormatFile = Join-Path $destinationRoot "$myModuleName.format.ps1xml"
-    $formatting | Out-FormatData -Module $MyModuleName | Set-Content $myFormatFile -Encoding UTF8
-    Get-Item $myFormatFile
+    $myFormatFilePath = Join-Path $destinationRoot "$myModuleName.format.ps1xml"
+    # You can also output to multiple paths by passing a hashtable to -OutputPath.
+    $formatting | Out-FormatData -Module $MyModuleName -OutputPath $myFormatFilePath
 }
 
 $types = @(
@@ -72,9 +72,9 @@ $types = @(
 )
 
 if ($types) {
-    $myTypesFile = Join-Path $destinationRoot "$myModuleName.types.ps1xml"
-    $types | Out-TypeData | Set-Content $myTypesFile -Encoding UTF8
-    Get-Item $myTypesFile
+    $myTypesFilePath = Join-Path $destinationRoot "$myModuleName.types.ps1xml"
+    # You can also output to multiple paths by passing a hashtable to -OutputPath.
+    $types | Out-TypeData -OutputPath $myTypesFilePath
 }
 Pop-Location
 '@
