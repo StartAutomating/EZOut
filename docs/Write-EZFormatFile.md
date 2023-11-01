@@ -31,9 +31,9 @@ Any -FormatView commands.
 
 
 
-|Type             |Required|Position|PipelineInput|
-|-----------------|--------|--------|-------------|
-|`[ScriptBlock[]]`|false   |1       |false        |
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|false   |1       |true (ByPropertyName)|
 
 
 
@@ -46,9 +46,9 @@ Any -TypeView commands.
 
 
 
-|Type             |Required|Position|PipelineInput|
-|-----------------|--------|--------|-------------|
-|`[ScriptBlock[]]`|false   |2       |false        |
+|Type        |Required|Position|PipelineInput        |
+|------------|--------|--------|---------------------|
+|`[String[]]`|false   |2       |true (ByPropertyName)|
 
 
 
@@ -61,9 +61,9 @@ The name of the module.  By default, this will be inferred from the name of the 
 
 
 
-|Type      |Required|Position|PipelineInput|
-|----------|--------|--------|-------------|
-|`[String]`|false   |3       |false        |
+|Type      |Required|Position|PipelineInput        |Aliases|
+|----------|--------|--------|---------------------|-------|
+|`[String]`|false   |3       |true (ByPropertyName)|Name   |
 
 
 
@@ -76,9 +76,9 @@ The source path.  By default, the script's root.
 
 
 
-|Type      |Required|Position|PipelineInput|
-|----------|--------|--------|-------------|
-|`[String]`|false   |4       |false        |
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |4       |true (ByPropertyName)|
 
 
 
@@ -91,9 +91,9 @@ The destination path.  By default, the script's root.
 
 
 
-|Type      |Required|Position|PipelineInput|Aliases |
-|----------|--------|--------|-------------|--------|
-|`[String]`|false   |5       |false        |DestPath|
+|Type      |Required|Position|PipelineInput        |Aliases |
+|----------|--------|--------|---------------------|--------|
+|`[String]`|false   |5       |true (ByPropertyName)|DestPath|
 
 
 
@@ -104,5 +104,5 @@ The destination path.  By default, the script's root.
 
 ### Syntax
 ```PowerShell
-Write-EZFormatFile [[-Format] <ScriptBlock[]>] [[-Type] <ScriptBlock[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [<CommonParameters>]
+Write-EZFormatFile [[-Format] <String[]>] [[-Type] <String[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [<CommonParameters>]
 ```
