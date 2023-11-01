@@ -88,6 +88,21 @@ Any file paths to exclude.
 
 
 
+#### **TextFileType**
+
+A pattern describing the types of files that will embedded as constant note properties containing the file's text.
+
+
+
+
+
+
+|Type          |Required|Position|PipelineInput        |Aliases        |
+|--------------|--------|--------|---------------------|---------------|
+|`[PSObject[]]`|false   |3       |true (ByPropertyName)|TextFilePattern|
+
+
+
 
 
 ---
@@ -95,5 +110,5 @@ Any file paths to exclude.
 
 ### Syntax
 ```PowerShell
-Import-TypeView [-FilePath] <String[]> [-Deserialized] [[-ExcludeFilePath] <PSObject[]>] [<CommonParameters>]
+Import-TypeView [-FilePath] <String[]> [-Deserialized] [[-ExcludeFilePath] <PSObject[]>] [[-TextFileType] <PSObject[]>] [<CommonParameters>]
 ```
