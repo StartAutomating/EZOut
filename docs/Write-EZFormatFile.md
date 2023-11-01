@@ -31,9 +31,9 @@ Any -FormatView commands.
 
 
 
-|Type        |Required|Position|PipelineInput        |
-|------------|--------|--------|---------------------|
-|`[String[]]`|false   |1       |true (ByPropertyName)|
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|false   |1       |true (ByPropertyName)|
 
 
 
@@ -46,9 +46,9 @@ Any -TypeView commands.
 
 
 
-|Type        |Required|Position|PipelineInput        |
-|------------|--------|--------|---------------------|
-|`[String[]]`|false   |2       |true (ByPropertyName)|
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|false   |2       |true (ByPropertyName)|
 
 
 
@@ -120,5 +120,5 @@ If no output path is provided, the code will be outputted directly.
 
 ### Syntax
 ```PowerShell
-Write-EZFormatFile [[-Format] <String[]>] [[-Type] <String[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [[-OutputPath] <String>] [<CommonParameters>]
+Write-EZFormatFile [[-Format] <ScriptBlock[]>] [[-Type] <ScriptBlock[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [[-OutputPath] <String>] [<CommonParameters>]
 ```
