@@ -73,6 +73,21 @@ If set, will generate an identical typeview for the deserialized form of each ty
 
 
 
+#### **ExcludeFilePath**
+
+Any file paths to exclude.
+
+
+
+
+
+
+|Type          |Required|Position|PipelineInput        |
+|--------------|--------|--------|---------------------|
+|`[PSObject[]]`|false   |2       |true (ByPropertyName)|
+
+
+
 
 
 ---
@@ -80,5 +95,5 @@ If set, will generate an identical typeview for the deserialized form of each ty
 
 ### Syntax
 ```PowerShell
-Import-TypeView [-FilePath] <String[]> [-Deserialized] [<CommonParameters>]
+Import-TypeView [-FilePath] <String[]> [-Deserialized] [[-ExcludeFilePath] <PSObject[]>] [<CommonParameters>]
 ```
