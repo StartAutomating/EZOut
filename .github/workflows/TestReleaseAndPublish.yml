@@ -600,4 +600,9 @@ jobs:
       - name: GitLogger
         uses: GitLogging/GitLoggerAction@main
         id: GitLogger
-
+      - name: PSA
+        uses: StartAutomating/PSA@main
+        id: PSA
+env: 
+  AT_PROTOCOL_APP_PASSWORD: ${{ secrets.AT_PROTOCOL_APP_PASSWORD }}
+  AT_PROTOCOL_HANDLE: mrpowershell.bsky.social

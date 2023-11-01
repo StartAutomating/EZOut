@@ -22,13 +22,14 @@ Outputs Mermaid Diagrams.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Out-Mermaid "flowchart TD
     Start --> Stop"
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 [Ordered]@{
     title="Pets Adopted By Owners"
@@ -38,8 +39,8 @@ Out-Mermaid "flowchart TD
 } | 
     Out-Mermaid pie
 ```
+> EXAMPLE 3
 
-#### EXAMPLE 3
 ```PowerShell
 [Ordered]@{
     title = "A Gantt Diagram"
@@ -54,8 +55,8 @@ Out-Mermaid "flowchart TD
     }        
 } | Out-Mermaid -Diagram "gantt"
 ```
+> EXAMPLE 4
 
-#### EXAMPLE 4
 ```PowerShell
 '
 Alice->>John: Hello John, how are you?
@@ -64,7 +65,6 @@ Alice-)John: See you later!
 '| 
 Out-Mermaid -Diagram sequenceDiagram
 ```
-
 
 
 ---

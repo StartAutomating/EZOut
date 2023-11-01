@@ -22,12 +22,12 @@ A Detailed Description of what the command does
 
 
 ### Examples
-#### EXAMPLE 1
+Create a quick view for any XML element.
+Piping it into Out-FormatData will make one or more format views into a full format XML file
+Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
+There's also a Remove-FormatData and
+
 ```PowerShell
-# Create a quick view for any XML element.
-# Piping it into Out-FormatData will make one or more format views into a full format XML file
-# Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
-# There's also a Remove-FormatData and
 Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
     "Xml" = {
         $strWrite = New-Object IO.StringWriter
@@ -37,7 +37,6 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
 } |
     Out-FormatData
 ```
-
 
 
 ---
@@ -77,6 +76,23 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 
 
+#### **OutputPath**
+
+The output path.
+This can be a string or a dictionary.
+If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |3       |false        |
+
+
+
 
 
 ---
@@ -95,5 +111,5 @@ This is required if you use any dynamic parts (named script blocks stored a /Par
 
 ### Syntax
 ```PowerShell
-Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [<CommonParameters>]
+Out-FormatData [-FormatXml] <XmlDocument> [[-ModuleName] <String>] [[-OutputPath] <PSObject>] [<CommonParameters>]
 ```

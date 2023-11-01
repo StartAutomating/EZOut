@@ -8,14 +8,18 @@
     #>
     param(
     # Any -FormatView commands.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [ScriptBlock[]]
     $Format,
 
     # Any -TypeView commands.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [ScriptBlock[]]
     $Type,
 
     # The name of the module.  By default, this will be inferred from the name of the file.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Name')]    
     [string]
     $ModuleName = @'
 $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
@@ -23,17 +27,25 @@ $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.
 
 
     # The source path.  By default, the script's root.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [string]
     $SourcePath = @'
 $myFile | Split-Path
 '@,
 
     # The destination path.  By default, the script's root.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('DestPath')]
     [string]
     $DestinationPath = @'
 $myRoot
-'@
+'@,
+
+    # The output path for the .ezout file.
+    # If no output path is provided, the code will be outputted directly.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $OutputPath
     )
 
     begin {
@@ -57,9 +69,9 @@ $formatting = @(
 $destinationRoot = $_MyDestination
 
 if ($formatting) {
-    $myFormatFile = Join-Path $destinationRoot "$myModuleName.format.ps1xml"
-    $formatting | Out-FormatData -Module $MyModuleName | Set-Content $myFormatFile -Encoding UTF8
-    Get-Item $myFormatFile
+    $myFormatFilePath = Join-Path $destinationRoot "$myModuleName.format.ps1xml"
+    # You can also output to multiple paths by passing a hashtable to -OutputPath.
+    $formatting | Out-FormatData -Module $MyModuleName -OutputPath $myFormatFilePath
 }
 
 $types = @(
@@ -72,9 +84,9 @@ $types = @(
 )
 
 if ($types) {
-    $myTypesFile = Join-Path $destinationRoot "$myModuleName.types.ps1xml"
-    $types | Out-TypeData | Set-Content $myTypesFile -Encoding UTF8
-    Get-Item $myTypesFile
+    $myTypesFilePath = Join-Path $destinationRoot "$myModuleName.types.ps1xml"
+    # You can also output to multiple paths by passing a hashtable to -OutputPath.
+    $types | Out-TypeData -OutputPath $myTypesFilePath
 }
 Pop-Location
 '@
@@ -110,6 +122,12 @@ Pop-Location
             $ezFormatTemplate = $ezFormatTemplate.Replace('# Write-FormatView', $Format -join [Environment]::NewLine)
         }
 
-        return $ezFormatTemplate
+        if (-not $OutputPath) {
+            return $ezFormatTemplate
+        }
+
+        $ezFormatTemplate | Set-Content -Path $OutputPath
+        if ($?) { Get-Item -LiteralPath $OutputPath }
+        
     }
 }

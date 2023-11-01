@@ -22,16 +22,16 @@ Formats an object as YAML.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Format-Yaml -InputObject @("a", "b", "c")
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 @{a="b";c="d";e=@{f=@('g')}} | Format-Yaml
 ```
-
 
 
 ---

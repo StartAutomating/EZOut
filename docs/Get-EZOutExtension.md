@@ -28,11 +28,11 @@ EZOutExtensions can be found in:
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Get-EZOutExtension
 ```
-
 
 
 ---

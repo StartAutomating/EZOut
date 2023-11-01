@@ -22,12 +22,12 @@ Takes a series of type views and format actions and outputs a type data XML
 
 
 ### Examples
-#### EXAMPLE 1
+Create a quick view for any XML element.
+Piping it into Out-FormatData will make one or more format views into a full format XML file
+Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
+There's also a Remove-FormatData and
+
 ```PowerShell
-# Create a quick view for any XML element.
-# Piping it into Out-FormatData will make one or more format views into a full format XML file
-# Piping the output of that into Add-FormatData will create a temporary module to hold the formatting data
-# There's also a Remove-FormatData and
 Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualProperty @{
     "Xml" = {
         $strWrite = New-Object IO.StringWriter
@@ -37,7 +37,6 @@ Write-FormatView -TypeName "System.Xml.XmlNode" -Wrap -Property "Xml" -VirtualPr
 } |
     Out-FormatData
 ```
-
 
 
 ---
@@ -60,6 +59,23 @@ but it's easier to use Write-FormatView to create it
 
 
 
+#### **OutputPath**
+
+The output path.
+This can be a string or a dictionary.
+If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
+
+
+
+
+
+
+|Type        |Required|Position|PipelineInput|
+|------------|--------|--------|-------------|
+|`[PSObject]`|false   |2       |false        |
+
+
+
 
 
 ---
@@ -67,5 +83,5 @@ but it's easier to use Write-FormatView to create it
 
 ### Syntax
 ```PowerShell
-Out-TypeData [-TypeXml] <XmlDocument> [<CommonParameters>]
+Out-TypeData [-TypeXml] <XmlDocument> [[-OutputPath] <PSObject>] [<CommonParameters>]
 ```

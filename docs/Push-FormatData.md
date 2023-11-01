@@ -44,11 +44,10 @@ temporary module to use the formatting file.
 
 
 ### Examples
-#### EXAMPLE 1
+Let's start off by looking at how something like XML is rendered in PowerShell
+
 ```PowerShell
-# Let's start off by looking at how something like XML is rendered in PowerShell
 [xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
-```
 # It's not very intuitive.
 # I cannot really only see the element I am looking at, instead of a chunk of data
 
@@ -75,6 +74,7 @@ Clear-FormatData
 
 # And we're back to the original formatting
 [xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
+```
 
 
 ---

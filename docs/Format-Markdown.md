@@ -22,18 +22,18 @@ Formats an object as Markdown, with many options to work with
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Format-Markdown -ScriptBlock {
     Get-Process
 }
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 1..6 | Format-Markdown  -HeadingSize { $_ }
 ```
-
 
 
 ---

@@ -32,11 +32,11 @@ Imports a Type View, defined in a external file .method or .property file
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Import-TypeView .\Types
 ```
-
 
 
 ---
@@ -73,6 +73,36 @@ If set, will generate an identical typeview for the deserialized form of each ty
 
 
 
+#### **ExcludeFilePath**
+
+Any file paths to exclude.
+
+
+
+
+
+
+|Type          |Required|Position|PipelineInput        |
+|--------------|--------|--------|---------------------|
+|`[PSObject[]]`|false   |2       |true (ByPropertyName)|
+
+
+
+#### **TextFileType**
+
+A pattern describing the types of files that will embedded as constant note properties containing the file's text.
+
+
+
+
+
+
+|Type          |Required|Position|PipelineInput        |Aliases        |
+|--------------|--------|--------|---------------------|---------------|
+|`[PSObject[]]`|false   |3       |true (ByPropertyName)|TextFilePattern|
+
+
+
 
 
 ---
@@ -80,5 +110,5 @@ If set, will generate an identical typeview for the deserialized form of each ty
 
 ### Syntax
 ```PowerShell
-Import-TypeView [-FilePath] <String[]> [-Deserialized] [<CommonParameters>]
+Import-TypeView [-FilePath] <String[]> [-Deserialized] [[-ExcludeFilePath] <PSObject[]>] [[-TextFileType] <PSObject[]>] [<CommonParameters>]
 ```

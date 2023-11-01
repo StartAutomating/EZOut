@@ -1161,7 +1161,7 @@ describe 'Import-TypeView' {
         it 'Will error if the file does not exist' {
             Get-Module EZOut |
                 Split-Path |
-                Join-Path -ChildPath Formatting |
+                Join-Path -ChildPath Types |
                 Push-Location
 
             { Import-TypeView .\ThisFileDoesNotExist.types.xml -ErrorAction Stop } | should -Throw

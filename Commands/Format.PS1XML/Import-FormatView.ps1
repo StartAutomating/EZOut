@@ -7,12 +7,26 @@
         Imports a Format View defined in .format or .view .ps1 files
     .Link
         Write-FormatView
+    .EXAMPLE
+        # Imports any formatting in the formatting directory
+        Import-FormatView -FilePath ./Formatting/ 
+    .EXAMPLE
+        # Imports any formatting in the types directory
+        Import-FormatView -FilePath ./Types/
     #>
     param(
-    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    # The path containing one or more formatting files.
+    [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
     [Alias('FullName')]
     [string[]]
-    $FilePath
+    $FilePath,
+
+    # The format file pattern.  
+    # This is used to explicitly indicate a file contains PowerShell formatting.
+    # By default, it is `'\.(?>format|type|view|control)\.ps1$'`, or:
+    # Any `*.format.ps1`, `*.type.ps1`, `*.view.ps1`, or `*.control.ps1`
+    [string]    
+    $FormatFilePattern = '\.(?>format|type|view|control)\.ps1$'
     )
 
     begin {
@@ -24,9 +38,7 @@
         # Otherwise, make it a custom action (convert it to XML)
         # If it was XML, use it directly
         # Pipe to Out-FormatData
-        $MySelf = $MyInvocation.MyCommand.ScriptBlock
-
-
+        $MySelf = $MyInvocation.MyCommand.ScriptBlock        
 
         $ezOutCommands=
             @(
@@ -53,7 +65,7 @@
             }) | Select-Object -Unique
 
             # Infer the type name from the file name.
-            $inferredTypeName = $fileName -replace '\.(format|type|view|control)\.ps1'
+            $inferredTypeName = $fileName -replace $FormatFilePattern
 
             if (-not $typeName) { # If no typename has been determined by now,
                 $typeName = $inferredTypeName # use the inferred type name.
@@ -105,7 +117,7 @@
             } else {
                 $scriptBlock = $ExecutionContext.SessionState.InvokeCommand.GetCommand($fi.FullName, 'ExternalScript').ScriptBlock                 
                 
-                if ($fi.Name -notmatch '\.(?>format|view)\.ps1') {
+                if ($fi.Name -notmatch $FormatFilePattern) {
                     if (@($ScriptBlock.Attributes.PSTypeName)) {
                         $innerFormat[$fi.FullName] = $scriptBlock
                     }                                        
@@ -140,10 +152,10 @@
                 if (-not $typeName) { # If no typename has been determined by now,
                     # Infer the type name from the file name.                    
                     $formatFileName = $if.Key | Split-Path -Leaf
-                    if ($formatFileName -notmatch '\.(format|type|view)') {
+                    if ($formatFileName -notmatch $FormatFilePattern) {
                         continue
                     }
-                    $inferredTypeName = $formatFileName -replace '\.(format|type|view)\.ps1'
+                    $inferredTypeName = $formatFileName -replace $FormatFilePattern
                     
                     $typeName = $inferredTypeName # then use the inferred type name.
                 }

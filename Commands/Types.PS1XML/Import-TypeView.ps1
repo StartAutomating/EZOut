@@ -12,13 +12,26 @@
     #>
     param(
     # The path containing type information.
-    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
     [Alias('FullName')]
     [string[]]
     $FilePath,
-
+    
     # If set, will generate an identical typeview for the deserialized form of each typename.
-    [switch]$Deserialized
+    [switch]$Deserialized,
+
+    # Any file paths to exclude.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [SupportsWildcards()]
+    [PSObject[]]
+    $ExcludeFilePath,
+
+    # A pattern describing the types of files that will embedded as constant note properties containing the file's text.    
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('TextFilePattern')]
+    [SupportsWildcards()]
+    [PSObject[]]
+    $TextFileType = @('.cs','.js','.ts','.htm*','.*proj','.h','.cpp','*.class.ps1')
     )
 
     process {
@@ -38,8 +51,21 @@
             $filePathRoot = Get-Item -Path $fp
             $filesBeneathRoot = Get-ChildItem -Recurse -Path $fp -Force
 
-            foreach ($fileBeneathRoot in $filesBeneathRoot) {
+            :nextFile foreach ($fileBeneathRoot in $filesBeneathRoot) {
                 if ($fileBeneathRoot -is [IO.DirectoryInfo]) { continue }
+
+                if ($ExcludeFilePath) {
+                    foreach ($exclusion in $ExcludeFilePath) {
+                        if ($exclusion -is [string] -and 
+                            ($file.Name -like $exclusion -or $file.FullName -like $exclusion)) {
+                            continue nextFile
+                        }
+                        if ($exclusion -is [regex] -and                             
+                            ($file.Name -match $exclusion -or $file.FullName -match $exclusion)) {
+                            continue nextFile
+                        }
+                    }
+                }
                 if ($fileBeneathRoot.Directory.FullName -eq $filePathRoot.FullName) {
                     # Files directly beneath the root become methods / properties shared by all typenames
                     if (-not $membersByType['*']) {
@@ -101,7 +127,7 @@
             $membersByType.Remove('*') # then remove it (so we don't do it twice).
         }
 
-        foreach ($mt in $membersByType.GetEnumerator() | Sort-Object Key) {    # Walk thru the members by type
+        :nextMember foreach ($mt in $membersByType.GetEnumerator() | Sort-Object Key) {    # Walk thru the members by type
             $WriteTypeViewSplat = @{                         # and create a hashtable to splat.
                 TypeName = $mt.Key
                 Deserialized = $Deserialized
@@ -149,9 +175,9 @@
                 }
 
                 # Skip format/view files (this allows them to be in the same directory as types, if that is preferred)
-                if ($item.Name -match '\.(?>format|view)\.ps1') {
+                if ($item.Name -match '\.(?>format|view|control)\.ps1$') {
                     continue
-                }
+                }                
                 
                 $itemName =
                     $item.Name.Substring(0, $item.Name.Length - $item.Extension.Length)
@@ -212,7 +238,10 @@
 
                     $eventGenerators[$eventName] = $scriptBlock # store it for later.
                 }
-                elseif ($isScript) # Otherwise, if it's a script, it's a method.
+                elseif (
+                    $isScript -and  # Otherwise, if it's a script, it's a method.
+                    ($item.Name -notlike '*.class.ps1') # (unless it is a class.ps1, in which case skip it or let it become a note property)
+                ) 
                 {
                     $methodName =$itemName
                     if ($scriptMethods.Contains($methodName)) {
@@ -232,7 +261,21 @@
                     {
                         # Of course if we've already given this a .ps1, we'd prefer that and will move onto the next.
                         continue
-                    }                    
+                    }
+
+                    
+                    if ($TextFileType) {
+                        foreach ($textFilePattern in $TextFileType) {
+                            if ($textFilePattern -is [string] -and 
+                                ($item.Name -like "*$textFilePattern" -or $item.FullName -like "*$textFilePattern")) {
+                                $noteProperty[$item.Name] = $fileText
+                            }
+                            elseif ($exclusion -is [regex] -and
+                                ($item.Name -match $textFilePattern -or $item.FullName -match $textFilePattern)) {
+                                $noteProperty[$item.Name] = $fileText                                
+                            }
+                        }                        
+                    }
 
                     # Let's take a look at the extension to figure out what we do.
                     switch ($item.Extension)
@@ -288,7 +331,7 @@ data { $([ScriptBlock]::Create($fileText)) }
                             {
                                 # we load it now
                                 $aliasProperty = (& $dataScriptBlock) -as [Collections.IDictionary]
-                            } else {
+                            } elseif (-not $noteProperty.Contains($itemName)) {
                                 # otherwise, we load it in a ScriptProperty
                                 $scriptPropertyGet[$itemName] = $dataScriptBlock
                             }
@@ -297,32 +340,37 @@ data { $([ScriptBlock]::Create($fileText)) }
                         #region XML files
                         .xml {
                             # Xml content is cached inline in a ScriptProperty and returned casted to [xml]
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 [xml]@'
 $fileText
 '@
 "@)
+                            }
                         }
                         #endregion XML files
                         #region JSON files
                         .json {
                             # Json files are piped to ConvertFrom-Json
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 @'
 $fileText
 '@ | ConvertFrom-Json
 "@)
-
+                            }
                         }
                         #endregion JSON files
                         #region CliXML files
                             # Clixml files are embedded into a ScriptProperty and Deserialized.
                         .clixml {
+                            if (-not $noteProperty.Contains($itemName)) {
                             $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
 [Management.Automation.PSSerializer]::Deserialize(@'
 $fileText
 '@)
 "@)
+                            }
                         }
                         #endregion CliXML files
                         default {
@@ -345,7 +393,7 @@ $fileText
                                 $itemName = $itemName.Substring(1)
                                 $hideProperty += $itemName
                             }
-                            if (-not $scriptPropertyGet.Contains($itemName)) {
+                            if ((-not $scriptPropertyGet.Contains($itemName)) -and (-not $noteProperty[$item.Name])) {
                                 # The hard part is dynamically creating the unpacker.
                                 # The get script will need to do the above steps in reverse, and read the bytes back
                                 $scriptPropertyGet[$itemName] = [ScriptBlock]::Create(@"
@@ -428,7 +476,5 @@ $stream.Dispose()
                 Write-TypeView @WriteTypeViewSplat
             }
         }
-
-        $null = $null
     }
 }

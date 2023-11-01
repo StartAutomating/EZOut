@@ -50,16 +50,16 @@ Any of the extensions to Format-Object can be embedded into a FormatXML file.
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 "red" | Format-Object -ForegroundColor "red"
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 1..10 | Format-Object -NumberedList
 ```
-
 
 
 ---

@@ -28,16 +28,16 @@ Using Format-JSON inside of an EZOut command will pack Format-JSON into your exp
 
 
 ### Examples
-#### EXAMPLE 1
+> EXAMPLE 1
+
 ```PowerShell
 Format-JSON -InputObject @("a", "b", "c")
 ```
+> EXAMPLE 2
 
-#### EXAMPLE 2
 ```PowerShell
 [Ordered]@{a="b";c="d";e=[Ordered]@{f=@('g')}} | Format-JSON
 ```
-
 
 
 ---
