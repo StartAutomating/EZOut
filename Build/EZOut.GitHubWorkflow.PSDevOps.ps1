@@ -1,6 +1,10 @@
 ﻿#requires -Module EZOut
 #requires -Module PSDevOps
-Import-BuildStep -ModuleName EZOut
+
+Import-BuildStep -SourcePath (
+    Join-Path $PSScriptRoot 'GitHub'
+) -BuildSystem GitHubWorkflow
+
 Push-Location ($PSScriptRoot | Split-Path)
 New-GitHubWorkflow -Name "Test, Tag, Release, and Publish" -On Demand, Push -Job PowerShellStaticAnalysis, 
     TestPowerShellOnLinux,
