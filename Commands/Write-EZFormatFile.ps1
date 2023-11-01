@@ -39,7 +39,13 @@ $myFile | Split-Path
     [string]
     $DestinationPath = @'
 $myRoot
-'@
+'@,
+
+    # The output path for the .ezout file.
+    # If no output path is provided, the code will be outputted directly.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string]
+    $OutputPath
     )
 
     begin {
@@ -116,6 +122,12 @@ Pop-Location
             $ezFormatTemplate = $ezFormatTemplate.Replace('# Write-FormatView', $Format -join [Environment]::NewLine)
         }
 
-        return $ezFormatTemplate
+        if (-not $OutputPath) {
+            return $ezFormatTemplate
+        }
+
+        $ezFormatTemplate | Set-Content -Path $OutputPath
+        if ($?) { Get-Item -LiteralPath $OutputPath }
+        
     }
 }
