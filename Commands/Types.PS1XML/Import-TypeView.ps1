@@ -12,13 +12,18 @@
     #>
     param(
     # The path containing type information.
-    [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
     [Alias('FullName')]
     [string[]]
     $FilePath,
-
+    
     # If set, will generate an identical typeview for the deserialized form of each typename.
-    [switch]$Deserialized
+    [switch]$Deserialized,
+
+    # Any file paths to exclude.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [PSObject[]]
+    $ExcludeFilePath
     )
 
     process {
@@ -38,8 +43,21 @@
             $filePathRoot = Get-Item -Path $fp
             $filesBeneathRoot = Get-ChildItem -Recurse -Path $fp -Force
 
-            foreach ($fileBeneathRoot in $filesBeneathRoot) {
+            :nextFile foreach ($fileBeneathRoot in $filesBeneathRoot) {
                 if ($fileBeneathRoot -is [IO.DirectoryInfo]) { continue }
+
+                if ($ExcludeFilePath) {
+                    foreach ($exclusion in $ExcludeFilePath) {
+                        if ($exclusion -is [string] -and 
+                            ($file.Name -like $exclusion -or $file.FullName -like $exclusion)) {
+                            continue nextFile
+                        }
+                        if ($exclusion -is [regex] -and                             
+                            ($file.Name -match $exclusion -or $file.FullName -match $exclusion)) {
+                            continue nextFile
+                        }
+                    }
+                }
                 if ($fileBeneathRoot.Directory.FullName -eq $filePathRoot.FullName) {
                     # Files directly beneath the root become methods / properties shared by all typenames
                     if (-not $membersByType['*']) {
@@ -428,7 +446,5 @@ $stream.Dispose()
                 Write-TypeView @WriteTypeViewSplat
             }
         }
-
-        $null = $null
     }
 }
