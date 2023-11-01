@@ -97,6 +97,22 @@ The destination path.  By default, the script's root.
 
 
 
+#### **OutputPath**
+
+The output path for the .ezout file.
+If no output path is provided, the code will be outputted directly.
+
+
+
+
+
+
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |6       |true (ByPropertyName)|
+
+
+
 
 
 ---
@@ -104,5 +120,5 @@ The destination path.  By default, the script's root.
 
 ### Syntax
 ```PowerShell
-Write-EZFormatFile [[-Format] <String[]>] [[-Type] <String[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [<CommonParameters>]
+Write-EZFormatFile [[-Format] <String[]>] [[-Type] <String[]>] [[-ModuleName] <String>] [[-SourcePath] <String>] [[-DestinationPath] <String>] [[-OutputPath] <String>] [<CommonParameters>]
 ```
