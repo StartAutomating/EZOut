@@ -8,14 +8,18 @@
     #>
     param(
     # Any -FormatView commands.
-    [ScriptBlock[]]
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string[]]
     $Format,
 
     # Any -TypeView commands.
-    [ScriptBlock[]]
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [string[]]
     $Type,
 
-    # The name of the module.  By default, this will be inferred from the name of the file.    
+    # The name of the module.  By default, this will be inferred from the name of the file.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Name')]    
     [string]
     $ModuleName = @'
 $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
@@ -23,12 +27,14 @@ $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.
 
 
     # The source path.  By default, the script's root.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [string]
     $SourcePath = @'
 $myFile | Split-Path
 '@,
 
     # The destination path.  By default, the script's root.
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('DestPath')]
     [string]
     $DestinationPath = @'
