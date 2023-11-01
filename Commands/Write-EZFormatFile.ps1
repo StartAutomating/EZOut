@@ -9,12 +9,12 @@
     param(
     # Any -FormatView commands.
     [Parameter(ValueFromPipelineByPropertyName)]
-    [string[]]
+    [ScriptBlock[]]
     $Format,
 
     # Any -TypeView commands.
     [Parameter(ValueFromPipelineByPropertyName)]
-    [string[]]
+    [ScriptBlock[]]
     $Type,
 
     # The name of the module.  By default, this will be inferred from the name of the file.
