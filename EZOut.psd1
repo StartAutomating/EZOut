@@ -45,17 +45,7 @@
     AliasesToExport  = 'Write-CustomAction', 'Add-TypeData', 'Add-FormatData'
     FormatsToProcess = 'EZOut.format.ps1xml'
     TypesToProcess   = 'EZOut.types.ps1xml'
-    PrivateData = @{
-        Colors = @{
-            Xml = @{
-                AttributeName = '#fafa00'
-                AttributeValue = '#00bfff'
-                Punctuation  = '#a9a9a9'
-                Tag = '#00ffff'
-                Element = '#00af00'
-                InnerText = '#8bda8b'
-            }
-        }
+    PrivateData = @{        
         EZOut = @{
             RichText = "Format-RichText"
             Heatmap = "Format-Heatmap"
@@ -64,6 +54,15 @@
             Hashtable = "Format-Hashtable"
             JSON = "Format-JSON"
         }
+        
+        Taglines = 
+            "Easily Output anything from PowerShell",
+            "Flexibly Format with PowerShell",
+            "Make your formatting fantastic",
+            "Easily extend types with PowerShell",
+            "Make output that really pops in PowerShell",
+            "Extended Types made Easy"
+
         PSData = @{
             ProjectURI = 'https://github.com/StartAutomating/EZOut'
             LicenseURI = 'https://github.com/StartAutomating/EZOut/blob/master/LICENSE'
