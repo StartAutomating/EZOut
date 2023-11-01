@@ -31,7 +31,7 @@
     [Alias('TextFilePattern')]
     [SupportsWildcards()]
     [PSObject[]]
-    $TextFileType = @('.cs','.js','.ts','.htm*','.*proj','.h','.cpp')
+    $TextFileType = @('.cs','.js','.ts','.htm*','.*proj','.h','.cpp','*.class.ps1')
     )
 
     process {
@@ -175,9 +175,9 @@
                 }
 
                 # Skip format/view files (this allows them to be in the same directory as types, if that is preferred)
-                if ($item.Name -match '\.(?>format|view)\.ps1') {
+                if ($item.Name -match '\.(?>format|view|control)\.ps1$') {
                     continue
-                }
+                }                
                 
                 $itemName =
                     $item.Name.Substring(0, $item.Name.Length - $item.Extension.Length)
@@ -238,7 +238,10 @@
 
                     $eventGenerators[$eventName] = $scriptBlock # store it for later.
                 }
-                elseif ($isScript) # Otherwise, if it's a script, it's a method.
+                elseif (
+                    $isScript -and  # Otherwise, if it's a script, it's a method.
+                    ($item.Name -notlike '*.class.ps1') # (unless it is a class.ps1, in which case skip it or let it become a note property)
+                ) 
                 {
                     $methodName =$itemName
                     if ($scriptMethods.Contains($methodName)) {
