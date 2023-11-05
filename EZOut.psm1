@@ -54,6 +54,17 @@ $executionContext.SessionState.PSVariable.Set(
 )
 
 Export-ModuleMember -Function * -Alias * -Variable $myModule.Name
+$newPSDrive = $ExecutionContext.SessionState.InvokeCommand.GetCommand('New-PSDrive', 'Cmdlet')
+if ($newPSDrive) {
+    try {
+        $newDriveSplat = @{Name = $myModule.Name;Scope = 'Global';PSProvider='FileSystem'}
+        $newDriveSplat.Root = $myModule | Split-Path
+        & $newPSDrive @newDriveSplat
+    } catch {
+        Write-Verbose "$_"
+    }
+}
+
 $myModule.OnRemove = {
     $myModule = Get-Module EZOut
     $debuggingTypeNames = $myModule.DebuggingTypeNames
@@ -63,10 +74,18 @@ $myModule.OnRemove = {
             try {
                 Remove-TypeData -TypeName $typeName -Confirm:$false -ErrorAction Ignore
             } catch {
-                Write-Debug "$_"
+                Write-Verbose "$_"
             }
         }
     }
     Clear-FormatData
     Clear-TypeData
+    $removePSDrive = $ExecutionContext.SessionState.InvokeCommand.GetCommand('Remove-PSDrive', 'Cmdlet')
+    if ($removePSDrive) {
+        try {            
+            & $removePSDrive -Name $myModule.Name -Confirm:$false
+        } catch {
+            Write-Debug "$_"
+        }
+    }
 }
