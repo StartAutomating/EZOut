@@ -76,25 +76,27 @@ function Out-TypeData {
             }
             else {
                 $fileOutputs = [Ordered]@{}  
+                $alreadyExportedTypeNames = @{}
+                $allTypeNames = @()
                 
                 :nextType foreach ($typeXml in $xml.Types.Type) {                    
                     $viewTypeNames = @($typeXml.Name)
+                    $allTypeNames += $viewTypeNames                    
                     if (($OutputPath -isnot [Collections.IDictionary])) { continue } 
-                    foreach ($_ in $OutputPath.GetEnumerator()) {
-                        if ($_.Key -isnot [regex] -and $_.Key -isnot [string]) { 
-                                    continue nextType                        
-                                }  
-                        if ($_.Key -is [string] -and -not ($viewTypeNames -like $_.Key)) { 
+                    foreach ($outPath in $OutputPath.GetEnumerator()) {
+                        if ($alreadyExportedTypeNames[$viewTypeNames]) { 
                                     continue nextType                        
                                 } 
-                        if ($_.Key -is [Regex] -and -not ($viewTypeNames -match $_.Key)) { 
-                                    continue nextType                        
-                                } 
-                        $kv = $_
-                        if (-not $fileOutputs[$kv.Value]) {
-                            $fileOutputs[$kv.Value] = @()
+                        if (($outPath.Key -isnot [regex] -and $outPath.Key -isnot [string])) { continue } 
+                        if (($outPath.Key -is [string] -and -not ($viewTypeNames -like $outPath.Key))) { continue } 
+                        if (($outPath.Key -is [Regex] -and -not ($viewTypeNames -match $outPath.Key))) { continue } 
+                                                
+                        if (-not $fileOutputs[$outPath.Value]) {
+                            $fileOutputs[$outPath.Value] = @()
                         }
-                        $fileOutputs[$kv.Value] += $typeXml.OuterXml                                
+                        $fileOutputs[$outPath.Value] += $typeXml.OuterXml
+                        $alreadyExportedTypeNames[$viewTypeNames] = $kv.Value
+                        continue nextType
                     }                                   
                 }
                 foreach ($fileOut in $fileOutputs.GetEnumerator()) {                    
