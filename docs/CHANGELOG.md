@@ -1,3 +1,12 @@
+## EZOut 2.0.3:
+
+* Mounting EZOut as a drive (#200)
+* Exporting `$EZOut (#199)
+* Improving Multifile output (#195, #196, #197, #198)
+* Fixing PSA branch (#194)
+
+---
+
 ## 2.0.2
 
 * Import Improvements
