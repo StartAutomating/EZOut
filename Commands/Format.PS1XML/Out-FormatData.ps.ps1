@@ -400,42 +400,41 @@ $Aspect = {
         if (-not $configurationXml) { return }
         
         if ($OutputPath) {
-            
+            $alreadyExportedTypeNames = @{}
+            $allTypeNames = @()
+
             if ($outputPath -is [string]) {
                 $createdOutputFile = New-Item -ItemType File -Path $OutputPath -Force
                 if (-not $createdOutputFile) { return }
                 $configurationXml.Save($createdOutputFile.FullName)
                 Get-Item -LiteralPath $createdOutputFile.FullName                
             }
-            else {
+            else {                
                 $fileOutputs = [Ordered]@{}  
                 $viewsXml = "<Views>$views</Views>" -as [xml]
                 if (-not $viewsXml) { return }
                 :nextView foreach ($view in $viewsXml.Views.View) {                    
                     $viewTypeNames = @($view.ViewSelectedBy.TypeName)
                     if (($OutputPath -isnot [Collections.IDictionary])) { continue } 
-                    foreach ($_ in $OutputPath.GetEnumerator()) {
-                        if ($_.Key -isnot [regex] -and $_.Key -isnot [string]) { 
-                                    continue nextview                        
-                                } 
-                        if ($_.Key -is [string] -and -not ($viewTypeNames -like $_.Key)) { 
-                                    continue nextview                        
-                                } 
-                        if ($_.Key -is [Regex] -and -not ($viewTypeNames -match $_.Key)) { 
-                                    continue nextview                        
-                                } 
-                        $kv = $_
-                        if (-not $fileOutputs[$kv.Value]) {
-                            $fileOutputs[$kv.Value] = @()
+                    foreach ($outPath in $OutputPath.GetEnumerator()) {
+                        continue nextView if ($alreadyExportedTypeNames[$viewTypeNames]) {}
+                        continue if ($outPath.Key -isnot [regex] -and $outPath.Key -isnot [string])
+                        continue if ($outPath.Key -is [string] -and -not ($viewTypeNames -like $outPath.Key))
+                        continue if ($outPath.Key -is [Regex] -and -not ($viewTypeNames -match $outPath.Key))
+                                                
+                        if (-not $fileOutputs[$outPath.Value]) {
+                            $fileOutputs[$outPath.Value] = @()
                         }
-                        $fileOutputs[$kv.Value] += $view                                
+                        $fileOutputs[$outPath.Value] += $view
+                        $alreadyExportedTypeNames[$viewTypeNames] = $kv.Value
+                        continue nextView
                     }                                   
                 }
                 foreach ($fileOut in $fileOutputs.GetEnumerator()) {
                     $controlsInThisFile = [Ordered]@{}
                     
                     $fileViews = "
-                    <Views>$(foreach ($view in $fileOut.Value) {
+                    <ViewDefinitions>$(foreach ($view in $fileOut.Value) {
                         $customControlReferences = $view.SelectNodes(".//CustomControlName")
                         if (-not $customControlReferences) { continue }
                         $controlsXml = "<Controls>$Controls</Controls>" -as [xml]
@@ -446,10 +445,10 @@ $Aspect = {
                             }                                 
                         }
                         $view.OuterXml                        
-                    })</Views>
+                    })</ViewDefinitions>
                     "
                     $fileControls = if ($controlsInThisFile.Count) {
-                        @($controlsInThisFile.Values)
+                        "<Controls>$(@($controlsInThisFile.Values))</Controls>"
                     } else { $null }
                     $fileXml = "
                     <!-- Generated with EZOut $($MyInvocation.MyCommand.Module.Version): Install-Module EZOut or https://github.com/StartAutomating/EZOut -->

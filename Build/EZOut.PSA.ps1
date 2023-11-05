@@ -22,7 +22,7 @@ Get-BskyActorProfile -Actor $env:AT_PROTOCOL_HANDLE -Cache | Out-Host
 
 $isMergeToMain = 
     ($gitHubEvent.head_commit.message -match "Merge Pull Request #(?<PRNumber>\d+)") -and 
-    $gitHubEvent.ref -eq 'refs/heads/main'
+    $gitHubEvent.ref -in 'refs/heads/main','refs/heads/master'
 
 Push-Location ($PSScriptRoot | Split-Path)
 
