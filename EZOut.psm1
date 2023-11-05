@@ -47,9 +47,14 @@ if ($partsDirectory) { # If we have parts directory
 
 
 Update-FormatData -PrependPath $psScriptRoot\EZOut.format.ps1xml
+$myModule = $myInvocation.MyCommand.ScriptBlock.Module
+$executionContext.SessionState.PSVariable.Set(
+    $myModule.Name,
+    $myModule
+)
 
-Export-ModuleMember -Function * -Alias *
-$myInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
+Export-ModuleMember -Function * -Alias * -Variable $myModule.Name
+$myModule.OnRemove = {
     $myModule = Get-Module EZOut
     $debuggingTypeNames = $myModule.DebuggingTypeNames
     if ($debuggingTypeNames) {
