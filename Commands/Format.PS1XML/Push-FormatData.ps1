@@ -90,22 +90,23 @@ function Push-FormatData
 
     end {
         #region Generate Module for the Type
-        if (-not $name) {
+        if (-not $Name) {
             $typeName = $FormatXml.SelectSingleNode("//TypeName")
             if ($typeName) {
-                $name = $typeName.'#text'
+                $Name = $typeName.'#text'
             } else {
-                $name = "FormatModule$($FormatModules.Count + 1)"
+                $Name = "FormatModule$($FormatModules.Count + 1)"
             }
 
         }
-
         $Name = $Name.Replace("#","").Replace("\","").Replace("/","").Replace(":","")
 
-        $tempFile = Join-Path $tempDir $name
-        $tempFile = "${tempFile}.psd1"
+        $tempFile = Join-Path $tempDir $Name
+        $tempFile = "${tempFile}_${pid}.psd1" # this path was colliding with other processes because its type name was fixed
+        # old: 'C:\Users\User\AppData\Local\Temp\System.Text.RegularExpressions.Match.psd1'
+        # new: 'C:\Users\User\AppData\Local\Temp\System.Text.RegularExpressions.Match_1234.psd1'
 
-        Get-Module $name -ErrorAction SilentlyContinue |
+        Get-Module $Name -ErrorAction SilentlyContinue |
             Remove-Module
         $ModuleManifestParameters = @{
             FormatsToProcess = $FormatFiles
@@ -126,8 +127,12 @@ function Push-FormatData
             $script:FormatModules.Values | Where-Object { $_ } |Import-Module -Force
         }
         $module = Import-Module $tempFile -Force -PassThru
-        $script:formatModules[$name] = $module
+        $script:formatModules[$Name] = $module
         if ($passThru) { $module }
+        <#
+        I didn't delete the $TempFile here because other cmdlets might assume it's not removed,
+           when they reference '$script:formatModules'
+        #>
         #endregion Generate Module for the Type
     }
 }
