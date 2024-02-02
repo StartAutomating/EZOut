@@ -1,4 +1,4 @@
-﻿function Push-FormatData
+function Push-FormatData
 {
     <#
     .Synopsis
