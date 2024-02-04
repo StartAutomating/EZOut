@@ -1,4 +1,5 @@
 function Out-FormatData {
+
     <#
     .Synopsis
         Takes a series of format views and format actions and outputs a format data XML
@@ -44,6 +45,7 @@ function Out-FormatData {
     # If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
     [ValidateScript({
     $validTypeList = [System.String],[System.Collections.IDictionary]
+    
     $thisType = $_.GetType()
     $IsTypeOk =
         $(@( foreach ($validType in $validTypeList) {
@@ -51,6 +53,7 @@ function Out-FormatData {
                 $true;break
             }
         }))
+    
     if (-not $isTypeOk) {
         throw "Unexpected type '$(@($thisType)[0])'.  Must be 'string','System.Collections.IDictionary'."
     }
@@ -74,6 +77,7 @@ $Aspect = {
         $selectionSets = ""
         
         function findUsedParts {
+        
                             param(
                                 [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
                                 [Alias('InnerText','ScriptBlock','ScriptContents')]
@@ -197,6 +201,7 @@ $Aspect = {
                 
         }
         filter ReplaceParts {
+        
                             if ($DebugPreference -ne 'silentlyContinue') {
                                 $in = $_
                                 if ($in.InnerText) { return $in.InnerText}
@@ -414,6 +419,7 @@ $Aspect = {
         if ($OutputPath) {
             $alreadyExportedTypeNames = @{}
             $allTypeNames = @()
+
             if ($outputPath -is [string]) {
                 $createdOutputFile = New-Item -ItemType File -Path $OutputPath -Force
                 if (-not $createdOutputFile) { return }
@@ -482,6 +488,7 @@ $Aspect = {
         }
         
     }
+
 }
 
 
