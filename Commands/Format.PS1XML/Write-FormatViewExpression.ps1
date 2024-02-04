@@ -83,6 +83,7 @@
 
     # If provided, will indent by a number of characters.  This implies -Frame.
     [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Indent')]
     [ValidateRange(0,1mb)]
     [int]
     $LeftIndent,
