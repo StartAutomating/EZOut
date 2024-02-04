@@ -1,10 +1,10 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '2.0.3'
+    ModuleVersion = '2.0.4'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
-    Copyright = '2011-2023'
+    Copyright = '2011-2024'
     Description = 'Easily Author Rich Format Files to Customize PowerShell Output'
     FunctionsToExport =
         # Core format manipulation functions
@@ -69,19 +69,24 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-## EZOut 2.0.3:
+## EZOut 2.0.4:
 
-* Mounting EZOut as a drive (#200)
-* Exporting $EZOut (#199)
-* Improving Multifile output (#195, #196, #197, #198)
-* Fixing PSA branch (#194)
+* Write-FormatViewExpression/Write-FormatCustomView now support -Frame, -LeftIndent, -RightIndent, -FirstLineHanging, -FirstLineIndent ( Fixes #164 )
+* Push-FormatData/Push-TypeData now create unique files per-process (Fixes #205 )
+
+Thanks @NinMonkey !
 
 ---
 
 Additional Release History found in [CHANGELOG](https://github.com/StartAutomating/EZOut/blob/master/CHANGELOG.md)
-            
+
+Like It?  [Star It!](https://github.com/StartAutomating/EZOut)  Love It?  [Support It!](https://github.com/sponsors/StartAutomating)
+
 '@
+
+            Recommends = 'Posh','PipeScript','ShowDemo'
         }
+        
         PoshMacros = @{
             'EZOut' = @{
                 ScriptBlock = @'
