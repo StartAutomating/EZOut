@@ -1,4 +1,5 @@
 function Out-TypeData {
+
     <#
     .Synopsis
         Takes a series of type views and format actions and outputs a type data XML
@@ -17,6 +18,7 @@ function Out-TypeData {
             }
         } |
             Out-FormatData
+
     #>
     param(
     # The Format XML Document.  The XML document can be supplied directly,
@@ -31,11 +33,13 @@ function Out-TypeData {
     })]
     [Xml]
     $TypeXml,
+
     # The output path.
     # This can be a string or a dictionary.
     # If it is a dictionary, the keys must a be a `[string]` or `[regex]` defining a pattern, and the value will be the path.
     [ValidateScript({
     $validTypeList = [System.String],[System.Collections.IDictionary]
+    
     $thisType = $_.GetType()
     $IsTypeOk =
         $(@( foreach ($validType in $validTypeList) {
@@ -43,6 +47,7 @@ function Out-TypeData {
                 $true;break
             }
         }))
+    
     if (-not $isTypeOk) {
         throw "Unexpected type '$(@($thisType)[0])'.  Must be 'string','System.Collections.IDictionary'."
     }
@@ -52,6 +57,7 @@ function Out-TypeData {
     [PSObject]
     $OutputPath
     )
+
     begin {
         $type = ""
     }
@@ -60,6 +66,7 @@ function Out-TypeData {
             $type+= "<Type>$($TypeXml.Type.InnerXml)</Type>"
         }
     }
+
     end {
         $xml = [xml]"
         <!-- Generated with EZOut $($MyInvocation.MyCommand.Module.Version): Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
@@ -67,6 +74,7 @@ function Out-TypeData {
         $type
         </Types>
         "
+
         if ($OutputPath) {            
             if ($outputPath -is [string]) {
                 $createdOutputFile = New-Item -ItemType File -Path $OutputPath -Force
@@ -118,4 +126,5 @@ function Out-TypeData {
             return "$strWrite"
         }        
     }
+
 }
