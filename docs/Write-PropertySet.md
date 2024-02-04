@@ -1,16 +1,10 @@
 Write-PropertySet
 -----------------
 
-
-
-
 ### Synopsis
 Writes a property set
 
-
-
 ---
-
 
 ### Description
 
@@ -26,32 +20,18 @@ You can write:
 
     Select-Object mypropertyset
 
-
-
 ---
-
 
 ### Related Links
 * [ConvertTo-PropertySet](ConvertTo-PropertySet.md)
 
-
-
 * [Get-PropertySet](Get-PropertySet.md)
-
-
 
 * [Out-TypeData](Out-TypeData.md)
 
-
-
 * [Add-TypeData](Add-TypeData.md)
 
-
-
-
-
 ---
-
 
 ### Examples
 > EXAMPLE 1
@@ -63,60 +43,31 @@ Write-PropertySet -typename System.IO.FileInfo -name filetimes -propertyname Nam
 dir | select filetimes
 ```
 
-
 ---
-
 
 ### Parameters
 #### **TypeName**
-
 The typename for the property set
-
-
-
-
-
 
 |Type      |Required|Position|PipelineInput        |
 |----------|--------|--------|---------------------|
 |`[String]`|true    |1       |true (ByPropertyName)|
 
-
-
 #### **Name**
-
 The name of the property set
-
-
-
-
-
 
 |Type      |Required|Position|PipelineInput        |
 |----------|--------|--------|---------------------|
 |`[String]`|true    |2       |true (ByPropertyName)|
 
-
-
 #### **PropertyName**
-
 The names of the properties to include in the property set
-
-
-
-
-
 
 |Type        |Required|Position|PipelineInput        |
 |------------|--------|--------|---------------------|
 |`[String[]]`|true    |3       |true (ByPropertyName)|
 
-
-
-
-
 ---
-
 
 ### Syntax
 ```PowerShell
