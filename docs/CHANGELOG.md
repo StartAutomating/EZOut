@@ -1,3 +1,10 @@
+## EZOut 2.0.4:
+
+* Write-FormatViewExpression/Write-FormatCustomView now support -Frame, -LeftIndent, -RightIndent, -FirstLineHanging, -FirstLineIndent ( Fixes #164 )
+* Push-FormatData/Push-TypeData now create unique files per-process (Fixes #205 )  
+
+Thanks @NinMonkey !
+
 ## EZOut 2.0.3:
 
 * Mounting EZOut as a drive (#200)
