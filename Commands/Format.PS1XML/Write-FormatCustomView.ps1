@@ -114,7 +114,7 @@ $header = @"
         <CustomItem>
             $(
                 if ($Frame -or $FirstLineHanging -or $LeftIndent -or $RightIndent -or $FirstLineIndent) {
-                    $middle = "
+                    "
                 <Frame>
                     $(
                         if ($LeftIndent) { "<LeftIndent>$LeftIndent</LeftIndent>" }
