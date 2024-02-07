@@ -1,16 +1,10 @@
 Push-FormatData
 ---------------
 
-
-
-
 ### Synopsis
 Pushes formatting to the current session.
 
-
-
 ---
-
 
 ### Description
 
@@ -20,28 +14,16 @@ The formatting data is defined in .Format.ps1xml files (such as those in the $ps
 Add-FormatData will take one or more XML documents containing format data and will create a
 temporary module to use the formatting file.
 
-
-
 ---
-
 
 ### Related Links
 * [Clear-FormatData](Clear-FormatData.md)
 
-
-
 * [Pop-FormatData](Pop-FormatData.md)
-
-
 
 * [Out-FormatData](Out-FormatData.md)
 
-
-
-
-
 ---
-
 
 ### Examples
 Let's start off by looking at how something like XML is rendered in PowerShell
@@ -76,77 +58,41 @@ Clear-FormatData
 [xml]"<a an='anattribute'><b d='attribute'><c/></b></a>"
 ```
 
-
 ---
-
 
 ### Parameters
 #### **FormatXml**
-
 The Format XML Document.  The XML document can be supplied directly,
 but it's easier to use Write-FormatView to create it
-
-
-
-
-
 
 |Type           |Required|Position|PipelineInput |
 |---------------|--------|--------|--------------|
 |`[XmlDocument]`|true    |1       |true (ByValue)|
 
-
-
 #### **Name**
-
 The name of the format module.  If the name is not provided, the name of the module will be the first
 type name encountered.  If no typename is encountered, the name of the module will be FormatModuleN, where
 N is the number of modules loaded so far
-
-
-
-
-
 
 |Type      |Required|Position|PipelineInput|
 |----------|--------|--------|-------------|
 |`[String]`|false   |2       |false        |
 
-
-
 #### **PassThru**
-
 If set, the module that contains the format files will be outputted to the pipeline
-
-
-
-
-
 
 |Type      |Required|Position|PipelineInput|
 |----------|--------|--------|-------------|
 |`[Switch]`|false   |named   |false        |
 
-
-
-
-
 ---
-
 
 ### Outputs
 * [Nullable](https://learn.microsoft.com/en-us/dotnet/api/System.Nullable)
 
-
 * [Management.Automation.PSModuleInfo](https://learn.microsoft.com/en-us/dotnet/api/System.Management.Automation.PSModuleInfo)
 
-
-
-
-
-
 ---
-
 
 ### Syntax
 ```PowerShell

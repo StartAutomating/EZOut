@@ -1,16 +1,10 @@
 Format-JSON
 -----------
 
-
-
-
 ### Synopsis
 Formats objects as JSON
 
-
-
 ---
-
 
 ### Description
 
@@ -22,10 +16,7 @@ This is a light wrapper around ConvertTo-Json with a few key differences:
 4. If there is nothing to convert, it outputs an empty JSON object.    
 Using Format-JSON inside of an EZOut command will pack Format-JSON into your exported .ps1xml.
 
-
-
 ---
-
 
 ### Examples
 > EXAMPLE 1
@@ -39,30 +30,17 @@ Format-JSON -InputObject @("a", "b", "c")
 [Ordered]@{a="b";c="d";e=[Ordered]@{f=@('g')}} | Format-JSON
 ```
 
-
 ---
-
 
 ### Parameters
 #### **AsList**
-
 If set, will always Format-JSON as a list.
-
-
-
-
-
 
 |Type      |Required|Position|PipelineInput|
 |----------|--------|--------|-------------|
 |`[Switch]`|false   |named   |false        |
 
-
-
-
-
 ---
-
 
 ### Syntax
 ```PowerShell

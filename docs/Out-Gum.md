@@ -1,35 +1,21 @@
 Out-Gum
 -------
 
-
-
-
 ### Synopsis
 Outputs using Gum
 
-
-
 ---
-
 
 ### Description
 
 Allows you to format objects using [CharmBraclet's Gum](https://github.com/charmbracelet/gum).
 
-
-
 ---
-
 
 ### Related Links
 * [https://github.com/charmbraclet/gum](https://github.com/charmbraclet/gum)
 
-
-
-
-
 ---
-
 
 ### Examples
 > EXAMPLE 1
@@ -43,13 +29,10 @@ Allows you to format objects using [CharmBraclet's Gum](https://github.com/charm
 'What is best in life?' | Out-Gum -Command input
 ```
 
-
 ---
-
 
 ### Parameters
 #### **Command**
-
 The Command in Gum.
 |CommandName|Description|
 |-|-|
@@ -65,9 +48,7 @@ The Command in Gum.
 |style|Apply coloring, borders, spacing to text|
 |table|Render a table of data|
 |write|Prompt for long-form text|
-
-
-
+|log|Log messages to output|
 Valid Values:
 
 * choose
@@ -82,52 +63,27 @@ Valid Values:
 * style
 * table
 * write
-
-
-
-
-
+* log
 
 |Type      |Required|Position|PipelineInput|
 |----------|--------|--------|-------------|
 |`[String]`|true    |1       |false        |
 
-
-
 #### **InputObject**
-
 The input object.
-
-
-
-
-
 
 |Type        |Required|Position|PipelineInput |
 |------------|--------|--------|--------------|
 |`[PSObject]`|false   |named   |true (ByValue)|
 
-
-
 #### **GumArgument**
-
 Any additional arguments to gum (and any remaining arguments)
-
-
-
-
-
 
 |Type        |Required|Position|PipelineInput|Aliases     |
 |------------|--------|--------|-------------|------------|
 |`[String[]]`|false   |named   |false        |GumArguments|
 
-
-
-
-
 ---
-
 
 ### Syntax
 ```PowerShell

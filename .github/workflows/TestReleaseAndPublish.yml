@@ -585,8 +585,11 @@ jobs:
       - name: Initialize Splatter
         uses: StartAutomating/Splatter@main
         id: Splatter
-      - name: BuildPipeScript
+      - name: PipeScript
         uses: StartAutomating/PipeScript@main
+        id: PipeScript
+        with: 
+          serial: true
       - name: Run EZOut  (on master)
         if: ${{github.ref_name == 'master'}}
         uses: StartAutomating/EZOut@master

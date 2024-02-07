@@ -35,6 +35,8 @@ function Format-JSON {
         }
     $IncludeParameter = @()
     $ExcludeParameter = @()
+
+
     $DynamicParameters = [Management.Automation.RuntimeDefinedParameterDictionary]::new()            
     :nextInputParameter foreach ($paramName in ([Management.Automation.CommandMetaData]$baseCommand).Parameters.Keys) {
         if ($ExcludeParameter) {
@@ -57,6 +59,7 @@ function Format-JSON {
         ))
     }
     $DynamicParameters
+
     }
         begin {
         $accumulateInput = [Collections.Queue]::new()
@@ -75,12 +78,15 @@ function Format-JSON {
     
     }
     end {
+
         $joiner = "," + $(
             if (-not $PSBoundParameters["Compress"]) {
                 [System.Environment]::NewLine
             }            
         )
+
         $null = $PSBoundParameters.Remove('AsList')
+
         if ($accumulateInput.Count) {
             if (-not $PSBoundParameters["Depth"]) {
                 $PSBoundParameters["Depth"] = 100
@@ -94,6 +100,7 @@ function Format-JSON {
             
             $rawJSON.Enqueue((& $baseCommand @PSBoundParameters))
         }
+
         if ($rawJSON.Count -gt 1 -or $AsList) {
             "[$($rawJSON.ToArray() -join $joiner)]"
         } elseif ($rawJSON.Count -eq 1) {

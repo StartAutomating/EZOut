@@ -23,9 +23,35 @@
     [Alias('ScriptBlock')]
     [ScriptBlock[]]$Action,
 
-    # The indentation depth of the custom control
-    [Parameter(ValueFromPipelineByPropertyName=$true)]
-    [int]$Indent,
+    # If set, will put the expression within a <Frame> element.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Frame,
+
+    # If provided, will indent by a number of characters.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Indent')]
+    [ValidateRange(0,1mb)]
+    [int]
+    $LeftIndent,
+
+    # If provided, will indent the right by a number of characters.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $RightIndent,
+
+    # Specifies how many characters the first line of data is shifted to the left.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $FirstLineHanging,
+
+    # Specifies how many characters the first line of data is shifted to the right.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $FirstLineIndent,
 
     # If set, the content will be created as a control.  Controls can be reused by other formatters.
     [Switch]$AsControl,
@@ -86,12 +112,29 @@ $header = @"
     <CustomEntry>
         $entrySelectedBy
         <CustomItem>
-            $(if ($Indent) { "<Frame><LeftIndent>$Indent</LeftIndent><CustomItem>" } )
+            $(
+                if ($Frame -or $FirstLineHanging -or $LeftIndent -or $RightIndent -or $FirstLineIndent) {
+                    "
+                <Frame>
+                    $(
+                        if ($LeftIndent) { "<LeftIndent>$LeftIndent</LeftIndent>" }
+                        if ($RightIndent) { "<RightIndent>$RightIndent</RightIndent>" }
+                        if ($FirstLineHanging) { "<FirstLineHanging>$FirstLineHanging</FirstLineHanging>" }
+                        if ($FirstLineIndent) { "<FirstLineIndent>$FirstLineIndent</FirstLineIndent>" }
+                    )
+                    <CustomItem>
+                "
+                }
+            )            
 
 "@
 
 $footer = @"
-$(if ($indent) {"</CustomItem></Frame>"})
+$(    
+    if ($Frame -or $FirstLineHanging -or $LeftIndent -or $RightIndent -or $FirstLineIndent) {
+        "</CustomItem></Frame>"
+    }    
+)
         </CustomItem>
     </CustomEntry>
 "@
@@ -139,7 +182,7 @@ $([Security.SecurityElement]::Escape($VisibilityCondition[$c]))
                     </ExpressionBinding>"
                 }
             }
-
+                
         $entries += ( $header + $middle + $footer)
     }
 

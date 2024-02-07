@@ -21,7 +21,14 @@
             uses = 'StartAutomating/Splatter@main'
             id = 'Splatter'
         },
-        'RunPipeScript',
+        @{
+            name = 'PipeScript'
+            uses = 'StartAutomating/PipeScript@main'
+            id = 'PipeScript'
+            with = @{
+                serial = $true
+            }
+        },
         @{
             name = 'Run EZOut  (on master)'
             if   = '${{github.ref_name == ''master''}}'

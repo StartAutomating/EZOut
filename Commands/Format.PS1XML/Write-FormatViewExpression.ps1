@@ -20,29 +20,28 @@
     .Example
         # This will render the property 'Status' of the current object,
         # if the current object's 'Complete' property is $false.
-        Write-FormatViewExpression -Property Status -If { -not $_.Complete }
-
+        Write-FormatViewExpression -Property Status -If { -not $_.Complete }    
     #>
     [CmdletBinding(DefaultParameterSetName='ScriptBlock')]
     [OutputType([string])]
     [Alias('Show-CustomAction')]
     param(
     # The name of the control.  If this is provided, it will be used to display the property or script block.
-    [Parameter(ValueFromPipelineByPropertyName=$true)]
+    [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('ActionName','Name')]
     [String]
     $ControlName,
 
     # If a property name is provided, then the custom action will show the contents
     # of the property
-    [Parameter(Mandatory=$true,ParameterSetName='Property',Position=0,ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory=$true,ParameterSetName='Property',Position=0,ValueFromPipelineByPropertyName)]
     [Alias('PropertyName')]
     [String]
     $Property,
 
     # If a script block is provided, then the custom action shown in formatting
     # will be the result of the script block.
-    [Parameter(Mandatory=$true,ParameterSetName='ScriptBlock',Position=0,ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory=$true,ParameterSetName='ScriptBlock',Position=0,ValueFromPipelineByPropertyName)]
     [ScriptBlock]
     $ScriptBlock,
 
@@ -53,7 +52,7 @@
     $If,
 
     # If provided, will output the provided text.  All other parameters are ignored.
-    [Parameter(Mandatory,ParameterSetName='Text',ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory,ParameterSetName='Text',ValueFromPipelineByPropertyName)]
     [string]
     $Text,
 
@@ -73,9 +72,39 @@
     $ResourceID,
 
     # If provided, will output a <NewLine /> element.  All other parameters are ignored.
-    [Parameter(Mandatory=$true,ParameterSetName='NewLine',ValueFromPipelineByPropertyName=$true)]
+    [Parameter(Mandatory=$true,ParameterSetName='NewLine',ValueFromPipelineByPropertyName)]
     [switch]
     $Newline,
+
+    # If set, will put the expression within a <Frame> element.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [switch]
+    $Frame,
+
+    # If provided, will indent by a number of characters.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Indent')]
+    [ValidateRange(0,1mb)]
+    [int]
+    $LeftIndent,
+
+    # If provided, will indent the right by a number of characters.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $RightIndent,
+
+    # Specifies how many characters the first line of data is shifted to the left.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $FirstLineHanging,
+
+    # Specifies how many characters the first line of data is shifted to the right.  This implies -Frame.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [ValidateRange(0,1mb)]
+    [int]
+    $FirstLineIndent,
 
     # The name of one or more $psStyle properties to apply.
     # If $psStyle is present, this will use put these properties prior to an expression.
@@ -157,7 +186,8 @@
     # With script blocks, the variables $N and $Number will be set to indicate the current iteration.
     [ValidateRange(1,10kb)]
     [uint32]
-    $Count = 1)
+    $Count = 1
+    )
 
     process {
         # If this is calling itself recursively in ScriptBlock
@@ -270,6 +300,21 @@ $if")
 </ExpressionBinding>
 "@
 
+if ($Frame -or $FirstLineHanging -or $LeftIndent -or $RightIndent -or $FirstLineIndent) {
+    $formatExpression = "
+<Frame>
+    $(
+        if ($LeftIndent) { "<LeftIndent>$LeftIndent</LeftIndent>" }
+        if ($RightIndent) { "<RightIndent>$RightIndent</RightIndent>" }
+        if ($FirstLineHanging) { "<FirstLineHanging>$FirstLineHanging</FirstLineHanging>" }
+        if ($FirstLineIndent) { "<FirstLineIndent>$FirstLineIndent</FirstLineIndent>" }
+    )
+    <CustomItem>
+        $FormatExpression
+    </CustomItem>
+</Frame>
+"
+}
                 $xml = [xml]$formatExpression
                 if (-not $xml) { return }
                 $xOut=[IO.StringWriter]::new()
