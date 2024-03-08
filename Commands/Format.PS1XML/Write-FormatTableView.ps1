@@ -218,8 +218,12 @@ function Write-FormatTableView
                                     elseif ($styleProp -match '\.') {
                                         $targetObject = $psStyle
                                         foreach ($dotProperty in $styleProp -split '(?<!\.)\.') {
-                                            if ($targetObject.Item -is [Management.Automation.PSMethodInfo] -or 
-                                                $targetObject -is [Collections.IDictionary]) {
+                                            if (
+                                                ($targetObject.psobject.Members['Item'] -and 
+                                                    ($targetObject.Item -is [Management.Automation.PSMethodInfo])
+                                                ) -or 
+                                                $targetObject -is [Collections.IDictionary]
+                                            ) {
                                                 $targetObject = $targetObject[$dotProperty]
                                             } else {
                                                 $targetObject = $targetObject.$dotProperty
