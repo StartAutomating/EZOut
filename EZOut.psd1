@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '2.0.4'
+    ModuleVersion = '2.0.5'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -69,12 +69,10 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-## EZOut 2.0.4:
+## EZOut 2.0.5:
 
-* Write-FormatViewExpression/Write-FormatCustomView now support -Frame, -LeftIndent, -RightIndent, -FirstLineHanging, -FirstLineIndent ( Fixes #164 )
-* Push-FormatData/Push-TypeData now create unique files per-process (Fixes #205 )
-
-Thanks @NinMonkey !
+* Improving Strict mode Tolerance (#210)
+* Removing Mount error on multiple imports (#209)
 
 ---
 
