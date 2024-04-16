@@ -1,3 +1,16 @@
+## EZOut 2.0.6:
+
+* EZOut Docker Support (#212, #213, #214)
+
+---
+
+## EZOut 2.0.5:
+
+* Improving Strict mode Tolerance (#210)
+* Removing Mount error on multiple imports (#209)
+
+---
+
 ## EZOut 2.0.4:
 
 * Write-FormatViewExpression/Write-FormatCustomView now support -Frame, -LeftIndent, -RightIndent, -FirstLineHanging, -FirstLineIndent ( Fixes #164 )
