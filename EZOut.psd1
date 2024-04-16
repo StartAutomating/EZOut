@@ -1,6 +1,6 @@
 ﻿@{
     ModuleToProcess = 'EZOut.psm1'
-    ModuleVersion = '2.0.5'
+    ModuleVersion = '2.0.6'
     GUID = 'cef786f0-8a0b-4a5d-a2c6-b433095354cd'
     Author = 'James Brundage'
     CompanyName = 'Start-Automating'
@@ -69,16 +69,16 @@
 
             Tags = '.ps1xml', 'Format','Output','Types', 'Colorized'
             ReleaseNotes = @'
-## EZOut 2.0.5:
+## EZOut 2.0.6:
 
-* Improving Strict mode Tolerance (#210)
-* Removing Mount error on multiple imports (#209)
+* EZOut Docker Support (#212, #213, #214)
 
 ---
 
 Additional Release History found in [CHANGELOG](https://github.com/StartAutomating/EZOut/blob/master/CHANGELOG.md)
 
-Like It?  [Star It!](https://github.com/StartAutomating/EZOut)  Love It?  [Support It!](https://github.com/sponsors/StartAutomating)
+> Like It?  [Star It!](https://github.com/StartAutomating/EZOut)
+> Love It?  [Support It!](https://github.com/sponsors/StartAutomating)
 
 '@
 
